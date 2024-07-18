@@ -1,4 +1,4 @@
-﻿namespace mssql.server.Common.Model
+﻿namespace mssql.server.Common.Model.ServerProperties
 {
     public class DatabaseServerProperties
     {
