@@ -1,7 +1,7 @@
  
 export class SqlServerProperty {
-    propertyName: string;
-    propertyValue: string;
+   public propertyName: string;
+   public propertyValue: string;
 
     constructor(propertyName: string, propertyValue: string) {
         this.propertyName = propertyName;

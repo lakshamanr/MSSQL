@@ -1,13 +1,13 @@
 ﻿using Dapper;
-using mssql.server.Common.Model;
+using mssql.server.Common.Model.ServerProperties;
 using MSSQL.DIARY.COMN.Constant;
 using System.Data.SqlClient;
 
-public class SqlServerInfoService 
+public class ServerInfoService 
 {
     private readonly string _connectionString;
 
-    public SqlServerInfoService(string connectionString)
+    public ServerInfoService(string connectionString)
     {
         _connectionString = connectionString;
     }

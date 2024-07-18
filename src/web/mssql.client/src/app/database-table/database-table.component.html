@@ -1,9 +1,27 @@
 <p-accordion [activeIndex]="0">
     <p-accordionTab header="MS Description">
+        <p-table
+        [value]="tableDescriptions"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:50%">Extended Properties Details</th>  
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableDescriptions>
+            <tr>
+              <td>{{ tableDescriptions.value }}</td> 
+            </tr>
+        </ng-template>
+    </p-table>
     </p-accordionTab>
     <p-accordionTab header="Properties">
       <p-table
-      [value]="customers"
+      [value]="tableInfos"
       [paginator]="true"
       [rows]="5"
       [tableStyle]="{ 'min-width': '50rem' }"
@@ -16,10 +34,10 @@
              
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-customer>
+      <ng-template pTemplate="body" let-tableInfos>
           <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
+            <td>{{ tableInfos.tableName }}</td>
+            <td>{{ tableInfos.columnName }}</td>
              
           </tr>
       </ng-template>
@@ -27,7 +45,7 @@
     </p-accordionTab>
     <p-accordionTab header="Columns">
       <p-table
-        [value]="customers"
+        [value]="tableInfos"
         [paginator]="true"
         [rows]="5"
         [tableStyle]="{ 'min-width': '50rem' }"
@@ -40,19 +58,24 @@
                 <th style="width:10%">Data Type</th>
                 <th style="width:10%">Max Length (Bytes)</th>
                 <th style="width:10%">Nullability</th>
-                <th style="width:10%">Identity</th>
-                <th style="width:10%">Property</th>
+                <th style="width:10%">Identity</th> 
                 <th style="width:10%">Default</th> 
                 <th style="width:20%">Description</th>
                							
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
-            <tr>
-                <td>{{ customer.name }}</td>
-                <td>{{ customer.country.name }}</td>
-               
-            </tr>
+        <ng-template pTemplate="body" let-tableInfos>
+          <tr>
+            <td>{{ tableInfos.key }}</td>
+            <td>{{ tableInfos.columnName }}</td>
+            <td>{{ tableInfos.dataType }}</td>
+            <td>{{ tableInfos.maxLength }}</td>
+            <td>{{ tableInfos.allowNulls }}</td>
+            <td>{{ tableInfos.identity }}</td>
+            <td>{{ tableInfos.default }}</td>
+            <td>{{ tableInfos.description }}</td>
+
+          </tr>
         </ng-template>
     </p-table>
     </p-accordionTab>

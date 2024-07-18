@@ -10,7 +10,7 @@ export class ServerPropertiesService {
   constructor(private http: HttpClient) {}
 
   getSqlServerProperties(): Observable<DatabaseServerProperties> {
-    return this.http.get<DatabaseServerProperties>('/GetDatabaserServiceProperties');
+    return this.http.get<DatabaseServerProperties>('MSSQL/GetDatabaserServiceProperties');
   }
  
 }
