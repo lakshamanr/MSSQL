@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{302CDB5C-BA02-4F00-9745-9ABC955A558E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{C98428E9-CF08-4362-B79B-0F3FB2863C02}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "mssql.client", "scr\web\mssql.client\mssql.client.esproj", "{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mssql.Server", "scr\web\mssql.Server\mssql.Server.csproj", "{59B13FF0-F586-4179-AC58-D9CD6B43F6AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{59B13FF0-F586-4179-AC58-D9CD6B43F6AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B13FF0-F586-4179-AC58-D9CD6B43F6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B13FF0-F586-4179-AC58-D9CD6B43F6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B13FF0-F586-4179-AC58-D9CD6B43F6AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C98428E9-CF08-4362-B79B-0F3FB2863C02} = {302CDB5C-BA02-4F00-9745-9ABC955A558E}
+		{ADC55924-BBF9-4493-B6D6-85BB3DAFF687} = {C98428E9-CF08-4362-B79B-0F3FB2863C02}
+		{59B13FF0-F586-4179-AC58-D9CD6B43F6AF} = {C98428E9-CF08-4362-B79B-0F3FB2863C02}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {662B3AF6-7AFE-411A-80DA-5B4C5048B71F}
+	EndGlobalSection
+EndGlobal

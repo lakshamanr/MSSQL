@@ -1,0 +1,110 @@
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="MS Description">
+    </p-accordionTab>
+    <p-accordionTab header="Properties">
+      <p-table
+      [value]="customers"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+  >
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width:50%">Property</th>
+              <th style="width:50%">Value</th>
+             
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+          <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.country.name }}</td>
+             
+          </tr>
+      </ng-template>
+  </p-table>
+    </p-accordionTab>
+    <p-accordionTab header="Columns">
+      <p-table
+        [value]="customers"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%"> Key</th>
+                <th style="width:10%">Name</th>
+                <th style="width:10%">Data Type</th>
+                <th style="width:10%">Max Length (Bytes)</th>
+                <th style="width:10%">Nullability</th>
+                <th style="width:10%">Identity</th>
+                <th style="width:10%">Property</th>
+                <th style="width:10%">Default</th> 
+                <th style="width:20%">Description</th>
+               							
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.country.name }}</td>
+               
+            </tr>
+        </ng-template>
+    </p-table>
+    </p-accordionTab>
+    <p-accordionTab header="Indexes">
+      <p-table
+      [value]="customers"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+  >
+      <ng-template pTemplate="header">
+          <tr>
+            <th style="width:10%"> Key</th>
+            <th style="width:10%">Name</th>
+            <th style="width:30%">Key Columns</th>
+            <th style="width:10%">Unique</th> 
+            <th style="width:40%">Description</th>
+             
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+          <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.country.name }}</td>
+             
+          </tr>
+      </ng-template>
+  </p-table>
+    </p-accordionTab>
+    <p-accordionTab header="SQL Script">
+      <p-table
+      [value]="customers"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+  >
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width:50%">Property</th>
+              <th style="width:50%">Value</th>
+             
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+          <tr>
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.country.name }}</td>
+             
+          </tr>
+      </ng-template>
+  </p-table>
+    </p-accordionTab>
+  </p-accordion>

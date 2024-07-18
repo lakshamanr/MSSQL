@@ -1,0 +1,89 @@
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="MS Description">
+      <!-- <p>
+        <h1 id="tableLabel">Weather forecast</h1>
+
+      <p>This component demonstrates fetching data from the server.</p>
+
+      <p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+
+      <table *ngIf="forecasts">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let forecast of forecasts">
+            <td>{{ forecast.date }}</td>
+            <td>{{ forecast.temperatureC }}</td>
+            <td>{{ forecast.temperatureF }}</td>
+            <td>{{ forecast.summary }}</td>
+          </tr>
+        </tbody>
+      </table> -->
+
+    </p-accordionTab>
+    <p-accordionTab header="Object Types">
+        <div class="panel-body">
+            <ul class="list-no-dots">
+                <li>
+                    <a [routerLink]="['DatabaseTables']">Tables</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Views/Views']">Views</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Stored_Procedures/Stored_Procedures']">Stored Procedures</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Functions/Table-valued_Functions/Table-valued_Functions']">Table-valued Functions</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Functions/Scalar-valued_Functions/Scalar-valued_Functions']">Scalar-valued Functions</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Database_Triggers/Database_Triggers']">Database Triggers</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Types/User-Defined_Data_Types/User-Defined_Data_Types']">User-Defined Data Types</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Programmability/Types/XML_Schema_Collections/XML_Schema_Collections']">XML Schema Collections</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Storage/Full_Text_Catalogs/Full_Text_Catalogs']">Full Text Catalogs</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Security/Users/Users']">Users</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Security/Roles/Database_Roles/Database_Roles']">Database Roles</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/user-databases/AdventureWorks2019/Security/Schemas/Schemas']">Schemas</a>
+                </li>
+            </ul>
+        </div>
+        
+        
+    </p-accordionTab>
+    <p-accordionTab header="Database Properties">
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos...
+      </p>
+    </p-accordionTab>
+    <p-accordionTab header="Database Options">
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos...
+      </p>
+    </p-accordionTab>
+    <p-accordionTab header="Database Options">
+      <p>
+        At vero eos et accusamus et iusto odio dignissimos...
+      </p>
+    </p-accordionTab>
+  </p-accordion>

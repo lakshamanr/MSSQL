@@ -1,0 +1,72 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  background-color: #4c7daf;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* .sidebar {
+  background-color: #f4f4f4;
+  width: 200px;
+  min-width: 100px;
+  max-width: 400px;
+  padding: 15px;
+  overflow: auto;
+} */
+
+/* .resizer {
+  width: 5px;
+  background-color: #ccc;
+  cursor: ew-resize;
+  overflow: hidden;
+} */
+
+.main-content {
+  flex: 1;
+  padding: 15px;
+  overflow: auto;
+}
+
+footer {
+  background-color: #4c7daf;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.breadcrumb {
+  margin: 15px 0;
+  padding: 8px 15px;
+  background-color: #eee;
+}
+
+  .breadcrumb a {
+    color: #4c7daf;
+    text-decoration: none;
+    margin: 0 5px;
+  }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
