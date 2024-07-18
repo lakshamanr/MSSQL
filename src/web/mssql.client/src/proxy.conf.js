@@ -10,6 +10,13 @@ const PROXY_CONFIG = [
     ],
     target,
     secure: false
+  },
+  {
+    context: [
+      "/MSSQL",
+    ],
+    target,
+    secure: false
   }
 ]
 
