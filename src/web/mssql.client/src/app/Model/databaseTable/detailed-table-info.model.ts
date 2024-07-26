@@ -10,18 +10,13 @@ export class DetailedTableInfo {
     tableCreateScript!: TableCreateScript;
     tableDescriptions!: TableDescription[];
     tableIndices!: TableIndex[];
-    tableForeignKeys!: TableForeignKey[];
-  tableProperties !: TableProperties[]
+    tableForeignKeys!: TableForeignKey[]; 
     constructor(data?: any) {
         if (data) {
 
-      this.tableDescriptions = data.tableDescriptions.map((desc: any) => new TableDescription(desc));
-
-      this.tableProperties = data.tableProperties.map((desc: any) => new TableProperties(desc));
-
+            this.tableDescriptions = data.tableDescriptions.map((desc: any) => new TableDescription(desc)); 
             this.tableInfos = data.tableInfos.map((info: any) => new TableColumnInfo(info));
-            this.tableCreateScript = new TableCreateScript(data.tableCreateScript);
-
+            this.tableCreateScript = new TableCreateScript(data.tableCreateScript); 
             this.tableIndices = data.tableIndices.map((index: any) => new TableIndex(index));
             this.tableForeignKeys = data.tableForeignKeys.map((key: any) => new TableForeignKey(key));
         }

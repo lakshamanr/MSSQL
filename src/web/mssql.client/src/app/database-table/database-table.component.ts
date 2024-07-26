@@ -31,8 +31,7 @@ export class DatabaseTableComponent {
      this.http.get<DetailedTableInfo>("MSSQL/GetDetailedTableInfo?tableName=HumanResources.Department").subscribe(
       (result) => 
        {
-         this.tableDescriptions = result.tableDescriptions; 
-         this.tableProperties = result.tableProperties;
+         this.tableDescriptions = result.tableDescriptions;  
           this.tableInfos=result.tableInfos;
           this.tableCreateScript=result.tableCreateScript;
           this.tableIndices=result.tableIndices;

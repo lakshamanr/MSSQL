@@ -6,7 +6,7 @@ using MSSQL.DIARY.COMN.Constant;
 
 namespace mssql.server.Service
 {
-    public class TableInfoService 
+    public class TableInfoService
     {
         private readonly string _connectionString;
 
@@ -24,22 +24,20 @@ namespace mssql.server.Service
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 var tableDescriptions = await GetTableDescriptionAsync(db, schemaName, tableNameOnly);
-                var tableProperties = await GetTablePropertiesAsync(db, schemaName, tableNameOnly);
                 var tableInfos = await GetTableColumnInfoAsync(db, tableName);
                 var tableCreateScript = await GetTableCreateScriptAsync(db, tableName);
                 var tableIndices = await GetTableIndexesAsync(db, tableName);
                 var tableForeignKeys = await GetTableForeignKeysAsync(db, tableName);
                 DetailedTableInfo detailedTableInfo = new DetailedTableInfo
                 {
-                tableDescriptions = tableDescriptions,
-                    tableProperties = tableProperties,
+                    tableDescriptions = tableDescriptions, 
                     tableInfos = tableInfos,
                     tableCreateScript = new TableCreateScript { CreateScript = tableCreateScript },
-                tableIndices = tableIndices,
+                    tableIndices = tableIndices,
                     tableForeignKeys = tableForeignKeys,
-            };
+                };
                 return detailedTableInfo;
-        }
+            }
         }
         public async Task<IEnumerable<TableProperties>> GetDetailedTablePropertiesAsync(string tableName)
         {
@@ -49,7 +47,7 @@ namespace mssql.server.Service
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var tableProperties = await GetTablePropertiesAsync(db, schemaName, tableNameOnly); 
+                var tableProperties = await GetTablePropertiesAsync(db, schemaName, tableNameOnly);
                 return tableProperties;
             }
         }
@@ -64,13 +62,13 @@ namespace mssql.server.Service
         }
 
         private async Task<IEnumerable<TableProperties>> GetTablePropertiesAsync(IDbConnection db, string schemaName, string tableName)
-            {
+        {
             var query = SqlQueryConstant.GetTableProperties
                 .Replace("@SchemaName", $"'{schemaName}'")
                 .Replace("@TableName", $"'{tableName}'");
-          
+
             return await db.QueryAsync<TableProperties>(query);
-            }
+        }
 
         private async Task<IEnumerable<TableColumnInfo>> GetTableColumnInfoAsync(IDbConnection db, string tableName)
         {
@@ -84,15 +82,12 @@ namespace mssql.server.Service
         }
 
         private async Task<IEnumerable<TableIndex>> GetTableIndexesAsync(IDbConnection db, string tableName)
-            {
-                return await db.QueryAsync<TableIndex>(SqlQueryConstant.GetTableIndex, new { tblName = tableName });
-            }
+        {
+            return await db.QueryAsync<TableIndex>(SqlQueryConstant.GetTableIndex, new { tblName = tableName });
         }
-
         private async Task<IEnumerable<TableForeignKey>> GetTableForeignKeysAsync(IDbConnection db, string tableName)
-            {
+        {
             return await db.QueryAsync<TableForeignKey>(SqlQueryConstant.GetAllTableForeignKeys, new { tblName = tableName });
         }
-
-    }
+    } 
 }
