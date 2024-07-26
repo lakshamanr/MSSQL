@@ -81,7 +81,7 @@
     </p-accordionTab>
     <p-accordionTab header="Indexes">
       <p-table
-      [value]="customers"
+      [value]="tableIndices"
       [paginator]="true"
       [rows]="5"
       [tableStyle]="{ 'min-width': '50rem' }"
@@ -89,45 +89,28 @@
   >
       <ng-template pTemplate="header">
           <tr>
-            <th style="width:10%"> Key</th>
             <th style="width:10%">Name</th>
-            <th style="width:30%">Key Columns</th>
-            <th style="width:10%">Unique</th> 
-            <th style="width:40%">Description</th>
+            <th style="width:10%">Columns Name</th>
+            <th style="width:30%">Index Type</th> 
              
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-customer>
-          <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
-             
-          </tr>
+      <ng-template pTemplate="body" let-tableIndices>
+        <tr>
+          <td>{{ tableIndices.indexName }}</td>
+          <td>{{ tableIndices.columns }}</td>
+          <td>{{ tableIndices.indexType }}</td> 
+
+        </tr>
       </ng-template>
   </p-table>
     </p-accordionTab>
     <p-accordionTab header="SQL Script">
-      <p-table
-      [value]="customers"
-      [paginator]="true"
-      [rows]="5"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      [rowsPerPageOptions]="[5, 10, 20]"
-  >
-      <ng-template pTemplate="header">
-          <tr>
-              <th style="width:50%">Property</th>
-              <th style="width:50%">Value</th>
-             
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-customer>
-          <tr>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.country.name }}</td>
-             
-          </tr>
-      </ng-template>
-  </p-table>
+      <p-card header="SQL Script">
+        <p class="m-0">
+          {{ tableCreateScript.createScript }}
+        </p>
+    </p-card>
+    
     </p-accordionTab>
   </p-accordion>
