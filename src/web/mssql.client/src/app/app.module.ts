@@ -5,7 +5,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component'; 
 import { provideAnimations } from '@angular/platform-browser/animations';
-
+import { PanelModule } from 'primeng/panel';
 
 
 
@@ -85,6 +85,7 @@ import { TableModule } from 'primeng/table';
     FieldsetModule,
     CardModule,
     TableModule,
+    PanelModule
   ],
   providers: [provideAnimations()  ],
   bootstrap: [AppComponent]

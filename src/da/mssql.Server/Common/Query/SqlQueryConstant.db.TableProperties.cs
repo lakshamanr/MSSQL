@@ -18,8 +18,21 @@
                         AND SCHEMA_NAME(t.schema_id) = @SchemaName
                 AND   minor_id=0 ";
 
+        public static readonly string GetAllTablesExtendedProperties = @" 
+                    SELECT  
+                        sep.name AS [Name],
+                        sep.value AS [Value]
+                    FROM 
+                        sys.tables t
+                    INNER JOIN 
+                        sys.extended_properties sep ON t.object_id = sep.major_id
+                    WHERE 
+                        sep.class_desc = 'OBJECT_OR_COLUMN' -- Filter for objects (tables)
+                        
+                AND   minor_id=0 ";
 
-        public static readonly string GetTableProperties = @"SELECT Property, Value
+
+        public static readonly string GetTableProperties = @"SELECT Property as Name, Value
                                                             FROM (
                                                                 SELECT 
                                                                     'TableName' AS Property, 

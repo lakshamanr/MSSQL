@@ -1,0 +1,63 @@
+﻿namespace Mssql.Server.Common.Model.Tables
+{
+    public class TableMetadata
+    {
+        public IEnumerable<TableColumns> Columns { get; set; }
+        public TableCreateScript CreateScript { get; set; }
+        public IEnumerable<TableDescription> Descriptions { get; set; }
+        public IEnumerable<TableIndex> Indices { get; set; }
+        public IEnumerable<TableForeignKey> ForeignKeys { get; set; }
+        public IEnumerable<TableProperty> Properties { get; set; }
+    }
+
+    public class TableCreateScript
+    {
+        public string Script { get; set; }
+    }
+
+    public class TableColumns
+    {
+        public string TableName { get; set; }
+        public string ColumnName { get; set; }
+        public string Key { get; set; }
+        public string Identity { get; set; }
+        public string DataType { get; set; }
+        public string MaxLength { get; set; }
+        public string AllowNulls { get; set; }
+        public string DefaultValue { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class TableDescription
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class TableProperty
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class TableForeignKey
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+        public string SchemaName { get; set; }
+        public string TableName { get; set; }
+        public string ColumnName { get; set; }
+        public string ReferencedTable { get; set; }
+        public string ReferencedColumn { get; set; }
+    }
+
+    public class TableIndex
+    {
+        public string IndexName { get; set; }
+        public string Columns { get; set; }
+        public string IndexType { get; set; }
+        public string IsUnique { get; set; }
+        public string TableView { get; set; }
+        public string ObjectType { get; set; }
+    }
+}

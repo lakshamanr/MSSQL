@@ -1,8 +1,8 @@
-﻿using mssql.server.Common.Model.Tables;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Data;
 using Dapper;
 using MSSQL.DIARY.COMN.Constant;
+using Mssql.Server.Common.Model.Tables;
 
 namespace mssql.server.Service
 {
@@ -15,7 +15,7 @@ namespace mssql.server.Service
             _connectionString = connectionString;
         }
 
-        public async Task<DetailedTableInfo> GetDetailedTableInfoAsync(string tableName)
+        public async Task<TableMetadata> GetDetailedTableInfoAsync(string tableName)
         {
             var schemaAndTableName = tableName.Split('.');
             var schemaName = schemaAndTableName[0];
@@ -23,33 +23,34 @@ namespace mssql.server.Service
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var tableDescriptions = await GetTableDescriptionAsync(db, schemaName, tableNameOnly);
-                var tableInfos = await GetTableColumnInfoAsync(db, tableName);
-                var tableCreateScript = await GetTableCreateScriptAsync(db, tableName);
-                var tableIndices = await GetTableIndexesAsync(db, tableName);
-                var tableForeignKeys = await GetTableForeignKeysAsync(db, tableName);
-                DetailedTableInfo detailedTableInfo = new DetailedTableInfo
+                var descriptions = await GetTableDescriptionAsync(db, schemaName, tableNameOnly);
+                var columns = await GetTableColumnInfoAsync(db, tableName);
+                var createScript = await GetTableCreateScriptAsync(db, tableName);
+                var indices = await GetTableIndexesAsync(db, tableName);
+                var foreignKeys = await GetTableForeignKeysAsync(db, tableName);
+                var properties = await GetDetailedTablePropertiesAsync(db, tableName);
+
+                var detailedTableInfo = new TableMetadata
                 {
-                    tableDescriptions = tableDescriptions, 
-                    tableInfos = tableInfos,
-                    tableCreateScript = new TableCreateScript { CreateScript = tableCreateScript },
-                    tableIndices = tableIndices,
-                    tableForeignKeys = tableForeignKeys,
+                    Descriptions = descriptions,
+                    Columns = columns,
+                    CreateScript = new TableCreateScript { Script = createScript },
+                    Indices = indices,
+                    ForeignKeys = foreignKeys,
+                    Properties = properties
                 };
+
                 return detailedTableInfo;
             }
         }
-        public async Task<IEnumerable<TableProperties>> GetDetailedTablePropertiesAsync(string tableName)
+
+        public async Task<IEnumerable<TableProperty>> GetDetailedTablePropertiesAsync(IDbConnection db, string tableName)
         {
             var schemaAndTableName = tableName.Split('.');
             var schemaName = schemaAndTableName[0];
             var tableNameOnly = schemaAndTableName[1];
 
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                var tableProperties = await GetTablePropertiesAsync(db, schemaName, tableNameOnly);
-                return tableProperties;
-            }
+            return await GetTablePropertiesAsync(db, schemaName, tableNameOnly);
         }
 
         private async Task<IEnumerable<TableDescription>> GetTableDescriptionAsync(IDbConnection db, string schemaName, string tableName)
@@ -61,18 +62,18 @@ namespace mssql.server.Service
             return await db.QueryAsync<TableDescription>(query);
         }
 
-        private async Task<IEnumerable<TableProperties>> GetTablePropertiesAsync(IDbConnection db, string schemaName, string tableName)
+        private async Task<IEnumerable<TableProperty>> GetTablePropertiesAsync(IDbConnection db, string schemaName, string tableName)
         {
             var query = SqlQueryConstant.GetTableProperties
                 .Replace("@SchemaName", $"'{schemaName}'")
                 .Replace("@TableName", $"'{tableName}'");
 
-            return await db.QueryAsync<TableProperties>(query);
+            return await db.QueryAsync<TableProperty>(query);
         }
 
-        private async Task<IEnumerable<TableColumnInfo>> GetTableColumnInfoAsync(IDbConnection db, string tableName)
+        private async Task<IEnumerable<TableColumns>> GetTableColumnInfoAsync(IDbConnection db, string tableName)
         {
-            return await db.QueryAsync<TableColumnInfo>(SqlQueryConstant.GetAllTablesColumn, new { tblName = tableName });
+            return await db.QueryAsync<TableColumns>(SqlQueryConstant.GetAllTablesColumn, new { tblName = tableName });
         }
 
         private async Task<string> GetTableCreateScriptAsync(IDbConnection db, string tableName)
@@ -85,9 +86,19 @@ namespace mssql.server.Service
         {
             return await db.QueryAsync<TableIndex>(SqlQueryConstant.GetTableIndex, new { tblName = tableName });
         }
+
         private async Task<IEnumerable<TableForeignKey>> GetTableForeignKeysAsync(IDbConnection db, string tableName)
         {
             return await db.QueryAsync<TableForeignKey>(SqlQueryConstant.GetAllTableForeignKeys, new { tblName = tableName });
         }
-    } 
+
+        public async Task<IEnumerable<TableProperty>> GetTableDetailsAsync()
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var result = await db.QueryAsync<TableProperty>(SqlQueryConstant.GetAllTablesExtendedProperties);
+                return result;
+            }
+        }
+    }
 }

@@ -1,56 +1,66 @@
-<p-accordion [activeIndex]="0">
-    <p-accordionTab header="MS Description">
+ 
+<p-panel header="Table Name">
+
+        <p-panel header="Table Extended Properties " [toggleable]="true"> 
+    
+          <p-table
+          [value]="descriptions"
+          [paginator]="true"
+          [rows]="5"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          [rowsPerPageOptions]="[5, 10, 20]"
+      >
+          <ng-template pTemplate="header">
+              <tr>
+                  <th style="width:50%">Extended Properties Name</th>  
+                  <th style="width:50%">Extended Properties Value</th>  
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-descriptions>
+              <tr>
+                <td>{{ descriptions.name }}</td> 
+                <td>{{ descriptions.value }}</td> 
+              </tr>
+          </ng-template>
+      </p-table>
+        
+      </p-panel>
+      
+      <p-panel header="Table Properties" [toggleable]="true">
         <p-table
-        [value]="tableDescriptions"
+        [value]="properties"
         [paginator]="true"
         [rows]="5"
         [tableStyle]="{ 'min-width': '50rem' }"
         [rowsPerPageOptions]="[5, 10, 20]"
-    >
-        <ng-template pTemplate="header">
+      >
+        <ng-template pTemplate="Table">
             <tr>
-                <th style="width:50%">Extended Properties Details</th>  
+                <th style="width:50%">Property</th>
+                <th style="width:50%">Value</th>
+                
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-tableDescriptions>
+        <ng-template pTemplate="body" let-properties>
             <tr>
-              <td>{{ tableDescriptions.value }}</td> 
+              <td>{{ properties.name }}</td>
+              <td>{{ properties.value }}</td>
+                
             </tr>
         </ng-template>
-    </p-table>
-    </p-accordionTab>
-    <p-accordionTab header="Properties"> 
-      <p-table
-      [value]="tableProperties"
-      [paginator]="true"
-      [rows]="5"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      [rowsPerPageOptions]="[5, 10, 20]"
-  >
-      <ng-template pTemplate="header">
-          <tr>
-              <th style="width:50%">Property</th>
-              <th style="width:50%">Value</th>
-             
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-tableProperties>
-          <tr>
-            <td>{{ tableProperties.property }}</td>
-            <td>{{ tableProperties.value }}</td>
-             
-          </tr>
-      </ng-template>
-  </p-table>
-    </p-accordionTab>
-    <p-accordionTab header="Columns">
-      <p-table
-        [value]="tableInfos"
+      </p-table>
+      </p-panel>
+      
+      
+      
+      <p-panel header="Table Columns" [toggleable]="true">
+        <p-table
+        [value]="columns"
         [paginator]="true"
         [rows]="5"
         [tableStyle]="{ 'min-width': '50rem' }"
         [rowsPerPageOptions]="[5, 10, 20]"
-    >
+      >
         <ng-template pTemplate="header">
             <tr>
                 <th style="width:10%"> Key</th>
@@ -61,56 +71,59 @@
                 <th style="width:10%">Identity</th> 
                 <th style="width:10%">Default</th> 
                 <th style="width:20%">Description</th>
-               							
+                              
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-tableInfos>
+        <ng-template pTemplate="body" let-columns>
           <tr>
-            <td>{{ tableInfos.key }}</td>
-            <td>{{ tableInfos.columnName }}</td>
-            <td>{{ tableInfos.dataType }}</td>
-            <td>{{ tableInfos.maxLength }}</td>
-            <td>{{ tableInfos.allowNulls }}</td>
-            <td>{{ tableInfos.identity }}</td>
-            <td>{{ tableInfos.default }}</td>
-            <td>{{ tableInfos.description }}</td>
-
+            <td>{{ columns.key }}</td>
+            <td>{{ columns.columnName }}</td>
+            <td>{{ columns.dataType }}</td>
+            <td>{{ columns.maxLength }}</td>
+            <td>{{ columns.allowNulls }}</td>
+            <td>{{ columns.identity }}</td>
+            <td>{{ columns.default }}</td>
+            <td>{{ columns.description }}</td>
+      
           </tr>
         </ng-template>
-    </p-table>
-    </p-accordionTab>
-    <p-accordionTab header="Indexes">
-      <p-table
-      [value]="tableIndices"
-      [paginator]="true"
-      [rows]="5"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      [rowsPerPageOptions]="[5, 10, 20]"
-  >
-      <ng-template pTemplate="header">
+      </p-table>
+      </p-panel>
+        
+      <p-panel header="Table Indices" [toggleable]="true">
+        <p-table
+        [value]="indices"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+      >
+        <ng-template pTemplate="header">
+            <tr>
+              <th style="width:10%">Name</th>
+              <th style="width:10%">Columns Name</th>
+              <th style="width:30%">Index Type</th> 
+                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-indices>
           <tr>
-            <th style="width:10%">Name</th>
-            <th style="width:10%">Columns Name</th>
-            <th style="width:30%">Index Type</th> 
-             
+            <td>{{ indices.indexName }}</td>
+            <td>{{ indices.columns }}</td>
+            <td>{{ indices.indexType }}</td> 
+      
           </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-tableIndices>
-        <tr>
-          <td>{{ tableIndices.indexName }}</td>
-          <td>{{ tableIndices.columns }}</td>
-          <td>{{ tableIndices.indexType }}</td> 
+        </ng-template>
+      </p-table>
+      </p-panel>
+      
+      <p-panel header="Table Script" [toggleable]="true">
+        <p-card header="SQL Script">
+          <p class="m-0">
+            {{ createScript.script }}
+          </p>
+      </p-card>
+      </p-panel>
+</p-panel>
 
-        </tr>
-      </ng-template>
-  </p-table>
-    </p-accordionTab>
-    <p-accordionTab header="SQL Script">
-      <p-card header="SQL Script">
-        <p class="m-0">
-          {{ tableCreateScript.createScript }}
-        </p>
-    </p-card>
-    
-    </p-accordionTab>
-  </p-accordion>
+ 

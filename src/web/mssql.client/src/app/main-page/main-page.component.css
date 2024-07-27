@@ -1,0 +1,4 @@
+:host ::ng-deep .ui-panel {
+    height: var(--panel-height, 100vh); /* Default to 100vh if the variable is not set */
+  }
+  

@@ -1,25 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Customer } from '../Model/customer';
-import { CustomerService } from '../Service/customer.service';
+import { Customer } from '../Model/customer';  
+import { TableProperty } from '../Model/databaseTable/table-metadata.models';
 @Component({
   selector: 'app-database-tables',
   templateUrl: './database-tables.component.html',
   styleUrl: './database-tables.component.css'
 })
-export class DatabaseTablesComponent implements OnInit {
- 
- 
-  customers!: Customer[]; 
-  constructor(private customerService: CustomerService,private http: HttpClient)
+export class DatabaseTablesComponent implements OnInit
+{
+  
+  customers!: Customer[];
+  tblProperties!: TableProperty[];
+  constructor(private http: HttpClient)
    {
 
    }
    ngOnInit() {
-    this.customerService.getCustomersLarge().then((customers) => {
-        this.customers = customers;  
-        this.customers.forEach((customer) => (customer.date = new Date(<Date>customer.date)));
-    }); 
-}
+     this.http.get<TableProperty[]>("MSSQL/GetTableDetails").subscribe(
+       (result) => {
 
+         this.tblProperties = result;
+       },
+       (error) => {
+         console.error(error);
+       }
+     ); 
 }
+}
+ 

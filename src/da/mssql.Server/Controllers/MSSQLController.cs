@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using mssql.server.Common;
 using mssql.server.Common.Model.ServerProperties;
-using mssql.server.Common.Model.Tables;
 using mssql.server.Service;
+using Mssql.Server.Common.Model.Tables;
 
 namespace mssql.server.Controllers
 {
@@ -23,15 +22,16 @@ namespace mssql.server.Controllers
         {
            return ServerInfoService.GetDatabaserServiceProperties();
         }
-        [HttpGet("GetDetailedTableInfo")]
-        public async Task<DetailedTableInfo> GetDetailedTableInfoAsync(string tableName)
+        [HttpGet("GetTableMetaData")]
+        public async Task<TableMetadata> GetDetailedTableInfoAsync(string tableName)
         { 
             return await tableInfoService.GetDetailedTableInfoAsync(tableName);
         }
-        [HttpGet("GetDetailedTableProperties")]
-        public async Task<IEnumerable<TableProperties>> GetDetailedTablePropertiesAsync(string tableName)
+        
+        [HttpGet("GetTableDetails")]
+        public async Task<IEnumerable<TableProperty>> GetTableDetailsAsync()
         {
-            return await tableInfoService.GetDetailedTablePropertiesAsync(tableName);
+            return await tableInfoService.GetTableDetailsAsync();
         }
     }
 }
