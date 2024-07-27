@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { TableColumn, TableCreateScript, TableDescription, TableForeignKey, TableIndex, TableMetadata, TableProperty } from '../Model/databaseTable/table-metadata.models';
+import { TableColumn, TableConstraint, TableCreateScript, TableDescription, TableForeignKey, TableIndex, TableMetadata, TableProperty } from '../Model/databaseTable/table-metadata.models';
 
 @Component({
   selector: 'app-database-table',
@@ -20,7 +20,7 @@ export class DatabaseTableComponent implements OnInit
   properties: TableProperty[] = [];
   displayDialog: boolean = false;
   selectedDescription: TableDescription = { name: '', value: '' };
-
+  constraint !: TableConstraint[];
   // Constructor
   constructor(private http: HttpClient) { }
 
@@ -44,6 +44,7 @@ export class DatabaseTableComponent implements OnInit
     this.indices = result.indices;
     this.foreignKeys = result.foreignKeys;
     this.properties = result.properties;
+    this.constraint = result.constraint;
   }
 
   private handleLoadError(error: any): void {

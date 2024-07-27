@@ -176,6 +176,36 @@
       </ng-template>
     </p-table>
   </p-panel>
+
+  <p-panel header="Table Constraint" [toggleable]="true">
+    <p-table
+      [value]="constraint"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:20%">Table View</th>
+          <th style="width:20%">Object Type</th>
+          <th style="width:20%">Constraint Type</th>
+          <th style="width:20%">Constraint Name</th>
+          <th style="width:20%">Details</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-constraint>
+        <tr>
+          <td>{{ constraint.table_view }}</td>
+          <td>{{ constraint.object_type }}</td>
+          <td>{{ constraint.constraint_type }}</td>
+          <td>{{ constraint.constraint_name }}</td>
+          <td>{{ constraint.details }}</td> 
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
   
   <br/>
   
