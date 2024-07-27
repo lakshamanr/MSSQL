@@ -32,7 +32,7 @@
         public string DataType { get; set; }
         public string MaxLength { get; set; }
         public string AllowNulls { get; set; }
-        public string DefaultValue { get; set; }
+        public string Default { get; set; }
         public string Description { get; set; }
     }
 

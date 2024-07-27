@@ -115,10 +115,11 @@
           <th style="width:10%">Name</th>
           <th style="width:10%">Data Type</th>
           <th style="width:10%">Max Length (Bytes)</th>
-          <th style="width:10%">Nullability</th>
+          <th style="width:10%">Is Nullable</th>
           <th style="width:10%">Identity</th>
           <th style="width:10%">Default</th>
-          <th style="width:20%">Description</th>
+          <th style="width:10%">Description</th>
+          <th style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-column>
@@ -131,10 +132,62 @@
           <td>{{ column.identity }}</td>
           <td>{{ column.default }}</td>
           <td>{{ column.description }}</td>
+          <td>
+            <button pButton
+                    type="button"
+                    icon="pi pi-pencil"
+                    (click)="editColumnDescription(column)">
+            </button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
   </p-panel>
+
+
+
+
+  <p-dialog header="Edit Column Description"
+            [(visible)]="displayColumnDialog"
+            modal="true"
+            [responsive]="true"
+            styleClass="custom-dialog">
+    <div class="p-fluid">
+      <div class="p-formgrid p-grid"> 
+        <div class="p-field p-col">
+          <label for="value"> Column Extended Properties Value</label>
+
+          <textarea rows="5"
+                    cols="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                    [(ngModel)]="selectedColumn.description"
+                    placeholder="Enter Description">
+              >
+       </textarea>
+
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button pButton
+              label="Save"
+              icon="pi pi-check"
+              (click)="saveColumnDescription()"
+              class="p-button-success">
+      </button>
+      <button pButton
+              label="Cancel"
+              icon="pi pi-times"
+              class="p-button-secondary"
+              (click)="cancelColumnEdit()">
+      </button>
+    </p-footer>
+  </p-dialog>
+
+
+
+
 
   <br />
 

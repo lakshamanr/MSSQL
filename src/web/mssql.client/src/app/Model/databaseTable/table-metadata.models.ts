@@ -20,7 +20,7 @@ export interface TableColumn {
   dataType: string;
   maxLength: string;
   allowNulls: string;
-  defaultValue: string;
+  default: string;
   description: string;
 }
 

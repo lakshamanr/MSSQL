@@ -10,7 +10,8 @@ import { TableColumn, TableConstraint, TableCreateScript, TableDescription, Tabl
   styleUrls: ['./database-table.component.css'] // corrected to styleUrls
 })
 export class DatabaseTableComponent implements OnInit, AfterViewInit {
-  tableName : string = "HumanResources.Department";
+
+  tableName: string = "HumanResources.Department";
   // Properties
   columns: TableColumn[] = [];
   createScript: TableCreateScript = { script: '' };
@@ -18,9 +19,25 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
   indices: TableIndex[] = [];
   foreignKeys: TableForeignKey[] = [];
   properties: TableProperty[] = [];
-  displayDialog: boolean = false;
-  selectedDescription: TableDescription = { name: '', value: '' };
+  displayDialog: boolean = false; 
+  displayColumnDialog: boolean = false;
   constraint !: TableConstraint[];
+
+  //selected Properties
+
+  selectedDescription: TableDescription = { name: '', value: '' };
+  selectedColumn: TableColumn = {
+    tableName:'',
+    columnName: '',
+    key: '',
+    identity: '',
+    dataType: '',
+    maxLength: '',
+    allowNulls: '',
+    default: '',
+    description:''
+}
+
   // Constructor
   constructor(private http: HttpClient) { }
 
@@ -73,5 +90,31 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
 
   cancelEdit(): void {
     this.displayDialog = false;
+  }
+
+  // Description Editing
+  editColumnDescription(selectedColumn: TableColumn): void
+  {
+    this.selectedColumn = { ...selectedColumn };
+    this.displayColumnDialog = true;
+  }
+
+  saveColumnDescription(): void {
+    const index = this.columns.findIndex(desc =>
+      desc.tableName === this.selectedColumn.tableName &&
+      desc.columnName === this.selectedColumn.columnName &&  
+            desc.dataType === this.selectedColumn.dataType &&
+              desc.description === this.selectedColumn.description
+    );
+    if (index !== -1)
+    {
+      this.columns[index] = { ...this.selectedColumn };
+      console.log(`Updated description: ${this.selectedColumn.columnName} - ${this.selectedColumn.description}`);
+    }
+    this.displayColumnDialog = false;
+  }
+
+  cancelColumnEdit(): void {
+    this.displayColumnDialog = false;
   }
 }
