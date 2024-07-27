@@ -58,3 +58,7 @@ code {
   overflow-x: auto;
   
 }
+.disabled-button {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

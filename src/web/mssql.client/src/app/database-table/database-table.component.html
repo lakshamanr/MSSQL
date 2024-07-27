@@ -9,7 +9,7 @@
         <tr>
           <th style="width:45%">Extended Properties Name</th>
           <th style="width:45%">Extended Properties Value</th>
-          <th style="width:10%">Actions</th>
+          <th  *ngIf="hasEditPermission" style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-description>
@@ -17,7 +17,8 @@
           <td>{{ description.name }}</td>
           <td>{{ description.value }}</td>
           <td>
-            <button pButton
+            <button *ngIf="hasEditPermission"
+                    pButton
                     type="button"
                     icon="pi pi-pencil"
                     (click)="editDescription(description)">
@@ -36,33 +37,29 @@
         <div class="p-formgrid p-grid">
           <div class="p-field p-col">
             <label for="name">Extended Properties Name</label>
-
             <textarea rows="5"
                       cols="30"
                       pInputTextarea
                       [autoResize]="true"
                       [(ngModel)]="selectedDescription.name"
                       placeholder="Enter name">
-           </textarea>
-
+            </textarea>
           </div>
           <div class="p-field p-col">
             <label for="value">Extended Properties Value</label>
-
             <textarea rows="5"
                       cols="30"
                       pInputTextarea
                       [autoResize]="true"
                       [(ngModel)]="selectedDescription.value"
                       placeholder="Enter value">
-                  >
-           </textarea>
-
+            </textarea>
           </div>
         </div>
       </div>
       <p-footer>
-        <button pButton
+        <button *ngIf="hasEditPermission"
+                pButton
                 label="Save"
                 icon="pi pi-check"
                 (click)="saveDescription()"
@@ -119,7 +116,7 @@
           <th style="width:10%">Identity</th>
           <th style="width:10%">Default</th>
           <th style="width:10%">Description</th>
-          <th style="width:10%">Actions</th>
+          <th *ngIf="hasEditPermission"style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-column>
@@ -133,7 +130,8 @@
           <td>{{ column.default }}</td>
           <td>{{ column.description }}</td>
           <td>
-            <button pButton
+            <button *ngIf="hasEditPermission"
+                    pButton
                     type="button"
                     icon="pi pi-pencil"
                     (click)="editColumnDescription(column)">
@@ -143,8 +141,7 @@
       </ng-template>
     </p-table>
   </p-panel>
-
-
+  
 
 
   <p-dialog header="Edit Column Description"
@@ -176,7 +173,8 @@
               (click)="saveColumnDescription()"
               class="p-button-success">
       </button>
-      <button pButton
+      <button
+              pButton
               label="Cancel"
               icon="pi pi-times"
               class="p-button-secondary"

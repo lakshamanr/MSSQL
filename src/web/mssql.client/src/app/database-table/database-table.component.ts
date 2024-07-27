@@ -21,6 +21,8 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
   properties: TableProperty[] = [];
   displayDialog: boolean = false; 
   displayColumnDialog: boolean = false;
+  hasEditPermission: boolean = false; // Set based on user permissions
+
   constraint !: TableConstraint[];
 
   //selected Properties
@@ -44,6 +46,11 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
   // Lifecycle Hook
   ngOnInit() {
     this.loadTableMetadata();
+    this.loadData();
+  }
+  loadData() {
+    // Load your data and set permissions here
+    this.hasEditPermission = true; // Set this based on actual permission checks
   }
   ngAfterViewInit() {
     (window as any).Prism.highlightAll();
