@@ -1,129 +1,189 @@
- 
-<p-panel header="Table Name">
-
-        <p-panel header="Table Extended Properties " [toggleable]="true"> 
+<p-panel   header="{{tableName}}">
+  <p-panel header="Table Extended Properties" [toggleable]="true"> 
+    <p-table
+      [value]="descriptions"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:45%">Extended Properties Name</th>
+          <th style="width:45%">Extended Properties Value</th>
+          <th style="width:10%">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-description>
+        <tr>
+          <td>{{ description.name }}</td>
+          <td>{{ description.value }}</td>
+          <td>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-pencil" 
+              (click)="editDescription(description)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
     
-          <p-table
-          [value]="descriptions"
-          [paginator]="true"
-          [rows]="5"
-          [tableStyle]="{ 'min-width': '50rem' }"
-          [rowsPerPageOptions]="[5, 10, 20]"
-      >
-          <ng-template pTemplate="header">
-              <tr>
-                  <th style="width:50%">Extended Properties Name</th>  
-                  <th style="width:50%">Extended Properties Value</th>  
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-descriptions>
-              <tr>
-                <td>{{ descriptions.name }}</td> 
-                <td>{{ descriptions.value }}</td> 
-              </tr>
-          </ng-template>
-      </p-table>
-        
-      </p-panel>
-      
-      <p-panel header="Table Properties" [toggleable]="true">
-        <p-table
-        [value]="properties"
-        [paginator]="true"
-        [rows]="5"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [rowsPerPageOptions]="[5, 10, 20]"
-      >
-        <ng-template pTemplate="Table">
-            <tr>
-                <th style="width:50%">Property</th>
-                <th style="width:50%">Value</th>
-                
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-properties>
-            <tr>
-              <td>{{ properties.name }}</td>
-              <td>{{ properties.value }}</td>
-                
-            </tr>
-        </ng-template>
-      </p-table>
-      </p-panel>
-      
-      
-      
-      <p-panel header="Table Columns" [toggleable]="true">
-        <p-table
-        [value]="columns"
-        [paginator]="true"
-        [rows]="5"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [rowsPerPageOptions]="[5, 10, 20]"
-      >
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width:10%"> Key</th>
-                <th style="width:10%">Name</th>
-                <th style="width:10%">Data Type</th>
-                <th style="width:10%">Max Length (Bytes)</th>
-                <th style="width:10%">Nullability</th>
-                <th style="width:10%">Identity</th> 
-                <th style="width:10%">Default</th> 
-                <th style="width:20%">Description</th>
-                              
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-columns>
-          <tr>
-            <td>{{ columns.key }}</td>
-            <td>{{ columns.columnName }}</td>
-            <td>{{ columns.dataType }}</td>
-            <td>{{ columns.maxLength }}</td>
-            <td>{{ columns.allowNulls }}</td>
-            <td>{{ columns.identity }}</td>
-            <td>{{ columns.default }}</td>
-            <td>{{ columns.description }}</td>
-      
-          </tr>
-        </ng-template>
-      </p-table>
-      </p-panel>
-        
-      <p-panel header="Table Indices" [toggleable]="true">
-        <p-table
-        [value]="indices"
-        [paginator]="true"
-        [rows]="5"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [rowsPerPageOptions]="[5, 10, 20]"
-      >
-        <ng-template pTemplate="header">
-            <tr>
-              <th style="width:10%">Name</th>
-              <th style="width:10%">Columns Name</th>
-              <th style="width:30%">Index Type</th> 
-                
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-indices>
-          <tr>
-            <td>{{ indices.indexName }}</td>
-            <td>{{ indices.columns }}</td>
-            <td>{{ indices.indexType }}</td> 
-      
-          </tr>
-        </ng-template>
-      </p-table>
-      </p-panel>
-      
-      <p-panel header="Table Script" [toggleable]="true">
-        <p-card header="SQL Script">
-          <p class="m-0">
-            {{ createScript.script }}
-          </p>
-      </p-card>
-      </p-panel>
+    <p-dialog 
+      header="Edit Description" 
+      [(visible)]="displayDialog" 
+      modal="true" 
+      [responsive]="true" 
+      styleClass="custom-dialog" 
+    >
+      <div class="p-fluid">
+        <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+            <label for="name">Extended Properties Name</label>
+          
+            <textarea 
+                  rows="5"
+                  cols="30" 
+                  pInputTextarea 
+                  [autoResize]="true"
+                  [(ngModel)]="selectedDescription.name" 
+                  placeholder="Enter name"
+                  >
+           </textarea>
+          
+          </div>
+          <div class="p-field p-col">
+            <label for="value">Extended Properties Value</label>
+           
+            <textarea 
+                  rows="5"
+                  cols="30" 
+                  pInputTextarea 
+                  [autoResize]="true"
+                  [(ngModel)]="selectedDescription.value" 
+                  placeholder="Enter value">
+                  >
+           </textarea>
+           
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <button 
+          pButton 
+          label="Save" 
+          icon="pi pi-check" 
+          (click)="saveDescription()" 
+          class="p-button-success">
+        </button>
+        <button 
+          pButton 
+          label="Cancel" 
+          icon="pi pi-times" 
+          class="p-button-secondary" 
+          (click)="cancelEdit()">
+        </button>
+      </p-footer>
+    </p-dialog>
+  </p-panel>
+  
+  <br/>
+  
+  <p-panel header="Table Properties" [toggleable]="true">
+    <p-table
+      [value]="properties"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:50%">Property</th>  
+          <th style="width:50%">Value</th>  
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-property>
+        <tr>
+          <td>{{ property.name }}</td> 
+          <td>{{ property.value }}</td> 
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+  
+  <br/>
+  
+  <p-panel header="Table Columns" [toggleable]="true">
+    <p-table
+      [value]="columns"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:10%">Key</th>
+          <th style="width:10%">Name</th>
+          <th style="width:10%">Data Type</th>
+          <th style="width:10%">Max Length (Bytes)</th>
+          <th style="width:10%">Nullability</th>
+          <th style="width:10%">Identity</th> 
+          <th style="width:10%">Default</th> 
+          <th style="width:20%">Description</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-column>
+        <tr>
+          <td>{{ column.key }}</td>
+          <td>{{ column.columnName }}</td>
+          <td>{{ column.dataType }}</td>
+          <td>{{ column.maxLength }}</td>
+          <td>{{ column.allowNulls }}</td>
+          <td>{{ column.identity }}</td>
+          <td>{{ column.default }}</td>
+          <td>{{ column.description }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+  
+  <br/>
+  
+  <p-panel header="Table Indices" [toggleable]="true">
+    <p-table
+      [value]="indices"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:10%">Name</th>
+          <th style="width:10%">Columns Name</th>
+          <th style="width:30%">Index Type</th> 
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-index>
+        <tr>
+          <td>{{ index.indexName }}</td>
+          <td>{{ index.columns }}</td>
+          <td>{{ index.indexType }}</td> 
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+  
+  <br/>
+  
+  <p-panel header="Table Script" [toggleable]="true">
+    <p-card header="SQL Script">
+      <p class="m-0">
+        {{ createScript.script }}
+      </p>
+    </p-card>
+  </p-panel>
 </p-panel>
-
- 

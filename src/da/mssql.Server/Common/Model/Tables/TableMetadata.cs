@@ -8,8 +8,16 @@
         public IEnumerable<TableIndex> Indices { get; set; }
         public IEnumerable<TableForeignKey> ForeignKeys { get; set; }
         public IEnumerable<TableProperty> Properties { get; set; }
+        public IEnumerable<TableConstraint> constraint { get; set; }
     }
-
+    public class TableConstraint
+    {
+        public string table_view { get; set; }
+        public string object_type { get; set; }
+        public string constraint_type { get; set; }
+        public string constraint_name { get; set; }
+        public string details { get; set; }
+    }
     public class TableCreateScript
     {
         public string Script { get; set; }

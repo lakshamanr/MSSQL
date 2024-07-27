@@ -5,8 +5,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component'; 
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { PanelModule } from 'primeng/panel';
-
+import { FormsModule } from '@angular/forms';   
 
 
 import { MainPageComponent } from './main-page/main-page.component';
@@ -44,6 +43,12 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +90,12 @@ import { TableModule } from 'primeng/table';
     FieldsetModule,
     CardModule,
     TableModule,
-    PanelModule
+    PanelModule,
+    DialogModule,
+    ButtonModule,
+    FormsModule,
+    InputTextModule,
+    InputTextareaModule
   ],
   providers: [provideAnimations()  ],
   bootstrap: [AppComponent]

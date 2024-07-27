@@ -29,7 +29,7 @@ namespace mssql.server.Service
                 var indices = await GetTableIndexesAsync(db, tableName);
                 var foreignKeys = await GetTableForeignKeysAsync(db, tableName);
                 var properties = await GetDetailedTablePropertiesAsync(db, tableName);
-
+                var constraint= await GetTableTableConstraintAsync(db, tableName);
                 var detailedTableInfo = new TableMetadata
                 {
                     Descriptions = descriptions,
@@ -37,13 +37,21 @@ namespace mssql.server.Service
                     CreateScript = new TableCreateScript { Script = createScript },
                     Indices = indices,
                     ForeignKeys = foreignKeys,
-                    Properties = properties
+                    Properties = properties,
+                    constraint=constraint
                 };
 
                 return detailedTableInfo;
             }
         }
-
+        public async Task<IEnumerable<TableProperty>> GetTableDetailsAsync()
+        {
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var result = await db.QueryAsync<TableProperty>(SqlQueryConstant.GetAllTablesExtendedProperties);
+                return result;
+            }
+        }
         public async Task<IEnumerable<TableProperty>> GetDetailedTablePropertiesAsync(IDbConnection db, string tableName)
         {
             var schemaAndTableName = tableName.Split('.');
@@ -91,14 +99,10 @@ namespace mssql.server.Service
         {
             return await db.QueryAsync<TableForeignKey>(SqlQueryConstant.GetAllTableForeignKeys, new { tblName = tableName });
         }
-
-        public async Task<IEnumerable<TableProperty>> GetTableDetailsAsync()
+  
+         private async Task<IEnumerable<TableConstraint>> GetTableTableConstraintAsync(IDbConnection db, string tableName)
         {
-            using (IDbConnection db = new SqlConnection(_connectionString))
-            {
-                var result = await db.QueryAsync<TableProperty>(SqlQueryConstant.GetAllTablesExtendedProperties);
-                return result;
-            }
+            return await db.QueryAsync<TableConstraint>(SqlQueryConstant.GetAllKeyConstraints, new { tblName = tableName });
         }
     }
 }
