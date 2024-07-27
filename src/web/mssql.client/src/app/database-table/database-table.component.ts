@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 
 import { TableColumn, TableConstraint, TableCreateScript, TableDescription, TableForeignKey, TableIndex, TableMetadata, TableProperty } from '../Model/databaseTable/table-metadata.models';
 
@@ -8,8 +9,7 @@ import { TableColumn, TableConstraint, TableCreateScript, TableDescription, Tabl
   templateUrl: './database-table.component.html',
   styleUrls: ['./database-table.component.css'] // corrected to styleUrls
 })
-export class DatabaseTableComponent implements OnInit
-{
+export class DatabaseTableComponent implements OnInit, AfterViewInit {
   tableName : string = "HumanResources.Department";
   // Properties
   columns: TableColumn[] = [];
@@ -28,7 +28,9 @@ export class DatabaseTableComponent implements OnInit
   ngOnInit() {
     this.loadTableMetadata();
   }
-
+  ngAfterViewInit() {
+    (window as any).Prism.highlightAll();
+  }
   // Data Loading
   private loadTableMetadata(): void {
     this.http.get<TableMetadata>("MSSQL/GetTableMetaData?tableName=" + this.tableName).subscribe(

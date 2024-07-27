@@ -52,4 +52,9 @@
   .p-button-success {
     margin-right: 0.5rem;
   }
+code {
+  background: #f5f2f0;
+  border-radius: 4px;
+  overflow-x: auto;
   
+}
