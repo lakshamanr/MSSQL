@@ -27,6 +27,7 @@ export interface TableColumn {
 export interface TableDescription {
   name: string;
   value: string;
+  table: string;
 }
 
 export interface TableProperty {

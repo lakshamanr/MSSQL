@@ -9,13 +9,15 @@
         <tr>
           <th style="width:45%">Extended Properties Name</th>
           <th style="width:45%">Extended Properties Value</th>
-          <th  *ngIf="hasEditPermission" style="width:10%">Actions</th>
+          <th style="width:45%">Extended Properties of table</th>
+          <th *ngIf="hasEditPermission" style="width:10%">Actions</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-description>
         <tr>
           <td>{{ description.name }}</td>
           <td>{{ description.value }}</td>
+          <td>{{ description.table }}</td>
           <td>
             <button *ngIf="hasEditPermission"
                     pButton
@@ -39,6 +41,7 @@
             <label for="name">Extended Properties Name</label>
             <textarea rows="5"
                       cols="30"
+                      [disabled]="true"
                       pInputTextarea
                       [autoResize]="true"
                       [(ngModel)]="selectedDescription.name"

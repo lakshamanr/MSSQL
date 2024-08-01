@@ -8,7 +8,7 @@
         public IEnumerable<TableIndex> Indices { get; set; }
         public IEnumerable<TableForeignKey> ForeignKeys { get; set; }
         public IEnumerable<TableProperty> Properties { get; set; }
-        public IEnumerable<TableConstraint> constraint { get; set; }
+        public IEnumerable<TableConstraint> Constraint { get; set; }
     }
     public class TableConstraint
     {
@@ -40,6 +40,7 @@
     {
         public string Name { get; set; }
         public string Value { get; set; }
+        public string Table { get; set; }
     }
 
     public class TableProperty

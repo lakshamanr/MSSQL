@@ -27,7 +27,7 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
 
   //selected Properties
 
-  selectedDescription: TableDescription = { name: '', value: '' };
+  selectedDescription: TableDescription = { name: '', value: '', table:'' };
   selectedColumn: TableColumn = {
     tableName:'',
     columnName: '',
@@ -57,7 +57,7 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
   }
   // Data Loading
   private loadTableMetadata(): void {
-    this.http.get<TableMetadata>("MSSQL/GetTableMetaData?tableName=" + this.tableName).subscribe(
+    this.http.get<TableMetadata>("Tables/GetTableMetaData?tableName=" + this.tableName).subscribe(
       result => this.handleLoadSuccess(result),
       error => this.handleLoadError(error)
     );
@@ -86,13 +86,21 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
   saveDescription(): void {
     const index = this.descriptions.findIndex(desc =>
       desc.name === this.selectedDescription.name &&
-      desc.value === this.selectedDescription.value
+      desc.table == this.selectedDescription.table
     );
-    if (index !== -1) {
+    if (index !== -1)
+    {
       this.descriptions[index] = { ...this.selectedDescription };
-      console.log(`Updated description: ${this.selectedDescription.name} - ${this.selectedDescription.value}`);
-    }
-    this.displayDialog = false;
+      this.http.post("Tables/UpdateTableExtendedProperties", this.selectedDescription).subscribe(
+        response => {
+          console.log('Success:', response);
+          this.displayDialog = false;
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
+    } 
   }
 
   cancelEdit(): void {
