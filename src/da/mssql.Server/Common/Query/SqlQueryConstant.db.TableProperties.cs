@@ -160,9 +160,33 @@
 
 
         public static readonly string GetAllTablesColumn =
-        @"SELECT TRY_CAST(colm.table_name as varchar(100)) AS TableName,       TRY_CAST( colm.column_name as varchar(100)) AS columnName,       CASE i.is_primary_key           WHEN 1 THEN 'Yes'           ELSE 'No'       END [Key],       CASE idc.is_identity           WHEN 1 THEN 'Yes'           ELSE 'No'       END [Identity],       TRY_CAST(colm.data_type as varchar(100))  AS [DataType],       TRY_CAST(colm.character_maximum_length    as varchar(100)) AS [MaxLength],       TRY_CAST(colm.is_nullable as varchar(100)) AS [AllowNulls],       TRY_CAST(colm.column_default as varchar(100)) AS [Default],  (SELECT value   FROM ::fn_listextendedproperty ('MS_Description', 'schema', colm.table_schema, 'table', colm.table_name, 'column', colm.column_name)) AS [Description]FROM sys.tables t LEFT JOIN sys.columns c ON c.object_id = t.object_id LEFT JOIN sys.identity_columns idc ON idc.object_id = t.object_id AND idc.column_id = c.column_id AND idc.is_identity = 1LEFT JOIN sys.index_columns ic ON ic.object_id = t.object_id AND ic.column_id = c.column_id LEFT JOIN sys.indexes i ON i.object_id = t.object_id AND i.index_id = ic.index_id AND i.is_primary_key = 1INNER JOIN information_schema.columns colm ON colm.table_name = t.NAME WHERE t.type = 'U'  AND (idc.is_identity = 1       OR i.is_primary_key = 1       OR c.NAME = 'ID')  AND colm.table_schema + '.' + colm.table_name = @tblName";
-
-
+        @"
+SELECT 
+    TRY_CAST((colm.table_schema + '.' + colm.table_name) AS VARCHAR(100)) AS TableName,
+    TRY_CAST(colm.column_name AS VARCHAR(100)) AS columnName,
+    CASE i.is_primary_key
+        WHEN 1 THEN 'Yes'
+        ELSE 'No'
+    END AS [Key],
+    CASE idc.is_identity
+        WHEN 1 THEN 'Yes'
+        ELSE 'No'
+    END AS [Identity],
+    TRY_CAST(colm.data_type AS VARCHAR(100)) AS [DataType],
+    ISNULL(TRY_CAST(colm.character_maximum_length AS VARCHAR(100)) ,'')AS [MaxLength],
+    ISNULL(TRY_CAST(colm.is_nullable AS VARCHAR(100)), 'Unknown') AS [AllowNulls],
+    ISNULL(TRY_CAST(colm.column_default AS VARCHAR(100)), 'None') AS [Default],
+    (SELECT VALUE FROM ::fn_listextendedproperty ('MS_Description', 'schema', colm.table_schema, 'table', colm.table_name, 'column', colm.column_name)) AS [Description]
+FROM sys.tables t
+LEFT JOIN sys.columns c ON c.OBJECT_ID = t.OBJECT_ID
+LEFT JOIN sys.identity_columns idc ON idc.OBJECT_ID = t.OBJECT_ID AND idc.column_id = c.column_id AND idc.is_identity = 1
+LEFT JOIN sys.index_columns ic ON ic.OBJECT_ID = t.OBJECT_ID AND ic.column_id = c.column_id
+LEFT JOIN sys.indexes i ON i.OBJECT_ID = t.OBJECT_ID AND i.index_id = ic.index_id AND i.is_primary_key = 1
+INNER JOIN information_schema.columns colm ON colm.table_name = t.NAME
+WHERE t.TYPE = 'U'
+    AND (idc.is_identity = 1 OR i.is_primary_key = 1 OR c.NAME = 'ID')
+    AND colm.table_schema + '.' + colm.table_name = @tblName;
+        "; 
         public static readonly string GetAllTableDescriptionWithAll =
         @" SELECT     t.Name , SCHEMA_NAME(schema_id)+'.'+t.name, sep.value ,SCHEMA_NAME(schema_id)   FROM     sys.tables t INNER JOIN     sys.extended_properties sep ON t.object_id = sep.major_id where     sep.Name = @ExtendedProp    AND sep.minor_id = 0     ";
 

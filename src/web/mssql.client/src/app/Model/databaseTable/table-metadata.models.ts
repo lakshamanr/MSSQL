@@ -22,6 +22,7 @@ export interface TableColumn {
   allowNulls: string;
   default: string;
   description: string;
+  descriptionname: string;
 }
 
 export interface TableDescription {

@@ -1,5 +1,5 @@
 using mssql.server.Common;
-using mssql.server.Service.mssql.server.Service;
+using mssql.server.Service; 
 
 var builder = WebApplication.CreateBuilder(args);
 

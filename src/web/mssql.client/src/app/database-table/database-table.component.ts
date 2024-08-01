@@ -11,7 +11,7 @@ import { TableColumn, TableConstraint, TableCreateScript, TableDescription, Tabl
 })
 export class DatabaseTableComponent implements OnInit, AfterViewInit {
 
-  tableName: string = "HumanResources.Department";
+  tableName: string = "HumanResources.Employee";
   // Properties
   columns: TableColumn[] = [];
   createScript: TableCreateScript = { script: '' };
@@ -37,7 +37,8 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
     maxLength: '',
     allowNulls: '',
     default: '',
-    description:''
+    description: '',
+    descriptionname:''
 }
 
   // Constructor
@@ -118,13 +119,20 @@ export class DatabaseTableComponent implements OnInit, AfterViewInit {
     const index = this.columns.findIndex(desc =>
       desc.tableName === this.selectedColumn.tableName &&
       desc.columnName === this.selectedColumn.columnName &&  
-            desc.dataType === this.selectedColumn.dataType &&
-              desc.description === this.selectedColumn.description
+            desc.dataType === this.selectedColumn.dataType  
     );
     if (index !== -1)
     {
       this.columns[index] = { ...this.selectedColumn };
-      console.log(`Updated description: ${this.selectedColumn.columnName} - ${this.selectedColumn.description}`);
+      this.http.post("Tables/UpdateTableColumnExtendedProperty", this.selectedColumn).subscribe(
+        response => {
+          console.log('Success:', response);
+          this.displayDialog = false;
+        },
+        error => {
+          console.error('Error:', error);
+        }
+      );
     }
     this.displayColumnDialog = false;
   }

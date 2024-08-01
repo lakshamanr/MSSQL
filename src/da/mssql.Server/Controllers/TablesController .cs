@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using mssql.server.Common;
-using mssql.server.Common.Model.ServerProperties;
-using mssql.server.Service;
-using mssql.server.Service.mssql.server.Service;
+using mssql.server.Common; 
+using mssql.server.Service; 
 using Mssql.Server.Common.Model.Tables;
 
 namespace mssql.server.Controllers
@@ -33,6 +31,12 @@ namespace mssql.server.Controllers
         public async Task<IActionResult> UpdateTableExtendedProperties(TableDescription tableDescription)
         {
             await _tableInfoService.UpdateTableExtendedProperty(tableDescription);
+            return Ok();
+        }
+        [HttpPost("UpdateTableColumnExtendedProperty")]
+        public async Task<IActionResult> UpdateTableColumnExtendedProperty(TableColumns tableColumns)
+        {
+            await _tableInfoService.UpdateTableColumnExtendedPropertyAsync(tableColumns);
             return Ok();
         }
     }
