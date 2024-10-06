@@ -1,0 +1,34 @@
+<div id="main-content">  
+  <ngx-ui-loader></ngx-ui-loader>
+  <div style="margin-left: initial; margin-top: 5px;">
+    <div class="split-example ex-percent">
+      <as-split unit="percent"
+                direction="horizontal"
+                #split="asSplit"
+                gutterSize="10"
+                [gutterDblClickDuration]="dblClickTime"
+                [useTransition]="useTransition"
+                (dragStart)="log('dragStart', $event)"
+                (dragEnd)="log('dragEnd', $event)"
+                (gutterClick)="log('gutterClick', $event)"
+                (gutterDblClick)="log('gutterDblClick', $event)"
+                (transitionEnd)="log('transitionEnd', $event)"> 
+        
+                <as-split-area [ngClass]="status ? 'HideSplitBar' : 'showSplitBar'" size="25" #area1="asSplitArea">
+                  <div class="scollbar scrollbar-primary pre-scrollable leftmenuExtendedProperties setWindowHeight" id="leftMenu">
+                    <app-leftmenu></app-leftmenu>
+                  </div>
+                </as-split-area>
+                <as-split-area size="75" [ngClass]="status ? 'ShowFullPageMode' : 'RemoveFullPageMode'" #area2="asSplitArea" id="asSplitArea2">
+                  <div class="scollbar scrollbar-primary setWindowHeight">
+                    <div id="center">
+                      <app-main-page></app-main-page>
+                    </div>
+                  </div>
+                </as-split-area>
+       
+      </as-split>
+    </div>
+    <hr />
+  </div>
+</div>

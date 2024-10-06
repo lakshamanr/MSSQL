@@ -1,0 +1,38 @@
+<p-dialog header="Edit Column Description"
+          [(visible)]="displayColumnDialog"
+          modal="true"
+          [responsive]="true"
+          styleClass="custom-dialog"
+          [style]="{width: '350px', minWidth: '200px'}"
+          [minY]="70"
+          [maximizable]="true"
+          [baseZIndex]="10000">
+  <div class="p-fluid">
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="value">Column Extended Properties Value</label>
+        <textarea rows="5"
+                  cols="30"
+                  pInputTextarea
+                  [autoResize]="true"
+                  [(ngModel)]="selectedColumn.description"
+                  placeholder="Enter Description">
+        </textarea>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button pButton
+            label="Save"
+            icon="pi pi-check"
+            (click)="saveDescription()"
+            class="p-button-success">
+    </button>
+    <button pButton
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="cancelEdit()">
+    </button>
+  </p-footer>
+</p-dialog>

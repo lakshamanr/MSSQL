@@ -1,0 +1,53 @@
+ /* Style for table header */
+ .p-table thead th {
+    text-align: left;
+    padding: 8px;
+    background-color: #f4f4f4;
+  }
+
+  /* Style for table cells */
+  .p-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Style for the expanded row content */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .table .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .table .header {
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
+
+  .table .cell {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    flex: 1;
+  }
+
+  .table .row:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .table .row:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* Add hover effect for row togglers */
+  .p-table a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .p-table a:hover {
+    text-decoration: underline;
+  }
