@@ -1,0 +1,141 @@
+<amexio-accordion [multi-open]="true">
+  <!-- Database Tab -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Database" [active]="true">
+  <div class="table">
+     <div class="cell">
+        <h3>
+           <p class="fa fa-database">
+              {{currentDatabaseName}}
+           </p>
+        </h3>
+     </div>
+  </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Object Types" [active]="true">
+  <div class="table">
+     <div class="cell">
+      <ul>
+         <li>
+           <div>
+             <img src="./assets/icons/Table.png">
+             <a> Tables</a>
+             <i *ngIf="tablesMetadata?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{tablesMetadata.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/View.png">
+             <a> View</a>
+             <i *ngIf="viewMetadata?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{viewMetadata.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/StoredProcedure.png">
+             <a> Stored Procedure</a>
+             <i *ngIf="procedureInfos?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{procedureInfos.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/Function_Table.png">
+             <a> Table-Valued Functions</a>
+             <i *ngIf="tableFunctionInfos?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{tableFunctionInfos.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/Function_Scalar.png">
+             <a> Scalar-Valued Functions</a>
+             <i *ngIf="scalarFunctionInfos?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{scalarFunctionInfos.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/DdlTrigger.png">
+             <a>Database Triggers</a>
+             <i *ngIf="triggerInfos?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{triggerInfos.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/UserDefinedDataType.png">
+             <a>User-Defined Data Types</a>
+             <i *ngIf="userTypes?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{userTypes.length}}
+             </i>  
+           </div>
+         </li>
+         <li>
+           <div>
+             <img src="./assets/icons/XmlSchemaCollection.png">
+             <a>XML Schema Collections</a>
+             <i *ngIf="dbXmlSchemas?.length" class="fa fa-5x fa-border icon-grey badge">
+               {{dbXmlSchemas.length}}
+             </i>  
+           </div>
+         </li>
+       </ul>
+       
+     </div>
+  </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Database Properties" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Property</div>
+        <div class="cell">Value</div>
+      </div>
+
+      <div *ngFor="let property of serverProperties" class="row">
+        <div class="cell" data-title="Property">{{property.name}}</div>
+        <div class="cell" data-title="Value">{{property.value}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Database Options" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Property</div>
+        <div class="cell">Value</div>
+      </div>
+
+      <div *ngFor="let option of serverAdvanceProperties" class="row">
+        <div class="cell" data-title="Property">{{option.name}}</div>
+        <div class="cell" data-title="Value">{{option.value}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+   <!-- Files Tab -->
+   <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Files" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Type</div>
+        <div class="cell">File Locations </div>
+        <div class="cell">Current Size</div>
+        <div class="cell">Max Size in MB</div>
+        <div class="cell">Growth Type</div>
+      </div>
+
+      <div *ngFor="let file of fileInfomrations" class="row">
+        <div class="cell" data-title="fileType">{{file.fileType}}</div>
+        <div class="cell" data-title="fileLocation">{{file.fileLocation}} MB</div>
+        <div class="cell" data-title="currentSizeMB">{{file.currentSizeMB}}</div>
+        <div class="cell" data-title="maxSizeMB">{{file.maxSizeMB}}</div>
+        <div class="cell" data-title="growthType">{{file.growthType}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+</amexio-accordion>

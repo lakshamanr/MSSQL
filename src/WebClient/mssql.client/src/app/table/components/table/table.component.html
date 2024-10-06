@@ -1,0 +1,156 @@
+<amexio-accordion [multi-open]="true">
+  <!-- Table Information -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table: {{tableName}}" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="cell">
+        <h5>
+          <img src="./assets/icons/Table.png" style="width: 30px !important;" />
+          {{tableName}}
+        </h5>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Extended Properties -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Extended Properties" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Extended Properties Name</div>
+        <div class="cell">Extended Properties Value</div>
+        <div class="cell">Extended Properties of Table</div>
+        <div *ngIf="hasEditPermission" class="cell">Actions</div>
+      </div>
+      <div *ngFor="let description of descriptions" class="row">
+        <div class="cell">{{description.name}}</div>
+        <div class="cell">{{description.value}}</div>
+        <div class="cell">{{description.table}}</div>
+        <div *ngIf="hasEditPermission" class="cell">
+          <button type="button" (click)="editDescription(description)" pButton icon="pi pi-pencil"></button>
+        </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Objects Dependency Tree -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Objects Dependency Tree" [gradient]="true" [active]="true">
+    <p-tree [value]="filesTree" layout="horizontal" selectionMode="single"></p-tree>
+  </amexio-accordion-tab>
+
+  <!-- Table Index Fragmentation -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Index Fragmentation" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Index Name</div>
+      </div>
+      <div *ngFor="let Property of tableFragmentations" class="row">
+        <div class="cell">
+          {{Property.indexName}}
+          <progress-bar [progress]="Property.percentFragmented" [color-degraded]="{'0': 'green', '50': 'red'}"></progress-bar>
+        </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Table Properties -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Properties" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Property</div>
+        <div class="cell">Value</div>
+      </div>
+      <div *ngFor="let property of properties" class="row">
+        <div class="cell">{{property.name}}</div>
+        <div class="cell">{{property.value}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Table Columns -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Columns" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+
+        <div class="cell">Name</div> 
+        <div class="cell">Data Type</div>
+        <div class="cell">Key</div>
+        <div class="cell">Max Length (Bytes)</div>
+        <div class="cell">Is Nullable</div>
+        <div class="cell">Identity</div>
+        <div class="cell">Default</div>
+        <div class="cell">Description</div>
+        <div *ngIf="hasEditPermission" class="cell">Actions</div>
+      </div>
+      <div *ngFor="let column of columns" class="row">
+        <div class="cell">{{column.columnName}}</div>
+        <div class="cell">{{column.dataType}}</div>
+        <div class="cell">{{column.key}}</div>
+        <div class="cell">{{column.maxLength}}</div>
+        <div class="cell">{{column.allowNulls}}</div>
+        <div class="cell">{{column.identity}}</div>
+        <div class="cell">{{column.default}}</div>
+        <div class="cell">{{column.description}}</div>
+        <div *ngIf="hasEditPermission" class="cell">
+          <button *ngIf="hasEditPermission" pButton type="button" icon="pi pi-pencil" (click)="editColumnDescription(column)"></button>
+        </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Table Indices -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Indices" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Name</div>
+        <div class="cell">Columns Name</div>
+        <div class="cell">Index Type</div>
+      </div>
+      <div *ngFor="let index of indices" class="row">
+        <div class="cell">{{index.indexName}}</div>
+        <div class="cell">{{index.columns}}</div>
+        <div class="cell">{{index.indexType}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Table Key Constraints -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Key Constraints" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Table View</div>
+        <div class="cell">Object Type</div>
+        <div class="cell">Constraint Type</div>
+        <div class="cell">Constraint Name</div>
+        <div class="cell">Details</div>
+      </div>
+      <div *ngFor="let constraint of tableconstraint" class="row">
+        <div class="cell">{{constraint.table_view}}</div>
+        <div class="cell">{{constraint.object_type}}</div>
+        <div class="cell">{{constraint.constraint_type}}</div>
+        <div class="cell">{{constraint.constraint_name}}</div>
+        <div class="cell">{{constraint.details}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <!-- Table Script -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Script" [gradient]="true" [active]="true">
+    <app-sql-script-viewer [script]="createScript.script"></app-sql-script-viewer>
+  </amexio-accordion-tab>
+</amexio-accordion>
+<div *ngIf="hasEditPermission">
+  <app-edit-description-dialog
+  [displayDialog]="displayDialog"
+  [selectedDescription]="selectedDescription"
+  [hasEditPermission]="hasEditPermission"
+  (save)="saveDescription()"
+  (cancel)="cancelEdit()">
+</app-edit-description-dialog>
+
+<app-edit-column-description-dialog
+  [displayColumnDialog]="displayColumnDialog"
+  [selectedColumn]="selectedColumn"
+  (saveColumnDescription)="saveColumnDescription()"
+  (cancelColumnEdit)="cancelColumnEdit()">
+</app-edit-column-description-dialog>
+
+</div>

@@ -1,0 +1,25 @@
+/* Add any specific styles for the SQL script viewer here */
+.table {
+    width: 100%;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: 0px;
+ 
+  }
+  
+  .header {
+    font-weight: bold;
+  }
+  
+  .cell {
+    padding: 8px;
+  }
+  
+  pre {
+    white-space: pre-wrap; /* Ensures the script wraps and is readable */
+  }
+  

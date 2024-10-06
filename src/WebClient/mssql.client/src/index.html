@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head> 
+  <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data:;
+  connect-src 'self' http://localhost:5000; /* Allow API calls to your ASP.NET Core API */
+  font-src 'self';
+  object-src 'none';
+">
+
+
+  <title>MS SQL </title>
+  <!--<base href="/electron/dist/mssql/">-->
+  <base href="./">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root>Loading...</app-root>
+</body>
+</html>
