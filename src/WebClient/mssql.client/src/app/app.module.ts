@@ -47,6 +47,8 @@ import { TablesModule } from './table/tables.module';
 import { DatabaseModule } from './database/database.module'; 
 import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
 import { ProcedureModule } from './procedure/procedure.module';
+import { ViewsComponent } from './view/components/views/views.component';
+import { ViewComponent } from './view/components/view/view.component';
 
 
 const appRoutes: Routes = [
@@ -89,7 +91,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MainPageComponent, 
     HeaderComponent,
     FooterComponent, 
-    LeftmenuComponent
+    LeftmenuComponent, ViewsComponent, ViewComponent
   ], 
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
