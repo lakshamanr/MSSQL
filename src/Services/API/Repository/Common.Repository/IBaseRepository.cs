@@ -1,4 +1,5 @@
 ﻿using API.Domain.Database;
+using API.Domain.View;
 using System.Data;
 using Table.Domain;
 
@@ -24,5 +25,6 @@ namespace API.Repository.Common.Repository
         Task<IEnumerable<TablesMetadata>> LoadTablesAsync();
         Task<IEnumerable<TablesMetadata>> LoadTablesAsync(string currentDbName = null);
         Task<IEnumerable<ViewMetadata>> LoadViewAsync(string currentDbName = null);
+        Task<IEnumerable<ViewDetails>> GetDetailedViewsInfoAsync();
     }
 }

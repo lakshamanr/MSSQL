@@ -1,4 +1,5 @@
 ﻿using API.Domain.Database;
+using API.Domain.View;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Data;
@@ -11,7 +12,7 @@ namespace API.Repository.Common.Repository
     public class BaseRepository : IBaseRepository
     {
         private readonly string _connectionString;
-        private SqlConnectionStringBuilder _SqlConnectionStringBuilder;
+        public SqlConnectionStringBuilder SqlConnectionStringBuilder;
 
         DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions()
                   .SetSlidingExpiration(TimeSpan.FromMinutes(60)) // Set expiration time for cache
@@ -22,7 +23,7 @@ namespace API.Repository.Common.Repository
         {
             _cache = cache;
             _connectionString = connectionString;
-            _SqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+            SqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
         }
 
         private IDbConnection GetDbConnection(string currentDbName)
@@ -43,7 +44,7 @@ namespace API.Repository.Common.Repository
             return await LoadFromCacheOrQueryAsync<DatabaseFile>(
                 CacheConstants.DatabaseCache.DatabaseFiles,
                 SqlQueryConstants.LoadDatabaseFiles
-                    .Replace("@DatabaseName", $"'{_SqlConnectionStringBuilder.InitialCatalog}'"),
+                    .Replace("@DatabaseName", $"'{SqlConnectionStringBuilder.InitialCatalog}'"),
                 connection);
         }
 
@@ -143,7 +144,7 @@ namespace API.Repository.Common.Repository
                 SqlQueryConstants.LoadAggregateFunctions,
                 GetDbConnection(databaseName));
         }
-        public string LoadDatabaseName() => _SqlConnectionStringBuilder.InitialCatalog;
+        public string LoadDatabaseName() => SqlConnectionStringBuilder.InitialCatalog;
 
         public async Task<IEnumerable<DatabaseInfo>> LoadDatabases(IDbConnection connection = null)
         {
@@ -153,7 +154,7 @@ namespace API.Repository.Common.Repository
                 connection);
         }
 
-        public string LoadDatabaseServerName() => _SqlConnectionStringBuilder.DataSource;
+        public string LoadDatabaseServerName() => SqlConnectionStringBuilder.DataSource;
 
         public async Task<IEnumerable<TriggerInfo>> LoadDatabaseTriggersAsync(string currentDbName = null)
         {
@@ -316,5 +317,28 @@ namespace API.Repository.Common.Repository
                 SqlQueryConstants.LoadXmlSchemaCollections,
                 GetDbConnection(databaseName));
         }
+        public async Task<IEnumerable<ViewDetails>> GetDetailedViewsInfoAsync()
+        {
+            IEnumerable<ViewDetails> viewDetails = null;
+            var cacheKey = $"ViewsKeys" + SqlConnectionStringBuilder.InitialCatalog;
+            var cachedData = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cachedData))
+            {
+                return JsonSerializer.Deserialize<IEnumerable<ViewDetails>>(cachedData);
+            }
+            try
+            {
+                using (IDbConnection db = new SqlConnection(_connectionString))
+                {
+                    viewDetails = await db.QueryAsync<ViewDetails>(ViewSqlQueryConstant.GetAllViewsDetailsWithMsDesc);
+                    return viewDetails;
+                }
+            }
+            catch (Exception ex)
+            {
+                  return null;
+            } 
+        }
+        
     }
 }

@@ -1,5 +1,6 @@
 using API.Repository.Database.Repository;
 using API.Repository.LeftMenu.Repository;
+using API.Repository.View.Respository;
 using Microsoft.Extensions.Caching.Distributed;
 using Table.Repositoties;
 
@@ -64,6 +65,13 @@ internal class Program
             var logger = provider.GetRequiredService<ILogger<TableRepository>>();
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new TablesRepository(connectionString, logger, cache);
+        });
+        builder.Services.AddScoped(provider =>
+        {
+
+            var logger = provider.GetRequiredService<ILogger<ViewsRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new ViewsRepository(connectionString, logger, cache);
         });
 
         builder.Services.AddCors(options =>

@@ -1,0 +1,10 @@
+﻿namespace API.Domain.View
+{
+    public class ViewProperties
+    {
+        public string uses_ansi_nulls { get; set; }
+        public string uses_quoted_identifier { get; set; }
+        public string create_date { get; set; }
+        public string modify_date { get; set; }
+    }
+}
