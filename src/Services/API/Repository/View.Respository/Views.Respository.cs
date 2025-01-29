@@ -99,7 +99,10 @@ namespace API.Repository.View.Respository
                 return null;
             }
         }
-
+        /// <summary>
+        /// Get the View name and it d
+        /// </summary>
+        /// <returns></returns>
         private async Task<IEnumerable<ViewDetails>> GetViewNameWithMsdescriptionAsync()
         {
             try
@@ -114,11 +117,21 @@ namespace API.Repository.View.Respository
                 return null;
             }
         }
-
+        /// <summary>
+        /// Get the all the details of the view 
+        /// </summary>
+        /// <param name="viewname"></param>
+        /// <returns></returns>
         public async Task<ViewMetaData> GetViewMetaDataAsync(string viewname)
         {
-            ViewMetaData viewMetaData = new ViewMetaData();
             _viewName = viewname;
+            ViewMetaData viewMetaData = new ViewMetaData();
+            var cachekey ="ViewCacheKey"+ viewname+CurrentDatabases;
+            var cacheData = await _cache.GetStringAsync(cachekey);
+            if(cacheData!=null )
+            { 
+                return JsonSerializer.Deserialize<ViewMetaData>(cacheData);
+            }
             try
             {
                 using (var db = new SqlConnection(_connectionString))

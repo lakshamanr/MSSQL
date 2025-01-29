@@ -20,14 +20,13 @@
 
         public static readonly string GetViewColumns =
             @"SELECT 
-                    v.[name] AS ViewName,
-                    s.[name] AS SchemaName,
-                    c.[name] AS ColumnName,
-                    c.column_id AS ColumnOrder,
-                    t.[name] AS DataType,
-                    c.max_length AS MaxLength,
-                    c.precision,
-                    c.scale
+                  (s.[name]+'.'+  v.[name]) AS ViewName,
+				  c.[name] AS ColumnName,
+				  c.column_id AS ColumnOrder,
+				  t.[name] AS DataType,
+				  c.max_length AS MaxLength,
+				  c.precision,
+				  c.scale
                 FROM sys.views v
                 JOIN sys.schemas s ON v.schema_id = s.schema_id
                 JOIN sys.columns c ON v.object_id = c.object_id
@@ -40,8 +39,10 @@
 sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 
         public static readonly string GetViewDependencies =
-            @"declare @Table table ([name] varchar(100),[type] varchar(1000),updated varchar(100),selected varchar(100),column_name varchar(1000))
-		      INSERT INTO @Table exec sp_depends @viewName
-		      select DISTINCT name from @Table";
+            @"
+                SELECT  distinct  referenced_entity_name as  [name], is_updated as updated , is_select_all as selected ,referenced_entity_name as column_name,
+                 (referenced_entity_name+'.'+ referenced_entity_name)AS FullReferenceName
+                FROM sys.dm_sql_referenced_entities( @viewName, 'OBJECT');
+                ";
     }
 }

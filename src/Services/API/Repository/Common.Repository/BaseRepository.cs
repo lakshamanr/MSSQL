@@ -12,7 +12,10 @@ namespace API.Repository.Common.Repository
     public class BaseRepository : IBaseRepository
     {
         private readonly string _connectionString;
-        public SqlConnectionStringBuilder SqlConnectionStringBuilder;
+        public string? CurrentDatabases { get { return _sqlConnectionStringBuilder?.InitialCatalog; } }
+        public string? DataSource { get { return _sqlConnectionStringBuilder?.DataSource;} }
+
+        private SqlConnectionStringBuilder _sqlConnectionStringBuilder;
 
         DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions()
                   .SetSlidingExpiration(TimeSpan.FromMinutes(60)) // Set expiration time for cache
@@ -23,7 +26,7 @@ namespace API.Repository.Common.Repository
         {
             _cache = cache;
             _connectionString = connectionString;
-            SqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+            _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
         }
 
         private IDbConnection GetDbConnection(string currentDbName)
@@ -44,7 +47,7 @@ namespace API.Repository.Common.Repository
             return await LoadFromCacheOrQueryAsync<DatabaseFile>(
                 CacheConstants.DatabaseCache.DatabaseFiles,
                 SqlQueryConstants.LoadDatabaseFiles
-                    .Replace("@DatabaseName", $"'{SqlConnectionStringBuilder.InitialCatalog}'"),
+                    .Replace("@DatabaseName", $"'{CurrentDatabases}'"),
                 connection);
         }
 
@@ -144,7 +147,10 @@ namespace API.Repository.Common.Repository
                 SqlQueryConstants.LoadAggregateFunctions,
                 GetDbConnection(databaseName));
         }
-        public string LoadDatabaseName() => SqlConnectionStringBuilder.InitialCatalog;
+        public string LoadDatabaseName()
+        {
+            return CurrentDatabases;
+        }
 
         public async Task<IEnumerable<DatabaseInfo>> LoadDatabases(IDbConnection connection = null)
         {
@@ -154,7 +160,10 @@ namespace API.Repository.Common.Repository
                 connection);
         }
 
-        public string LoadDatabaseServerName() => SqlConnectionStringBuilder.DataSource;
+        public string LoadDatabaseServerName()
+        {
+            return DataSource;
+        }
 
         public async Task<IEnumerable<TriggerInfo>> LoadDatabaseTriggersAsync(string currentDbName = null)
         {
@@ -320,7 +329,7 @@ namespace API.Repository.Common.Repository
         public async Task<IEnumerable<ViewDetails>> GetDetailedViewsInfoAsync()
         {
             IEnumerable<ViewDetails> viewDetails = null;
-            var cacheKey = $"ViewsKeys" + SqlConnectionStringBuilder.InitialCatalog;
+            var cacheKey = $"ViewsKeys" + CurrentDatabases;
             var cachedData = await _cache.GetStringAsync(cacheKey);
             if (!string.IsNullOrEmpty(cachedData))
             {
