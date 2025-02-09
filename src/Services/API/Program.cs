@@ -1,6 +1,7 @@
 using API.Repository.Database;
 using API.Repository.Functions;
 using API.Repository.LeftMenu;
+using API.Repository.StoreProcedure;
 using API.Repository.Table;
 using API.Repository.View;
 using Microsoft.Extensions.Caching.Distributed;
@@ -120,7 +121,13 @@ internal class Program
             return new TableValuedFunctionRepository(connectionString);
         });
 
-
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<StoredProcedureRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new StoredProcedureRepository(connectionString);
+        });
+        
 
     }
 }
