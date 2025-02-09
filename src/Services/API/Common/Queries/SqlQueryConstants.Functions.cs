@@ -2,19 +2,34 @@
 {
     public static partial class SqlQueryConstant
     {
-        public static string FetchFunctionDescriptions =
-            @"SELECT
-            QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS [SQL_TABLE_VALUED_FUNCTION],
-            sep.[value] AS [Description]
-        FROM sys.sql_modules AS M
-        INNER JOIN sys.objects AS O
-            ON M.[object_id] = O.[object_id]
-        INNER JOIN sys.extended_properties AS sep
+
+        /// <summary>
+        /// Query to fetch descriptions of all scalar functions.
+        /// </summary>
+        public const string FetchScalarFunctionDescriptions = @"
+        SELECT 
+            QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
+            sep.[value] AS Description
+        FROM sys.objects AS O
+        LEFT JOIN sys.extended_properties AS sep
             ON O.[object_id] = sep.[major_id]
-        WHERE
-            O.[type] = @function_Type
             AND sep.[name] = 'MS_Description'
-            AND sep.[minor_id] = 0;";
+        WHERE O.[type] = 'FN';";   
+
+    /// <summary>
+    /// Query to fetch descriptions of all table-valued functions.
+    /// </summary>
+    public const string FetchTableFunctionDescriptions = @"
+        SELECT 
+            QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
+            sep.[value] AS Description
+        FROM sys.objects AS O
+        LEFT JOIN sys.extended_properties AS sep
+            ON O.[object_id] = sep.[major_id]
+            AND sep.[name] = 'MS_Description'
+        WHERE O.[type] = 'TF';";  
+
+
 
         public static string RetrieveFunctionDetails =
             @"SELECT
