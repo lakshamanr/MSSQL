@@ -10,17 +10,27 @@ namespace API.Repository.LeftMenu.Repository
     public class LeftMenuRepository : BaseRepository
     {
         private readonly string _connectionString;
-        private readonly ILogger<LeftMenuRepository> _logger; 
-        private TreeViewJsonGenerator treeViewJsonGenerator { get; set; }
+        private readonly ILogger<LeftMenuRepository> _logger;
+        private TreeViewJsonGenerator TreeViewJsonGenerator { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeftMenuRepository"/> class.
+        /// </summary>
+        /// <param name="connectionString">The database connection string.</param>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="cache">The distributed cache instance.</param>
         public LeftMenuRepository(string connectionString, ILogger<LeftMenuRepository> logger, IDistributedCache cache)
             : base(connectionString, cache)
         {
             _connectionString = connectionString;
-            _logger = logger; 
-            treeViewJsonGenerator = new TreeViewJsonGenerator(this);
+            _logger = logger;
+            TreeViewJsonGenerator = new TreeViewJsonGenerator(this);
         }
 
+        /// <summary>
+        /// Gets the left menu asynchronously.
+        /// </summary>
+        /// <returns>A JSON string representing the left menu.</returns>
         public async Task<string> GetLeftMenuAsync()
         {
             try
@@ -33,7 +43,7 @@ namespace API.Repository.LeftMenu.Repository
                 }
 
                 // Generate the left menu if not found in cache
-                var leftMenuJson = await GetLeftMenuJsonAsync();
+                var leftMenuJson = await GenerateLeftMenuJsonAsync();
 
                 // Check for null and handle accordingly
                 if (leftMenuJson == null)
@@ -53,18 +63,22 @@ namespace API.Repository.LeftMenu.Repository
             }
             catch (Exception ex)
             {
-                // Log the exception (consider using a logging framework)
-                _logger.LogError(ex, "An error occurred while retrieving the left menu.");
-                return JsonConvert.SerializeObject(new { error = "An error occurred while retrieving the left menu." });
+                // Log the exception
+                _logger.LogError(ex, "An error occurred while retrieving the left menu data.");
+                return JsonConvert.SerializeObject(new { error = "An error occurred while retrieving the left menu data." });
             }
         }
 
-        public async Task<List<TreeViewJson>> GetLeftMenuJsonAsync()
+        /// <summary>
+        /// Generates the left menu JSON asynchronously.
+        /// </summary>
+        /// <returns>A list of <see cref="TreeViewJson"/> representing the left menu.</returns>
+        public async Task<List<TreeViewJson>> GenerateLeftMenuJsonAsync()
         {
             var data = new List<TreeViewJson>
-        {
-            await treeViewJsonGenerator.GetProjectStructureAsync()
-        };
+                {
+                    await TreeViewJsonGenerator.GetProjectStructureAsync()
+                };
             return data;
         }
     }
