@@ -1,0 +1,151 @@
+﻿using API.Common.Queries;
+using API.Domain.Functions;
+using API.Repository.Common;
+using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Data.SqlClient;
+
+namespace API.Repository.Functions
+{
+
+    /// <summary>
+    /// Base repository class for SQL functions that provides metadata retrieval.
+    /// </summary>
+    public abstract class BaseSqlFunctionRepository
+    {
+        protected readonly string _connectionString;
+        protected abstract string FunctionType { get; }
+
+        protected BaseSqlFunctionRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        /// <summary>
+        /// Retrieves metadata for a given SQL function asynchronously.
+        /// </summary>
+        /// <param name="functionName">The name of the function.</param>
+        /// <returns>A task representing the asynchronous operation, containing function metadata.</returns>
+        public async Task<SqlFunctionMetadata> GetFunctionMetadataAsync(string functionName)
+        {
+            var functionDetail = await RetrieveFunctionDetailsAsync(functionName);
+            var parameters = await FetchFunctionParametersWithDescriptionsAsync(functionName);
+            var definition = await RetrieveFunctionDefinitionAsync(functionName);
+            var dependencies = await FetchFunctionDependenciesAsync(functionName);
+
+            return new SqlFunctionMetadata
+            {
+                FunctionDetail = functionDetail,
+                Parameters = parameters,
+                Definition = definition,
+                Dependencies = dependencies,
+                FunctionName = functionName
+            };
+        }
+
+        private async Task<SqlFunctionDetail> RetrieveFunctionDetailsAsync(string functionName)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<SqlFunctionDetail>(
+                    SqlQueryConstant.RetrieveFunctionDetails,
+                    new { function_Type = FunctionType, function_name = functionName }
+                );
+            }
+        }
+
+        private async Task<IEnumerable<SqlFunctionParameter>> FetchFunctionParametersWithDescriptionsAsync(string functionName)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return (await connection.QueryAsync<SqlFunctionParameter>(
+                    SqlQueryConstant.FetchFunctionParametersWithDescriptions,
+                    new { function_Type = FunctionType, function_name = functionName }
+                )).ToList();
+            }
+        }
+
+        private async Task<string> RetrieveFunctionDefinitionAsync(string functionName)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return await connection.ExecuteScalarAsync<string>(
+                    SqlQueryConstant.RetrieveFunctionDefinition,
+                    new { function_Type = FunctionType, function_name = functionName }
+                );
+            }
+        }
+
+        private async Task<IEnumerable<SqlFunctionDependency>> FetchFunctionDependenciesAsync(string functionName)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return (await connection.QueryAsync<SqlFunctionDependency>(
+                    SqlQueryConstant.FetchFunctionDependencies,
+                    new { function_name = functionName }
+                )).ToList();
+            }
+        }
+        /// <summary>
+        /// Modifies the description of an existing SQL function.
+        /// </summary>
+        /// <param name="schemaName">The schema name of the function.</param>
+        /// <param name="functionName">The name of the function.</param>
+        /// <param name="description">The new description to be set.</param>
+        private async Task ModifyFunctionDescriptionAsync(string schemaName, string functionName, string description)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.ExecuteAsync(
+                    SqlQueryConstant.ModifyFunctionDescription,
+                    new { Schema_Name = schemaName, FunctionName = functionName, fun_value = description }
+                );
+            }
+        }
+
+        /// <summary>
+        /// Adds a description to a new SQL function.
+        /// </summary>
+        /// <param name="schemaName">The schema name of the function.</param>
+        /// <param name="functionName">The name of the function.</param>
+        /// <param name="description">The description to be added.</param>
+        private async Task AddFunctionDescriptionAsync(string schemaName, string functionName, string description)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.ExecuteAsync(
+                    SqlQueryConstant.AddFunctionDescription,
+                    new { Schema_Name = schemaName, FunctionName = functionName, fun_value = description }
+                );
+            }
+        }
+        /// <summary>
+        /// Checks if function metadata exists and updates it if found; otherwise, creates a new entry.
+        /// </summary>
+        /// <param name="schemaName">The schema name of the function.</param>
+        /// <param name="functionName">The name of the function.</param>
+        /// <param name="description">The function description.</param>
+        public async Task UpsertFunctionDescriptionAsync(string schemaName, string functionName, string description)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var existingDescription = await connection.ExecuteScalarAsync<string>(
+                    "SELECT value FROM sys.extended_properties WHERE major_id = OBJECT_ID(@FunctionName) AND name = 'MS_Description'",
+                    new { FunctionName = functionName }
+                );
+
+                if (existingDescription != null)
+                {
+                    await ModifyFunctionDescriptionAsync(schemaName, functionName, description);
+                }
+                else
+                {
+                    await AddFunctionDescriptionAsync(schemaName, functionName, description);
+                }
+            }
+        }
+
+
+
+    }
+}

@@ -1,4 +1,5 @@
 using API.Repository.Database;
+using API.Repository.Functions;
 using API.Repository.LeftMenu;
 using API.Repository.Table;
 using API.Repository.View;
@@ -104,5 +105,22 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new ViewsRepository(connectionString, logger, cache);
         });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<ScalarFunctionRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new ScalarFunctionRepository(connectionString);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<TableValuedFunctionRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new TableValuedFunctionRepository(connectionString);
+        });
+
+
+
     }
 }

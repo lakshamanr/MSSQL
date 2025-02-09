@@ -1,4 +1,4 @@
-﻿namespace API.Repository.Common
+﻿namespace API.Common
 {
     public static class CacheConstants
     {

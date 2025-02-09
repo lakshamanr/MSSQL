@@ -1,4 +1,6 @@
-﻿using API.Domain.Database;
+﻿using API.Common;
+using API.Common.Queries;
+using API.Domain.Database;
 using API.Domain.Table;
 using API.Domain.View;
 using Dapper;

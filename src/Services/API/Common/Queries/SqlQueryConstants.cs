@@ -1,4 +1,4 @@
-﻿namespace API.Repository.Common
+﻿namespace API.Common.Queries
 {
     /// <summary>
     /// Contains SQL query constants used for various database operations.

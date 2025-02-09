@@ -1,3 +1,4 @@
+using API.Common.Queries;
 using API.Domain.Table;
 using API.Repository.Common;
 using Dapper;

@@ -1,6 +1,6 @@
-﻿namespace API.Domain.View
+﻿namespace API.Common.Queries
 {
-   
+
     public class ViewSqlQueryConstant
     {
         public static readonly string GetAllViewsDetailsWithMsDesc =

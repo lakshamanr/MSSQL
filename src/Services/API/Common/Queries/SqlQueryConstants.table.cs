@@ -1,4 +1,4 @@
-﻿namespace API.Domain.Table
+﻿namespace API.Common.Queries
 {
     public static partial class SqlQueryConstant
     {
