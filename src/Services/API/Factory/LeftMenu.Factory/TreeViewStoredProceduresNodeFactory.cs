@@ -4,38 +4,49 @@ using API.Repository.Common.Repository;
 
 namespace API.Factory.LeftMenu.Factory
 {
+    /// <summary>
+    /// Factory class for creating TreeView nodes for stored procedures.
+    /// </summary>
     internal class TreeViewStoredProceduresNodeFactory : TreeViewNodeFactory
     {
-
-        public TreeViewStoredProceduresNodeFactory(TreeViewConfiguration treeViewConfiguration, IBaseRepository baseRepository) : base(treeViewConfiguration, baseRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewStoredProceduresNodeFactory"/> class.
+        /// </summary>
+        /// <param name="treeViewConfiguration">The TreeView configuration.</param>
+        /// <param name="baseRepository">The base repository.</param>
+        public TreeViewStoredProceduresNodeFactory(TreeViewConfiguration treeViewConfiguration, IBaseRepository baseRepository)
+            : base(treeViewConfiguration, baseRepository)
         {
-
         }
+
+        /// <summary>
+        /// Creates a TreeView node for stored procedures asynchronously.
+        /// </summary>
+        /// <param name="currentDbName">The current database name.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the TreeView JSON.</returns>
         public override async Task<TreeViewJson> CreateNodeAsync(string currentDbName)
         {
-            var StoredProceduresNode =
-                            TreeViewNodeHelper.CreateTreeViewNode(
-                           text: "StoredProcedures",
-                           icon: "fa fa-folder",
-                           link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/StoredProcedures",
-                           schemaEnum: SchemaEnums.AllStoreprocedure,
-                           children: null
-                       );
+            var storedProceduresNode = TreeViewNodeHelper.CreateTreeViewNode(
+                text: "StoredProcedures",
+                icon: "fa fa-folder",
+                link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/StoredProcedures",
+                schemaEnum: SchemaEnums.AllStoreprocedure,
+                children: null
+            );
 
-            var databaseStroreProcedures = await _baseRepository.LoadStoredProceduresAsync(currentDbName);
-            if (databaseStroreProcedures.Any())
+            var databaseStoredProcedures = await _baseRepository.LoadStoredProceduresAsync(currentDbName);
+            if (databaseStoredProcedures.Any())
             {
-                StoredProceduresNode.children = databaseStroreProcedures
-                   .Select(Procedure => TreeViewNodeHelper.CreateTreeViewNode
-                   (
-                       Procedure.ProcedureName,
-                       "fa fa-cogs",
-                       $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Views/{Procedure.ProcedureName}",
-                       SchemaEnums.Storeprocedure
-                   ))
-                   .ToList();
+                storedProceduresNode.children = databaseStoredProcedures
+                    .Select(procedure => TreeViewNodeHelper.CreateTreeViewNode(
+                        procedure.ProcedureName,
+                        "fa fa-cogs",
+                        $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Views/{procedure.ProcedureName}",
+                        SchemaEnums.Storeprocedure
+                    ))
+                    .ToList();
             }
-            return StoredProceduresNode;
+            return storedProceduresNode;
         }
     }
 }

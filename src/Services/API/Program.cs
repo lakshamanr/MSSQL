@@ -34,6 +34,11 @@ internal class Program
 
         var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new ArgumentNullException("SQL Server connection string cannot be null or empty.");
+        }
+
         RegisterRepositories(builder.Services, connectionString);
 
         builder.Services.AddCors(options =>

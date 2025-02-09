@@ -15,7 +15,7 @@ namespace API.Domain.Database
         public IEnumerable<TriggerInfo> TriggerInfos { get; set; }
         public IEnumerable<FunctionInfo> TableFunctionInfos { get; set; }
         public IEnumerable<UserType> UserTypes { get; set; }
-        public IEnumerable<DatabaseFile> fileInfomrations { get; set; }
+        public IEnumerable<DatabaseFile> fileInformations { get; set; }
         public IEnumerable<ViewMetadata> viewMetadata { get; set; }
         public IEnumerable<TablesMetadata> tablesMetadata { get; set; }
     }

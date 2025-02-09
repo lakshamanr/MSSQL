@@ -17,10 +17,16 @@ namespace API.Controllers
         }
 
         [HttpGet("GetTableMetaData")]
-        public async Task<TableMetadata> GetDetailedTableInfoAsync(string tableName)
+        public async Task<ActionResult<TableMetadata>> GetDetailedTableInfoAsync(string tableName)
         {
-            return await _tableRepository.LoadTableMetadata(tableName);
+            var result = await _tableRepository.LoadTableMetadata(tableName);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
+
 
         [HttpGet("GetTableDetails")]
         public async Task<IEnumerable<TablesMetadata>> GetTableDetailsAsync()

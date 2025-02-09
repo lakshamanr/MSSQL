@@ -22,9 +22,14 @@ namespace API.Controllers
             return await _viewsRepository.GetDetailedViewsInfoAsync();
         }
         [HttpGet("GetViewMetaData{viewname}")]
-        public async Task<ViewMetaData> GetViewMetaDataAsync(string viewname)
+        public async Task<ActionResult<ViewMetaData>> GetViewMetaDataAsync(string viewname)
         {
-            return await _viewsRepository.GetViewMetaDataAsync(viewname);
+            var viewMetaData = await _viewsRepository.GetViewMetaDataAsync(viewname);
+            if (viewMetaData == null)
+            {
+                return NotFound();
+            }
+            return Ok(viewMetaData);
         }
         
     }

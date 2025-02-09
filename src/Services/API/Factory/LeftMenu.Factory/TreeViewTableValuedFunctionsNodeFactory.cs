@@ -3,14 +3,28 @@ using API.Domain.LeftMenu;
 using API.Repository.Common.Repository;
 namespace API.Factory.LeftMenu.Factory
 {
+    /// <summary>
+    /// Factory class for creating TreeView nodes for Table-valued Functions.
+    /// </summary>
     internal class TreeViewTableValuedFunctionsNodeFactory : TreeViewNodeFactory
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewTableValuedFunctionsNodeFactory"/> class.
+        /// </summary>
+        /// <param name="treeViewConfiguration">The TreeView configuration.</param>
+        /// <param name="baseRepository">The base repository.</param>
         public TreeViewTableValuedFunctionsNodeFactory(TreeViewConfiguration treeViewConfiguration, IBaseRepository baseRepository) : base(treeViewConfiguration, baseRepository)
         {
         }
+
+        /// <summary>
+        /// Creates a TreeView node for Table-valued Functions asynchronously.
+        /// </summary>
+        /// <param name="currentDbName">The current database name.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the TreeView JSON.</returns>
         public override async Task<TreeViewJson> CreateNodeAsync(string currentDbName)
         {
-            var tablevalueFunctionNode =
+            var tableValueFunctionNode =
                            TreeViewNodeHelper.CreateTreeViewNode(
                           text: "Table-valued Functions",
                           icon: "fa fa-folder",
@@ -19,10 +33,10 @@ namespace API.Factory.LeftMenu.Factory
                           children: null
                       );
 
-            var TableValuefunctions = await _baseRepository.LoadTableValuedFunctionsAsync(currentDbName);
-            if (TableValuefunctions.Any())
+            var tableValueFunctions = await _baseRepository.LoadTableValuedFunctionsAsync(currentDbName);
+            if (tableValueFunctions.Any())
             {
-                tablevalueFunctionNode.children = TableValuefunctions
+                tableValueFunctionNode.children = tableValueFunctions
                    .Select(function => TreeViewNodeHelper.CreateTreeViewNode
                    (
                        function.FunctionName,
@@ -32,7 +46,7 @@ namespace API.Factory.LeftMenu.Factory
                    ))
                    .ToList();
             }
-            return tablevalueFunctionNode;
+            return tableValueFunctionNode;
         }
     }
 }

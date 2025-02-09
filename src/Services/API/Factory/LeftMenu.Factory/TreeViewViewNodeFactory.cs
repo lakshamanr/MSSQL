@@ -4,12 +4,26 @@ using API.Repository.Common.Repository;
 
 namespace API.Factory.LeftMenu.Factory
 {
+    /// <summary>
+    /// Factory class for creating TreeView nodes for views.
+    /// </summary>
     internal class TreeViewViewNodeFactory : TreeViewNodeFactory
     {
-        public TreeViewViewNodeFactory(TreeViewConfiguration treeViewConfiguration, IBaseRepository baseRepository) : base(treeViewConfiguration, baseRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewViewNodeFactory"/> class.
+        /// </summary>
+        /// <param name="treeViewConfiguration">The TreeView configuration.</param>
+        /// <param name="baseRepository">The base repository.</param>
+        public TreeViewViewNodeFactory(TreeViewConfiguration treeViewConfiguration, IBaseRepository baseRepository)
+            : base(treeViewConfiguration, baseRepository)
         {
-
         }
+
+        /// <summary>
+        /// Creates a TreeView node asynchronously for views.
+        /// </summary>
+        /// <param name="currentDbName">The current database name.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the TreeView JSON.</returns>
         public override async Task<TreeViewJson> CreateNodeAsync(string currentDbName)
         {
             var viewNode = TreeViewNodeHelper.CreateTreeViewNode(
@@ -19,10 +33,10 @@ namespace API.Factory.LeftMenu.Factory
                               schemaEnum: SchemaEnums.AllViews,
                               children: null
                           );
+
             var viewDetails = await _baseRepository.LoadViewAsync(currentDbName);
             if (viewDetails.Any())
             {
-
                 viewNode.children = viewDetails
                     .Select(view => TreeViewNodeHelper.CreateTreeViewNode(
                         view.ViewName,
