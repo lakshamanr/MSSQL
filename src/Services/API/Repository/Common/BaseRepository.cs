@@ -195,7 +195,7 @@ namespace API.Repository.Common
         /// <returns>The name of the current database.</returns>
         public string LoadDatabaseName()
         {
-            return CurrentDatabases;
+            return CurrentDatabases ?? string.Empty;
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace API.Repository.Common
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    viewDetails = await db.QueryAsync<ViewDetails>(ViewSqlQueryConstant.GetAllViewsDetailsWithMsDesc);
+                    viewDetails = await db.QueryAsync<ViewDetails>(SqlQueryConstants.GetAllViewsDetailsWithMsDesc);
                     return viewDetails;
                 }
             }

@@ -9,9 +9,8 @@ namespace API.Service.LeftMenu.Service
     /// </summary>
     public class TreeViewJsonGenerator
     {
-        private TreeViewConfiguration? _treeViewContext;
+        private readonly TreeViewConfiguration? _treeViewContext;
         private readonly IBaseRepository _baseRepository;
-        private string? _currentDbName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TreeViewJsonGenerator"/> class.
