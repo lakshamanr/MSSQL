@@ -19,7 +19,7 @@ namespace API.Controllers
         [HttpGet("GetTableMetaData")]
         public async Task<TableMetadata> GetDetailedTableInfoAsync(string tableName)
         {
-            return await _tableRepository.LoadTableMetadaa(tableName);
+            return await _tableRepository.LoadTableMetadata(tableName);
         }
 
         [HttpGet("GetTableDetails")]

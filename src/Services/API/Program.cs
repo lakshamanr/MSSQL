@@ -8,7 +8,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Configuration.Sources.Clear();
@@ -20,77 +19,39 @@ internal class Program
                 .AddEnvironmentVariables()
                 .AddCommandLine(args);
 
-
         var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
 
-        // Check if the connection string is null or empty
         if (string.IsNullOrEmpty(redisConnectionString))
         {
             throw new ArgumentNullException("Redis connection string cannot be null or empty.");
         }
 
-
-        // Configure Redis caching
         builder.Services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration = builder.Configuration.GetConnectionString("RedisConnection");
+            options.Configuration = redisConnectionString;
             options.InstanceName = "mssqlInstance:";
         });
+
         var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
 
-        builder.Services.AddScoped(provider =>
-        {
-
-            var logger = provider.GetRequiredService<ILogger<DatabaseReposititory>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new DatabaseReposititory(connectionString, logger, cache);
-        });
-        builder.Services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<LeftMenuRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new LeftMenuRepository(connectionString, logger, cache);
-        });
-
-        builder.Services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<TableRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new TableRepository(connectionString, logger, cache);
-        });
-
-        builder.Services.AddScoped(provider =>
-        {
-
-            var logger = provider.GetRequiredService<ILogger<TableRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new TablesRepository(connectionString, logger, cache);
-        });
-        builder.Services.AddScoped(provider =>
-        {
-
-            var logger = provider.GetRequiredService<ILogger<ViewsRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new ViewsRepository(connectionString, logger, cache);
-        });
+        RegisterRepositories(builder.Services, connectionString);
 
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowOrigin",
-                   builder => builder.WithOrigins("http://localhost:4200") // or the URL of your Angular app
+                   builder => builder.WithOrigins("http://localhost:4200")
                                      .AllowAnyMethod()
                                      .AllowAnyHeader());
         });
 
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
 
         app.UseCors("AllowAllOrigins");
-        // Configure the HTTP request pipeline.
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -98,9 +59,45 @@ internal class Program
         }
 
         app.UseAuthorization();
-
         app.MapControllers();
-
         app.Run();
+    }
+
+    private static void RegisterRepositories(IServiceCollection services, string connectionString)
+    {
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<DatabaseReposititory>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new DatabaseReposititory(connectionString, logger, cache);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<LeftMenuRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new LeftMenuRepository(connectionString, logger, cache);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<TableRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new TableRepository(connectionString, logger, cache);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<TablesRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new TablesRepository(connectionString, cache);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<ViewsRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new ViewsRepository(connectionString, logger, cache);
+        });
     }
 }
