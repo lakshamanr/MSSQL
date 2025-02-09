@@ -68,22 +68,10 @@ namespace API.Repository.StoreProcedure
         {
             using (var connection = CreateConnection())
             {
-                var existingDescription = await connection.ExecuteScalarAsync<string>(
-                    SqlQueryConstantSp.FetchStoredProcedureDescription,
-                    new { SchemaName = schemaName, StoredProcedureName = storedProcedureName });
 
-                if (string.IsNullOrEmpty(existingDescription))
-                {
-                    await connection.ExecuteAsync(
-                        SqlQueryConstantSp.InsertStoredProcedureExtendedProperty,
-                        new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, Description = description });
-                }
-                else
-                {
-                    await connection.ExecuteAsync(
-                        SqlQueryConstantSp.UpdateStoredProcedureExtendedProperty,
-                        new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, Description = description });
-                }
+                await connection.ExecuteAsync(
+                          SqlQueryConstantSp.MergeStoredProcedureExtendedProperty,
+                          new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, Description = description });
             }
         }
 
@@ -91,22 +79,10 @@ namespace API.Repository.StoreProcedure
         {
             using (var connection = CreateConnection())
             {
-                var existingDescription = await connection.ExecuteScalarAsync<string>(
-                    SqlQueryConstantSp.FetchStoredProcedureParameterDescription,
-                    new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, ParameterName = parameterName });
-
-                if (string.IsNullOrEmpty(existingDescription))
-                {
-                    await connection.ExecuteAsync(
-                        SqlQueryConstantSp.InsertStoredProcedureParameterExtendedProperty,
-                        new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, ParameterName = parameterName, Description = description });
-                }
-                else
-                {
-                    await connection.ExecuteAsync(
-                        SqlQueryConstantSp.UpdateStoredProcedureParameterExtendedProperty,
-                        new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, ParameterName = parameterName, Description = description });
-                }
+             
+                await connection.ExecuteAsync(
+                                       SqlQueryConstantSp.MergeStoredProcedureParameterExtendedProperty,
+                                       new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, ParameterName = parameterName, Description = description });
             }
         }
     }

@@ -3,16 +3,15 @@
     public static partial class SqlQueryConstantSp
     {
         public static readonly string FetchAllStoredProceduresWithDescriptions =
-            @"SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.[NAME]) AS 'StoredProcedure', 
-                     EP.VALUE AS [ExtendedProperty] 
-              FROM SYS.EXTENDED_PROPERTIES EP 
-              LEFT JOIN SYS.OBJECTS O ON EP.MAJOR_ID = O.OBJECT_ID   
-              WHERE O.TYPE='P' AND CLASS_DESC='OBJECT_OR_COLUMN'      
-              UNION 
-              SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.[NAME]) AS 'StoredProcedure',  
-                     '' AS [ExtendedProperty]     
-              FROM SYS.OBJECTS O  
-              WHERE O.TYPE='P'";
+            @"SELECT DISTINCT 
+                    (SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME]) AS StoredProcedure, 
+                    ISNULL(EP.VALUE, '') AS ExtendedProperty
+                FROM SYS.OBJECTS O  
+                LEFT JOIN SYS.EXTENDED_PROPERTIES EP 
+                ON EP.MAJOR_ID = O.OBJECT_ID 
+                AND EP.CLASS_DESC = 'OBJECT_OR_COLUMN'
+                WHERE O.TYPE = 'P';
+            ";
 
         public static readonly string FetchStoredProcedureDependencies =
             @"SELECT OBJECT_SCHEMA_NAME(referencing_id) + '.' + OBJECT_NAME(referencing_id) AS ReferencingObjectName,     
@@ -77,45 +76,73 @@
               WHERE O.TYPE='P' AND class_desc='OBJECT_OR_COLUMN' 
               AND ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.[NAME]) = @StoredProcedureName";
 
-        public static readonly string UpdateStoredProcedureExtendedProperty =
-            @"EXEC sys.sp_updateextendedproperty
-                 N'MS_Description',
-                 @Description,
-                 N'SCHEMA',
-                 @SchemaName,
-                 N'PROCEDURE',
-                 @StoredProcedureName";
+        public static readonly string MergeStoredProcedureExtendedProperty = @"
+            IF EXISTS (
+                SELECT 1 
+                FROM sys.extended_properties ep
+                JOIN sys.objects o ON ep.major_id = o.object_id
+                JOIN sys.schemas s ON o.schema_id = s.schema_id
+                WHERE ep.name = 'MS_Description'
+                AND s.name = @SchemaName
+                AND o.name = @StoredProcedureName
+            )
+            BEGIN
+                EXEC sys.sp_updateextendedproperty
+                    N'MS_Description',
+                    @Description,
+                    N'SCHEMA',
+                    @SchemaName,
+                    N'PROCEDURE',
+                    @StoredProcedureName
+            END
+            ELSE
+            BEGIN
+                EXEC sys.sp_addextendedproperty
+                    N'MS_Description',
+                    @Description,
+                    N'SCHEMA',
+                    @SchemaName,
+                    N'PROCEDURE',
+                    @StoredProcedureName
+            END";
 
-        public static readonly string InsertStoredProcedureExtendedProperty =
-            @"EXEC sys.sp_addextendedproperty
-                 N'MS_Description',
-                 @Description,
-                 N'SCHEMA',
-                 @SchemaName,
-                 N'PROCEDURE',
-                 @StoredProcedureName";
 
-        public static readonly string UpdateStoredProcedureParameterExtendedProperty =
-            @"EXEC sys.sp_updateextendedproperty
-                 N'MS_Description',
-                 @Description,
-                 N'SCHEMA',
-                 @SchemaName,
-                 N'PROCEDURE',
-                 @StoredProcedureName,
-                 N'PARAMETER',
-                 @ParameterName";
+        public static readonly string MergeStoredProcedureParameterExtendedProperty = @"
+                        IF EXISTS (
+                            SELECT 1 
+                            FROM sys.extended_properties ep
+                            JOIN sys.parameters p ON ep.major_id = p.object_id AND ep.minor_id = p.parameter_id
+                            JOIN sys.objects o ON p.object_id = o.object_id
+                            JOIN sys.schemas s ON o.schema_id = s.schema_id
+                            WHERE ep.name = 'MS_Description'
+                            AND s.name = @SchemaName
+                            AND o.name = @StoredProcedureName
+                            AND p.name = @ParameterName
+                        )
+                        BEGIN
+                            EXEC sys.sp_updateextendedproperty
+                                N'MS_Description',
+                                @Description,
+                                N'SCHEMA',
+                                @SchemaName,
+                                N'PROCEDURE',
+                                @StoredProcedureName,
+                                N'PARAMETER',
+                                @ParameterName
+                        END
+                        ELSE
+                        BEGIN
+                            EXEC sys.sp_addextendedproperty
+                                N'MS_Description',
+                                @Description,
+                                N'SCHEMA',
+                                @SchemaName,
+                                N'PROCEDURE',
+                                @StoredProcedureName,
+                                N'PARAMETER',
+                                @ParameterName
+                        END";
 
-        public static readonly string InsertStoredProcedureParameterExtendedProperty =
-            @"EXEC sys.sp_addextendedproperty
-                 N'MS_Description',
-                 @Description,
-                 N'SCHEMA',
-                 @SchemaName,
-                 N'PROCEDURE',
-                 @StoredProcedureName,
-                 N'PARAMETER',
-                 @ParameterName";
 
         public static string FetchStoredProcedureParameterDescription= @"
                     SELECT 
