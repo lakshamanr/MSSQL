@@ -113,6 +113,13 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new ScalarFunctionRepository(connectionString);
         });
+       
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<AggregateFunctionRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new AggregateFunctionRepository(connectionString);
+        }); 
 
         services.AddScoped(provider =>
         {

@@ -207,5 +207,24 @@ namespace API.Repository.Functions
                     .ToDictionary(x => x.FunctionName, x => x.Description ?? "No Description Available");
             }
         }
+
+        /// <summary>
+        /// Fetches descriptions of all aggregate functions in the database.
+        /// If a function appears multiple times, it removes duplicates.
+        /// </summary>
+        /// <returns>A dictionary of function names and their descriptions.</returns>
+        public async Task<Dictionary<string, string>> FetchAggregateFunctionDescriptionsAsync()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var result = await connection.QueryAsync<(string FunctionName, string Description)>(
+                    SqlQueryConstant.FetchAggregateFunctionDescriptions
+                ).ConfigureAwait(false);
+
+                return result
+                    .DistinctBy(x => x.FunctionName) // Removes duplicates (keeps first)
+                    .ToDictionary(x => x.FunctionName, x => x.Description ?? "No Description Available");
+            }
+        }
     }
 }
