@@ -1,8 +1,8 @@
-using API.Repository.Database.Repository;
-using API.Repository.LeftMenu.Repository;
-using API.Repository.View.Respository;
+using API.Repository.Database;
+using API.Repository.LeftMenu;
+using API.Repository.Table;
+using API.Repository.View;
 using Microsoft.Extensions.Caching.Distributed;
-using Table.Repositoties;
 
 internal class Program
 {

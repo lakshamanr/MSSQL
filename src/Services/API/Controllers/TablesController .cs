@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Table.Domain;
-using Table.Repositoties;
+﻿using API.Domain.Table;
+using API.Repository.Table;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {

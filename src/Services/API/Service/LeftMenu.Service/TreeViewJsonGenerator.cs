@@ -1,6 +1,6 @@
 ﻿using API.Domain.LeftMenu;
-using API.Factory.LeftMenu.Factory;
-using API.Repository.Common.Repository;
+using API.Factory.LeftMenu;
+using API.Repository.Common;
 
 namespace API.Service.LeftMenu.Service
 {

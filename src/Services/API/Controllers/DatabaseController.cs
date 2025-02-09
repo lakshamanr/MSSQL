@@ -1,4 +1,4 @@
-﻿using API.Repository.Database.Repository;
+﻿using API.Repository.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

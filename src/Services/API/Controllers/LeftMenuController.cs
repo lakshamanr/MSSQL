@@ -1,4 +1,4 @@
-﻿using API.Repository.LeftMenu.Repository;
+﻿using API.Repository.LeftMenu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

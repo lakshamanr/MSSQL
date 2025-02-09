@@ -1,9 +1,8 @@
 ﻿using API.Domain.View;
-using API.Repository.View.Respository;
+using API.Repository.View;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Table.Repositoties;
-
+ 
 namespace API.Controllers
 {
     [Route("[controller]")]
