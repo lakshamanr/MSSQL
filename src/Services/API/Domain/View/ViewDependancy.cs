@@ -1,6 +1,6 @@
 ﻿namespace API.Domain.View
 {
-    public class ViewDependancy
+    public class ViewDependency
     {
         public string name { get; set; }
         public string type { get; set; }

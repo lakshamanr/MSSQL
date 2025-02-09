@@ -2,10 +2,11 @@
 {
     public class ViewMetaData
     {
-       public IEnumerable<ViewProperties> viewProperties { get;set;}
-        public IEnumerable<ViewDetails> viewDetails { get;set;}
-        public IEnumerable<ViewDependancy> viewDependancies { get;set;}
-        public ViewCreateScript viewCreateScript { get;set;}
-        public IEnumerable<ViewColumns> viewColumns { get;set;}
+       public IEnumerable<ViewProperties> ViewProperties { get;set;}
+        public IEnumerable<ViewDetails> ViewDetails { get;set;}
+        public IEnumerable<ViewDependency> ViewDependencies { get;set;}
+        public ViewCreateScript ViewCreateScript { get;set;}
+        public IEnumerable<ViewColumns> ViewColumns { get;set;}
     }
 }
+

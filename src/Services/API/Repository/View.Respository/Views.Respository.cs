@@ -8,147 +8,167 @@ using System.Text.Json;
 
 namespace API.Repository.View.Respository
 {
+    /// <summary>
+    /// Repository for handling view-related database operations.
+    /// </summary>
     public class ViewsRepository : BaseRepository
     {
         private readonly string _connectionString;
         private readonly ILogger<ViewsRepository> _logger;
-        private readonly IDistributedCache _cache;
-        private string _viewName { get;set;}
+        private readonly new IDistributedCache _cache;
+        private string _viewName = string.Empty;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewsRepository"/> class.
+        /// </summary>
+        /// <param name="connectionString">The database connection string.</param>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="cache">The distributed cache instance.</param>
         public ViewsRepository(string connectionString, ILogger<ViewsRepository> logger, IDistributedCache cache) : base(connectionString, cache)
         {
             _connectionString = connectionString;
             _logger = logger;
             _cache = cache;
         }
-        public async Task<IEnumerable<ViewDependancy>> GetViewDependenciesAsync()
-        {
 
+        /// <summary>
+        /// Gets the dependencies of the specified view.
+        /// </summary>
+        /// <returns>A collection of view dependencies.</returns>
+        public async Task<IEnumerable<ViewDependency>> GetViewDependenciesAsync()
+        {
             try
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-
                     var parameters = new { ViewName = _viewName };
-                    return await db.QueryAsync<ViewDependancy>(ViewSqlQueryConstant.GetViewDependencies, parameters);
-
+                    return await db.QueryAsync<ViewDependency>(ViewSqlQueryConstant.GetViewDependencies, parameters);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {_viewName}");
-
-                return null;
+                _logger.LogError(ex, $"Error occurred while loading the view dependencies details for {_viewName}");
+                return Enumerable.Empty<ViewDependency>();
             }
         }
+
+        /// <summary>
+        /// Gets the properties of the specified view.
+        /// </summary>
+        /// <returns>A collection of view properties.</returns>
         private async Task<IEnumerable<ViewProperties>> GetViewPropertiesAsync()
         {
             try
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-
                     var parameters = new { ViewName = _viewName };
                     return await db.QueryAsync<ViewProperties>(ViewSqlQueryConstant.GetViewProperties, parameters);
-
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {_viewName}");
-
-                return null;
+                _logger.LogError(ex, $"Error occurred while loading the view properties details for {_viewName}");
+                return Enumerable.Empty<ViewProperties>();
             }
         }
 
+        /// <summary>
+        /// Gets the columns of the specified view.
+        /// </summary>
+        /// <returns>A collection of view columns.</returns>
         private async Task<IEnumerable<ViewColumns>> GetViewColumnsAsync()
         {
             try
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-
-                    var parameters = new { viewname = _viewName };
+                    var parameters = new { ViewName = _viewName };
                     return await db.QueryAsync<ViewColumns>(ViewSqlQueryConstant.GetViewColumns, parameters);
-
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {_viewName}");
-
-                return null;
+                _logger.LogError(ex, $"Error occurred while loading the view columns details for {_viewName}");
+                return Enumerable.Empty<ViewColumns>();
             }
         }
 
-        private async Task<ViewCreateScript> GetViewCreateScriptAsync()
+        /// <summary>
+        /// Gets the create script of the specified view.
+        /// </summary>
+        /// <returns>The view create script.</returns>
+        private async Task<ViewCreateScript?> GetViewCreateScriptAsync()
         {
             try
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-
-                    var parameters = new { viewname = _viewName };
+                    var parameters = new { ViewName = _viewName };
                     return await db.QueryFirstAsync<ViewCreateScript>(ViewSqlQueryConstant.GetViewCreateScript, parameters);
-
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {_viewName}");
-
+                _logger.LogError(ex, $"Error occurred while loading the view create script for {_viewName}");
                 return null;
             }
         }
+
         /// <summary>
-        /// Get the View name and it d
+        /// Gets the name and description of the specified view.
         /// </summary>
-        /// <returns></returns>
-        private async Task<IEnumerable<ViewDetails>> GetViewNameWithMsdescriptionAsync()
+        /// <returns>A collection of view details.</returns>
+        private async Task<IEnumerable<ViewDetails>> GetViewNameWithDescriptionAsync()
         {
             try
             {
-               var allViewDetails= await GetDetailedViewsInfoAsync();
-              return  allViewDetails.Where(x=>x.ViewName.Equals(_viewName));
+                var allViewDetails = await GetDetailedViewsInfoAsync();
+                return allViewDetails.Where(x => x.ViewName.Equals(_viewName));
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {_viewName}");
-
-                return null;
+                _logger.LogError(ex, $"Error occurred while loading the view details for {_viewName}");
+                return Enumerable.Empty<ViewDetails>();
             }
         }
+
         /// <summary>
-        /// Get the all the details of the view 
+        /// Gets the metadata of the specified view.
         /// </summary>
-        /// <param name="viewname"></param>
-        /// <returns></returns>
-        public async Task<ViewMetaData> GetViewMetaDataAsync(string viewname)
+        /// <param name="viewName">The name of the view.</param>
+        /// <returns>The view metadata.</returns>
+        public async Task<ViewMetaData?> GetViewMetaDataAsync(string viewName)
         {
-            _viewName = viewname;
+            _viewName = viewName;
             ViewMetaData viewMetaData = new ViewMetaData();
-            var cachekey ="ViewCacheKey"+ viewname+CurrentDatabases;
-            var cacheData = await _cache.GetStringAsync(cachekey);
-            if(cacheData!=null )
-            { 
-                return JsonSerializer.Deserialize<ViewMetaData>(cacheData);
+            var cacheKey = "ViewCacheKey" + viewName + CurrentDatabases;
+            var cacheData = await _cache.GetStringAsync(cacheKey);
+
+            if (cacheData != null)
+            {
+                var cachedMetaData = JsonSerializer.Deserialize<ViewMetaData>(cacheData);
+                if (cachedMetaData != null)
+                {
+                    return cachedMetaData;
+                }
             }
+
             try
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-                  
-                    viewMetaData.viewDetails = await GetViewNameWithMsdescriptionAsync();
-                    viewMetaData.viewCreateScript = await GetViewCreateScriptAsync();
-                    viewMetaData.viewColumns = await GetViewColumnsAsync();
-                    viewMetaData.viewProperties = await GetViewPropertiesAsync();
-                    viewMetaData.viewDependancies = await GetViewDependenciesAsync(); 
-                    return viewMetaData; 
+                    viewMetaData.ViewDetails = await GetViewNameWithDescriptionAsync();
+                    viewMetaData.ViewCreateScript = await GetViewCreateScriptAsync();
+                    viewMetaData.ViewColumns = await GetViewColumnsAsync();
+                    viewMetaData.ViewProperties = await GetViewPropertiesAsync();
+                    viewMetaData.ViewDependencies = await GetViewDependenciesAsync();
+                    return viewMetaData;
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error occured while loading the View Dependencies details {viewname}");
-
+                _logger.LogError(ex, $"Error occurred while loading the view metadata for {viewName}");
                 return null;
             }
         }
