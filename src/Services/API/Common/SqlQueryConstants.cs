@@ -1049,6 +1049,59 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
             END
 ";
     }
+    public static partial class SqlQueryConstant
+    {
+        public static string AllXMLSchemaDetails= @"
+            SELECT   
+                (s.name + '.' + xsc.name) AS XMLSchemaCollections, 
+                ISNULL(ep.value, '') AS MS_Description  
+            FROM sys.xml_schema_collections xsc
+            LEFT JOIN sys.extended_properties ep
+                ON xsc.xml_collection_id = ep.major_id
+            JOIN sys.schemas s ON xsc.schema_id = s.schema_id	 
+            WHERE xsc.xml_collection_id <> 1;
+            ";
+        public static string XMLSchemaDetails = @"
+            DECLARE @Schema NVARCHAR(128);  
+            SELECT @Schema = s.name
+            FROM sys.xml_schema_collections xsc
+            JOIN sys.schemas s ON xsc.schema_id = s.schema_id
+            WHERE xsc.name = @SchemaCollectionName; 
+
+            SELECT 
+                CONVERT(NVARCHAR(MAX), 
+                    'CREATE XML SCHEMA COLLECTION [' + @Schema + '].[' + @SchemaCollectionName + '] AS ' + CHAR(13) + CHAR(10) +
+                    'N''' + CAST((SELECT xml_schema_namespace(@Schema, @SchemaCollectionName)) AS NVARCHAR(MAX)) + ''''
+                ) AS SQLScript,
+    
+                ISNULL(ep.value, '') AS MS_Description,
+    
+                STUFF((
+                     SELECT ', ' + (@Schema + '.' + t.name + '.' + c.name)
+                     FROM sys.tables AS t
+                     JOIN sys.columns AS c ON t.object_id = c.object_id
+                     JOIN sys.xml_schema_collections AS xsc2 ON c.xml_collection_id = xsc2.xml_collection_id
+                     WHERE xsc2.name = @SchemaCollectionName
+                     FOR XML PATH(''), TYPE
+                ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS DependentColumns
+            FROM sys.xml_schema_collections xsc
+            LEFT JOIN sys.extended_properties ep
+                ON xsc.xml_collection_id = ep.major_id   
+            WHERE xsc.name = @SchemaCollectionName;
+            ";
+
+        public static string XMLSchemReference= @"
+            SELECT
+                OBJECT_SCHEMA_NAME(c.object_id) AS TableSchema,
+                OBJECT_NAME(c.object_id) AS TableName,
+                c.name AS ColumnName,
+                s.name AS XMLSchemaCollection
+            FROM sys.columns AS c
+            INNER JOIN sys.xml_schema_collections AS s
+                ON c.xml_collection_id = s.xml_collection_id
+            WHERE  s.name=@SchemaCollectionName  
+        ";
+    }
 
 }
 

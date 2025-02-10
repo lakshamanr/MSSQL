@@ -6,6 +6,7 @@ using API.Repository.Table;
 using API.Repository.Triggers;
 using API.Repository.UserDefinedDataType;
 using API.Repository.View;
+using API.Repository.XMLSchemaCollections;
 using Microsoft.Extensions.Caching.Distributed;
 
 internal class Program
@@ -150,5 +151,12 @@ internal class Program
             return new UserDefinedDataTypeRepository(connectionString);
         });
 
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<XmlSchemaRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new XmlSchemaRepository(connectionString);
+        });
+        //XmlSchemaRepository
     }
 }
