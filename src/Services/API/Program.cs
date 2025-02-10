@@ -4,6 +4,7 @@ using API.Repository.LeftMenu;
 using API.Repository.StoreProcedure;
 using API.Repository.Table;
 using API.Repository.Triggers;
+using API.Repository.UserDefinedDataType;
 using API.Repository.View;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -142,6 +143,12 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new DatabaseTriggerRepository(connectionString);
         });
-         
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<UserDefinedDataTypeRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new UserDefinedDataTypeRepository(connectionString);
+        });
+
     }
 }

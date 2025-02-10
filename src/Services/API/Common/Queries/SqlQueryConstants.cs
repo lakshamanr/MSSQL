@@ -966,5 +966,89 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
                 FROM sys.dm_sql_referenced_entities( @viewName, 'OBJECT');
                 ";
     }
+
+    public static partial class SqlQueryConstant
+    {
+        public static string GetAllUserDefinedDataTypes = @"
+        SELECT 
+            SCHEMA_NAME(t.schema_id) + '.' + t.name AS Name,
+            t.is_nullable AS 'AllowNulls',
+            TYPE_NAME(t.system_type_id) AS 'BaseTypeName',
+            t.max_length AS 'Length',
+            CAST(
+                'CREATE TYPE ' + SCHEMA_NAME(t.schema_id) + '.' + t.name + 
+                ' FROM ' + TYPE_NAME(t.system_type_id) + 
+                ' (' + CAST(t.max_length AS NVARCHAR) + ') ' +  
+                CASE WHEN t.is_nullable = 1 THEN 'NULL' ELSE 'NOT NULL' END 
+                AS NVARCHAR(100)
+            ) AS CreateScript
+        FROM sys.types t
+        WHERE t.is_user_defined = 1";
+
+         
+
+        public static string GetUsedDefinedDataTypeReference = @"
+                SELECT s.name + '.' + o.name AS ObjectName, o.type as ObjectType 
+                FROM sys.schemas s 
+                JOIN sys.objects o ON o.schema_id = s.schema_id  
+                JOIN sys.columns c ON c.object_id = o.object_id  
+                JOIN sys.types t ON c.user_type_id = t.user_type_id 
+                WHERE 
+                t.is_user_defined = 1  
+                AND 
+                      SCHEMA_NAME(t.schema_id)=@SchemaName
+                AND  t.name = @TypeName;
+   ";
+
+        public static string GetUserDefinedDataTypeWithExtendedProperties= @" 
+            SELECT 
+                SCHEMA_NAME(t.schema_id) + '.' + t.name AS Name,
+                t.is_nullable AS AllowNulls,
+                TYPE_NAME(t.system_type_id) AS BaseTypeName,
+                t.max_length AS Length,
+                CAST(
+                    'CREATE TYPE ' + SCHEMA_NAME(t.schema_id) + '.' + t.name + 
+                    ' FROM ' + TYPE_NAME(t.system_type_id) + 
+                    ' (' + CAST(t.max_length AS NVARCHAR) + ') ' +  
+                    CASE WHEN t.is_nullable = 1 THEN 'NULL' ELSE 'NOT NULL' END 
+                    AS NVARCHAR(100)
+                ) AS CreateScript,
+                (SELECT value  
+                 FROM ::fn_listextendedproperty('MS_Description', 'SCHEMA', @SchemaName, 'TYPE', @TypeName, NULL, NULL)
+                ) AS Description
+            FROM sys.types t
+            WHERE t.is_user_defined = 1 
+            AND  t.name = @TypeName";
+        public static string UpsertUserDefinedDataTypeExtendedProperty = @"
+       DECLARE @ExistingValue sql_variant  ; 
+            SELECT @ExistingValue = value  
+            FROM sys.extended_properties 
+            WHERE 
+                major_id = (SELECT TYPE_ID(@SchemaName + '.' + @TypeName)) 
+                AND minor_id = 0 
+             
+                AND name = 'MS_Description';
+
+            IF @ExistingValue IS NULL
+            BEGIN
+                -- Add new extended property
+                EXEC sys.sp_addextendedproperty 
+                    @name = N'MS_Description', 
+                    @value = @desc, 
+                    @level0type = N'SCHEMA', @level0name = @SchemaName, 
+                    @level1type = N'TYPE', @level1name = @TypeName;
+            END
+            ELSE
+            BEGIN
+                -- Update existing extended property
+                EXEC sys.sp_updateextendedproperty 
+                    @name = N'MS_Description', 
+                    @value = @desc, 
+                    @level0type = N'SCHEMA', @level0name = @SchemaName, 
+                    @level1type = N'TYPE', @level1name = @TypeName;
+            END
+";
+    }
+
 }
 
