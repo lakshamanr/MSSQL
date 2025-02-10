@@ -1206,6 +1206,58 @@ WHERE ftc.name = @FullTextCatalog;
 WHERE ftc.name = @FullTextCatalog;
 ";
     }
+    public static partial class SqlQueryConstant
+    {
+        public const string GetAllSchemaMetadata = @"
+                SELECT 
+	                s.name AS SchemaName, 
+	                ISNULL( p.value,'') AS [Description] 
+           
+                FROM sys.schemas s
+                LEFT JOIN sys.extended_properties p 
+                ON s.schema_id = p.major_id 
+                AND p.name = 'MS_Description'
+                JOIN sys.database_principals u 
+                ON s.principal_id = u.principal_id";
 
-}
+
+        public const string GetSchemaDescription = @"
+        SELECT 
+            s.name AS SchemaName, 
+            p.value AS Description
+        FROM sys.schemas s
+        LEFT JOIN sys.extended_properties p 
+            ON s.schema_id = p.major_id 
+            AND p.name = 'MS_Description'
+        WHERE s.name = @SchemaName;";
+
+    public const string GetSchemaOwner = @"
+        SELECT 
+            s.name AS SchemaName, 
+            u.name AS Owner
+        FROM sys.schemas s
+        JOIN sys.database_principals u 
+            ON s.principal_id = u.principal_id
+        WHERE s.name = @SchemaName;";
+
+    public const string GetObjectsUsedBySchema = @"
+        SELECT 
+            s.name AS SchemaName, 
+            o.name AS ObjectName, 
+            o.type_desc AS ObjectType
+        FROM sys.objects o
+        JOIN sys.schemas s 
+            ON o.schema_id = s.schema_id
+        WHERE s.name = @SchemaName
+        ORDER BY o.name;";
+
+    public const string GenerateSchemaScript = @"
+        SELECT 
+            'CREATE SCHEMA [' + s.name + '] AUTHORIZATION [' + u.name + '];' AS SchemaScript
+        FROM sys.schemas s
+        JOIN sys.database_principals u 
+            ON s.principal_id = u.principal_id
+        WHERE s.name = @SchemaName;";
+    }
+ }
 

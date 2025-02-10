@@ -2,6 +2,7 @@ using API.Repository.Database;
 using API.Repository.FullTextCatalog;
 using API.Repository.Functions;
 using API.Repository.LeftMenu;
+using API.Repository.SchemaRepository;
 using API.Repository.StoreProcedure;
 using API.Repository.Table;
 using API.Repository.Triggers;
@@ -163,6 +164,13 @@ internal class Program
             var logger = provider.GetRequiredService<ILogger<FullTextCatalogRepository>>();
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new FullTextCatalogRepository(connectionString);
-        }); 
+        });
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<SchemaRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new SchemaRepository(connectionString);
+        });
+        //
     }
 }
