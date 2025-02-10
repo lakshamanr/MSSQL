@@ -3,6 +3,7 @@ using API.Repository.Functions;
 using API.Repository.LeftMenu;
 using API.Repository.StoreProcedure;
 using API.Repository.Table;
+using API.Repository.Triggers;
 using API.Repository.View;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -67,7 +68,7 @@ internal class Program
 
         app.UseAuthorization();
         app.MapControllers();
-        app.Run();
+         app.Run();
     }
 
     private static void RegisterRepositories(IServiceCollection services, string connectionString)
@@ -134,7 +135,13 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new StoredProcedureRepository(connectionString);
         });
-        
 
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<DatabaseTriggerRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new DatabaseTriggerRepository(connectionString);
+        });
+         
     }
 }

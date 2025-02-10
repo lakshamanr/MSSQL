@@ -10,5 +10,6 @@
         public string Definition { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ModifyDate { get; set; }
+        public TriggerInfo triggerInfo { get;set;}
     }
 }

@@ -707,12 +707,94 @@
     }
     public static partial class SqlQueryConstant
     {
-        public static readonly string GetAllDatabaseTrigger = @"select  trigg.NAME AS  'Tiggers' ,sep.value from sys.triggers trigg inner join sys.sql_modules module ON trigg.object_id=module.object_id left join sys.extended_properties sep ON sep.major_id=trigg.object_id where trigg.parent_id=0 union SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.NAME)AS 'Tiggers' ,sep.value FROM SYS.SQL_MODULES M left JOIN SYS.OBJECTS O ON M.OBJECT_ID=O.OBJECT_ID left JOIN sys.extended_properties sep ON o.object_id=sep.major_id WHERE O.TYPE='TR'";
-        public static readonly string GetDatabaseTriggerdtlByName = @"select * from (SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.NAME)AS 'Tiggers' , sep.value ,m.definition,o.create_date,o.modify_date FROM  SYS.SQL_MODULES M INNER JOIN SYS.OBJECTS O ON M.OBJECT_ID=O.OBJECT_ID INNER JOIN sys.extended_properties sep ON o.object_id=sep.major_id WHERE O.TYPE='TR' UNION select   trigg.NAME AS 'Tiggers',   sep.value ,      module.definition,         ISNULL(ob.create_date,''),         ISNULL(ob.modify_date,'') from   sys.triggers trigg    inner join      sys.sql_modules module       ON trigg.object_id = module.object_id    left join      sys.extended_properties sep       ON sep.major_id = trigg.object_id   left join sys.objects ob on trigg.object_id=ob.object_id where   trigg.parent_id = 0 )  as Temp where Tiggers=@TiggersName";
-        public static readonly string UpdateTriggerExtendedProperty = @"EXEC sys.sp_updateextendedproperty @name=N'MS_Description', @value=@Trigger_value,@level0type=N'TRIGGER',@level0name=@Trigger_Name";
-        public static readonly string CreateTriggerExtendedProperty = @"EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=@Trigger_value,@level0type=N'TRIGGER',@level0name=@Trigger_Name";
+        public static readonly string GetAllDatabaseTrigger = @"
+                        SELECT 
+                        trigg.name AS Name, 
+                        sep.value AS Description, 
+                        module.definition AS Definition, 
+                        obj.create_date AS CreateDate, 
+                        obj.modify_date AS ModifyDate
+                        FROM sys.triggers trigg
+                        JOIN sys.sql_modules module ON trigg.object_id = module.object_id
+                        JOIN sys.objects obj ON trigg.object_id = obj.object_id
+                        LEFT JOIN sys.extended_properties sep ON sep.major_id = trigg.object_id
+                        WHERE trigg.parent_class = 0
+
+                        UNION 
+
+                        SELECT 
+                        SCHEMA_NAME(O.schema_id) + '.' + O.name AS Name, 
+                        sep.value AS Description, 
+                        M.definition AS Definition, 
+                        O.create_date AS CreateDate, 
+                        O.modify_date AS ModifyDate
+                        FROM sys.objects O
+                        JOIN sys.sql_modules M ON O.object_id = M.object_id
+                        LEFT JOIN sys.extended_properties sep ON O.object_id = sep.major_id
+                        WHERE O.type = 'TR';
+
+
+    ";
+
+        public static readonly string GetDatabaseTriggerdtlByName = @"
+                    SELECT  
+                    SCHEMA_NAME(O.schema_id) + '.' + O.name AS Name,   
+                    COALESCE(sep.value, '') AS Description,         
+                    M.definition AS Definition,                     
+                    O.create_date AS CreateDate,                   
+                    O.modify_date AS ModifyDate   
+
+                    FROM sys.sql_modules M
+                    INNER JOIN sys.objects O ON M.object_id = O.object_id
+                    LEFT JOIN sys.extended_properties sep ON O.object_id = sep.major_id
+                    WHERE O.type = 'TR' 
+                    AND (SCHEMA_NAME(O.schema_id) + '.' + O.name) = @TriggerName;
+
+            ";
+        public static readonly string TriggerProperties = @"
+                  SELECT 
+                    tr.name AS TriggerName,
+                    SCHEMA_NAME(obj.schema_id) AS SchemaName,
+                    obj.name AS ObjectName,
+                    obj.type_desc AS ObjectType,
+                    obj.create_date AS CreateDate,
+                    obj.modify_date AS ModifyDate,
+                    tr.is_disabled AS IsDisabled,
+                    OBJECTPROPERTY(OBJECT_ID(tr.name), 'ExecIsQuotedIdentOn') AS QuotedIdentifierOn,
+                    OBJECTPROPERTY(OBJECT_ID(tr.name), 'ExecIsAnsiNullsOn') AS AnsiNullsOn
+                FROM sys.triggers tr
+                JOIN sys.objects obj ON tr.parent_id = obj.object_id
+                WHERE ( SCHEMA_NAME(obj.schema_id)+'.'+tr.name) = @TriggerName
+";
+
+
+        public static readonly string MergeTriggerExtendedProperty = @"
+                IF EXISTS (
+                    SELECT 1 FROM sys.extended_properties 
+                    WHERE name = N'MS_Description' 
+                    AND major_id = OBJECT_ID(@Trigger_Name)
+                )
+                BEGIN
+                    EXEC sys.sp_updateextendedproperty 
+                        @name = N'MS_Description', 
+                        @value = @Trigger_value,
+                        @level0type = N'TRIGGER',
+                        @level0name = @Trigger_Name;
+                END
+                ELSE
+                BEGIN
+                    EXEC sys.sp_addextendedproperty 
+                        @name = N'MS_Description', 
+                        @value = @Trigger_value,
+                        @level0type = N'TRIGGER',
+                        @level0name = @Trigger_Name;
+                END
+                ";
+
+
 
     }
+
     public static partial class SqlQueryConstant
     {
 
@@ -885,3 +967,4 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
                 ";
     }
 }
+
