@@ -1102,6 +1102,110 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
             WHERE  s.name=@SchemaCollectionName  
         ";
     }
+    public static partial class SqlQueryConstant
+    {
+        // Query to fetch all Full-Text Catalogs with descriptions
+        public const string GetAllFullTextCatalogs = @"
+    SELECT 
+     ftc.name AS [Name],
+     s.name AS SchemaName,
+     ISNULL(ep.value, '') AS [Description]
+ FROM sys.fulltext_catalogs ftc
+ LEFT JOIN sys.extended_properties ep 
+     ON ftc.fulltext_catalog_id = ep.major_id
+ JOIN sys.schemas s 
+     ON ftc.principal_id = s.schema_id;
+";
+
+        // Query to fetch tables associated with Full-Text Catalogs
+        public const string GetFullTextCatalogTables = @"
+    SELECT 
+        ftc.name AS FullTextCatalog,
+        s.name AS SchemaName,
+        t.name AS TableName
+    FROM sys.fulltext_catalogs ftc
+    JOIN sys.fulltext_indexes fti 
+        ON ftc.fulltext_catalog_id = fti.fulltext_catalog_id
+    JOIN sys.tables t 
+        ON fti.object_id = t.object_id
+    JOIN sys.schemas s 
+        ON t.schema_id = s.schema_id;
+";
+
+        // Query to fetch Full-Text Indexed Columns
+        public const string GetFullTextIndexedColumns = @"
+    SELECT 
+        ftc.name AS FullTextCatalog,
+        s.name AS SchemaName,
+        t.name AS TableName,
+        c.name AS ColumnName,
+        ftc.fulltext_catalog_id
+    FROM sys.fulltext_catalogs ftc
+    JOIN sys.fulltext_indexes fti 
+        ON ftc.fulltext_catalog_id = fti.fulltext_catalog_id
+    JOIN sys.tables t 
+        ON fti.object_id = t.object_id
+    JOIN sys.schemas s 
+        ON t.schema_id = s.schema_id
+    JOIN sys.fulltext_index_columns ftic 
+        ON fti.object_id = ftic.object_id
+    JOIN sys.columns c 
+        ON ftic.column_id = c.column_id AND c.object_id = t.object_id;
+";
+
+        // Query to fetch Full-Text Catalog properties
+        public const string GetFullTextProperties = @"
+           SELECT 
+             ftc.name AS Name,
+             s.name AS SchemaName,
+             dp.name AS [Owner],
+             ftc.is_default AS IsDefault,  
+             ftc.is_accent_sensitivity_on AS IsAccentSensitive, 
+             ISNULL(ep.value, '') AS [Description]
+         FROM sys.fulltext_catalogs ftc
+         LEFT JOIN sys.database_principals dp 
+             ON ftc.principal_id = dp.principal_id  
+         LEFT JOIN sys.extended_properties ep 
+             ON ftc.fulltext_catalog_id = ep.major_id  
+         JOIN sys.schemas s 
+             ON ftc.principal_id = s.schema_id
+    WHERE ftc.name = @FullTextCatalog;
+";
+
+        // Query to generate Full-Text Catalog CREATE Script
+        public const string GetFullTextCatalogCreateScript = @"
+     SELECT 
+    'CREATE FULLTEXT CATALOG [' + ftc.name + ']'
+    + ' WITH ACCENT_SENSITIVITY = ' + CASE WHEN ftc.is_accent_sensitivity_on = 1 THEN 'ON' ELSE 'OFF' END
+    + CASE WHEN ftc.is_default = 1 THEN CHAR(13) + 'AS DEFAULT' ELSE '' END
+    + CHAR(13) + 'AUTHORIZATION [' + dp.name + ']'
+    + CHAR(13) + 'GO' AS FullTextCatalogCreateScript
+	,ftc.name
+FROM sys.fulltext_catalogs ftc
+JOIN sys.database_principals dp 
+    ON ftc.principal_id = dp.principal_id
+WHERE ftc.name = @FullTextCatalog;
+";
+
+        // Query to generate Full-Text Index CREATE Script
+        public const string GetFullTextIndexCreateScript = @"
+    SELECT 
+        'CREATE FULLTEXT INDEX ON [' + s.name + '].[' + t.name + ']'
+        + ' KEY INDEX [' + i.name + ']'
+        + ' ON [' + ftc.name + ']'
+        + CHAR(13) + 'GO' AS FullTextIndexCreateScript
+    FROM sys.fulltext_indexes fti
+    JOIN sys.tables t 
+        ON fti.object_id = t.object_id
+    JOIN sys.schemas s 
+        ON t.schema_id = s.schema_id
+    JOIN sys.indexes i 
+        ON fti.unique_index_id = i.index_id AND fti.object_id = i.object_id
+    JOIN sys.fulltext_catalogs ftc 
+        ON fti.fulltext_catalog_id = ftc.fulltext_catalog_id
+WHERE ftc.name = @FullTextCatalog;
+";
+    }
 
 }
 

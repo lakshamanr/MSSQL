@@ -1,4 +1,5 @@
 using API.Repository.Database;
+using API.Repository.FullTextCatalog;
 using API.Repository.Functions;
 using API.Repository.LeftMenu;
 using API.Repository.StoreProcedure;
@@ -157,6 +158,11 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new XmlSchemaRepository(connectionString);
         });
-        //XmlSchemaRepository
+        services.AddScoped(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<FullTextCatalogRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new FullTextCatalogRepository(connectionString);
+        }); 
     }
 }
