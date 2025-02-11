@@ -1,17 +1,17 @@
 ﻿using API.Common.Queries;
 using API.Domain.Triggers;
+using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Data.SqlClient;
 
 namespace API.Repository.Triggers
 {
-    public class DatabaseTriggerRepository
+    public class DatabaseTriggerRepository : BaseRepository, IDatabaseTriggerRepository
     {
-        private readonly string _connectionString;
-
-        public DatabaseTriggerRepository(string connectionString)
+        public DatabaseTriggerRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>

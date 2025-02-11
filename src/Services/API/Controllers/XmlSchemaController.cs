@@ -9,10 +9,10 @@ namespace API.Controllers
     [ApiController]
     public class XmlSchemaController : ControllerBase
     {
-        private readonly XmlSchemaRepository _repository;
+        private readonly IXmlSchemaRepository _repository;
 
         // Injecting the repository via constructor
-        public XmlSchemaController(XmlSchemaRepository repository)
+        public XmlSchemaController(IXmlSchemaRepository repository)
         {
             _repository = repository;
         }

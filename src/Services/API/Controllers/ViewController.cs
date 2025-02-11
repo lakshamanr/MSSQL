@@ -9,9 +9,9 @@ namespace API.Controllers
     [ApiController]
     public class ViewController : ControllerBase
     {
-        private readonly ViewsRepository _viewsRepository;
+        private readonly IViewsRepository _viewsRepository;
       
-        public ViewController(ViewsRepository viewsRepository)
+        public ViewController(IViewsRepository viewsRepository)
         { 
             _viewsRepository = viewsRepository;
         }

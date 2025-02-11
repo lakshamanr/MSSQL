@@ -11,13 +11,13 @@ namespace API.Controllers
     [ApiController]
     public class ScalarFunctionController : ControllerBase
     {
-        private readonly ScalarFunctionRepository _scalarFunctionRepository;
+        private readonly IScalarFunctionRepository _scalarFunctionRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScalarFunctionController"/> class.
         /// </summary>
         /// <param name="scalarFunctionRepository">The repository for scalar functions.</param>
-        public ScalarFunctionController(ScalarFunctionRepository scalarFunctionRepository)
+        public ScalarFunctionController(IScalarFunctionRepository scalarFunctionRepository)
         {
             _scalarFunctionRepository = scalarFunctionRepository;
         }

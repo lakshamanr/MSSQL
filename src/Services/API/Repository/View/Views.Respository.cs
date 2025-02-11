@@ -12,9 +12,8 @@ namespace API.Repository.View
     /// <summary>
     /// Repository for handling view-related database operations.
     /// </summary>
-    public class ViewsRepository : BaseRepository
+    public class ViewsRepository : BaseRepository, IViewsRepository
     {
-        private readonly string _connectionString;
         private readonly ILogger<ViewsRepository> _logger;
         private readonly new IDistributedCache _cache;
         private string _viewName = string.Empty;
@@ -25,11 +24,11 @@ namespace API.Repository.View
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public ViewsRepository(string connectionString, ILogger<ViewsRepository> logger, IDistributedCache cache) : base(connectionString, cache)
+        public ViewsRepository(ILogger<ViewsRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
             _logger = logger;
             _cache = cache;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>
@@ -172,6 +171,14 @@ namespace API.Repository.View
                 _logger.LogError(ex, $"Error occurred while loading the view metadata for {viewName}");
                 return null;
             }
+        }
+        /// <summary>
+        /// Gets detailed view information from cache or queries the database.
+        /// </summary>
+        /// <returns>A collection of <see cref="ViewDetails"/> instances.</returns>
+        public new async Task<IEnumerable<ViewDetails>> GetDetailedViewsInfoAsync()
+        {
+            return await base.GetDetailedViewsInfoAsync();
         }
     }
 }

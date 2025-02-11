@@ -79,124 +79,127 @@ internal class Program
     private static void RegisterRepositories(IServiceCollection services, string connectionString)
     {
 
-        //services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
-        //services.AddScoped<ILeftMenuRepository, LeftMenuRepository>();
-        //services.AddScoped<IObjectDependenciesRepository, ObjectDependenciesRepository>();
-        //services.AddScoped<ITableRepository, TableRepository>();
-        //services.AddScoped<ITablesRepository, TablesRepository>();
-        //services.AddScoped<IViewsRepository, ViewsRepository>();
-        //services.AddScoped<IScalarFunctionRepository, ScalarFunctionRepository>();
-        //services.AddScoped<IAggregateFunctionRepository, AggregateFunctionRepository>();
-        //services.AddScoped<ITableValuedFunctionRepository, TableValuedFunctionRepository>();
-        //services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
-        //services.AddScoped<IDatabaseTriggerRepository, DatabaseTriggerRepository>();
-        //services.AddScoped<IUserDefinedDataTypeRepository, UserDefinedDataTypeRepository>();
-        //services.AddScoped<IXmlSchemaRepository, XmlSchemaRepository>();
-        //services.AddScoped<IFullTextCatalogRepository, FullTextCatalogRepository>();
-        //services.AddScoped<ISchemaRepository, SchemaRepository>();
+        services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
+        services.AddScoped<ILeftMenuRepository, LeftMenuRepository>();
+        services.AddScoped<IObjectDependenciesRepository, ObjectDependenciesRepository>();
+        services.AddScoped<ITableRepository, TableRepository>();
+         services.AddScoped<ITablesRepository, TablesRepository>();
+         services.AddScoped<IViewsRepository, ViewsRepository>();
+
+        services.AddScoped<IBaseSqlFunctionRepository, BaseSqlFunctionRepository>();
+        services.AddScoped<IScalarFunctionRepository, ScalarFunctionRepository>();
+         services.AddScoped<IAggregateFunctionRepository, AggregateFunctionRepository>();
+         services.AddScoped<ITableValuedFunctionRepository, TableValuedFunctionRepository>();
+
+         services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
+          services.AddScoped<IDatabaseTriggerRepository, DatabaseTriggerRepository>();
+        services.AddScoped<IUserDefinedDataTypeRepository, UserDefinedDataTypeRepository>();
+        services.AddScoped<IXmlSchemaRepository, XmlSchemaRepository>();
+        services.AddScoped<IFullTextCatalogRepository, FullTextCatalogRepository>();
+        services.AddScoped<ISchemaRepository, SchemaRepository>();
 
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<DatabaseReposititory>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new DatabaseReposititory(connectionString, logger, cache);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<DatabaseReposititory>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new DatabaseReposititory(connectionString, logger, cache);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<LeftMenuRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new LeftMenuRepository(connectionString, logger, cache);
-        });
-        services.AddScoped<IObjectDependenciesRepository>(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<ObjectDependenciesRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new ObjectDependenciesRepository(connectionString, logger, cache);
-        });
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<TableRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
-            return new TableRepository(connectionString, logger, cache, objectDependencies);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<LeftMenuRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new LeftMenuRepository(connectionString, logger, cache);
+        //});
+        //services.AddScoped<IObjectDependenciesRepository>(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<ObjectDependenciesRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new ObjectDependenciesRepository(connectionString, logger, cache);
+        //});
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<TableRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
+        //    return new TableRepository(connectionString, logger, cache, objectDependencies);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<TablesRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new TablesRepository(connectionString, cache);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<TablesRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new TablesRepository(connectionString, cache);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<ViewsRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new ViewsRepository(connectionString, logger, cache);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<ViewsRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new ViewsRepository(connectionString, logger, cache);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<ScalarFunctionRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new ScalarFunctionRepository(connectionString);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<ScalarFunctionRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new ScalarFunctionRepository(connectionString);
+        //});
        
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<AggregateFunctionRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new AggregateFunctionRepository(connectionString);
-        }); 
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<AggregateFunctionRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new AggregateFunctionRepository(connectionString);
+        //}); 
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<TableValuedFunctionRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new TableValuedFunctionRepository(connectionString);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<TableValuedFunctionRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new TableValuedFunctionRepository(connectionString);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<StoredProcedureRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
-            return new StoredProcedureRepository(connectionString, objectDependencies);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<StoredProcedureRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
+        //    return new StoredProcedureRepository(connectionString, objectDependencies);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<DatabaseTriggerRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new DatabaseTriggerRepository(connectionString);
-        });
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<UserDefinedDataTypeRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new UserDefinedDataTypeRepository(connectionString);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<DatabaseTriggerRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new DatabaseTriggerRepository(connectionString);
+        //});
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<UserDefinedDataTypeRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new UserDefinedDataTypeRepository(connectionString);
+        //});
 
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<XmlSchemaRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new XmlSchemaRepository(connectionString);
-        });
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<FullTextCatalogRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new FullTextCatalogRepository(connectionString);
-        });
-        services.AddScoped(provider =>
-        {
-            var logger = provider.GetRequiredService<ILogger<SchemaRepository>>();
-            var cache = provider.GetRequiredService<IDistributedCache>();
-            return new SchemaRepository(connectionString);
-        });
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<XmlSchemaRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new XmlSchemaRepository(connectionString);
+        //});
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<FullTextCatalogRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new FullTextCatalogRepository(connectionString);
+        //});
+        //services.AddScoped(provider =>
+        //{
+        //    var logger = provider.GetRequiredService<ILogger<SchemaRepository>>();
+        //    var cache = provider.GetRequiredService<IDistributedCache>();
+        //    return new SchemaRepository(connectionString);
+        //});
         //
     }
 }

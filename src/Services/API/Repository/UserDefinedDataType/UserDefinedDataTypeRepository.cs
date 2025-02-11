@@ -2,16 +2,17 @@
 using System.Data.SqlClient;
 using API.Common.Queries;
 using API.Domain.UserDefinedDataType;
+using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 namespace API.Repository.UserDefinedDataType
 {
-    public class UserDefinedDataTypeRepository
+    public class UserDefinedDataTypeRepository : BaseRepository, IUserDefinedDataTypeRepository
     {
-        private readonly string _connectionString;
 
-        public UserDefinedDataTypeRepository(string connectionString)
+        public UserDefinedDataTypeRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         private IDbConnection Connection => new SqlConnection(_connectionString);

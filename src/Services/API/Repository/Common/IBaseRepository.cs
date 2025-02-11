@@ -8,12 +8,11 @@ namespace API.Repository.Common
     public interface IBaseRepository
     {
         string LoadDatabaseServerName();
-        string LoadDatabaseName();
+        string GetCurrentDatabaseName();
         IDbConnection GetDbConnection();
 
         Task<IEnumerable<ServerProperty>> LoadAdvancedServerSettingsAsync(IDbConnection connection = null);
-        Task<IEnumerable<DatabaseInfo>> LoadDatabases(IDbConnection connection = null);
-        Task<DatabaseMetaData> GetDatabaseMetaData();
+        Task<IEnumerable<DatabaseInfo>> LoadDatabases(IDbConnection connection = null); 
         Task<IEnumerable<FunctionInfo>> LoadScalarFunctionsAsync(string currentDbName = null);
         Task<IEnumerable<ServerProperty>?> LoadServerPropertiesAsync(IDbConnection connection = null);
         Task<IEnumerable<ProcedureInfo>> LoadStoredProceduresAsync(string currentDbName = null);
@@ -21,8 +20,7 @@ namespace API.Repository.Common
         Task<IEnumerable<FunctionInfo>> LoadAggregateFunctionsAsync(string currentDbName = null);
         Task<IEnumerable<TriggerInfo>> LoadDatabaseTriggersAsync(string currentDbName = null);
         Task<IEnumerable<UserType>> LoadUserDefinedDataTypesAsync(string currentDbName = null);
-        Task<IEnumerable<DbXmlSchema>> LoadXmlSchemaCollectionsAsync(string currentDbName = null);
-        Task<IEnumerable<TablesMetadata>> LoadTablesAsync();
+        Task<IEnumerable<DbXmlSchema>> LoadXmlSchemaCollectionsAsync(string currentDbName = null); 
         Task<IEnumerable<TablesMetadata>> LoadTablesAsync(string currentDbName = null);
         Task<IEnumerable<ViewMetadata>> LoadViewAsync(string currentDbName = null);
         Task<IEnumerable<ViewDetails>> GetDetailedViewsInfoAsync();

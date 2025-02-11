@@ -11,19 +11,17 @@ namespace API.Repository.Common
     /// <summary>
     /// Repository for managing object dependencies.
     /// </summary>
-    public class ObjectDependenciesRepository : IObjectDependenciesRepository
-    {
-        string _connectionString { get; set; }
-
+    public class ObjectDependenciesRepository : BaseRepository, IObjectDependenciesRepository
+    { 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectDependenciesRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public ObjectDependenciesRepository(string connectionString, ILogger<ObjectDependenciesRepository> logger, IDistributedCache cache)
+        public ObjectDependenciesRepository(IConfiguration configuration,ILogger<ObjectDependenciesRepository> logger, IDistributedCache cache): base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using API.Common.Queries;
+using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Data.SqlClient;
 
 namespace API.Repository.FullTextCatalog
@@ -7,24 +9,24 @@ namespace API.Repository.FullTextCatalog
     /// <summary>
     /// Repository for managing Full Text Catalogs.
     /// </summary>
-    public class FullTextCatalogRepository
+    public class FullTextCatalogRepository : BaseRepository, IFullTextCatalogRepository
     {
-        private readonly string _connectionString;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FullTextCatalogRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string to the database.</param>
-        public FullTextCatalogRepository(string connectionString)
+        public FullTextCatalogRepository(ILogger<FullTextCatalogRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>
         /// Gets all Full Text Catalogs asynchronously.
         /// </summary>
         /// <returns>A collection of Full Text Catalogs.</returns>
-        public async Task<IEnumerable<API.Domain.FullTextCatalog.FullTextCatalog>> GetAllAsync()
+        public async Task<IEnumerable<API.Domain.FullTextCatalog.FullTextCatalog>> GetAllFullTextCatalogAsync()
         {
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<API.Domain.FullTextCatalog.FullTextCatalog>(SqlQueryConstant.GetAllFullTextCatalogs);
@@ -35,7 +37,7 @@ namespace API.Repository.FullTextCatalog
         /// </summary>
         /// <param name="catalogName">The name of the Full Text Catalog.</param>
         /// <returns>The Full Text Catalog if found; otherwise, null.</returns>
-        public async Task<API.Domain.FullTextCatalog.FullTextCatalog?> GetByNameAsync(string catalogName)
+        public async Task<API.Domain.FullTextCatalog.FullTextCatalog?> GetFullTextCatalogByNameAsync(string catalogName)
         {
             using var connection = new SqlConnection(_connectionString);
 

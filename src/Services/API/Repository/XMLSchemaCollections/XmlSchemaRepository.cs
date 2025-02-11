@@ -1,6 +1,8 @@
 ﻿using API.Common.Queries;
 using API.Domain.XMLSchemaCollections;
+using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Data.SqlClient;
 
 namespace API.Repository.XMLSchemaCollections
@@ -8,17 +10,16 @@ namespace API.Repository.XMLSchemaCollections
     /// <summary>
     /// Repository class for handling XML Schema Collections
     /// </summary>
-    public class XmlSchemaRepository
+    public class XmlSchemaRepository : BaseRepository, IXmlSchemaRepository
     {
-        private readonly string _connectionString;
 
         /// <summary>
         /// Constructor to initialize the connection string
         /// </summary>
         /// <param name="connectionString">The connection string to the database</param>
-        public XmlSchemaRepository(string connectionString)
+        public XmlSchemaRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>

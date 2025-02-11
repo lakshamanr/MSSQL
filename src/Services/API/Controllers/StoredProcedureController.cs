@@ -9,9 +9,9 @@ namespace API.Controllers
     [ApiController]
     public class StoredProcedureController : ControllerBase
     {
-        private readonly StoredProcedureRepository _repository;
+        private readonly IStoredProcedureRepository _repository;
 
-        public StoredProcedureController(StoredProcedureRepository repository)
+        public StoredProcedureController(IStoredProcedureRepository repository)
         {
             _repository = repository;
         }

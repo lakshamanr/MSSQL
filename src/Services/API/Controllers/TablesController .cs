@@ -8,9 +8,9 @@ namespace API.Controllers
     [ApiController]
     public class TablesController : ControllerBase
     {
-        private readonly TableRepository _tableRepository;
-        private readonly TablesRepository _tablesRepository;
-        public TablesController(TableRepository tableService, TablesRepository tablesService)
+        private readonly ITableRepository _tableRepository;
+        private readonly ITablesRepository _tablesRepository;
+        public TablesController(ITableRepository tableService, ITablesRepository tablesService)
         {
             _tableRepository = tableService;
             _tablesRepository = tablesService;

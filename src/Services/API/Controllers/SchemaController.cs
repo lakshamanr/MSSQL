@@ -8,9 +8,9 @@ namespace API.Controllers
     [ApiController]
     public class SchemaController : ControllerBase
     {
-        private readonly SchemaRepository _repository;
+        private readonly ISchemaRepository _repository;
 
-        public SchemaController(SchemaRepository repository)
+        public SchemaController(ISchemaRepository repository)
         {
             _repository = repository;
         }

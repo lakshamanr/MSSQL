@@ -7,9 +7,8 @@ using API.Repository.Common;
 namespace API.Repository.LeftMenu
 {
 
-    public class LeftMenuRepository : BaseRepository
+    public class LeftMenuRepository : BaseRepository, ILeftMenuRepository
     {
-        private readonly string _connectionString;
         private readonly ILogger<LeftMenuRepository> _logger;
         private TreeViewJsonGenerator TreeViewJsonGenerator { get; set; }
 
@@ -19,12 +18,11 @@ namespace API.Repository.LeftMenu
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public LeftMenuRepository(string connectionString, ILogger<LeftMenuRepository> logger, IDistributedCache cache)
-            : base(connectionString, cache)
+        public LeftMenuRepository(ILogger<LeftMenuRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
             _logger = logger;
             TreeViewJsonGenerator = new TreeViewJsonGenerator(this);
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>

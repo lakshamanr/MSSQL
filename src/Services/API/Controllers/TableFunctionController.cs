@@ -11,13 +11,13 @@ namespace API.Controllers
     [ApiController]
     public class TableFunctionController : ControllerBase
     {
-        private readonly TableValuedFunctionRepository _tableValuedFunctionRepository;
+        private readonly ITableValuedFunctionRepository _tableValuedFunctionRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TableFunctionController"/> class.
         /// </summary>
         /// <param name="tableValuedFunctionRepository">The repository for table-valued functions.</param>
-        public TableFunctionController(TableValuedFunctionRepository tableValuedFunctionRepository)
+        public TableFunctionController(ITableValuedFunctionRepository tableValuedFunctionRepository)
         {
             _tableValuedFunctionRepository = tableValuedFunctionRepository;
         }

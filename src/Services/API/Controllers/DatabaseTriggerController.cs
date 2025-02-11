@@ -12,9 +12,9 @@ namespace API.Controllers
     [ApiController]
     public class DatabaseTriggerController : ControllerBase
     {
-        private readonly DatabaseTriggerRepository _repository;
+        private readonly IDatabaseTriggerRepository _repository;
 
-        public DatabaseTriggerController(DatabaseTriggerRepository repository)
+        public DatabaseTriggerController(IDatabaseTriggerRepository repository)
         {
             _repository = repository;
         }

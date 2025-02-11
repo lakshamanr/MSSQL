@@ -11,13 +11,13 @@ namespace API.Controllers
     [ApiController]
     public class LeftMenuController : ControllerBase
     {
-        private readonly LeftMenuRepository _leftMenuRepository;
+        private readonly ILeftMenuRepository _leftMenuRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LeftMenuController"/> class.
         /// </summary>
         /// <param name="leftMenuRepository">The left menu repository.</param>
-        public LeftMenuController(LeftMenuRepository leftMenuRepository)
+        public LeftMenuController(ILeftMenuRepository leftMenuRepository)
         {
             _leftMenuRepository = leftMenuRepository;
         }

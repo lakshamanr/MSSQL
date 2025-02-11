@@ -12,13 +12,13 @@ namespace API.Controllers
     [ApiController]
     public class AggregateFunctionController : ControllerBase
     {
-        private readonly AggregateFunctionRepository _aggregateFunctionRepository;
+        private readonly IAggregateFunctionRepository _aggregateFunctionRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateFunctionController"/> class.
         /// </summary>
         /// <param name="aggregateFunctionRepository">The repository for aggregate functions.</param>
-        public AggregateFunctionController(AggregateFunctionRepository aggregateFunctionRepository)
+        public AggregateFunctionController(IAggregateFunctionRepository aggregateFunctionRepository)
         {
             _aggregateFunctionRepository = aggregateFunctionRepository;
         }

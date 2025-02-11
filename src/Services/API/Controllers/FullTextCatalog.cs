@@ -11,13 +11,13 @@ namespace API.Controllers
     [ApiController]
     public class FullTextCatalogController : ControllerBase
     {
-        private readonly FullTextCatalogRepository _repository;
+        private readonly IFullTextCatalogRepository _repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FullTextCatalogController"/> class.
         /// </summary>
         /// <param name="repository">The repository for Full Text Catalogs.</param>
-        public FullTextCatalogController(FullTextCatalogRepository repository)
+        public FullTextCatalogController(IFullTextCatalogRepository repository)
         {
             _repository = repository;
         }
@@ -29,7 +29,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<API.Domain.FullTextCatalog.FullTextCatalog>>> GetAll()
         {
-            var catalogs = await _repository.GetAllAsync();
+            var catalogs = await _repository.GetAllFullTextCatalogAsync();
             return Ok(catalogs);
         }
 
@@ -41,7 +41,7 @@ namespace API.Controllers
         [HttpGet("{name}")]
         public async Task<ActionResult<API.Domain.FullTextCatalog.FullTextCatalog>> GetByName(string name)
         {
-            var catalog = await _repository.GetByNameAsync(name);
+            var catalog = await _repository.GetFullTextCatalogByNameAsync(name);
             if (catalog == null)
                 return NotFound($"Full-Text Catalog '{name}' not found.");
 

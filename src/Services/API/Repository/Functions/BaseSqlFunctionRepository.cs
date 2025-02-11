@@ -11,14 +11,13 @@ namespace API.Repository.Functions
     /// <summary>
     /// Base repository class for SQL functions that provides metadata retrieval.
     /// </summary>
-    public abstract class BaseSqlFunctionRepository
+    public   class BaseSqlFunctionRepository : BaseRepository, IBaseSqlFunctionRepository
     {
-        protected readonly string _connectionString;
-        protected abstract string FunctionType { get; }
+        public string FunctionType { get;set; }
 
-        protected BaseSqlFunctionRepository(string connectionString)
+        public BaseSqlFunctionRepository(IDistributedCache cache, IConfiguration configuration) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>
@@ -226,5 +225,7 @@ namespace API.Repository.Functions
                     .ToDictionary(x => x.FunctionName, x => x.Description ?? "No Description Available");
             }
         }
+
+        
     }
 }

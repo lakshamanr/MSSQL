@@ -16,13 +16,13 @@ namespace API.Repository.Common
     /// </summary>
     public class BaseRepository : IBaseRepository
     {
-        private readonly string _connectionString;
+        internal   string _connectionString;
         public string? CurrentDatabases { get { return _sqlConnectionStringBuilder?.InitialCatalog; } }
         public string? DataSource { get { return _sqlConnectionStringBuilder?.DataSource; } }
 
         private SqlConnectionStringBuilder _sqlConnectionStringBuilder;
 
-        DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions()
+        public DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions()
                   .SetSlidingExpiration(TimeSpan.FromMinutes(60)) // Set expiration time for cache
             .SetAbsoluteExpiration(TimeSpan.FromHours(24)); // Optional absolute expiration
         public readonly IDistributedCache _cache;
@@ -32,11 +32,12 @@ namespace API.Repository.Common
         /// </summary>
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public BaseRepository(string connectionString, IDistributedCache cache)
+        public BaseRepository(IDistributedCache cache, IConfiguration configuration)
         {
             _cache = cache;
-            _connectionString = connectionString;
-            _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+            _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_connectionString);
+            
         }
 
         /// <summary>
@@ -55,21 +56,7 @@ namespace API.Repository.Common
             connectionStringBuilder.InitialCatalog = currentDbName;
             IDbConnection connection = new SqlConnection(connectionStringBuilder.ConnectionString);
             return connection;
-        }
-
-        /// <summary>
-        /// Loads database files from cache or queries the database.
-        /// </summary>
-        /// <param name="connection">The database connection.</param>
-        /// <returns>A collection of <see cref="DatabaseFile"/> instances.</returns>
-        private async Task<IEnumerable<DatabaseFile>> LoadDatabaseFiles(IDbConnection connection)
-        {
-            return await LoadFromCacheOrQueryAsync<DatabaseFile>(
-                CacheConstants.DatabaseCache.DatabaseFiles,
-                SqlQueryConstants.LoadDatabaseFiles
-                    .Replace("@DatabaseName", $"'{CurrentDatabases}'"),
-                connection);
-        }
+        } 
 
         /// <summary>
         /// Processes metadata and groups it by table name.
@@ -114,48 +101,7 @@ namespace API.Repository.Common
 
             return result.Values.ToList();
         }
-
-        /// <summary>
-        /// Gets the metadata of the database.
-        /// </summary>
-        /// <returns>A <see cref="DatabaseMetaData"/> instance.</returns>
-        public async Task<DatabaseMetaData> GetDatabaseMetaData()
-        {
-            DatabaseMetaData serverMetaData;
-            var cachedData = await _cache.GetStringAsync(CacheConstants.DatabaseCache.ServerMetaDataCacheKey);
-            if (!string.IsNullOrEmpty(cachedData))
-            {
-                serverMetaData = JsonSerializer.Deserialize<DatabaseMetaData>(cachedData) ?? new DatabaseMetaData();
-            }
-            else
-            {
-                using (IDbConnection db = new SqlConnection(_connectionString))
-                {
-                    serverMetaData = new DatabaseMetaData();
-                    serverMetaData.CurrentDatabaseName = LoadDatabaseName();
-                    serverMetaData.DatabaseInfos = await LoadDatabases(db);
-                    serverMetaData.DatabaseServerName = LoadDatabaseServerName();
-                    serverMetaData.ProcedureInfos = await LoadStoredProceduresAsync(serverMetaData.CurrentDatabaseName);
-                    serverMetaData.ScalarFunctionInfos = await LoadScalarFunctionsAsync(serverMetaData.CurrentDatabaseName);
-                    serverMetaData.TableFunctionInfos = await LoadTableValuedFunctionsAsync(serverMetaData.CurrentDatabaseName);
-                    serverMetaData.UserTypes = await LoadUserDefinedDataTypesAsync(serverMetaData.CurrentDatabaseName);
-                    serverMetaData.DbXmlSchemas = await LoadXmlSchemaCollectionsAsync(serverMetaData.CurrentDatabaseName);
-                    serverMetaData.ServerProperties = await LoadServerPropertiesAsync(db);
-                    serverMetaData.ServerAdvanceProperties = await LoadAdvancedServerSettingsAsync(db);
-                    serverMetaData.fileInformations = await LoadDatabaseFiles(db);
-                    serverMetaData.viewMetadata = await LoadViewAsync();
-                    serverMetaData.tablesMetadata = await LoadTablesAsync();
-                    serverMetaData.TriggerInfos = await LoadDatabaseTriggersAsync(serverMetaData.CurrentDatabaseName);
-                }
-                await _cache.SetStringAsync(
-                    CacheConstants.DatabaseCache.ServerMetaDataCacheKey,
-                    JsonSerializer.Serialize(serverMetaData),
-                    cacheEntryOptions);
-            }
-
-            return serverMetaData;
-        }
-
+         
         /// <summary>
         /// Gets a database connection.
         /// </summary>
@@ -193,7 +139,7 @@ namespace API.Repository.Common
         /// Loads the name of the current database.
         /// </summary>
         /// <returns>The name of the current database.</returns>
-        public string LoadDatabaseName()
+        public string GetCurrentDatabaseName()
         {
             return CurrentDatabases ?? string.Empty;
         }
@@ -344,15 +290,7 @@ namespace API.Repository.Common
                 GetDbConnection(currentDbName));
         }
 
-        /// <summary>
-        /// Loads tables metadata from cache or queries the database.
-        /// </summary>
-        /// <returns>A collection of <see cref="TablesMetadata"/> instances.</returns>
-        public async Task<IEnumerable<TablesMetadata>> LoadTablesAsync()
-        {
-            SqlConnectionStringBuilder sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_connectionString);
-            return await LoadTablesAsync(sqlConnectionStringBuilder.InitialCatalog);
-        }
+      
 
         /// <summary>
         /// Loads tables metadata from cache or queries the database.
@@ -465,7 +403,7 @@ namespace API.Repository.Common
             {
                 return null;
             }
-        }  
-       
+        }
+         
     }
 }

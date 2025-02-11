@@ -8,9 +8,9 @@ namespace API.Controllers
     [Route("[controller]")]
     public class DatabaseController : ControllerBase
     {
-        private readonly DatabaseReposititory _repository;
+        private readonly IDatabaseReposititory _repository;
 
-        public DatabaseController(DatabaseReposititory repository)
+        public DatabaseController(IDatabaseReposititory repository)
         {
             _repository = repository;
         }

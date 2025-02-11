@@ -10,9 +10,9 @@ namespace API.Controllers
     [ApiController]
     public class UserDefinedDataTypeController : ControllerBase
     {
-        private readonly UserDefinedDataTypeRepository _repository;
+        private readonly IUserDefinedDataTypeRepository _repository;
 
-        public UserDefinedDataTypeController(UserDefinedDataTypeRepository repository)
+        public UserDefinedDataTypeController(IUserDefinedDataTypeRepository repository)
         {
             _repository = repository;
         }

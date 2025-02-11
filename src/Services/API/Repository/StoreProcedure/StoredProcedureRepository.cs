@@ -2,27 +2,27 @@
 using API.Domain.StoredProcedure;
 using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace API.Repository.StoreProcedure
 {
- 
-  /// <summary>
+
+    /// <summary>
     /// Repository for handling stored procedures.
     /// </summary>
-    public class StoredProcedureRepository
+    public class StoredProcedureRepository : BaseRepository, IStoredProcedureRepository
     {
-        private readonly string _connectionString;
         private readonly IObjectDependenciesRepository _objectDependenciesRepository;
         /// <summary>
         /// Initializes a new instance of the <see cref="StoredProcedureRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string to the database.</param>
-        public StoredProcedureRepository(string connectionString, IObjectDependenciesRepository objectDependenciesRepository)
+        public StoredProcedureRepository(IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
-            _objectDependenciesRepository= objectDependenciesRepository;
+            _objectDependenciesRepository = objectDependenciesRepository;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>

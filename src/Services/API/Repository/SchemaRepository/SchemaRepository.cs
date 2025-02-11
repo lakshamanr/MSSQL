@@ -1,6 +1,8 @@
 ﻿using API.Common.Queries;
 using API.Domain.Schemas;
+using API.Repository.Common;
 using Dapper;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Data.SqlClient;
 
 namespace API.Repository.SchemaRepository
@@ -8,17 +10,15 @@ namespace API.Repository.SchemaRepository
     /// <summary>
     /// Repository class for handling schema-related database operations.
     /// </summary>
-    public class SchemaRepository
+    public class SchemaRepository : BaseRepository, ISchemaRepository
     {
-        private readonly string _connectionString;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SchemaRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string to the database.</param>
-        public SchemaRepository(string connectionString)
+        public SchemaRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         /// <summary>
