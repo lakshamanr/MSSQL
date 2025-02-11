@@ -10,11 +10,19 @@ namespace API.Controllers
     {
         private readonly ISchemaRepository _repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SchemaController"/> class.
+        /// </summary>
+        /// <param name="repository">The schema repository.</param>
         public SchemaController(ISchemaRepository repository)
         {
             _repository = repository;
         }
 
+        /// <summary>
+        /// Gets all schema metadata asynchronously.
+        /// </summary>
+        /// <returns>A list of schema metadata.</returns>
         [HttpGet("")]
         public async Task<IActionResult> GetAllSchemaMetadataAsync()
         {
@@ -23,6 +31,12 @@ namespace API.Controllers
                 return NotFound();
             return Ok(metadata);
         }
+
+        /// <summary>
+        /// Gets the metadata for a specific schema asynchronously.
+        /// </summary>
+        /// <param name="schemaName">The name of the schema.</param>
+        /// <returns>The metadata of the specified schema.</returns>
         [HttpGet("metadata/{schemaName}")]
         public async Task<IActionResult> GetSchemaMetadata(string schemaName)
         {
@@ -31,7 +45,5 @@ namespace API.Controllers
                 return NotFound();
             return Ok(metadata);
         }
-
-        
     }
 }

@@ -11,11 +11,19 @@ namespace API.Controllers
     {
         private readonly IStoredProcedureRepository _repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoredProcedureController"/> class.
+        /// </summary>
+        /// <param name="repository">The repository instance.</param>
         public StoredProcedureController(IStoredProcedureRepository repository)
         {
             _repository = repository;
         }
 
+        /// <summary>
+        /// Gets all stored procedures.
+        /// </summary>
+        /// <returns>A list of stored procedures.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StoredProcedureInfo>>> GetAllStoredProcedures()
         {
@@ -23,6 +31,11 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets the metadata of a specific stored procedure.
+        /// </summary>
+        /// <param name="storedProcedureName">The name of the stored procedure.</param>
+        /// <returns>The metadata of the stored procedure.</returns>
         [HttpGet("{storedProcedureName}/metadata")]
         public async Task<ActionResult<StoredProcedureMeta>> GetStoredProcedureMetadata(string storedProcedureName)
         {
@@ -30,6 +43,11 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Merges the description of a stored procedure.
+        /// </summary>
+        /// <param name="request">The request containing the schema name, stored procedure name, and description.</param>
+        /// <returns>An IActionResult.</returns>
         [HttpPost("description")]
         public async Task<IActionResult> MergeStoredProcedureDescription([FromBody] StoredProcedureDescriptionRequest request)
         {
@@ -37,6 +55,11 @@ namespace API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Merges the description of a stored procedure parameter.
+        /// </summary>
+        /// <param name="request">The request containing the schema name, stored procedure name, parameter name, and description.</param>
+        /// <returns>An IActionResult.</returns>
         [HttpPost("parameter/description")]
         public async Task<IActionResult> MergeParameterDescription([FromBody] ParameterDescriptionRequest request)
         {

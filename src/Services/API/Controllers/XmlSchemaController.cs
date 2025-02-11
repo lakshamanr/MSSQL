@@ -17,7 +17,11 @@ namespace API.Controllers
             _repository = repository;
         }
 
-        // Endpoint to get XML Schema Details
+        /// <summary>
+        /// Endpoint to get XML Schema Details
+        /// </summary>
+        /// <param name="schemaCollectionName">The name of the schema collection</param>
+        /// <returns>Details of the XML Schema</returns>
         [HttpGet("details/{schemaCollectionName}")]
         public ActionResult<XmlSchemaDetails> GetXmlSchemaDetails(string schemaCollectionName)
         {
@@ -31,7 +35,11 @@ namespace API.Controllers
             return Ok(schemaDetails);
         }
 
-        // Endpoint to get XML Schema References
+        /// <summary>
+        /// Endpoint to get XML Schema References
+        /// </summary>
+        /// <param name="schemaCollectionName">The name of the schema collection</param>
+        /// <returns>References of the XML Schema</returns>
         [HttpGet("references/{schemaCollectionName}")]
         public ActionResult<IEnumerable<XmlSchemaReference>> GetXmlSchemaReferences(string schemaCollectionName)
         {
@@ -45,7 +53,10 @@ namespace API.Controllers
             return Ok(references);
         }
 
-        // New endpoint to get all XML Schema Collections
+        /// <summary>
+        /// New endpoint to get all XML Schema Collections
+        /// </summary>
+        /// <returns>All XML Schema Collections</returns>
         [HttpGet("collections")]
         public ActionResult<IEnumerable<XmlSchemaCollection>> GetAllXmlSchemaCollections()
         {

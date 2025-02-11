@@ -1,0 +1,20 @@
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Require XML documentation for all methods and members
+dotnet_diagnostic.SA1600.severity = warning   # Elements should be documented
+dotnet_diagnostic.SA1601.severity = warning   # Partial elements should be documented
+dotnet_diagnostic.SA1602.severity = warning   # Enumeration items should be documented
+dotnet_diagnostic.SA1604.severity = warning   # Documentation headers should not be empty
+dotnet_diagnostic.SA1609.severity = warning   # Property documentation should start with a standard text
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
