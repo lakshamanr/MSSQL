@@ -8,6 +8,8 @@ namespace API.Repository.Table
 {
     public class TablesRepository : BaseRepository, ITablesRepository
     {
+        private readonly string _connectionString;
+
         /// <summary>
         /// Constructor for the TableInfoService.
         /// </summary>
@@ -15,7 +17,7 @@ namespace API.Repository.Table
         /// <param name="logger">Logger instance for logging information or errors.</param>
         public TablesRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+            _connectionString = configuration.GetConnectionString("SqlServerConnection") ?? throw new ArgumentNullException(nameof(configuration), "Connection string cannot be null");
         }
         /// <summary>
         /// Loads tables metadata from cache or queries the database.
