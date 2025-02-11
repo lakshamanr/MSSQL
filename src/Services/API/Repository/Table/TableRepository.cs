@@ -17,18 +17,19 @@ namespace API.Repository.Table
         private readonly string _connectionString;
         private readonly ILogger<TableRepository> _logger;
         private readonly new IDistributedCache _cache;
-
+        private readonly IObjectDependenciesRepository _objectDependenciesRepository;
         /// <summary>
         /// Constructor for the TableInfoService.
         /// </summary>
         /// <param name="connectionString">Database connection string.</param>
         /// <param name="logger">Logger instance for logging information or errors.</param>
         /// <param name="cache">Distributed cache instance for caching data.</param>
-        public TableRepository(string connectionString, ILogger<TableRepository> logger, IDistributedCache cache) : base(connectionString, cache)
+        public TableRepository(string connectionString, ILogger<TableRepository> logger, IDistributedCache cache, IObjectDependenciesRepository objectDependenciesRepository) : base(connectionString, cache)
         {
             _connectionString = connectionString;
             _logger = logger;
             _cache = cache;
+            _objectDependenciesRepository= objectDependenciesRepository;
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace API.Repository.Table
                     var properties = await GetDetailedTablePropertiesAsync(db, tableName);
                     var constraint = await GetTableTableConstraintAsync(db, tableName);
                     var fragmentation = await GetTableFragmentation(db, tableName);
-                    var tableDependencies = await GetTableDependencies(db, tableName);
+                    var tableDependencies = await _objectDependenciesRepository.ObjectsDependencies(tableName);
 
                     var detailedTableInfo = new TableMetadata
                     {
@@ -73,7 +74,7 @@ namespace API.Repository.Table
                         Properties = properties,
                         Constraints = constraint,
                         TableFragmentations = fragmentation,
-                        TableDependencies = tableDependencies
+                        TableDependenciesTree = tableDependencies
                     };
 
                     var serializedData = JsonSerializer.Serialize(detailedTableInfo);
@@ -274,150 +275,5 @@ namespace API.Repository.Table
             return await db.QueryAsync<TableFragmentation>(SqlQueryConstant.AllTableFragmentation);
         }
 
-        /// <summary>
-        /// Gets object dependencies based on a query template.
-        /// </summary>
-        /// <param name="cacheKeyPrefix">Cache key prefix.</param>
-        /// <param name="db">Database connection.</param>
-        /// <param name="astrObjectName">The object name.</param>
-        /// <param name="sqlQueryTemplate">The SQL query template.</param>
-        /// <returns>An enumerable of <see cref="ReferencesModel"/>.</returns>
-        private async Task<IEnumerable<ReferencesModel>> GetObjectDependencies(string cacheKeyPrefix, IDbConnection db, string astrObjectName, string sqlQueryTemplate)
-        {
-            var newObjectName = astrObjectName.Substring(astrObjectName.IndexOf(".", StringComparison.Ordinal) + 1);
-            var query = sqlQueryTemplate.Replace("@ObjectName", $"'{newObjectName}'");
-            return await db.QueryAsync<ReferencesModel>(query);
-        }
-
-        /// <summary>
-        /// Gets objects that depend on a specific object.
-        /// </summary>
-        /// <param name="db">Database connection.</param>
-        /// <param name="astrObjectName">The object name.</param>
-        /// <returns>A JSON string representing the dependencies.</returns>
-        private async Task<string> GetObjectThatDependsOn(IDbConnection db, string astrObjectName)
-        {
-            var dependencies = (List<ReferencesModel>)await GetObjectDependencies("GetObjectThatDependsOn", db, astrObjectName, SqlQueryConstant.ObjectThatDependsOn);
-            return GetObjectThatDependsOnJson(dependencies);
-        }
-
-        /// <summary>
-        /// Gets objects on which a specific object depends.
-        /// </summary>
-        /// <param name="db">Database connection.</param>
-        /// <param name="astrObjectName">The object name.</param>
-        /// <returns>A JSON string representing the dependencies.</returns>
-        private async Task<string> GetObjectOnWhichDepends(IDbConnection db, string astrObjectName)
-        {
-            var dependencies = (List<ReferencesModel>)await GetObjectDependencies("GetObjectOnWhichDepends", db, astrObjectName, SqlQueryConstant.ObjectOnWhichDepends);
-            return GetObjectOnWhichDependsOnJson(dependencies);
-        }
-
-        /// <summary>
-        /// Adds type information to a list of references.
-        /// </summary>
-        /// <param name="referencesModels">The list of references.</param>
-        /// <returns>The list of references with type information added.</returns>
-        private List<ReferencesModel> AddObjectTypeInfo(List<ReferencesModel> referencesModels)
-        {
-            // Create a dictionary to map TheType values to their respective descriptions
-            var typeDescriptionMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-            {
-                { "AF", "(Aggregate function)" },
-                { "C", "(CHECK constraint)" },
-                { "D", "(DEFAULT)" },
-                { "FN", "(SQL scalar function)" },
-                { "FS", "(Assembly (CLR) scalar-function)" },
-                { "FT", "(Assembly (CLR) table-valued function)" },
-                { "IF", "(SQL inline table-valued function)" },
-                { "IT", "(Internal table)" },
-                { "P", "(SQL Stored Procedure)" },
-                { "PC", "(Assembly (CLR) stored-procedure)" },
-                { "PG", "(Plan guide)" },
-                { "PK", "(PRIMARY KEY constraint)" },
-                { "R", "(Rule (old-style, stand-alone))" },
-                { "RF", "(Replication-filter-procedure)" },
-                { "S", "(System base table)" },
-                { "SN", "(Synonym)" },
-                { "SO", "(Sequence object)" },
-                { "U", "(Table - user-defined)" },
-                { "V", "(View)" },
-                { "EC", "(Edge constraint)" },
-                { "SQ", "(Service queue)" },
-                { "TA", "(Assembly (CLR) DML trigger)" },
-                { "TF", "(SQL table-valued-function)" },
-                { "TR", "(SQL DML trigger)" },
-                { "TT", "(Table type)" },
-                { "UQ", "(UNIQUE constraint)" },
-                { "X", "(Extended stored procedure)" },
-                { "XMLC", "(XML Data Type)" }
-            };
-
-            // Process distinct references based on ThePath
-            foreach (var model in referencesModels.DistinctBy(x => x.ThePath))
-            {
-                var trimmedType = model.TheType.Trim();
-
-                if (typeDescriptionMap.TryGetValue(trimmedType, out var description))
-                {
-                    model.ThePath += description;
-                }
-            }
-
-            return referencesModels;
-        }
-
-        /// <summary>
-        /// Converts a list of references to a JSON string representing objects that depend on a specific object.
-        /// </summary>
-        /// <param name="referencesModels">The list of references.</param>
-        /// <returns>A JSON string representing the dependencies.</returns>
-        private string GetObjectThatDependsOnJson(List<ReferencesModel> referencesModels)
-        {
-            var e = new HirechyJsonGenerator(
-                AddObjectTypeInfo(referencesModels).Select(x => x.ThePath.Replace("\\", " ")).ToList(),
-                "That Depends On"
-            );
-            return e.root.PrimengToJson();
-        }
-
-        /// <summary>
-        /// Converts a list of references to a JSON string representing objects on which a specific object depends.
-        /// </summary>
-        /// <param name="referencesModels">The list of references.</param>
-        /// <returns>A JSON string representing the dependencies.</returns>
-        private string GetObjectOnWhichDependsOnJson(List<ReferencesModel> referencesModels)
-        {
-            var e = new HirechyJsonGenerator(
-                AddObjectTypeInfo(referencesModels).Select(x => x.ThePath.Replace("\\", " ")).ToList(),
-                "On Which Depends"
-            );
-            return e.root.PrimengToJson();
-        }
-
-        /// <summary>
-        /// Generates a JSON result representing the dependency tree.
-        /// </summary>
-        /// <param name="ObjectThatDependsOn">JSON string representing objects that depend on the specified object.</param>
-        /// <param name="ObjectOnWhichDepends">JSON string representing objects on which the specified object depends.</param>
-        /// <param name="ObjectName">The name of the object.</param>
-        /// <returns>A JSON string representing the dependency tree.</returns>
-        public string JsonResult(string ObjectThatDependsOn, string ObjectOnWhichDepends, string ObjectName)
-        {
-            return $"[{{ \"label\": \"Dependency Tree\", \"expandedIcon\": \"fa fa-folder-open\", \"collapsedIcon\": \"fa fa-folder-close\", \"children\": [{ObjectThatDependsOn}, {ObjectOnWhichDepends}] }} ]";
-        }
-
-        /// <summary>
-        /// Gets dependencies of a specific table.
-        /// </summary>
-        /// <param name="db">Database connection.</param>
-        /// <param name="tableName">The name of the table.</param>
-        /// <returns>A JSON string representing the dependencies.</returns>
-        public async Task<string> GetTableDependencies(IDbConnection db, string tableName)
-        {
-            var objThatDependsOn = await GetObjectThatDependsOn(db, tableName);
-            var objOnWhichDepends = await GetObjectOnWhichDepends(db, tableName);
-            return JsonResult(objThatDependsOn, objOnWhichDepends, tableName);
-        }
     }
 }

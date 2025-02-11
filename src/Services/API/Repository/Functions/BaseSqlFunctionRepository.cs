@@ -30,12 +30,12 @@ namespace API.Repository.Functions
         {
             var functionDetail = await RetrieveFunctionDetailsAsync(functionName);
             var parameters = await FetchFunctionParametersWithDescriptionsAsync(functionName);
-            var definition = await RetrieveFunctionDefinitionAsync(functionName);
+            var definition = await RetrieveFunctionDefinitionAsync(functionName) ?? string.Empty; // Ensure non-null assignment
             var dependencies = await FetchFunctionDependenciesAsync(functionName);
 
             return new SqlFunctionMetadata
             {
-                FunctionDetail = functionDetail,
+                FunctionDetail = functionDetail ?? new SqlFunctionDetail(), // Ensure non-null assignment
                 Parameters = parameters,
                 Definition = definition,
                 Dependencies = dependencies,

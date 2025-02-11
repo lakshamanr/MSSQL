@@ -1,4 +1,4 @@
-﻿namespace API.Domain.Table
+﻿namespace API.Domain.Common
 {
     public class ReferencesModel
     {

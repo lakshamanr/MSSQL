@@ -1,3 +1,4 @@
+using API.Repository.Common;
 using API.Repository.Database;
 using API.Repository.FullTextCatalog;
 using API.Repository.Functions;
@@ -77,6 +78,24 @@ internal class Program
 
     private static void RegisterRepositories(IServiceCollection services, string connectionString)
     {
+
+        //services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
+        //services.AddScoped<ILeftMenuRepository, LeftMenuRepository>();
+        //services.AddScoped<IObjectDependenciesRepository, ObjectDependenciesRepository>();
+        //services.AddScoped<ITableRepository, TableRepository>();
+        //services.AddScoped<ITablesRepository, TablesRepository>();
+        //services.AddScoped<IViewsRepository, ViewsRepository>();
+        //services.AddScoped<IScalarFunctionRepository, ScalarFunctionRepository>();
+        //services.AddScoped<IAggregateFunctionRepository, AggregateFunctionRepository>();
+        //services.AddScoped<ITableValuedFunctionRepository, TableValuedFunctionRepository>();
+        //services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
+        //services.AddScoped<IDatabaseTriggerRepository, DatabaseTriggerRepository>();
+        //services.AddScoped<IUserDefinedDataTypeRepository, UserDefinedDataTypeRepository>();
+        //services.AddScoped<IXmlSchemaRepository, XmlSchemaRepository>();
+        //services.AddScoped<IFullTextCatalogRepository, FullTextCatalogRepository>();
+        //services.AddScoped<ISchemaRepository, SchemaRepository>();
+
+
         services.AddScoped(provider =>
         {
             var logger = provider.GetRequiredService<ILogger<DatabaseReposititory>>();
@@ -90,12 +109,18 @@ internal class Program
             var cache = provider.GetRequiredService<IDistributedCache>();
             return new LeftMenuRepository(connectionString, logger, cache);
         });
-
+        services.AddScoped<IObjectDependenciesRepository>(provider =>
+        {
+            var logger = provider.GetRequiredService<ILogger<ObjectDependenciesRepository>>();
+            var cache = provider.GetRequiredService<IDistributedCache>();
+            return new ObjectDependenciesRepository(connectionString, logger, cache);
+        });
         services.AddScoped(provider =>
         {
             var logger = provider.GetRequiredService<ILogger<TableRepository>>();
             var cache = provider.GetRequiredService<IDistributedCache>();
-            return new TableRepository(connectionString, logger, cache);
+            var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
+            return new TableRepository(connectionString, logger, cache, objectDependencies);
         });
 
         services.AddScoped(provider =>
@@ -137,7 +162,8 @@ internal class Program
         {
             var logger = provider.GetRequiredService<ILogger<StoredProcedureRepository>>();
             var cache = provider.GetRequiredService<IDistributedCache>();
-            return new StoredProcedureRepository(connectionString);
+            var objectDependencies = provider.GetRequiredService<IObjectDependenciesRepository>(); // Use DI to resolve
+            return new StoredProcedureRepository(connectionString, objectDependencies);
         });
 
         services.AddScoped(provider =>

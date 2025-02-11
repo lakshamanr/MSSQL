@@ -8,7 +8,8 @@
         /// <summary>
         /// SQL query to load all stored procedures.
         /// </summary>
-        public const string LoadStoredProcedures = @"
+        public const string LoadStoredProcedures =
+            @"
                 SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ [NAME]) AS 'ProcedureName' 
                 FROM SYS.SQL_MODULES M 
                 INNER JOIN SYS.OBJECTS O ON M.OBJECT_ID = O.OBJECT_ID
@@ -17,7 +18,8 @@
         /// <summary>
         /// SQL query to load all database triggers.
         /// </summary>
-        public const string LoadDatabaseTriggers = @"
+        public const string LoadDatabaseTriggers =
+            @"
                 SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ [NAME]) AS 'TriggerName' 
                 FROM SYS.SQL_MODULES M 
                 INNER JOIN SYS.OBJECTS O ON M.OBJECT_ID = O.OBJECT_ID
@@ -26,7 +28,8 @@
         /// <summary>
         /// SQL query to load all user-defined data types.
         /// </summary>
-        public const string LoadUserDefinedDataTypes = @"
+        public const string LoadUserDefinedDataTypes =
+            @"
                 SELECT (SCHEMA_NAME(SCHEMA_ID) +'.'+[NAME]) AS 'UserTypeName' 
                 FROM SYS.TYPES
                 WHERE IS_USER_DEFINED = 1";
@@ -34,7 +37,8 @@
         /// <summary>
         /// SQL query to load all XML schema collections.
         /// </summary>
-        public const string LoadXmlSchemaCollections = @"
+        public const string LoadXmlSchemaCollections =
+            @"
                 SELECT DISTINCT (SCHEMA_NAME(SCHEMA_ID)+'.'+XSC.NAME) AS 'SchemaName' 
                 FROM SYS.XML_SCHEMA_COLLECTIONS XSC 
                 JOIN SYS.XML_SCHEMA_NAMESPACES XSN  
@@ -43,7 +47,8 @@
         /// <summary>
         /// SQL query to load server properties.
         /// </summary>
-        public const string LoadServerProperties = @"
+        public const string LoadServerProperties =
+            @"
                 SELECT 
                     LEFT(@@VERSION, CHARINDEX(' - ', @@VERSION)) AS ProductName,
                     SERVERPROPERTY('ProductMajorVersion') AS ProductMajorVersion,
@@ -74,7 +79,8 @@
         /// <summary>
         /// SQL query to load advanced server settings.
         /// </summary>
-        public const string LoadAdvancedServerSettings = @"
+        public const string LoadAdvancedServerSettings =
+            @"
                 SELECT value_name AS name, 
                        CAST(value_data AS VARCHAR(1000)) AS Value 
                 FROM sys.dm_server_registry";
@@ -82,14 +88,16 @@
         /// <summary>
         /// SQL query to load all databases excluding system databases.
         /// </summary>
-        public const string LoadDatabases = @"
+        public const string LoadDatabases =
+            @"
                 SELECT name FROM master.dbo.sysdatabases 
                 WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')";
 
         /// <summary>
         /// SQL query to load database files for a specific database.
         /// </summary>
-        public static readonly string LoadDatabaseFiles = @"
+        public static readonly string LoadDatabaseFiles =
+            @"
                 SELECT 
                     MF.NAME AS FileName,
                     CASE MF.type_desc 
@@ -118,7 +126,8 @@
         /// <summary>
         /// SQL query to load view details.
         /// </summary>
-        public static readonly string LoadViewDetails = @"
+        public static readonly string LoadViewDetails =
+            @"
                 SELECT 
                     SCHEMA_NAME(o.schema_id) + '.' + o.name AS ViewName,
                     ep.value AS ExtendedProperty
@@ -132,7 +141,8 @@
         /// <summary>
         /// SQL query to load aggregate functions.
         /// </summary>
-        public static readonly string LoadAggregateFunctions = @"
+        public static readonly string LoadAggregateFunctions =
+            @"
                 SELECT SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.NAME AS FunctionName
                 FROM SYS.OBJECTS O
                 INNER JOIN SYS.SQL_MODULES M ON O.OBJECT_ID = M.OBJECT_ID
@@ -141,7 +151,8 @@
         /// <summary>
         /// SQL query to load scalar functions.
         /// </summary>
-        public const string LoadScalarFunctions = @"
+        public const string LoadScalarFunctions =
+            @"
                 SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ [NAME]) AS 'FunctionName' 
                 FROM SYS.SQL_MODULES M 
                 INNER JOIN SYS.OBJECTS O ON M.OBJECT_ID = O.OBJECT_ID
@@ -150,7 +161,8 @@
         /// <summary>
         /// SQL query to load table-valued functions.
         /// </summary>
-        public const string LoadTableValuedFunctions = @"
+        public const string LoadTableValuedFunctions =
+            @"
                 SELECT ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ [NAME]) AS 'FunctionName' 
                 FROM SYS.SQL_MODULES M 
                 INNER JOIN SYS.OBJECTS O ON M.OBJECT_ID = O.OBJECT_ID
@@ -159,7 +171,8 @@
         /// <summary>
         /// SQL query to load storage information.
         /// </summary>
-        public const string LoadStorage = @"
+        public const string LoadStorage =
+            @"
                 SELECT 
                     fg.name AS FileGroupName,
                     mf.name AS FileName,
@@ -175,7 +188,8 @@
         /// <summary>
         /// SQL query to load full-text catalogs.
         /// </summary>
-        public const string LoadFullTextCatalogs = @"
+        public const string LoadFullTextCatalogs =
+            @"
                 SELECT 
                     c.name AS CatalogName, 
                     ISNULL(SCHEMA_NAME(c.principal_id), 'dbo') AS SchemaName, 
@@ -186,7 +200,8 @@
         /// <summary>
         /// SQL query to load security information.
         /// </summary>
-        public const string LoadSecurity = @"
+        public const string LoadSecurity =
+            @"
                 SELECT 
                     dp.name AS PrincipalName,
                     dp.type_desc AS PrincipalType,
@@ -199,7 +214,8 @@
         /// <summary>
         /// SQL query to load security users.
         /// </summary>
-        public const string LoadSecurityUsers = @"
+        public const string LoadSecurityUsers =
+            @"
                 SELECT 
                     dp.name AS UserName,
                     dp.type_desc AS UserType,
@@ -210,7 +226,8 @@
         /// <summary>
         /// SQL query to get security roles.
         /// </summary>
-        public const string GetSecurityRoles = @"
+        public const string GetSecurityRoles =
+            @"
                 SELECT 
                     r.name AS RoleName,
                     rl.name AS MemberName
@@ -224,7 +241,8 @@
         /// <summary>
         /// SQL query to get security schemas.
         /// </summary>
-        public const string GetSecuritySchemas = @"
+        public const string GetSecuritySchemas =
+            @"
                 SELECT 
                     s.name AS SchemaName,
                     dp.name AS PrincipalName
@@ -308,7 +326,8 @@
               WHERE O.TYPE='P' AND class_desc='OBJECT_OR_COLUMN' 
               AND ((SCHEMA_NAME(O.SCHEMA_ID) )+'.'+ O.[NAME]) = @StoredProcedureName";
 
-        public static readonly string MergeStoredProcedureExtendedProperty = @"
+        public static readonly string MergeStoredProcedureExtendedProperty =
+            @"
             IF EXISTS (
                 SELECT 1 
                 FROM sys.extended_properties ep
@@ -338,8 +357,8 @@
                     @StoredProcedureName
             END";
 
-
-        public static readonly string MergeStoredProcedureParameterExtendedProperty = @"
+        public static readonly string MergeStoredProcedureParameterExtendedProperty =
+            @"
                         IF EXISTS (
                             SELECT 1 
                             FROM sys.extended_properties ep
@@ -375,8 +394,8 @@
                                 @ParameterName
                         END";
 
-
-        public static string FetchStoredProcedureParameterDescription = @"
+        public static string FetchStoredProcedureParameterDescription =
+            @"
                     SELECT 
                         ep.value AS Description
                     FROM 
@@ -396,9 +415,8 @@
     }
     public static partial class SqlQueryConstant
     {
-
-
-        public static readonly string GetAllExtendedPropertiesofTheTable = @" 
+        public static readonly string GetAllExtendedPropertiesofTheTable =
+            @" 
                         SELECT  
                         sep.name AS [Name],
                         sep.value AS [Value],
@@ -413,7 +431,8 @@
                         AND SCHEMA_NAME(t.schema_id) = @SchemaName
                         AND   minor_id=0 ";
 
-        public static readonly string GetAllTablesExtendedProperties = @" 
+        public static readonly string GetAllTablesExtendedProperties =
+            @" 
                                         SELECT  
                                             (SCHEMA_NAME(t.schema_id) + '.' + t.name) AS TableName,
                                             sep.name AS [Name],
@@ -444,8 +463,8 @@
  
 ";
 
-
-        public static readonly string GetTableProperties = @"SELECT Property as Name, Value
+        public static readonly string GetTableProperties =
+            @"SELECT Property as Name, Value
                         FROM (
                         SELECT 
                         'TableName' AS Property, 
@@ -516,12 +535,11 @@
                         ) AS TableInfo
                         ORDER BY TableInfo.OrderBy;";
 
-
-
         /**/
 
 
-        public static readonly string GetTableCreateScript = @"
+        public static readonly string GetTableCreateScript =
+            @"
                         DECLARE @object_name SYSNAME,       
                         @object_id   INT;  
   
@@ -570,9 +588,8 @@
 				 
                         SELECT @SQL; ";
 
-
         public static readonly string GetAllTablesColumn =
-        @" 
+            @" 
                 SELECT 
                     TRY_CAST((colm.table_schema + '.' + colm.table_name) AS VARCHAR(100)) AS TableName,
                     TRY_CAST(colm.column_name AS VARCHAR(100)) AS columnName,
@@ -604,9 +621,10 @@
 ;
         ";
         public static readonly string GetAllTableDescriptionWithAll =
-        @" SELECT     t.Name , SCHEMA_NAME(schema_id)+'.'+t.name, sep.value ,SCHEMA_NAME(schema_id)   FROM     sys.tables t INNER JOIN     sys.extended_properties sep ON t.object_id = sep.major_id where     sep.Name = @ExtendedProp    AND sep.minor_id = 0     ";
+            @" SELECT     t.Name , SCHEMA_NAME(schema_id)+'.'+t.name, sep.value ,SCHEMA_NAME(schema_id)   FROM     sys.tables t INNER JOIN     sys.extended_properties sep ON t.object_id = sep.major_id where     sep.Name = @ExtendedProp    AND sep.minor_id = 0     ";
 
-        public static readonly string GetTableIndex = @"
+        public static readonly string GetTableIndex =
+            @"
                         SELECT i.[name] AS IndexName,
                         SUBSTRING(column_names, 1, LEN(column_names) - 1) AS [Columns], 
                         CASE WHEN i.[type] = 1 THEN 'Clustered index'
@@ -634,10 +652,10 @@
                         ORDER BY i.[name]          
                         ";
         public static readonly string GetAllTabledependencies =
-        @" declare @Table table ([name] varchar(100),[type] varchar(1000))INSERT INTO @Table exec sp_depends @tblName select * from @Table ";
+            @" declare @Table table ([name] varchar(100),[type] varchar(1000))INSERT INTO @Table exec sp_depends @tblName select * from @Table ";
 
         public static readonly string GetAllTableForeignKeys =
-        @"
+            @"
                         SELECT COALESCE(ep.value, '') AS 'Value', 
                         ob.name AS FK_NAME, 
                         sch.name AS [SchemaName], 
@@ -661,21 +679,22 @@
                         ";
 
         public static readonly string GetAllKeyConstraints =
-        @"select table_view,    object_type,     constraint_type,    constraint_name,    details from (    select schema_name(t.schema_id) + '.' + t.[name] as table_view,         case when t.[type] = 'U' then 'Table'            when t.[type] = 'V' then 'View'            end as [object_type],        case when c.[type] = 'PK' then 'Primary key'            when c.[type] = 'UQ' then 'Unique constraint'            when i.[type] = 1 then 'Unique clustered index'            when i.type = 2 then 'Unique index'            end as constraint_type,         isnull(c.[name], i.[name]) as constraint_name,        substring(column_names, 1, len(column_names)-1) as [details]    from sys.objects t        left outer join sys.indexes i            on t.object_id = i.object_id        left outer join sys.key_constraints c            on i.object_id = c.parent_object_id             and i.index_id = c.unique_index_id       cross apply (select col.[name] + ', '                        from sys.index_columns ic                            inner join sys.columns col                                on ic.object_id = col.object_id                                and ic.column_id = col.column_id                        where ic.object_id = t.object_id                            and ic.index_id = i.index_id                                order by col.column_id                                for xml path ('') ) D (column_names)    where is_unique = 1    and t.is_ms_shipped <> 1    union all     select schema_name(fk_tab.schema_id) + '.' + fk_tab.name as foreign_table,        'Table',        'Foreign key',        fk.name as fk_constraint_name,        schema_name(pk_tab.schema_id) + '.' + pk_tab.name    from sys.foreign_keys fk        inner join sys.tables fk_tab            on fk_tab.object_id = fk.parent_object_id        inner join sys.tables pk_tab            on pk_tab.object_id = fk.referenced_object_id        inner join sys.foreign_key_columns fk_cols            on fk_cols.constraint_object_id = fk.object_id    union all    select schema_name(t.schema_id) + '.' + t.[name],        'Table',        'Check constraint',        con.[name] as constraint_name,        con.[definition]    from sys.check_constraints con        left outer join sys.objects t            on con.parent_object_id = t.object_id        left outer join sys.all_columns col            on con.parent_column_id = col.column_id            and con.parent_object_id = col.object_id    union all    select schema_name(t.schema_id) + '.' + t.[name],        'Table',        'Default constraint',        con.[name],        col.[name] + ' = ' + con.[definition]    from sys.default_constraints con        left outer join sys.objects t            on con.parent_object_id = t.object_id        left outer join sys.all_columns col            on con.parent_column_id = col.column_id            and con.parent_object_id = col.object_id) a where a.table_view=@tblName order by table_view, constraint_type, constraint_name ";
+            @"select table_view,    object_type,     constraint_type,    constraint_name,    details from (    select schema_name(t.schema_id) + '.' + t.[name] as table_view,         case when t.[type] = 'U' then 'Table'            when t.[type] = 'V' then 'View'            end as [object_type],        case when c.[type] = 'PK' then 'Primary key'            when c.[type] = 'UQ' then 'Unique constraint'            when i.[type] = 1 then 'Unique clustered index'            when i.type = 2 then 'Unique index'            end as constraint_type,         isnull(c.[name], i.[name]) as constraint_name,        substring(column_names, 1, len(column_names)-1) as [details]    from sys.objects t        left outer join sys.indexes i            on t.object_id = i.object_id        left outer join sys.key_constraints c            on i.object_id = c.parent_object_id             and i.index_id = c.unique_index_id       cross apply (select col.[name] + ', '                        from sys.index_columns ic                            inner join sys.columns col                                on ic.object_id = col.object_id                                and ic.column_id = col.column_id                        where ic.object_id = t.object_id                            and ic.index_id = i.index_id                                order by col.column_id                                for xml path ('') ) D (column_names)    where is_unique = 1    and t.is_ms_shipped <> 1    union all     select schema_name(fk_tab.schema_id) + '.' + fk_tab.name as foreign_table,        'Table',        'Foreign key',        fk.name as fk_constraint_name,        schema_name(pk_tab.schema_id) + '.' + pk_tab.name    from sys.foreign_keys fk        inner join sys.tables fk_tab            on fk_tab.object_id = fk.parent_object_id        inner join sys.tables pk_tab            on pk_tab.object_id = fk.referenced_object_id        inner join sys.foreign_key_columns fk_cols            on fk_cols.constraint_object_id = fk.object_id    union all    select schema_name(t.schema_id) + '.' + t.[name],        'Table',        'Check constraint',        con.[name] as constraint_name,        con.[definition]    from sys.check_constraints con        left outer join sys.objects t            on con.parent_object_id = t.object_id        left outer join sys.all_columns col            on con.parent_column_id = col.column_id            and con.parent_object_id = col.object_id    union all    select schema_name(t.schema_id) + '.' + t.[name],        'Table',        'Default constraint',        con.[name],        col.[name] + ' = ' + con.[definition]    from sys.default_constraints con        left outer join sys.objects t            on con.parent_object_id = t.object_id        left outer join sys.all_columns col            on con.parent_column_id = col.column_id            and con.parent_object_id = col.object_id) a where a.table_view=@tblName order by table_view, constraint_type, constraint_name ";
 
         public static readonly string UpdateTableExtendedProperty =
-        @"EXEC sys.sp_updateextendedproperty N'MS_Description',  @Table_value , N'SCHEMA', @Schema_Name, N'TABLE', @Table_Name";
+            @"EXEC sys.sp_updateextendedproperty N'MS_Description',  @Table_value , N'SCHEMA', @Schema_Name, N'TABLE', @Table_Name";
 
         public static readonly string InsertTableExtendedProperty =
-        @"EXEC sys.sp_addextendedproperty N'MS_Description',  @Table_value , N'SCHEMA', @Schema_Name, N'TABLE', @Table_Name";
+            @"EXEC sys.sp_addextendedproperty N'MS_Description',  @Table_value , N'SCHEMA', @Schema_Name, N'TABLE', @Table_Name";
 
         public static readonly string UpdateTableColumnExtendedProperty =
-        @"EXEC sys.sp_updateextendedproperty @name=N'MS_Description', @value=@Column_value,@level0type=N'SCHEMA',@level0name=@Schema_Name,@level1type=N'TABLE',@level1name=@Table_Name,@level2type=N'COLUMN',@level2name=@Column_Name";
+            @"EXEC sys.sp_updateextendedproperty @name=N'MS_Description', @value=@Column_value,@level0type=N'SCHEMA',@level0name=@Schema_Name,@level1type=N'TABLE',@level1name=@Table_Name,@level2type=N'COLUMN',@level2name=@Column_Name";
 
         public static readonly string InsertTableColumnExtendedProperty =
-        @"EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=@Column_value,@level0type=N'SCHEMA',@level0name=@Schema_Name,@level1type=N'TABLE',@level1name=@Table_Name,@level2type=N'COLUMN',@level2name=@Column_Name";
+            @"EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=@Column_value,@level0type=N'SCHEMA',@level0name=@Schema_Name,@level1type=N'TABLE',@level1name=@Table_Name,@level2type=N'COLUMN',@level2name=@Column_Name";
 
-        public static readonly string AllTableFragmentation = @"
+        public static readonly string AllTableFragmentation =
+            @"
                     SELECT 
                     SCHEMA_NAME(t.schema_id) + '.' + t.name AS TableName,
                     i.name AS IndexName,
@@ -696,18 +715,269 @@
         /*0*/
 
         public static string ObjectThatDependsOn =
-            @"CREATE TABLE #references   (      thepath           VARCHAR(max),      thefullentityname VARCHAR(200),      thetype           VARCHAR(20),      iteration         INT   ) CREATE TABLE #databasedependencies   (      entityname        VARCHAR(200),      entitytype        CHAR(5),      dependencytype    CHAR(4),      thereferredentity VARCHAR(200),      thereferredtype   CHAR(5)   ) INSERT INTO #databasedependencies             (entityname,              entitytype,              dependencytype,              thereferredentity,              thereferredtype)  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        ty.NAME,        'UDT' FROM   sys.objects o        INNER JOIN sys.columns AS c                ON c.object_id = o.object_id        INNER JOIN sys.types ty                ON ty.user_type_id = c.user_type_id WHERE  is_user_defined = 1 UNION ALL  SELECT Object_schema_name(tt.type_table_object_id)        + '.' + tt.NAME,        'UDTT',        'hard',        ty.NAME,        'UDT' FROM   sys.table_types tt        INNER JOIN sys.columns AS c                ON c.object_id = tt.type_table_object_id        INNER JOIN sys.types ty                ON ty.user_type_id = c.user_type_id WHERE  ty.is_user_defined = 1 UNION ALL  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        Object_schema_name(t.object_id) + '.' + t.NAME,        t.type FROM   sys.objects t        INNER JOIN sys.objects AS o                ON o.parent_object_id = t.object_id WHERE  o.type = 'TR' UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.columns AS clmns                ON clmns.default_object_id = o.object_id WHERE  o.parent_object_id = 0 UNION ALL  SELECT types.NAME,        'UDT',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.types AS types                ON types.default_object_id = o.object_id WHERE  o.parent_object_id = 0 UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.columns AS clmns                ON clmns.rule_object_id = o.object_id UNION ALL  SELECT types.NAME,        'UDT',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.types AS types                ON types.rule_object_id = o.object_id UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.columns clmns         INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   clmns.xml_collection_id UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'UDTT',        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.columns AS clmns        INNER JOIN sys.table_types AS tt                ON tt.type_table_object_id = clmns.object_id        INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   clmns.xml_collection_id UNION ALL  SELECT Object_schema_name(params.object_id) + '.'        + o.NAME,        o.type,        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.parameters AS params        INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   params.xml_collection_id        INNER JOIN sys.objects o                ON o.object_id = params.object_id UNION ALL  SELECT Object_schema_name(tbl.object_id) + '.'        + tbl.NAME,        tbl.type,        'hard',        Object_schema_name(referenced_object_id)        + '.' + Object_name(referenced_object_id),        'U' FROM   sys.foreign_keys AS fk        INNER JOIN sys.tables AS tbl                ON tbl.object_id = fk.parent_object_id UNION ALL  SELECT Object_schema_name(params.object_id) + '.'        + o.NAME,        o.type,        'hard',        types.NAME,        'UDT' FROM   sys.parameters AS params        INNER JOIN sys.types                ON types.user_type_id = params.user_type_id        INNER JOIN sys.objects o                ON o.object_id = params.object_id WHERE  is_user_defined <> 0 UNION ALL  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        ps.NAME,        'PS' FROM   sys.indexes AS idx        INNER JOIN sys.partitions p                ON idx.object_id = p.object_id                   AND idx.index_id = p.index_id        INNER JOIN sys.partition_schemes ps                ON idx.data_space_id = ps.data_space_id        INNER JOIN sys.objects AS o                ON o.object_id = idx.object_id UNION ALL  SELECT ps.NAME,        'PS',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.partition_schemes ps        INNER JOIN sys.objects AS o                ON ps.function_id = o.object_id UNION ALL  SELECT pg.NAME,        'PG',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.plan_guides AS pg                ON pg.scope_object_id = o.object_id UNION ALL  SELECT s.NAME,        'SYN',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.synonyms AS s                ON Object_id(s.base_object_name) = o.object_id UNION ALL   SELECT s.NAME,        'SYN',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.sequences AS s                ON s.user_type_id = o.object_id UNION ALL SELECT DISTINCT COALESCE(Object_schema_name(referencing_id) + '.', '')                 + Object_name(referencing_id),                 referencer.type,                 'soft',                 COALESCE(referenced_schema_name + '.', '')                 +                  COALESCE(referenced_entity_name, ''),                 referenced.type FROM   sys.sql_expression_dependencies        INNER JOIN sys.objects referencer                ON referencing_id = referencer.object_id        INNER JOIN sys.objects referenced                ON referenced_id = referenced.object_id WHERE  referencing_class = 1        AND referenced_class = 1        AND referencer.type IN ( 'v', 'tf', 'fn', 'p',                                 'tr', 'u' ) DECLARE @RowCount INT DECLARE @ii INT  INSERT INTO #references             (thepath,              thefullentityname,              thetype,              iteration) SELECT COALESCE(Object_schema_name(object_id) + '.', '')        + NAME,        COALESCE(Object_schema_name(object_id) + '.', '')        + NAME,        type,        1 FROM   sys.objects WHERE  NAME LIKE @ObjectName  SELECT @rowcount = @@ROWCOUNT,        @ii = 2 IF 0 <> 0      WHILE @ii < 40         AND @rowcount > 0     BEGIN         INSERT INTO #references                     (thepath,                      thefullentityname,                      thetype,                      iteration)         SELECT DISTINCT thepath + '/' + thereferredentity,                         thereferredentity,                         thereferredtype,                         @ii         FROM   #databasedependencies DatabaseDependencies                INNER JOIN #references previousReferences                        ON previousReferences.thefullentityname = entityname                           AND previousReferences.iteration = @ii - 1         WHERE  thereferredentity <> entityname                AND thereferredentity NOT IN (SELECT thefullentityname                                              FROM   #references)         SELECT @rowcount = @@rowcount         SELECT @ii = @ii + 1     END ELSE  WHILE @ii < 20       AND @rowcount > 0   BEGIN       INSERT INTO #references                   (thepath,                    thefullentityname,                    thetype,                    iteration)       SELECT DISTINCT thepath + '/' + entityname,                       entityname,                       DatabaseDependencies.entitytype,                       @ii       FROM   #databasedependencies DatabaseDependencies              INNER JOIN #references previousReferences                      ON previousReferences.thefullentityname = thereferredentity                         AND previousReferences.iteration = @ii - 1       WHERE  thereferredentity <> entityname              AND entityname NOT IN (SELECT thefullentityname                                     FROM   #references)       SELECT @rowcount = @@rowcount       SELECT @ii = @ii + 1   END SELECT * FROM   #references DROP TABLE #databasedependencies DROP TABLE #references ";
-
-        /*1*/
+                        @"CREATE TABLE #references (
+                    thepath VARCHAR(max),
+                    thefullentityname VARCHAR(200),
+                    thetype VARCHAR(20),
+                    iteration INT
+                );
+    
+                CREATE TABLE #databasedependencies (
+                    entityname VARCHAR(200),
+                    entitytype CHAR(5),
+                    dependencytype CHAR(4),
+                    thereferredentity VARCHAR(200),
+                    thereferredtype CHAR(5)
+                );
+    
+                INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
+                SELECT
+                    Object_schema_name(o.object_id) + '.' + o.NAME,
+                    o.type,
+                    'hard',
+                    ty.NAME,
+                    'UDT'
+                FROM sys.objects o
+                INNER JOIN sys.columns AS c ON c.object_id = o.object_id
+                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+                WHERE is_user_defined = 1
+                UNION ALL
+                SELECT
+                    Object_schema_name(tt.type_table_object_id) + '.' + tt.NAME,
+                    'UDTT',
+                    'hard',
+                    ty.NAME,
+                    'UDT'
+                FROM sys.table_types tt
+                INNER JOIN sys.columns AS c ON c.object_id = tt.type_table_object_id
+                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+                WHERE ty.is_user_defined = 1;
+    
+                DECLARE @RowCount INT;
+                DECLARE @ii INT;
+    
+                INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                SELECT COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
+                       COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
+                       type,
+                       1
+                FROM sys.objects
+                WHERE NAME LIKE @ObjectName;
+    
+                SELECT @rowcount = @@ROWCOUNT, @ii = 2;
+    
+                IF 0 <> 0
+                BEGIN
+                    WHILE @ii < 40 AND @rowcount > 0
+                    BEGIN
+                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                        SELECT DISTINCT thepath + '/' + thereferredentity,
+                                        thereferredentity,
+                                        thereferredtype,
+                                        @ii
+                        FROM #databasedependencies
+                        INNER JOIN #references previousReferences
+                        ON previousReferences.thefullentityname = entityname
+                        AND previousReferences.iteration = @ii - 1
+                        WHERE thereferredentity <> entityname
+                        AND thereferredentity NOT IN (SELECT thefullentityname FROM #references);
+            
+                        SELECT @rowcount = @@rowcount;
+                        SELECT @ii = @ii + 1;
+                    END
+                END;
+    
+                SELECT * FROM #references;
+    
+                DROP TABLE #databasedependencies;
+                DROP TABLE #references;";
 
         public static string ObjectOnWhichDepends =
-            @"CREATE TABLE #references   (      thepath           VARCHAR(max),      thefullentityname VARCHAR(200),      thetype           VARCHAR(20),      iteration         INT   ) CREATE TABLE #databasedependencies   (      entityname        VARCHAR(200),      entitytype        CHAR(5),      dependencytype    CHAR(4),      thereferredentity VARCHAR(200),      thereferredtype   CHAR(5)   ) INSERT INTO #databasedependencies             (entityname,              entitytype,              dependencytype,              thereferredentity,              thereferredtype)  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        ty.NAME,        'UDT' FROM   sys.objects o        INNER JOIN sys.columns AS c                ON c.object_id = o.object_id        INNER JOIN sys.types ty                ON ty.user_type_id = c.user_type_id WHERE  is_user_defined = 1 UNION ALL  SELECT Object_schema_name(tt.type_table_object_id)        + '.' + tt.NAME,        'UDTT',        'hard',        ty.NAME,        'UDT' FROM   sys.table_types tt        INNER JOIN sys.columns AS c                ON c.object_id = tt.type_table_object_id        INNER JOIN sys.types ty                ON ty.user_type_id = c.user_type_id WHERE  ty.is_user_defined = 1 UNION ALL  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        Object_schema_name(t.object_id) + '.' + t.NAME,        t.type FROM   sys.objects t        INNER JOIN sys.objects AS o                ON o.parent_object_id = t.object_id WHERE  o.type = 'TR' UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.columns AS clmns                ON clmns.default_object_id = o.object_id WHERE  o.parent_object_id = 0 UNION ALL  SELECT types.NAME,        'UDT',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.types AS types                ON types.default_object_id = o.object_id WHERE  o.parent_object_id = 0 UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.columns AS clmns                ON clmns.rule_object_id = o.object_id UNION ALL  SELECT types.NAME,        'UDT',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.types AS types                ON types.rule_object_id = o.object_id UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'U',        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.columns clmns         INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   clmns.xml_collection_id UNION ALL  SELECT Object_schema_name(clmns.object_id) + '.'        + Object_name(clmns.object_id),        'UDTT',        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.columns AS clmns        INNER JOIN sys.table_types AS tt                ON tt.type_table_object_id = clmns.object_id        INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   clmns.xml_collection_id UNION ALL  SELECT Object_schema_name(params.object_id) + '.'        + o.NAME,        o.type,        'hard',        xml_schema_collections.NAME,        'XMLC' FROM   sys.parameters AS params        INNER JOIN sys.xml_schema_collections                ON xml_schema_collections.xml_collection_id =                   params.xml_collection_id        INNER JOIN sys.objects o                ON o.object_id = params.object_id UNION ALL  SELECT Object_schema_name(tbl.object_id) + '.'        + tbl.NAME,        tbl.type,        'hard',        Object_schema_name(referenced_object_id)        + '.' + Object_name(referenced_object_id),        'U' FROM   sys.foreign_keys AS fk        INNER JOIN sys.tables AS tbl                ON tbl.object_id = fk.parent_object_id UNION ALL  SELECT Object_schema_name(params.object_id) + '.'        + o.NAME,        o.type,        'hard',        types.NAME,        'UDT' FROM   sys.parameters AS params        INNER JOIN sys.types                ON types.user_type_id = params.user_type_id        INNER JOIN sys.objects o                ON o.object_id = params.object_id WHERE  is_user_defined <> 0 UNION ALL  SELECT Object_schema_name(o.object_id) + '.' + o.NAME,        o.type,        'hard',        ps.NAME,        'PS' FROM   sys.indexes AS idx        INNER JOIN sys.partitions p                ON idx.object_id = p.object_id                   AND idx.index_id = p.index_id        INNER JOIN sys.partition_schemes ps                ON idx.data_space_id = ps.data_space_id        INNER JOIN sys.objects AS o                ON o.object_id = idx.object_id UNION ALL  SELECT ps.NAME,        'PS',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.partition_schemes ps        INNER JOIN sys.objects AS o                ON ps.function_id = o.object_id UNION ALL  SELECT pg.NAME,        'PG',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.plan_guides AS pg                ON pg.scope_object_id = o.object_id UNION ALL  SELECT s.NAME,        'SYN',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.synonyms AS s                ON Object_id(s.base_object_name) = o.object_id UNION ALL   SELECT s.NAME,        'SYN',        'hard',        Object_schema_name(o.object_id) + '.' + o.NAME,        o.type FROM   sys.objects o        INNER JOIN sys.sequences AS s                ON s.user_type_id = o.object_id UNION ALL SELECT DISTINCT COALESCE(Object_schema_name(referencing_id) + '.', '')                 + Object_name(referencing_id),                 referencer.type,                 'soft',                 COALESCE(referenced_schema_name + '.', '')                 +                  COALESCE(referenced_entity_name, ''),                 referenced.type FROM   sys.sql_expression_dependencies        INNER JOIN sys.objects referencer                ON referencing_id = referencer.object_id        INNER JOIN sys.objects referenced                ON referenced_id = referenced.object_id WHERE  referencing_class = 1        AND referenced_class = 1        AND referencer.type IN ( 'v', 'tf', 'fn', 'p',                                 'tr', 'u' ) DECLARE @RowCount INT DECLARE @ii INT  INSERT INTO #references             (thepath,              thefullentityname,              thetype,              iteration) SELECT COALESCE(Object_schema_name(object_id) + '.', '')        + NAME,        COALESCE(Object_schema_name(object_id) + '.', '')        + NAME,        type,        1 FROM   sys.objects WHERE  NAME LIKE @ObjectName  SELECT @rowcount = @@ROWCOUNT,        @ii = 2 IF 1 <> 0      WHILE @ii < 40        AND @rowcount > 0     BEGIN         INSERT INTO #references                     (thepath,                      thefullentityname,                      thetype,                      iteration)         SELECT DISTINCT thepath + '/' + thereferredentity,                         thereferredentity,                         thereferredtype,                         @ii         FROM   #databasedependencies DatabaseDependencies                INNER JOIN #references previousReferences                        ON previousReferences.thefullentityname = entityname                           AND previousReferences.iteration = @ii - 1         WHERE  thereferredentity <> entityname                AND thereferredentity NOT IN (SELECT thefullentityname                                              FROM   #references)         SELECT @rowcount = @@rowcount         SELECT @ii = @ii + 1     END ELSE  WHILE @ii < 20       AND @rowcount > 0   BEGIN       INSERT INTO #references                   (thepath,                    thefullentityname,                    thetype,                    iteration)       SELECT DISTINCT thepath + '/' + entityname,                       entityname,                       DatabaseDependencies.entitytype,                       @ii       FROM   #databasedependencies DatabaseDependencies              INNER JOIN #references previousReferences                      ON previousReferences.thefullentityname = thereferredentity                         AND previousReferences.iteration = @ii - 1       WHERE  thereferredentity <> entityname              AND entityname NOT IN (SELECT thefullentityname                                     FROM   #references)       SELECT @rowcount = @@rowcount       SELECT @ii = @ii + 1   END SELECT * FROM   #references DROP TABLE #databasedependencies DROP TABLE #references ";
+                        @"CREATE TABLE #references (
+                    thepath VARCHAR(max),
+                    thefullentityname VARCHAR(200),
+                    thetype VARCHAR(20),
+                    iteration INT
+                );
+    
+                CREATE TABLE #databasedependencies (
+                    entityname VARCHAR(200),
+                    entitytype CHAR(5),
+                    dependencytype CHAR(4),
+                    thereferredentity VARCHAR(200),
+                    thereferredtype CHAR(5)
+                );
+    
+                INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
+                SELECT
+                    Object_schema_name(o.object_id) + '.' + o.NAME,
+                    o.type,
+                    'hard',
+                    ty.NAME,
+                    'UDT'
+                FROM sys.objects o
+                INNER JOIN sys.columns AS c ON c.object_id = o.object_id
+                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+                WHERE is_user_defined = 1;
+    
+                DECLARE @RowCount INT;
+                DECLARE @ii INT;
+    
+                INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                SELECT COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
+                       COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
+                       type,
+                       1
+                FROM sys.objects
+                WHERE NAME LIKE @ObjectName;
+    
+                SELECT @rowcount = @@ROWCOUNT, @ii = 2;
+    
+                IF 1 <> 0
+                BEGIN
+                    WHILE @ii < 40 AND @rowcount > 0
+                    BEGIN
+                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                        SELECT DISTINCT thepath + '/' + thereferredentity,
+                                        thereferredentity,
+                                        thereferredtype,
+                                        @ii
+                        FROM #databasedependencies
+                        INNER JOIN #references previousReferences
+                        ON previousReferences.thefullentityname = entityname
+                        AND previousReferences.iteration = @ii - 1
+                        WHERE thereferredentity <> entityname
+                        AND thereferredentity NOT IN (SELECT thefullentityname FROM #references);
+            
+                        SELECT @rowcount = @@rowcount;
+                        SELECT @ii = @ii + 1;
+                    END
+                END;
+    
+                SELECT * FROM #references;
+    
+                DROP TABLE #databasedependencies;
+                DROP TABLE #references;";
 
+
+        public static string ObjectThatDependsOn_new =
+                    @"CREATE TABLE #references (
+                        thepath VARCHAR(max),
+                        thefullentityname VARCHAR(200) PRIMARY KEY,
+                        thetype VARCHAR(20),
+                        iteration INT
+                    );
+    
+                    CREATE TABLE #databasedependencies (
+                        entityname VARCHAR(200),
+                        entitytype CHAR(5),
+                        dependencytype CHAR(4),
+                        thereferredentity VARCHAR(200),
+                        thereferredtype CHAR(5),
+                        PRIMARY KEY (entityname, thereferredentity)
+                    );
+    
+                    INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
+                    SELECT DISTINCT
+                        OBJECT_SCHEMA_NAME(o.object_id) + '.' + o.name,
+                        o.type,
+                        'hard',
+                        ty.name,
+                        'UDT'
+                    FROM sys.objects o
+                    JOIN sys.columns c ON c.object_id = o.object_id
+                    JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+                    WHERE ty.is_user_defined = 1;
+    
+                    DECLARE @RowCount INT = 0;
+                    DECLARE @ii INT = 2;
+    
+                    INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                    SELECT SCHEMA_NAME(o.schema_id) + '.' + o.name, SCHEMA_NAME(o.schema_id) + '.' + o.name, o.type, 1
+                    FROM sys.objects o
+                    WHERE o.name = @ObjectName;
+    
+                    SET @RowCount = @@ROWCOUNT;
+    
+                    WHILE @ii < 40 AND @RowCount > 0
+                    BEGIN
+                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                        SELECT DISTINCT r.thepath + '/' + d.thereferredentity, d.thereferredentity, d.thereferredtype, @ii
+                        FROM #databasedependencies d
+                        JOIN #references r ON r.thefullentityname = d.entityname AND r.iteration = @ii - 1
+                        WHERE d.thereferredentity <> d.entityname
+                        AND NOT EXISTS (SELECT 1 FROM #references WHERE thefullentityname = d.thereferredentity);
+        
+                        SET @RowCount = @@ROWCOUNT;
+                        SET @ii = @ii + 1;
+                    END;
+    
+                    SELECT * FROM #references;
+    
+                    DROP TABLE #databasedependencies;
+                    DROP TABLE #references;";
+
+        public static string ObjectOnWhichDepends_new =
+            @"CREATE TABLE #references (
+                        thepath VARCHAR(max),
+                        thefullentityname VARCHAR(200) PRIMARY KEY,
+                        thetype VARCHAR(20),
+                        iteration INT
+                    );
+    
+                    CREATE TABLE #databasedependencies (
+                        entityname VARCHAR(200),
+                        entitytype CHAR(5),
+                        dependencytype CHAR(4),
+                        thereferredentity VARCHAR(200),
+                        thereferredtype CHAR(5),
+                        PRIMARY KEY (entityname, thereferredentity)
+                    );
+    
+                    INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
+                    SELECT DISTINCT
+                        OBJECT_SCHEMA_NAME(o.object_id) + '.' + o.name,
+                        o.type,
+                        'hard',
+                        ty.name,
+                        'UDT'
+                    FROM sys.objects o
+                    JOIN sys.columns c ON c.object_id = o.object_id
+                    JOIN sys.types ty ON ty.user_type_id = c.user_type_id
+                    WHERE ty.is_user_defined = 1;
+    
+                    DECLARE @RowCount INT = 0;
+                    DECLARE @ii INT = 2;
+    
+                    INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                    SELECT SCHEMA_NAME(o.schema_id) + '.' + o.name, SCHEMA_NAME(o.schema_id) + '.' + o.name, o.type, 1
+                    FROM sys.objects o
+                    WHERE o.name = @ObjectName;
+    
+                    SET @RowCount = @@ROWCOUNT;
+    
+                    WHILE @ii < 40 AND @RowCount > 0
+                    BEGIN
+                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
+                        SELECT DISTINCT r.thepath + '/' + d.thereferredentity, d.thereferredentity, d.thereferredtype, @ii
+                        FROM #databasedependencies d
+                        JOIN #references r ON r.thefullentityname = d.entityname AND r.iteration = @ii - 1
+                        WHERE d.thereferredentity <> d.entityname
+                        AND NOT EXISTS (SELECT 1 FROM #references WHERE thefullentityname = d.thereferredentity);
+        
+                        SET @RowCount = @@ROWCOUNT;
+                        SET @ii = @ii + 1;
+                    END;
+    
+                    SELECT * FROM #references; 
+                    DROP TABLE #databasedependencies;
+                    DROP TABLE #references;";
 
     }
     public static partial class SqlQueryConstant
     {
-        public static readonly string GetAllDatabaseTrigger = @"
+        public static readonly string GetAllDatabaseTrigger =
+            @"
                         SELECT 
                         trigg.name AS Name, 
                         sep.value AS Description, 
@@ -736,7 +1006,8 @@
 
     ";
 
-        public static readonly string GetDatabaseTriggerdtlByName = @"
+        public static readonly string GetDatabaseTriggerdtlByName =
+            @"
                     SELECT  
                     SCHEMA_NAME(O.schema_id) + '.' + O.name AS Name,   
                     COALESCE(sep.value, '') AS Description,         
@@ -751,7 +1022,8 @@
                     AND (SCHEMA_NAME(O.schema_id) + '.' + O.name) = @TriggerName;
 
             ";
-        public static readonly string TriggerProperties = @"
+        public static readonly string TriggerProperties =
+            @"
                   SELECT 
                     tr.name AS TriggerName,
                     SCHEMA_NAME(obj.schema_id) AS SchemaName,
@@ -767,8 +1039,8 @@
                 WHERE ( SCHEMA_NAME(obj.schema_id)+'.'+tr.name) = @TriggerName
 ";
 
-
-        public static readonly string MergeTriggerExtendedProperty = @"
+        public static readonly string MergeTriggerExtendedProperty =
+            @"
                 IF EXISTS (
                     SELECT 1 FROM sys.extended_properties 
                     WHERE name = N'MS_Description' 
@@ -790,18 +1062,15 @@
                         @level0name = @Trigger_Name;
                 END
                 ";
-
-
-
     }
 
     public static partial class SqlQueryConstant
     {
-
         /// <summary>
         /// Query to fetch descriptions of all scalar functions.
         /// </summary>
-        public const string FetchScalarFunctionDescriptions = @"
+        public const string FetchScalarFunctionDescriptions =
+            @"
             SELECT 
                 QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
                 sep.[value] AS Description
@@ -814,7 +1083,8 @@
         /// <summary>
         /// Query to fetch descriptions of all table-valued functions.
         /// </summary>
-        public const string FetchTableFunctionDescriptions = @"
+        public const string FetchTableFunctionDescriptions =
+            @"
             SELECT 
                 QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
                 sep.[value] AS Description
@@ -827,7 +1097,8 @@
         /// <summary>
         /// Query to fetch descriptions of all aggregate functions.
         /// </summary>
-        public const string FetchAggregateFunctionDescriptions = @"
+        public const string FetchAggregateFunctionDescriptions =
+            @"
             SELECT 
                 QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
                 sep.[value] AS Description
@@ -925,7 +1196,7 @@
     public static partial class SqlQueryConstants
     {
         public static readonly string GetAllViewsDetailsWithMsDesc =
-        @"SELECT SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME] AS 'ViewName', ep.value AS ViewExtendedProperties
+            @"SELECT SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME] AS 'ViewName', ep.value AS ViewExtendedProperties
           FROM sys.extended_properties EP
           INNER JOIN SYS.OBJECTS O ON ep.major_id = O.object_id
           WHERE O.TYPE = 'V'";
@@ -969,7 +1240,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 
     public static partial class SqlQueryConstant
     {
-        public static string GetAllUserDefinedDataTypes = @"
+        public static string GetAllUserDefinedDataTypes =
+            @"
         SELECT 
             SCHEMA_NAME(t.schema_id) + '.' + t.name AS Name,
             t.is_nullable AS 'AllowNulls',
@@ -985,9 +1257,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
         FROM sys.types t
         WHERE t.is_user_defined = 1";
 
-         
-
-        public static string GetUsedDefinedDataTypeReference = @"
+        public static string GetUsedDefinedDataTypeReference =
+            @"
                 SELECT s.name + '.' + o.name AS ObjectName, o.type as ObjectType 
                 FROM sys.schemas s 
                 JOIN sys.objects o ON o.schema_id = s.schema_id  
@@ -1000,7 +1271,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
                 AND  t.name = @TypeName;
    ";
 
-        public static string GetUserDefinedDataTypeWithExtendedProperties= @" 
+        public static string GetUserDefinedDataTypeWithExtendedProperties =
+            @" 
             SELECT 
                 SCHEMA_NAME(t.schema_id) + '.' + t.name AS Name,
                 t.is_nullable AS AllowNulls,
@@ -1019,7 +1291,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
             FROM sys.types t
             WHERE t.is_user_defined = 1 
             AND  t.name = @TypeName";
-        public static string UpsertUserDefinedDataTypeExtendedProperty = @"
+        public static string UpsertUserDefinedDataTypeExtendedProperty =
+            @"
        DECLARE @ExistingValue sql_variant  ; 
             SELECT @ExistingValue = value  
             FROM sys.extended_properties 
@@ -1051,7 +1324,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
     }
     public static partial class SqlQueryConstant
     {
-        public static string AllXMLSchemaDetails= @"
+        public static string AllXMLSchemaDetails =
+            @"
             SELECT   
                 (s.name + '.' + xsc.name) AS XMLSchemaCollections, 
                 ISNULL(ep.value, '') AS MS_Description  
@@ -1061,7 +1335,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
             JOIN sys.schemas s ON xsc.schema_id = s.schema_id	 
             WHERE xsc.xml_collection_id <> 1;
             ";
-        public static string XMLSchemaDetails = @"
+        public static string XMLSchemaDetails =
+            @"
             DECLARE @Schema NVARCHAR(128);  
             SELECT @Schema = s.name
             FROM sys.xml_schema_collections xsc
@@ -1090,7 +1365,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
             WHERE xsc.name = @SchemaCollectionName;
             ";
 
-        public static string XMLSchemReference= @"
+        public static string XMLSchemReference =
+            @"
             SELECT
                 OBJECT_SCHEMA_NAME(c.object_id) AS TableSchema,
                 OBJECT_NAME(c.object_id) AS TableName,
@@ -1105,7 +1381,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
     public static partial class SqlQueryConstant
     {
         // Query to fetch all Full-Text Catalogs with descriptions
-        public const string GetAllFullTextCatalogs = @"
+        public const string GetAllFullTextCatalogs =
+            @"
     SELECT 
      ftc.name AS [Name],
      s.name AS SchemaName,
@@ -1118,7 +1395,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 ";
 
         // Query to fetch tables associated with Full-Text Catalogs
-        public const string GetFullTextCatalogTables = @"
+        public const string GetFullTextCatalogTables =
+            @"
     SELECT 
         ftc.name AS FullTextCatalog,
         s.name AS SchemaName,
@@ -1133,7 +1411,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 ";
 
         // Query to fetch Full-Text Indexed Columns
-        public const string GetFullTextIndexedColumns = @"
+        public const string GetFullTextIndexedColumns =
+            @"
     SELECT 
         ftc.name AS FullTextCatalog,
         s.name AS SchemaName,
@@ -1154,7 +1433,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 ";
 
         // Query to fetch Full-Text Catalog properties
-        public const string GetFullTextProperties = @"
+        public const string GetFullTextProperties =
+            @"
            SELECT 
              ftc.name AS Name,
              s.name AS SchemaName,
@@ -1173,7 +1453,8 @@ sqlM ON vs.object_id=sqlM.object_id where sqlM.object_id=OBJECT_ID(@viewname)";
 ";
 
         // Query to generate Full-Text Catalog CREATE Script
-        public const string GetFullTextCatalogCreateScript = @"
+        public const string GetFullTextCatalogCreateScript =
+            @"
      SELECT 
     'CREATE FULLTEXT CATALOG [' + ftc.name + ']'
     + ' WITH ACCENT_SENSITIVITY = ' + CASE WHEN ftc.is_accent_sensitivity_on = 1 THEN 'ON' ELSE 'OFF' END
@@ -1188,7 +1469,8 @@ WHERE ftc.name = @FullTextCatalog;
 ";
 
         // Query to generate Full-Text Index CREATE Script
-        public const string GetFullTextIndexCreateScript = @"
+        public const string GetFullTextIndexCreateScript =
+            @"
     SELECT 
         'CREATE FULLTEXT INDEX ON [' + s.name + '].[' + t.name + ']'
         + ' KEY INDEX [' + i.name + ']'
@@ -1208,7 +1490,8 @@ WHERE ftc.name = @FullTextCatalog;
     }
     public static partial class SqlQueryConstant
     {
-        public const string GetAllSchemaMetadata = @"
+        public const string GetAllSchemaMetadata =
+            @"
                 SELECT 
 	                s.name AS SchemaName, 
 	                ISNULL( p.value,'') AS [Description] 
@@ -1220,8 +1503,8 @@ WHERE ftc.name = @FullTextCatalog;
                 JOIN sys.database_principals u 
                 ON s.principal_id = u.principal_id";
 
-
-        public const string GetSchemaDescription = @"
+        public const string GetSchemaDescription =
+            @"
         SELECT 
             s.name AS SchemaName, 
             p.value AS Description
@@ -1231,7 +1514,8 @@ WHERE ftc.name = @FullTextCatalog;
             AND p.name = 'MS_Description'
         WHERE s.name = @SchemaName;";
 
-    public const string GetSchemaOwner = @"
+        public const string GetSchemaOwner =
+            @"
         SELECT 
             s.name AS SchemaName, 
             u.name AS Owner
@@ -1240,7 +1524,8 @@ WHERE ftc.name = @FullTextCatalog;
             ON s.principal_id = u.principal_id
         WHERE s.name = @SchemaName;";
 
-    public const string GetObjectsUsedBySchema = @"
+        public const string GetObjectsUsedBySchema =
+            @"
         SELECT 
             s.name AS SchemaName, 
             o.name AS ObjectName, 
@@ -1251,7 +1536,8 @@ WHERE ftc.name = @FullTextCatalog;
         WHERE s.name = @SchemaName
         ORDER BY o.name;";
 
-    public const string GenerateSchemaScript = @"
+        public const string GenerateSchemaScript =
+            @"
         SELECT 
             'CREATE SCHEMA [' + s.name + '] AUTHORIZATION [' + u.name + '];' AS SchemaScript
         FROM sys.schemas s
@@ -1259,5 +1545,5 @@ WHERE ftc.name = @FullTextCatalog;
             ON s.principal_id = u.principal_id
         WHERE s.name = @SchemaName;";
     }
- }
+}
 

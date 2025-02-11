@@ -1,4 +1,6 @@
-﻿namespace API.Domain.Table
+﻿using API.Domain.Common;
+
+namespace API.Domain.Table
 {
     public class HirechyJsonGenerator
     {
