@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains SQL query constants used for various database operations.
     /// </summary>
-    public static partial class SqlQueryConstants
+    public static partial class SqlQueryConstant
     {
         /// <summary>
         /// SQL query to load all stored procedures.
@@ -250,7 +250,7 @@
                 LEFT JOIN sys.database_principals dp 
                     ON s.principal_id = dp.principal_id";
     }
-    public static partial class SqlQueryConstants
+    public static partial class SqlQueryConstant
     {
         public static readonly string FetchAllStoredProceduresWithDescriptions =
             @"SELECT DISTINCT 
@@ -1193,7 +1193,7 @@
                 @level1type = N'FUNCTION',
                 @level1name = @FunctionName;";
     }
-    public static partial class SqlQueryConstants
+    public static partial class SqlQueryConstant
     {
         public static readonly string GetAllViewsDetailsWithMsDesc =
             @"SELECT SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME] AS 'ViewName', ep.value AS ViewExtendedProperties

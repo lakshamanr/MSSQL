@@ -42,7 +42,7 @@ namespace API.Repository.View
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var parameters = new { ViewName = _viewName };
-                    return await db.QueryAsync<ViewDependency>(SqlQueryConstants.GetViewDependencies, parameters);
+                    return await db.QueryAsync<ViewDependency>(SqlQueryConstant.GetViewDependencies, parameters);
                 }
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace API.Repository.View
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var parameters = new { ViewName = _viewName };
-                    return await db.QueryAsync<ViewProperties>(SqlQueryConstants.GetViewProperties, parameters);
+                    return await db.QueryAsync<ViewProperties>(SqlQueryConstant.GetViewProperties, parameters);
                 }
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace API.Repository.View
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var parameters = new { ViewName = _viewName };
-                    return await db.QueryAsync<ViewColumns>(SqlQueryConstants.GetViewColumns, parameters);
+                    return await db.QueryAsync<ViewColumns>(SqlQueryConstant.GetViewColumns, parameters);
                 }
             }
             catch (Exception ex)
@@ -105,7 +105,7 @@ namespace API.Repository.View
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var parameters = new { ViewName = _viewName };
-                    return await db.QueryFirstAsync<ViewCreateScript>(SqlQueryConstants.GetViewCreateScript, parameters);
+                    return await db.QueryFirstAsync<ViewCreateScript>(SqlQueryConstant.GetViewCreateScript, parameters);
                 }
             }
             catch (Exception ex)

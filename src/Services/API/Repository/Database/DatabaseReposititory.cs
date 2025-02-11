@@ -67,7 +67,7 @@ namespace API.Repository.Database
         {
             return await LoadFromCacheOrQueryAsync<DatabaseFile>(
                 CacheConstants.DatabaseCache.DatabaseFiles,
-                SqlQueryConstants.LoadDatabaseFiles
+                SqlQueryConstant.LoadDatabaseFiles
                     .Replace("@DatabaseName", $"'{CurrentDatabases}'"),
                 connection);
         }

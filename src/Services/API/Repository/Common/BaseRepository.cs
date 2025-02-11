@@ -117,7 +117,7 @@ namespace API.Repository.Common
         {
             return await LoadFromCacheOrQueryAsync<ServerProperty>(
                 CacheConstants.DatabaseCache.AdvancedServerSettings,
-                SqlQueryConstants.LoadAdvancedServerSettings,
+                SqlQueryConstant.LoadAdvancedServerSettings,
                 connection);
         }
 
@@ -131,7 +131,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<FunctionInfo>(
                 CacheConstants.DatabaseCache.AggregateFunctions +
                     (!string.IsNullOrEmpty(databaseName) ? databaseName : string.Empty),
-                SqlQueryConstants.LoadAggregateFunctions,
+                SqlQueryConstant.LoadAggregateFunctions,
                 GetDbConnection(databaseName));
         }
 
@@ -153,7 +153,7 @@ namespace API.Repository.Common
         {
             return await LoadFromCacheOrQueryAsync<DatabaseInfo>(
                 CacheConstants.DatabaseCache.DatabaseNames,
-                SqlQueryConstants.LoadDatabases,
+                SqlQueryConstant.LoadDatabases,
                 connection);
         }
 
@@ -176,7 +176,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<TriggerInfo>(
                 CacheConstants.DatabaseCache.DatabaseTriggers +
                     (!string.IsNullOrEmpty(currentDbName) ? currentDbName : string.Empty),
-                SqlQueryConstants.LoadDatabaseTriggers,
+                SqlQueryConstant.LoadDatabaseTriggers,
                 GetDbConnection(currentDbName));
         }
 
@@ -224,7 +224,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<FunctionInfo>(
                 CacheConstants.DatabaseCache.ScalarFunctions +
                     (!string.IsNullOrEmpty(databaseName) ? databaseName : string.Empty),
-                SqlQueryConstants.LoadScalarFunctions,
+                SqlQueryConstant.LoadScalarFunctions,
                 GetDbConnection(databaseName));
         }
 
@@ -242,7 +242,7 @@ namespace API.Repository.Common
 
             try
             {
-                var properties = await connection.QuerySingleOrDefaultAsync(SqlQueryConstants.LoadServerProperties);
+                var properties = await connection.QuerySingleOrDefaultAsync(SqlQueryConstant.LoadServerProperties);
 
                 if (properties == null)
                 {
@@ -286,7 +286,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<ProcedureInfo>(
                 CacheConstants.DatabaseCache.StoredProcedures +
                     (!string.IsNullOrEmpty(currentDbName) ? currentDbName : string.Empty),
-                SqlQueryConstants.LoadStoredProcedures,
+                SqlQueryConstant.LoadStoredProcedures,
                 GetDbConnection(currentDbName));
         }
 
@@ -331,7 +331,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<FunctionInfo>(
                 CacheConstants.DatabaseCache.TableValuedFunctions +
                     (!string.IsNullOrEmpty(databaseName) ? databaseName : string.Empty),
-                SqlQueryConstants.LoadTableValuedFunctions,
+                SqlQueryConstant.LoadTableValuedFunctions,
                 GetDbConnection(databaseName));
         }
 
@@ -345,7 +345,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<UserType>(
                 CacheConstants.DatabaseCache.UserDefinedDataTypes +
                     (!string.IsNullOrEmpty(databaseName) ? databaseName : string.Empty),
-                SqlQueryConstants.LoadUserDefinedDataTypes,
+                SqlQueryConstant.LoadUserDefinedDataTypes,
                 GetDbConnection(databaseName));
         }
 
@@ -358,7 +358,7 @@ namespace API.Repository.Common
         {
             return await LoadFromCacheOrQueryAsync<ViewMetadata>(
                 CacheConstants.DatabaseCache.ViewDetails,
-                SqlQueryConstants.LoadViewDetails,
+                SqlQueryConstant.LoadViewDetails,
                 currentDbName == null || currentDbName == string.Empty
                     ? GetDbConnection()
                     : GetDbConnection(currentDbName));
@@ -374,7 +374,7 @@ namespace API.Repository.Common
             return await LoadFromCacheOrQueryAsync<DbXmlSchema>(
                 CacheConstants.DatabaseCache.XmlSchemaCollections +
                     (!string.IsNullOrEmpty(databaseName) ? databaseName : string.Empty),
-                SqlQueryConstants.LoadXmlSchemaCollections,
+                SqlQueryConstant.LoadXmlSchemaCollections,
                 GetDbConnection(databaseName));
         }
 
@@ -395,7 +395,7 @@ namespace API.Repository.Common
             {
                 using (IDbConnection db = new SqlConnection(_connectionString))
                 {
-                    viewDetails = await db.QueryAsync<ViewDetails>(SqlQueryConstants.GetAllViewsDetailsWithMsDesc);
+                    viewDetails = await db.QueryAsync<ViewDetails>(SqlQueryConstant.GetAllViewsDetailsWithMsDesc);
                     return viewDetails;
                 }
             }

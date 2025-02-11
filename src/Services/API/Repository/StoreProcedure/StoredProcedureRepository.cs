@@ -43,7 +43,7 @@ namespace API.Repository.StoreProcedure
             using (var connection = CreateConnection())
             {
                 return await connection.QueryAsync<StoredProcedureInfo>(
-                    SqlQueryConstants.FetchAllStoredProceduresWithDescriptions);
+                    SqlQueryConstant.FetchAllStoredProceduresWithDescriptions);
             }
         }
 
@@ -57,19 +57,19 @@ namespace API.Repository.StoreProcedure
             using (var connection = CreateConnection())
             {
                 var dependencies = await connection.QueryAsync<DependencyResult>(
-                    SqlQueryConstants.FetchStoredProcedureDependencies,
+                    SqlQueryConstant.FetchStoredProcedureDependencies,
                     new { StoredProcedureName = storedProcedureName });
 
                 var parameters = await connection.QueryAsync<StoredProcedureParameter>(
-                    SqlQueryConstants.FetchStoredProcedureParametersWithDescriptions,
+                    SqlQueryConstant.FetchStoredProcedureParametersWithDescriptions,
                     new { StoredProcedureName = storedProcedureName });
 
                 var createScript = await connection.QueryFirstOrDefaultAsync<StoredProcedureCreateScript>(
-                    SqlQueryConstants.FetchStoredProcedureCreateScript,
+                    SqlQueryConstant.FetchStoredProcedureCreateScript,
                     new { StoredProcedureName = storedProcedureName });
 
                 var executionPlan = await connection.QueryFirstOrDefaultAsync<ExecutionPlanResult>(
-                    SqlQueryConstants.FetchStoredProcedureExecutionPlan,
+                    SqlQueryConstant.FetchStoredProcedureExecutionPlan,
                     new { StoredProcedureName = storedProcedureName });
                 var StoredProcedureDependencies = await _objectDependenciesRepository.ObjectsDependencies(storedProcedureName);
                 return new StoredProcedureMeta
@@ -95,7 +95,7 @@ namespace API.Repository.StoreProcedure
             using (var connection = CreateConnection())
             {
                 await connection.ExecuteAsync(
-                    SqlQueryConstants.MergeStoredProcedureExtendedProperty,
+                    SqlQueryConstant.MergeStoredProcedureExtendedProperty,
                     new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, Description = description });
             }
         }
@@ -113,7 +113,7 @@ namespace API.Repository.StoreProcedure
             using (var connection = CreateConnection())
             {
                 await connection.ExecuteAsync(
-                    SqlQueryConstants.MergeStoredProcedureParameterExtendedProperty,
+                    SqlQueryConstant.MergeStoredProcedureParameterExtendedProperty,
                     new { SchemaName = schemaName, StoredProcedureName = storedProcedureName, ParameterName = parameterName, Description = description });
             }
         }
