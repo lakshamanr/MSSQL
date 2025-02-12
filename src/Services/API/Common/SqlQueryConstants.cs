@@ -1,4 +1,4 @@
-﻿namespace API.Common.Queries
+namespace API.Common.Queries
 {
     /// <summary>
     /// Contains SQL query constants used for various database operations.
@@ -146,7 +146,7 @@
                 SELECT SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.NAME AS FunctionName
                 FROM SYS.OBJECTS O
                 INNER JOIN SYS.SQL_MODULES M ON O.OBJECT_ID = M.OBJECT_ID
-                WHERE O.TYPE = 'IF'";
+                WHERE O.TYPE = 'AF'";
 
         /// <summary>
         /// SQL query to load scalar functions.
@@ -252,6 +252,9 @@
     }
     public static partial class SqlQueryConstant
     {
+        /// <summary>
+        /// SQL query to fetch all stored procedures with descriptions.
+        /// </summary>
         public static readonly string FetchAllStoredProceduresWithDescriptions =
             @"SELECT DISTINCT 
                     (SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME]) AS StoredProcedure, 
@@ -262,8 +265,9 @@
                 AND EP.CLASS_DESC = 'OBJECT_OR_COLUMN'
                 WHERE O.TYPE = 'P';
             ";
+   
 
-        public static readonly string FetchStoredProcedureDependencies =
+    public static readonly string FetchStoredProcedureDependencies =
             @"SELECT OBJECT_SCHEMA_NAME(referencing_id) + '.' + OBJECT_NAME(referencing_id) AS ReferencingObjectName,     
                      obj.type_desc AS ReferencingObjectType,     
                      referenced_schema_name + '.' + referenced_entity_name AS ReferencedObjectName 
