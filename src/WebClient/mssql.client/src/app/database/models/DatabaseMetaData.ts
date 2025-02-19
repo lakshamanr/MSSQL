@@ -9,7 +9,7 @@ import { DatabaseFile } from './DatabaseFile';
 import { ViewMetadata } from './ViewMetadata';
 import { TablesMetadata } from '../../table/models/TablesMetaData';
 
-export interface ServerMetaData {
+export class DatabaseMetaData {
   dbXmlSchemas: DbXmlSchema[];
   currentDatabaseName: string;
   databaseInfos: DatabaseInfo[];

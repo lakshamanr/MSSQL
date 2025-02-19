@@ -13,6 +13,7 @@ import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TreeDragDropService, MessageService } from 'primeng/api';
 import { DatabaseDetailsComponent } from './components/database-details.component';
+import { DatabaseMetadataService } from './database-metadata.service';
  
 
 
@@ -35,7 +36,7 @@ import { DatabaseDetailsComponent } from './components/database-details.componen
     CodeHighlighterModule,
     BreadcrumbModule
   ],
-  providers: [TreeDragDropService, MessageService],
+  providers: [TreeDragDropService, MessageService,DatabaseMetadataService],
   exports:[DatabaseDetailsComponent]
 })
 export class DatabaseModule { }
