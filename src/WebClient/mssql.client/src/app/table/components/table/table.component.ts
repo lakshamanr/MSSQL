@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 
 import { TableDescription } from "../../models/TableDescription";
 import { TableMetadata } from "../../models/TableMetadata";
@@ -20,8 +19,6 @@ import { TableService } from '../../service/table.service';
 })
 export class TableComponent implements OnInit, AfterViewInit {
   tableName: string = "HumanResources.Employee";
- //"http://localhost:5000/
-  // Properties
   columns: TableColumn[] = [];
   tableFragmentations: TableFragmentation[] = [];
   createScript: TableCreateScript = { script: "" };
@@ -30,13 +27,11 @@ export class TableComponent implements OnInit, AfterViewInit {
   foreignKeys: TableForeignKey[] = [];
   properties: TableProperty[] = [];
   displayDialog: boolean;
-  displayColumnDialog: boolean ;
-  hasEditPermission: boolean; // Set based on user permissions
-
+  displayColumnDialog: boolean;
+  hasEditPermission: boolean;
   tableconstraint!: TableConstraint[];
   filesTree: any;
-
-  public selectedDescription: TableDescription = { name: "", value: "", table: "" };
+  selectedDescription: TableDescription = { name: "", value: "", table: "" };
   selectedColumn: TableColumn = {
     tableName: "",
     columnName: "",
@@ -52,45 +47,26 @@ export class TableComponent implements OnInit, AfterViewInit {
     extendedPropertyValue: ""
   };
 
-  // Constructor
-  constructor(private tableService :TableService,private http: HttpClient, private cd: ChangeDetectorRef) { }
+  constructor(private tableService: TableService, private http: HttpClient, private cd: ChangeDetectorRef) { }
 
-  // Lifecycle Hook
   ngOnInit() {
     this.loadTableMetadata();
     this.loadData();
   }
 
-  loadData() { 
-    this.hasEditPermission = true; // Set this based on actual permission checks
+  loadData() {
+    this.hasEditPermission = true;
   }
 
   ngAfterViewInit() {
     (window as any).Prism.highlightAll();
   }
 
-  // Data Loading
-  private loadTableMetadata(): void { 
-
+  private loadTableMetadata(): void {
     this.tableService.loadTableMetadata(this.tableName).subscribe({
-      next: (metadata) => {
-        if (metadata) {
-
-         this.handleLoadSuccess(metadata);
-          
-        } else {
-        
-           
-        }
-      },
-      error: (error) => 
-        {
-        this.handleLoadError(error);
-      },
-      complete: () => {
-        
-      }
-    });  
+      next: (metadata) => metadata ? this.handleLoadSuccess(metadata) : null,
+      error: (error) => this.handleLoadError(error)
+    });
   }
 
   private handleLoadSuccess(result: TableMetadata): void {
@@ -102,47 +78,36 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.properties = result.properties;
     this.tableconstraint = result.constraint;
     this.tableFragmentations = result.tableFragmentations;
-    this.filesTree = JSON.parse(result.tableDependices);
+    this.filesTree = JSON.parse(result.tableDependenciesTree);
   }
 
   private handleLoadError(error: any): void {
     console.error(error);
   }
 
-  // Description Editing
   editDescription(description: TableDescription): void {
     this.selectedDescription = { ...description };
     this.displayDialog = true;
   }
 
-  saveDescription(): void { 
+  saveDescription(): void {
     const index = this.descriptions.findIndex(
-      (desc) =>
-        desc.name === this.selectedDescription.name &&
-        desc.table === this.selectedDescription.table
+      (desc) => desc.name === this.selectedDescription.name && desc.table === this.selectedDescription.table
     );
 
     if (index !== -1) {
       this.descriptions[index] = { ...this.selectedDescription };
-      this.http
-        .post("Tables/UpdateTableExtendedProperties", this.selectedDescription)
-        .subscribe(
-          (response) => {
-            this.displayDialog = false;
-          },
-          (error) => {
-            console.error("Error:", error);
-          }
-        );
+      this.tableService.updateTableExtendedProperties(this.selectedDescription).subscribe({
+        next: () => this.displayDialog = false,
+        error: (error) => console.error("Error:", error)
+      });
     }
   }
-  
 
   cancelEdit(): void {
     this.displayDialog = false;
   }
 
-  // Column Description Editing
   editColumnDescription(selectedColumn: TableColumn): void {
     this.selectedColumn = { ...selectedColumn };
     this.displayColumnDialog = true;
@@ -150,27 +115,16 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   saveColumnDescription(): void {
     const index = this.columns.findIndex(
-      (desc) =>
-        desc.tableName === this.selectedColumn.tableName &&
-        desc.columnName === this.selectedColumn.columnName 
+      (desc) => desc.tableName === this.selectedColumn.tableName && desc.columnName === this.selectedColumn.columnName
     );
 
     if (index !== -1) {
       this.columns[index] = { ...this.selectedColumn };
-      this.http
-        .post("Tables/UpdateTableColumnExtendedProperty", this.selectedColumn)
-        .subscribe(
-          (response) => {
-            console.log("Success:", response);
-            this.displayDialog = false;
-          },
-          (error) => {
-            console.error("Error:", error);
-          }
-        );
+      this.tableService.updateTableColumnExtendedProperty(this.selectedColumn).subscribe({
+        next: () => this.displayColumnDialog = false,
+        error: (error) => console.error("Error:", error)
+      });
     }
-
-    this.displayColumnDialog = false;
   }
 
   cancelColumnEdit(): void {

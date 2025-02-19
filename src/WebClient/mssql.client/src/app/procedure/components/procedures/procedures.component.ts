@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProcedureService } from '../../service/procedure.service';
 
 @Component({
   selector: 'app-procedures',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProceduresComponent implements OnInit {
 
-  constructor() { }
+  constructor(private procedureService:ProcedureService) { }
 
   ngOnInit() {
   }

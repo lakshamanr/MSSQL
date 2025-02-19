@@ -9,6 +9,10 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\mssql.client\browser\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="src\app\left-menu\components\NewFolder\**" />
+    <TypeScriptConfiguration Remove="src\app\left-menu\components\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include=".vscode\extensions.json" />
     <None Include=".vscode\launch.json" />
     <None Include=".vscode\tasks.json" />

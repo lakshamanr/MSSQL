@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class ProcedureService {
 
   constructor() { }
+
+  public getProcedures():string{
+    return "Hello from Procedure Service";
+  }
 }

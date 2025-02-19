@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { TableMetadata } from '../models/TableMetadata';
 import { catchError, retry } from 'rxjs/operators';
+import { TableDescription } from '../models/TableDescription';
+import { TableColumn } from '../models/TableColumn';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,5 +40,21 @@ export class TableService {
       })
     );
   }
-  
+  /**
+  * Updates the extended properties of a table.
+  * @param description Table description object
+  * @returns Observable<any>
+  */
+  updateTableExtendedProperties(description: TableDescription): Observable<any> {
+    return this.http.post(`${this.primaryUrl}/UpdateTableExtendedProperties`, description);
+  }
+
+  /**
+   * Updates the extended properties of a table column.
+   * @param column Table column object
+   * @returns Observable<any>
+   */
+  updateTableColumnExtendedProperty(column: TableColumn): Observable<any> {
+    return this.http.post(`${this.primaryUrl}/UpdateTableColumnExtendedProperty`, column);
+  }
 }
