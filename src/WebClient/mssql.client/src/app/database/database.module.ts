@@ -14,12 +14,13 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TreeDragDropService, MessageService } from 'primeng/api';
 import { DatabaseDetailsComponent } from './components/database-details.component';
 import { DatabaseMetadataService } from './database-metadata.service';
+import { ObjectTypeItemComponent } from './app-object-type-item/object-type-item.component';
  
 
 
 
 @NgModule({
-  declarations: [DatabaseDetailsComponent],
+  declarations: [DatabaseDetailsComponent,ObjectTypeItemComponent],
   imports: [
     CommonModule,
     AmexioDataModule,

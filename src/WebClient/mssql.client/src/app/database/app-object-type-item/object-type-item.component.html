@@ -1,0 +1,9 @@
+<li *ngIf="visible">
+    <div>
+      <img [src]="icon" />
+      <a>{{ label }}</a>
+      <i *ngIf="count" class="fa fa-5x fa-border icon-grey badge">
+        {{ count }}
+      </i>
+    </div>
+  </li>
