@@ -21,7 +21,7 @@ export interface ServerMetaData {
   triggerInfos: TriggerInfo[];
   tableFunctionInfos: FunctionInfo[];
   userTypes: UserType[];
-  fileInfomrations: DatabaseFile[];
+  fileInformations: DatabaseFile[];
   viewMetadata: ViewMetadata[];
   tablesMetadata: TablesMetadata[];
 }

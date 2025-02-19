@@ -34,7 +34,7 @@ export class DatabaseDetailsComponent implements OnInit {
   tableFunctionInfos: FunctionInfo[];
   userTypes: UserType[];
   serverMetaData: DatabaseMetaData;
-  fileInfomrations: DatabaseFile[];
+  fileInformations: DatabaseFile[];
   viewMetadata: ViewMetadata[];
   tablesMetadata: TablesMetadata[];
   ngOnInit()
@@ -69,7 +69,7 @@ export class DatabaseDetailsComponent implements OnInit {
     this.triggerInfos=serverMetaData.triggerInfos;
     this.tableFunctionInfos=serverMetaData.tableFunctionInfos;
     this.userTypes = serverMetaData.userTypes;
-    this.fileInfomrations = serverMetaData.fileInfomrations;
+    this.fileInformations = serverMetaData.fileInformations;
     this.viewMetadata =serverMetaData.viewMetadata;
     this.tablesMetadata = serverMetaData.tablesMetadata;
   }
