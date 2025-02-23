@@ -1,1 +1,55 @@
-<p>procedures works!</p>
+<!-- <amexio-accordion [multi-open]="true">
+    <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Tables" [active]="true">
+      <p-table [columns]="cols" [value]="tables" dataKey="tableName" [paginator]="true" [rows]="10">  
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 4em"></th>
+            <th>Table Name</th>
+            <th>Description</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+          <tr>
+            <td>
+              <a href="#" [pRowToggler]="rowData">
+                <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+              </a>
+            </td>
+            <td class="cell">{{rowData.tableName}}</td>
+            <td class="cell">{{rowData.extendedPropertyValue}}</td>
+          </tr>
+        </ng-template>  
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+          <tr>
+            <td [attr.colspan]="columns.length + 1">
+              <div class="table">
+                <div class="row header">
+                  <div class="cell">Column Name</div>
+                  <div class="cell">Description</div>
+                </div>
+                <div class="row" *ngFor="let columndetails of rowData.tableColumns">
+                  <div class="cell">{{columndetails.columnName}}</div>
+                  <div class="cell">{{columndetails.extendedPropertyValue}}</div>
+                </div>
+              </div>
+              <hr />
+            </td>
+          </tr>
+        </ng-template>  
+      </p-table>
+    </amexio-accordion-tab>
+  </amexio-accordion>
+   -->
+
+   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Store Procerdure Extended Properties" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Store Procedures</div>
+        <div class="cell">Extended Properties Value</div> 
+      </div> 
+      <div *ngFor="let description of storedProcedures" class="row">
+        <div class="cell">{{description.storedProcedure}}</div>
+        <div class="cell">{{description.extendedProperty}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>

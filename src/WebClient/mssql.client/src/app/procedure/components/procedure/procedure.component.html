@@ -1,1 +1,54 @@
-<p>procedure works!</p>
+<amexio-accordion [multi-open]="true">
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Stored Procedure " [gradient]="true" [active]="true">
+
+    <div class="table">
+      <div class="cell">
+        <div>
+          <h5>
+            <img src="./assets/icons/StoredProcedure.png" style="width: 30px !important;">
+            {{storedProcedureName}}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette
+                        [color-palette]="''"
+                        header="MS Description"
+                        [gradient]="true"
+                        [active]="true">
+
+    <!-- Display Mode -->
+    <ng-container *ngIf="!iblnShowEditBox; else editMode">
+      <div class="description-container">
+        <a (click)="ShowEdit()" class="edit-icon">
+          <i class="fa fa-edit"></i>
+        </a>
+        <p class="description-text">
+          {{ storedProcedureMetadata?.storedProcedureInfo?.extendedProperty }}
+        </p>
+      </div>
+    </ng-container>
+
+    <!-- Edit Mode -->
+    <ng-template #editMode>
+      <div class="edit-container">
+        <textarea class="form-control edit-textarea"
+                  rows="4"
+                  [(ngModel)]="storedProcedureMetadata.storedProcedureInfo.extendedProperty">
+      </textarea>
+
+        <div class="action-buttons">
+          <a (click)="CancelStoreProcMsDesciption()" class="cancel-btn">
+            <i class="fa fa-2x fa-times"></i>
+          </a>
+          <a (click)="updateProcedureDescription()" class="save-btn">
+            <i class="fa fa-2x fa-save"></i>
+          </a>
+        </div>
+      </div>
+    </ng-template>
+
+  </amexio-accordion-tab>
+
+</amexio-accordion>

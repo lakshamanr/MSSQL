@@ -30,6 +30,11 @@ namespace API.Domain.StoredProcedure
         /// Gets or sets the dependency tree of the stored procedure.
         /// </summary>
         public string StoredProcedureDependenciesTree { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the information about the stored procedure.
+        /// </summary>
+        public StoredProcedureInfo storedProcedureInfo { get; set; }
     }
 
 }

@@ -1,0 +1,70 @@
+.description-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+
+.edit-icon {
+  font-size: 18px;
+  color: #007bff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+ 
+  .edit-icon:hover {
+    color: #0056b3;
+  }
+
+.description-text {
+  max-width: 80%;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Edit Mode Styles */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px; /* Controls width of the textarea */
+  margin: auto;
+}
+
+.edit-textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+  .action-buttons a {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+.cancel-btn i {
+  color: #d9534f;
+}
+
+.save-btn i {
+  color: #5cb85c;
+}
+
+.cancel-btn i:hover {
+  color: #c9302c;
+}
+
+.save-btn i:hover {
+  color: #449d44;
+}

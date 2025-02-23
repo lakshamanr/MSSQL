@@ -265,7 +265,17 @@ namespace API.Common.Queries
                 AND EP.CLASS_DESC = 'OBJECT_OR_COLUMN'
                 WHERE O.TYPE = 'P';
             ";
-   
+
+    public static readonly string FetchStoredProceduresWithDescriptions =
+         @"SELECT DISTINCT 
+                    (SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME]) AS StoredProcedure, 
+                    ISNULL(EP.VALUE, '') AS ExtendedProperty
+                FROM SYS.OBJECTS O  
+                LEFT JOIN SYS.EXTENDED_PROPERTIES EP 
+                ON EP.MAJOR_ID = O.OBJECT_ID 
+                AND EP.CLASS_DESC = 'OBJECT_OR_COLUMN'
+                WHERE O.TYPE = 'P' AND ((SCHEMA_NAME(O.SCHEMA_ID) + '.' + O.[NAME]))=@StoredProcedureName ;
+            ";
 
     public static readonly string FetchStoredProcedureDependencies =
             @"SELECT OBJECT_SCHEMA_NAME(referencing_id) + '.' + OBJECT_NAME(referencing_id) AS ReferencingObjectName,     

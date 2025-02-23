@@ -27,7 +27,7 @@ namespace API.Controllers
         /// Gets all stored procedures.
         /// </summary>
         /// <returns>A list of stored procedures.</returns>
-        [HttpGet]
+        [HttpGet("AllStoredProcedures")]
         public async Task<ActionResult<IEnumerable<StoredProcedureInfo>>> GetAllStoredProcedures()
         {
             var result = await _repository.GetAllStoredProceduresAsync();

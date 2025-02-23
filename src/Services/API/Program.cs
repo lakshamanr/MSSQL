@@ -52,7 +52,8 @@ internal class Program
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowOrigin",
-                   builder => builder.WithOrigins("http://localhost:4200")
+                        //builder => builder.WithOrigins("http://localhost:4200")
+                        builder => builder.AllowAnyOrigin()
                                      .AllowAnyMethod()
                                      .AllowAnyHeader());
         });
@@ -63,7 +64,7 @@ internal class Program
 
         var app = builder.Build();
 
-        app.UseCors("AllowAllOrigins");
+        app.UseCors("AllowOrigin");
 
         if (app.Environment.IsDevelopment())
         {
