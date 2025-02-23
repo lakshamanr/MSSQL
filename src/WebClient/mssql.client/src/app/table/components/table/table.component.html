@@ -133,9 +133,17 @@
   </amexio-accordion-tab>
 
   <!-- Table Script -->
-  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Script" [gradient]="true" [active]="true">
+  <!-- <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Script" [gradient]="true" [active]="true">
     <app-sql-script-viewer [script]="createScript.script"></app-sql-script-viewer>
+  </amexio-accordion-tab> -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
+    <div class="code-container">
+      <ngx-prism *ngIf="createScript.script">
+        {{ createScript.script }}
+      </ngx-prism>
+    </div>
   </amexio-accordion-tab>
+
 </amexio-accordion>
 <div *ngIf="hasEditPermission">
   <app-edit-description-dialog

@@ -46,7 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     extendedPropertyName: "",
     extendedPropertyValue: ""
   };
-
+  language = 'plsql';
   constructor(private tableService: TableService, private http: HttpClient, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {

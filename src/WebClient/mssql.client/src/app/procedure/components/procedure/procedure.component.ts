@@ -12,10 +12,11 @@ import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
 })
 export class ProcedureComponent implements OnInit {
 
-  private storedProcedureName = "dbo.uspLogError";
+  private storedProcedureName = "HumanResources.uspUpdateEmployeeHireInfo";
   iblnShowEditBox = false;  
   filesTree: any; 
-  private storedProcedureMetadata!: StoredProcedureMeta;
+  language = 'plsql';
+  public storedProcedureMetadata!: StoredProcedureMeta;
 
   constructor(private storedProcedureService: ProcedureService) {}
 

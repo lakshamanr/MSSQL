@@ -116,3 +116,42 @@ h4 {
 .progress-inner {
   min-width: 1% !important;
 }
+/* Code container for improved readability */
+.code-container {
+  max-height: 400px;  /* Prevents excessive scrolling */
+  overflow-y: auto;  /* Enables vertical scroll when needed */
+  padding: 10px;
+  background-color: #2d2d2d; /* Dark background for contrast */
+  border-radius: 5px;
+  border: 1px solid #444;
+}
+
+/* ngx-prism styling for better text display */
+ngx-prism {
+  display: block;
+  white-space: pre-wrap !important; /* Ensures proper line breaks */
+  word-wrap: break-word !important; /* Prevents long lines from breaking UI */
+  overflow-x: auto; /* Enables horizontal scroll for very long SQL statements */
+  background: #272822 !important; /* Dark theme for syntax highlighting */
+  color: #f8f8f2 !important; /* Light text for readability */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5; /* Increases spacing for better readability */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Scrollbar customization for better UX */
+ngx-prism::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+ngx-prism::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+ngx-prism::-webkit-scrollbar-track {
+  background: #222;
+}

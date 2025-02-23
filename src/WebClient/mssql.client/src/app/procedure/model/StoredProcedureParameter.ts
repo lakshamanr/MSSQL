@@ -1,6 +1,5 @@
 // Represents a parameter for a stored procedure.
 export class StoredProcedureParameter {
-    id: number;
     parameterName: string;
     type: string;
     length: number;

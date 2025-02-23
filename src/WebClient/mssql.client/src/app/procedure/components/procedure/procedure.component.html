@@ -64,6 +64,8 @@
       <div class="cell">Name</div>
       <div class="cell">Type</div>
       <div class="cell">Max Length (Bytes)</div>
+      <div class="cell">Parameter Order</div>
+      <div class="cell">Collation</div> 
       <div class="cell">MS Description</div>
     </div>
 
@@ -77,7 +79,9 @@
       <div class="cell">{{ property.parameterName }}</div>
       <div class="cell">{{ property.type }}</div>
       <div class="cell">{{ property.length }}</div>
-      
+      <div class="cell">{{ property.parameterOrder }}</div>
+      <div class="cell">{{ property.collation }}</div>
+
       <!-- MS Description Column -->
       <div class="cell">
         <div *ngIf="!property.isEditing">
@@ -94,13 +98,18 @@
             <a (click)="updateParameterDescription(property)" class="save-btn">
               <i class="fa fa-save"></i>
             </a>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
   </div>
 </amexio-accordion-tab>
 
-  
-
+ <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
+   <div class="code-container">
+     <ngx-prism *ngIf="storedProcedureMetadata?.createScript?.procedureDefinition" [language]="'sql'">
+       {{ storedProcedureMetadata?.createScript?.procedureDefinition }}
+     </ngx-prism>
+   </div>
+ </amexio-accordion-tab>
 </amexio-accordion>

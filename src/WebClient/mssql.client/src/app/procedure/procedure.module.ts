@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -55,7 +55,6 @@ import { ProgressBarModule } from 'angular-progress-bar';
     ButtonModule,
     DialogModule,
     InputTextareaModule,
-
     /* Other Third-Party Modules */
     ProgressBarModule
   ],
@@ -63,6 +62,7 @@ import { ProgressBarModule } from 'angular-progress-bar';
   exports: [
     ProceduresComponent,
     ProcedureComponent
-  ]
+  ],
+   schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
 })
 export class ProcedureModule { }

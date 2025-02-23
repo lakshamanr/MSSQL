@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import { TablesComponent } from './components/tables/tables.component';
@@ -49,6 +49,7 @@ import { TablesService } from './service/tables.service';
     InputTextareaModule
   ],
   providers: [TreeDragDropService, MessageService,TableService,TablesService],
-  exports:[TableComponent, TablesComponent]
+  exports:[TableComponent, TablesComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
 })
 export class TablesModule { }

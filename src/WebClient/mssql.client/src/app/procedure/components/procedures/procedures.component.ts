@@ -9,7 +9,7 @@ import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
   styleUrls: ['./procedures.component.css']
 })
 export class ProceduresComponent implements OnInit {
-  storedProcedures: StoredProcedureInfo[] = [];
+ public storedProcedures: StoredProcedureInfo[] = [];
   isLoading: boolean = true;
   errorMessage: string = '';
   constructor(private storedProcedureService: ProcedureService) { }

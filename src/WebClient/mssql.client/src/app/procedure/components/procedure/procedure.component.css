@@ -232,3 +232,42 @@ h4 {
 .save-btn i:hover {
   color: #449d44;
 }
+/* Container for code block */
+.code-container {
+  max-height: 400px;  /* Prevents excessive scrolling */
+  overflow-y: auto;  /* Enables vertical scroll if content is too long */
+  padding: 10px;
+  background-color: #2d2d2d; /* Dark background for readability */
+  border-radius: 5px;
+  border: 1px solid #444;
+}
+
+/* Ensures ngx-prism styles correctly */
+ngx-prism {
+  display: block;
+  white-space: pre-wrap !important; /* Prevents horizontal scrolling */
+  word-wrap: break-word !important;
+  overflow-x: hidden; /* Ensures content does not overflow horizontally */
+  background: #272822 !important; /* Dark background for contrast */
+  color: #f8f8f2 !important; /* Light text for readability */
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5; /* Adjust line height for better readability */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Hide unnecessary horizontal scrollbar */
+ngx-prism::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+ngx-prism::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 3px;
+}
+
+ngx-prism::-webkit-scrollbar-track {
+  background: #222;
+}

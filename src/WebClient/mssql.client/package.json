@@ -49,6 +49,7 @@
     "ng2-cookies": "^1.0.12",
     "ngx-bootstrap": "^5.6.1",
     "ngx-filesaver": "^10.0.0",
+    "ngx-prism": "0.0.1",
     "ngx-ui-loader": "^8.0.0",
     "popper.js": "^1.16.1",
     "primeicons": "^2.0.0",
