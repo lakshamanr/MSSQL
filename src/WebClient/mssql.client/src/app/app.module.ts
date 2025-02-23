@@ -49,6 +49,7 @@ import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.comp
 import { ProcedureModule } from './procedure/procedure.module';
 import { ViewsComponent } from './view/components/views/views.component';
 import { ViewComponent } from './view/components/view/view.component';
+import { DatabaseSelectorComponent } from './ui/database-selector/database-selector.component';
 
 
 const appRoutes: Routes = [
@@ -91,7 +92,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MainPageComponent, 
     HeaderComponent,
     FooterComponent, 
-    LeftmenuComponent, ViewsComponent, ViewComponent
+    LeftmenuComponent, ViewsComponent, ViewComponent, DatabaseSelectorComponent
   ], 
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

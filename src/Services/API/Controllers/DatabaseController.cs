@@ -1,4 +1,5 @@
-﻿using API.Repository.Database;
+using API.Domain.Database;
+using API.Repository.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,5 +33,12 @@ namespace API.Controllers
             var result = await _repository.GetDatabaseMetaData();
             return Ok(result);
         }
-    }
+
+        [HttpPost("ChangeDatabase")]
+        public IActionResult ChangeDatabase([FromBody] DatabaseChangeRequest request)
+        {
+             _repository.SetDatabase(request.DatabaseName);
+          return Ok(new { message = $"Database changed to {request.DatabaseName}" });
+        }
+  }
 }

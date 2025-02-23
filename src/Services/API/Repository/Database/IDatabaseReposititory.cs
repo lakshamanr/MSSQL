@@ -12,5 +12,6 @@ namespace API.Repository.Database
         /// </summary>
         /// <returns>A task that represents the asynchronous operation. The task result contains the database metadata.</returns>
         Task<DatabaseMetaData> GetDatabaseMetaData();
+        void SetDatabase(string database);
     }
 }
