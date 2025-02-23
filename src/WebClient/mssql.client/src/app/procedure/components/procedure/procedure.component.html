@@ -21,7 +21,7 @@
     <!-- Display Mode -->
     <ng-container *ngIf="!iblnShowEditBox; else editMode">
       <div class="description-container">
-        <a (click)="ShowEdit()" class="edit-icon">
+        <a (click)="toggleEditBox()" class="edit-icon">
           <i class="fa fa-edit"></i>
         </a>
         <p class="description-text">
@@ -50,5 +50,57 @@
     </ng-template>
 
   </amexio-accordion-tab>
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Objects dependncy Tree" [gradient]="true" [active]="true">
+    <p-tree [value]="filesTree"
+            layout="horizontal"
+            selectionMode="single">
+    </p-tree>
+  </amexio-accordion-tab>
+ <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Parameters" [gradient]="true" [active]="true">
+  <div class="table">
+    <div class="row header">
+      <div class="cell">Edit</div>
+      <div class="cell">Name</div>
+      <div class="cell">Type</div>
+      <div class="cell">Max Length (Bytes)</div>
+      <div class="cell">MS Description</div>
+    </div>
+
+    <div *ngFor="let property of storedProcedureMetadata?.parameters" class="row">
+      <!-- Edit Button at the Front -->
+      <div class="cell edit-cell">
+        <a (click)="toggleParameterEdit(property)" class="edit-icon">
+          <span class="fa fa-edit"></span>
+        </a>
+      </div>
+      <div class="cell">{{ property.parameterName }}</div>
+      <div class="cell">{{ property.type }}</div>
+      <div class="cell">{{ property.length }}</div>
+      
+      <!-- MS Description Column -->
+      <div class="cell">
+        <div *ngIf="!property.isEditing">
+          <p>{{ property.extendedProperty }}</p>
+        </div>
+
+        <div *ngIf="property.isEditing">
+          <textarea class="edit-textarea" [(ngModel)]="property.extendedProperty"></textarea>
+
+          <div class="action-buttons">
+            <a (click)="toggleParameterEdit(property)" class="cancel-btn">
+              <i class="fa fa-times"></i>
+            </a>
+            <a (click)="updateParameterDescription(property)" class="save-btn">
+              <i class="fa fa-save"></i>
+            </a>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+</amexio-accordion-tab>
+
+  
 
 </amexio-accordion>

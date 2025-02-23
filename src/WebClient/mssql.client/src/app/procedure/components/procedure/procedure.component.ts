@@ -3,6 +3,7 @@ import { ProcedureService } from '../../service/procedure.service';
 import { StoredProcedureDescriptionRequest } from '../../model/StoredProcedureDescriptionRequest';
 import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionRequest';
 import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
+import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
 
 @Component({
   selector: 'app-procedure',
@@ -12,78 +13,89 @@ import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
 export class ProcedureComponent implements OnInit {
 
   private storedProcedureName = "dbo.uspLogError";
-  iblnShowEditBox: boolean;
-  private storedProcedureMetadata: StoredProcedureMeta;
-  constructor(private storedProcedureService:ProcedureService) { }
+  iblnShowEditBox = false;  
+  filesTree: any; 
+  private storedProcedureMetadata!: StoredProcedureMeta;
 
-  ngOnInit() {
-    this.loadMetadata(this.storedProcedureName)
-  }
+  constructor(private storedProcedureService: ProcedureService) {}
 
-//     <a (click)="ShowEdit($event)" class="btn btn-default btn-lg a-btn-slide-text" >
-//  <span class="fa fa-edit" > </span>
-//    < /a>
-//    < /div>
-
-//    < div class="form-group" * ngIf="iblnShowEditBox" >
-//      <textarea class="form-control" rows = "5" id = "comment"[(ngModel)] = "storedProcedureMetadata.storedProcedureInfo.extendedProperty" > </textarea>
-//        < div class="form-group" style = "margin-left: 94%;" >
-
-//          <a (click)="CancelStoreProcMsDesciption($event)" > <i class="fa fa-2x fa-times" > </i></a >& nbsp;
-//<a (click)="SaveStoreProcMsDesciption($event)" > <i class="fa fa-2x fa-save" > </i></a >
-/*  </div>*/
-
+  ngOnInit(): void {
+    this.loadMetadata();
+  } 
 
   /**
-   * Fetch metadata for a selected stored procedure.
+   * Extract schema from stored procedure name.
    */
-  loadMetadata(procedureName: string) {
-    this.storedProcedureService.getStoredProcedureMetadata(procedureName).subscribe({
+  private getSchema(): string {
+    return this.storedProcedureName.split('.')[0] || '';   
+  }
+  private getStoreprocedureName(): string {
+    return this.storedProcedureName.split('.')[1] || '';
+  }
+
+  /**
+   * Fetch metadata for the stored procedure.
+   */
+  private loadMetadata(): void {
+    this.storedProcedureService.getStoredProcedureMetadata(this.storedProcedureName).subscribe({
       next: (data) => {
-        this.storedProcedureMetadata = data;
-        console.log('Metadata:', data);
+        this.storedProcedureMetadata = data; 
+        this.filesTree = JSON.parse(data.storedProcedureDependenciesTree); 
       },
       error: (err) => console.error('Error fetching metadata:', err)
     });
   }
-  ShowEdit(): any {
-   this.iblnShowEditBox = true; 
+
+  /**
+   * Toggle edit mode for the stored procedure description.
+   */
+  toggleEditBox(): void {
+    this.iblnShowEditBox = !this.iblnShowEditBox;
   }
-  CancelStoreProcMsDesciption(): any {
-    //this.ms_description = this.ms_description_old;
+  CancelStoreProcMsDesciption(): void {
     this.iblnShowEditBox = false;
   }
 
   /**
    * Update stored procedure description.
    */
-  updateProcedureDescription() {
+  updateProcedureDescription(): void {
+    if (!this.storedProcedureMetadata.storedProcedureInfo.extendedProperty) {
+      console.error('No description available to update.');
+      return;
+    }
+
     const request: StoredProcedureDescriptionRequest = {
-      schemaName: 'dbo',
-      storedProcedureName: 'MyStoredProcedure',
-      description: 'Updated description'
+      schemaName: this.getSchema(),
+      storedProcedureName: this.getStoreprocedureName(),
+      description: this.storedProcedureMetadata.storedProcedureInfo.extendedProperty
     };
 
     this.storedProcedureService.mergeStoredProcedureDescription(request).subscribe({
-      next: () => console.log('Stored procedure description updated successfully'),
+      next: () => {
+        console.log('Stored procedure description updated successfully');
+        this.iblnShowEditBox = !this.iblnShowEditBox;
+      },
       error: (err) => console.error('Error updating description:', err)
     });
-  }
-
-  /**
-   * Update stored procedure parameter description.
-   */
-  updateParameterDescription() {
+  } 
+  updateParameterDescription(parameter:StoredProcedureParameter): void {
     const request: ParameterDescriptionRequest = {
-      schemaName: 'dbo',
-      storedProcedureName: 'MyStoredProcedure',
-      parameterName: 'MyParameter',
-      description: 'Updated parameter description'
+      schemaName: this.getSchema(),
+      storedProcedureName: this.getStoreprocedureName(),
+      parameterName: parameter.parameterName,  // This should be dynamic based on selection
+      description: parameter.extendedProperty
     };
 
     this.storedProcedureService.mergeParameterDescription(request).subscribe({
-      next: () => console.log('Parameter description updated successfully'),
+      next: () => {
+        console.log('Parameter description updated successfully');
+        this.toggleParameterEdit(parameter)
+      },
       error: (err) => console.error('Error updating parameter description:', err)
     });
   }
+  toggleParameterEdit(parameter: any): void {
+    parameter.isEditing = !parameter.isEditing;
+  } 
 }
