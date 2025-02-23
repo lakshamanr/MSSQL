@@ -164,7 +164,7 @@ namespace API.Repository.Common
         {
             return await LoadFromCacheOrQueryAsync<DatabaseInfo>(
                 CacheConstants.DatabaseCache.DatabaseNames,
-                SqlQueryConstant.LoadDatabases,
+                SqlQueryConstant.LoadDatabases.Replace("@DatabaseName","'"+ CurrentDatabases + "'"),
                 connection);
         }
 

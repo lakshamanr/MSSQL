@@ -89,14 +89,19 @@ namespace API.Common.Queries
         /// SQL query to load all databases excluding system databases.
         /// </summary>
         public const string LoadDatabases =
-            @"
-                SELECT name FROM master.dbo.sysdatabases 
-                WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')";
-
+            @" SELECT name FROM master.dbo.sysdatabases  WHERE name =@DatabaseName";
         /// <summary>
-        /// SQL query to load database files for a specific database.
+        /// SQL query to load all databases excluding system databases.
         /// </summary>
-        public static readonly string LoadDatabaseFiles =
+        public const string LoadAllDatabases =
+            @"
+                    SELECT name FROM master.dbo.sysdatabases 
+                    WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')";
+
+    /// <summary>
+    /// SQL query to load database files for a specific database.
+    /// </summary>
+    public static readonly string LoadDatabaseFiles =
             @"
                 SELECT 
                     MF.NAME AS FileName,
