@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ProcedureService } from '../../service/procedure.service';
 import { StoredProcedureDescriptionRequest } from '../../model/StoredProcedureDescriptionRequest';
 import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionRequest';
 import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
 import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
+declare var QP;
 
 @Component({
   selector: 'app-procedure',
@@ -12,13 +13,17 @@ import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
 })
 export class ProcedureComponent implements OnInit {
 
-  private storedProcedureName = "HumanResources.uspUpdateEmployeeHireInfo";
+  public iblnLoading: boolean;
+
+  private storedProcedureName = "dbo.uspGetBillOfMaterials";
   iblnShowEditBox = false;  
   filesTree: any; 
   language = 'plsql';
   public storedProcedureMetadata!: StoredProcedureMeta;
 
-  constructor(private storedProcedureService: ProcedureService) {}
+  constructor(private storedProcedureService: ProcedureService) {
+    this.iblnLoading = false;
+  }
 
   ngOnInit(): void {
     this.loadMetadata();
@@ -40,8 +45,11 @@ export class ProcedureComponent implements OnInit {
   private loadMetadata(): void {
     this.storedProcedureService.getStoredProcedureMetadata(this.storedProcedureName).subscribe({
       next: (data) => {
+        this.iblnLoading = true;
         this.storedProcedureMetadata = data; 
-        this.filesTree = JSON.parse(data.storedProcedureDependenciesTree); 
+        this.filesTree = JSON.parse(data.storedProcedureDependenciesTree);
+        QP.showPlan(document.getElementById("container"), `${this.storedProcedureMetadata.executionPlan.queryPlan}`, { jsTooltips: false });
+
       },
       error: (err) => console.error('Error fetching metadata:', err)
     });
@@ -75,7 +83,7 @@ export class ProcedureComponent implements OnInit {
     this.storedProcedureService.mergeStoredProcedureDescription(request).subscribe({
       next: () => {
         console.log('Stored procedure description updated successfully');
-        this.iblnShowEditBox = !this.iblnShowEditBox;
+        this.toggleEditBox();
       },
       error: (err) => console.error('Error updating description:', err)
     });

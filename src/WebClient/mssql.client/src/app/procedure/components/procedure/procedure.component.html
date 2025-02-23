@@ -57,59 +57,75 @@
             selectionMode="single">
     </p-tree>
   </amexio-accordion-tab>
- <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Parameters" [gradient]="true" [active]="true">
-  <div class="table">
-    <div class="row header">
-      <div class="cell">Edit</div>
-      <div class="cell">Name</div>
-      <div class="cell">Type</div>
-      <div class="cell">Max Length (Bytes)</div>
-      <div class="cell">Parameter Order</div>
-      <div class="cell">Collation</div> 
-      <div class="cell">MS Description</div>
-    </div>
-
-    <div *ngFor="let property of storedProcedureMetadata?.parameters" class="row">
-      <!-- Edit Button at the Front -->
-      <div class="cell edit-cell">
-        <a (click)="toggleParameterEdit(property)" class="edit-icon">
-          <span class="fa fa-edit"></span>
-        </a>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Parameters" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Edit</div>
+        <div class="cell">Name</div>
+        <div class="cell">Type</div>
+        <div class="cell">Max Length (Bytes)</div>
+        <div class="cell">Parameter Order</div>
+        <div class="cell">Collation</div>
+        <div class="cell">MS Description</div>
       </div>
-      <div class="cell">{{ property.parameterName }}</div>
-      <div class="cell">{{ property.type }}</div>
-      <div class="cell">{{ property.length }}</div>
-      <div class="cell">{{ property.parameterOrder }}</div>
-      <div class="cell">{{ property.collation }}</div>
 
-      <!-- MS Description Column -->
-      <div class="cell">
-        <div *ngIf="!property.isEditing">
-          <p>{{ property.extendedProperty }}</p>
+      <div *ngFor="let property of storedProcedureMetadata?.parameters" class="row">
+        <!-- Edit Button at the Front -->
+        <div class="cell edit-cell">
+          <a (click)="toggleParameterEdit(property)" class="edit-icon">
+            <span class="fa fa-edit"></span>
+          </a>
         </div>
+        <div class="cell">{{ property.parameterName }}</div>
+        <div class="cell">{{ property.type }}</div>
+        <div class="cell">{{ property.length }}</div>
+        <div class="cell">{{ property.parameterOrder }}</div>
+        <div class="cell">{{ property.collation }}</div>
 
-        <div *ngIf="property.isEditing">
-          <textarea class="edit-textarea" [(ngModel)]="property.extendedProperty"></textarea>
+        <!-- MS Description Column -->
+        <div class="cell">
+          <div *ngIf="!property.isEditing">
+            <p>{{ property.extendedProperty }}</p>
+          </div>
 
-          <div class="action-buttons">
-            <a (click)="toggleParameterEdit(property)" class="cancel-btn">
-              <i class="fa fa-times"></i>
-            </a>
-            <a (click)="updateParameterDescription(property)" class="save-btn">
-              <i class="fa fa-save"></i>
-            </a>
+          <div *ngIf="property.isEditing">
+            <textarea class="edit-textarea" [(ngModel)]="property.extendedProperty"></textarea>
+
+            <div class="action-buttons">
+              <a (click)="toggleParameterEdit(property)" class="cancel-btn">
+                <i class="fa fa-times"></i>
+              </a>
+              <a (click)="updateParameterDescription(property)" class="save-btn">
+                <i class="fa fa-save"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</amexio-accordion-tab>
+  </amexio-accordion-tab>
 
- <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
-   <div class="code-container">
-     <ngx-prism *ngIf="storedProcedureMetadata?.createScript?.procedureDefinition" [language]="'sql'">
-       {{ storedProcedureMetadata?.createScript?.procedureDefinition }}
-     </ngx-prism>
-   </div>
- </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
+    <div class="code-container">
+      <ngx-prism *ngIf="storedProcedureMetadata?.createScript?.procedureDefinition" [language]="'sql'">
+        {{ storedProcedureMetadata?.createScript?.procedureDefinition }}
+      </ngx-prism>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used by " [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell"> Referenced object name </div>
+      </div>
+      <div *ngFor="let property of storedProcedureMetadata?.dependencies " class="row">
+        <div class="cell"> {{property.referencedObjectName}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Execution Plan" [gradient]="true" [active]="true">
+    <div class="execution-plan-container">
+      <div id="container"></div>
+    </div>
+  </amexio-accordion-tab>
 </amexio-accordion>

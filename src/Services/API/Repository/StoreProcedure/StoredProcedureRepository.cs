@@ -1,3 +1,4 @@
+using API.Common.Helper;
 using API.Common.Queries;
 using API.Domain.StoredProcedure;
 using API.Repository.Common;
@@ -68,9 +69,7 @@ namespace API.Repository.StoreProcedure
             SqlQueryConstant.FetchStoredProcedureCreateScript,
             new { StoredProcedureName = storedProcedureName });
 
-        var executionPlan = await connection.QueryFirstOrDefaultAsync<ExecutionPlanResult>(
-            SqlQueryConstant.FetchStoredProcedureExecutionPlan,
-            new { StoredProcedureName = storedProcedureName });
+        var executionPlan = ExecutionPlanDapper.GetEstimatedPlan(connection, storedProcedureName);
 
         var storedProcedureInfo = await connection.QueryFirstOrDefaultAsync<StoredProcedureInfo>(
             SqlQueryConstant.FetchStoredProceduresWithDescriptions,
@@ -83,7 +82,7 @@ namespace API.Repository.StoreProcedure
           Dependencies = dependencies,
           Parameters = parameters,
           CreateScript = createScript,
-          ExecutionPlan = executionPlan,
+          ExecutionPlan = new ExecutionPlanResult() { QueryPlan= executionPlan },
           StoredProcedureDependenciesTree = StoredProcedureDependencies,
           storedProcedureInfo = storedProcedureInfo
         };

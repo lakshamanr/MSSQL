@@ -278,12 +278,14 @@ namespace API.Common.Queries
             ";
 
     public static readonly string FetchStoredProcedureDependencies =
-            @"SELECT OBJECT_SCHEMA_NAME(referencing_id) + '.' + OBJECT_NAME(referencing_id) AS ReferencingObjectName,     
-                     obj.type_desc AS ReferencingObjectType,     
-                     referenced_schema_name + '.' + referenced_entity_name AS ReferencedObjectName 
-              FROM sys.sql_expression_dependencies AS sed 
-              INNER JOIN sys.objects AS obj ON sed.referencing_id = obj.object_id 
-              WHERE referencing_id = OBJECT_ID(@StoredProcedureName)";
+            @"SELECT 
+              OBJECT_SCHEMA_NAME(sed.referencing_id) + '.' + OBJECT_NAME(sed.referencing_id) AS ReferencingObjectName,     
+              obj.type_desc AS ReferencingObjectType,     
+              COALESCE(referenced_schema_name, OBJECT_SCHEMA_NAME(sed.referenced_id)) + '.' + referenced_entity_name AS ReferencedObjectName 
+          FROM sys.sql_expression_dependencies AS sed 
+          INNER JOIN sys.objects AS obj ON sed.referencing_id = obj.object_id 
+          WHERE sed.referencing_id = OBJECT_ID(@StoredProcedureName);
+                  ";
 
         public static readonly string FetchStoredProcedureParametersWithDescriptions =
             @"SELECT o.name AS ParameterName,    
