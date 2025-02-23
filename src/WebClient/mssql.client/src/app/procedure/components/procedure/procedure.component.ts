@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProcedureService } from '../../service/procedure.service';
 import { StoredProcedureDescriptionRequest } from '../../model/StoredProcedureDescriptionRequest';
 import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionRequest';
@@ -15,7 +15,7 @@ export class ProcedureComponent implements OnInit {
 
   public iblnLoading: boolean;
 
-  private storedProcedureName = "dbo.uspGetBillOfMaterials";
+  private storedProcedureName = "HumanResources.uspUpdateEmployeeHireInfo";
   iblnShowEditBox = false;  
   filesTree: any; 
   language = 'plsql';
@@ -48,7 +48,7 @@ export class ProcedureComponent implements OnInit {
         this.iblnLoading = true;
         this.storedProcedureMetadata = data; 
         this.filesTree = JSON.parse(data.storedProcedureDependenciesTree);
-        QP.showPlan(document.getElementById("container"), `${this.storedProcedureMetadata.executionPlan.queryPlan}`, { jsTooltips: false });
+        QP.showPlan(document.getElementById("container"), `${this.storedProcedureMetadata.executionPlan.queryPlan}`, { jsTooltips: true });
 
       },
       error: (err) => console.error('Error fetching metadata:', err)
