@@ -21,10 +21,7 @@ namespace API.Controllers
         public DatabaseController(IDatabaseReposititory repository)
         {
             _repository = repository;
-        }
-
-    [HttpGet("test")]
-    public IActionResult Test() => Ok("API is working!");
+        } 
 
     /// <summary>
     /// Gets the metadata of the database.

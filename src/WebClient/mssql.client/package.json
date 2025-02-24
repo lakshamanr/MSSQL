@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "main": "electron/main.js",
   "scripts": {
-    "electron": "ng build --prod && electron ./electron/main.js",
+    "electron": "ng build --prod && electron ./electron/main.js && npm run copy-electron",
+    "copy-electron": "xcopy /E /I /Y node_modules\\electron\\dist Electron",
     "electron:build": "ng build --prod && electron-builder",
     "ng": "ng",
     "start": "run-script-os",
@@ -13,7 +14,7 @@
     "prestart": "node aspnetcore-https",
     "start:windows": "ng serve --ssl --ssl-cert \"%APPDATA%\\ASP.NET\\https\\%npm_package_name%.pem\" --ssl-key \"%APPDATA%\\ASP.NET\\https\\%npm_package_name%.key\" --host=127.0.0.1",
     "start:default": "ng serve --ssl --ssl-cert \"$HOME/.aspnet/https/${npm_package_name}.pem\" --ssl-key \"$HOME/.aspnet/https/${npm_package_name}.key\" --host=127.0.0.1",
-    "package": "electron-packager . mssql --platform=win32,linux --out=release-builds --overwrite"
+    "package": "electron-packager . mssql --platform=win32 --arch=x64 --out=release-builds --overwrite --asar --icon=electron/icon.ico"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +71,7 @@
     "codelyzer": "~4.2.1",
     "electron": "^32.1.2",
     "electron-builder": "^25.0.5",
+    "electron-installer-windows": "^3.0.0",
     "electron-packager": "^17.1.2",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

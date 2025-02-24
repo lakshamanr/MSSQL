@@ -30,4 +30,7 @@ export class DatabaseMetadataService {
       })
     );
   }
+  changeDatabase(databaseName: string) {
+    return this.http.post(`${this.primaryUrl}/Database/ChangeDatabase`, { databaseName });
+  }
 }
