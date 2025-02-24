@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseMetadataService } from '../service/database-metadata.service';
+import { DatabaseMetadataService } from '../../service/database-metadata.service';
+ 
 
 @Component({
   selector: 'app-database-selector',
