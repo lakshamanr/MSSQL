@@ -230,6 +230,7 @@ namespace API.Repository.Database
         using (var connection = new SqlConnection(_connectionString))
         {
           await connection.OpenAsync();
+         
           using (var command = new SqlCommand(SqlQueryConstant.LoadAllDatabases, connection))
           using (var reader = await command.ExecuteReaderAsync())
           {

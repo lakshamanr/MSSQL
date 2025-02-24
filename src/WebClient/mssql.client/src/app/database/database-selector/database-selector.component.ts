@@ -43,8 +43,7 @@ export class DatabaseSelectorComponent implements OnInit {
   onChangeDatabase() {
     this.databaseService.changeDatabase(this.selectedDatabase).subscribe(
       (response: { message: string }) => {
-        console.log(response);
-        alert(response.message);
+        console.log(response); 
         window.location.reload(); // 🔄 Force full reload
       },
       (error) => {
