@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewDetails, ViewMetaData } from '../../model/view.model';
+import { ViewDetails, ViewMetaData, ViewProperties } from '../../model/view.model';
 import { ViewService } from '../../service/services/view.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class ViewComponent implements OnInit {
   public selectedViewMetaData: ViewMetaData | null = null; 
   selectedViewName: string = 'HumanResources.vEmployee';
   iblnShowEditBox: boolean;
-  editedDescription: string = '';  // Local copy for editing
+  public editedDescription: string = '';  // Local copy for editing
+ 
   constructor(private viewService: ViewService) {}
 
   ngOnInit(): void {

@@ -1,36 +1,34 @@
  
 <amexio-accordion [multi-open]="true">
-  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="View Name " [gradient]="true" [active]="true">
-
-    <div class="table">
-      <div class="cell">
-        <h5>
-          <img src="./assets/icons/View.png" style="width: 30px !important;">
-          {{selectedViewName}}
-        </h5>
-      </div>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="View Name" [gradient]="true" [active]="true">
+    <div class="view-name-container">
+      <h5 class="view-title">
+        <img src="./assets/icons/View.png" class="view-icon">
+        <span>{{ selectedViewName }}</span>
+      </h5>
     </div>
   </amexio-accordion-tab>
+
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="MS Description" [gradient]="true" [active]="true">
-    <div class="table">
-      <div class="row">
+    <div class="ms-description-container">
+      <div class="ms-description-content">
         <!-- Normal Text Display -->
-        <div class="col-10" *ngIf="!iblnShowEditBox">
+        <div class="col-10 description-text" *ngIf="!iblnShowEditBox">
           <p>{{ selectedViewMetaData?.viewDetails[0]?.viewExtendedProperties }}</p>
         </div>
-
+  
         <!-- Edit Button -->
-        <div class="col-2 text-right" *ngIf="!iblnShowEditBox">
-          <a (click)="EditView($event)" class="btn btn-default btn-lg a-btn-slide-text">
+        <div class="col-2 text-right edit-btn-container" *ngIf="!iblnShowEditBox">
+          <a (click)="EditView($event)" class="edit-btn">
             <i class="fa fa-edit"></i>
           </a>
         </div>
       </div>
-
+  
       <!-- Text Area for Editing -->
-      <div class="form-group" *ngIf="iblnShowEditBox">
+      <div class="form-group edit-box" *ngIf="iblnShowEditBox">
         <textarea class="form-control" rows="3" [(ngModel)]="editedDescription"></textarea>
-
+  
         <!-- Action Buttons -->
         <div class="text-right mt-2">
           <a (click)="CancelViewMsDesciption($event)" class="btn btn-danger">
@@ -43,30 +41,23 @@
       </div>
     </div>
   </amexio-accordion-tab>
+  
 
 
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="View Properties" [gradient]="true" [active]="true">
-
-    <!--   public usesAnsiNulls: string;
-    public usesQuotedIdentifier: string;
-    public createDate: string;
-    public modifyDate: string;
-        -->
     <div class="table">
       <div class="row header">
         <div class="cell">Uses Ansi Nulls</div>
         <div class="cell">Uses Quoted Identifier</div>
-        <div class="cell">Data Type</div>
         <div class="cell">Create Date</div>
         <div class="cell">Modify Date</div>
       </div>
-      <div *ngFor="let Property of selectedViewMetaData.viewProperties " class="row">
+      <div *ngFor="let Property of selectedViewMetaData.viewProperties" class="row">
 
-        <div class="cell">{{Property.usesAnsiNulls}} </div>
-        <div class="cell">{{Property.columnName}}</div>
-        <div class="cell">{{Property.dataType}}</div>
-        <div class="cell">{{Property.maxLength}}</div>
-        <div class="cell">{{Property.precision}}</div>
+        <div class="cell">{{Property.uses_ansi_nulls}} </div>
+        <div class="cell">{{Property.uses_quoted_identifier}}</div>
+        <div class="cell">{{Property.create_date}}</div>
+        <div class="cell">{{Property.modify_date}}</div>
       </div>
     </div>
   </amexio-accordion-tab>
@@ -92,10 +83,28 @@
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script " [gradient]="true" [active]="true">
-    <ngx-prism>
-      {{selectedViewMetaData.viewCreateScript.createViewScript}}
-    </ngx-prism>
+    {{selectedViewMetaData.viewCreateScript.createViewScript}}
   </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used By " [gradient]="true" [active]="true">
 
+    <div class="table">
+      <div class="row header">
+        <div class="cell">View Dependency Name</div>
+        <div class="cell">Type</div>
+        <div class="cell">Updated</div>
+        <div class="cell">Selected</div>
+        <div class="cell">Column Name</div>
+        <div class="cell">Full Reference Name</div>
+      </div>
+      <div *ngFor="let Property of selectedViewMetaData.viewDependencies " class="row">
+        <a class="cell">{{Property.name}}</a>
+        <div class="cell">{{Property.type}}</div>
+        <div class="cell">{{Property.updated}}</div>
+        <div class="cell">{{Property.selected}}</div>
+        <div class="cell">{{Property.column_name}}</div>
+        <div class="cell">{{Property.fullReferenceName}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
 
 </amexio-accordion>

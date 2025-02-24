@@ -27,10 +27,10 @@ export class ViewDetails {
 }
 
 export class ViewProperties {
-  public usesAnsiNulls: string;
-  public usesQuotedIdentifier: string;
-  public createDate: string;
-  public modifyDate: string;
+  public uses_ansi_nulls: string;
+  public uses_quoted_identifier: string;
+  public create_date: string;
+  public modify_date: string;
 }
 
 export class ViewMetaData {

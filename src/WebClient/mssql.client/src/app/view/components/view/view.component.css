@@ -1,80 +1,147 @@
-.table {
-    margin:  0px 0 3px 0;
+
+/* 🔹 Container for MS Description */
+.ms-description-container {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+/* 🔹 Flexbox for proper alignment */
+.ms-description-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f6f6f6;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* 🔹 Proper text alignment */
+.description-text {
+  font-size: 16px;
+  color: #333;
+}
+
+/* 🔹 Edit button */
+.edit-btn-container {
+  display: flex;
+  align-items: center;
+}
+
+.edit-btn {
+  color: #184569;
+  font-size: 18px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit-btn:hover {
+  color: #2980b9;
+}
+
+/* 🔹 Edit box (Textarea) */
+.edit-box {
+  margin-top: 10px;
+}
+
+/* 🔹 Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .ms-description-content {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+  .edit-btn-container {
+      margin-top: 5px;
+      text-align: right;
       width: 100%;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      display: table;
-    }
-    
-    @media screen and (max-width: 580px) {
-      .table {
-        display: block;
-      }
-    }
-    
-    .row {
-      display: table-row;
-      background: #f6f6f6;
-    }
-    
-      .row:nth-of-type(odd) {
-        background: #e9e9e9;
-      }
-    
-      .row.header {
-        font-weight: 900;
-        color: #ffffff;
-        background: #184569 !important;
-      }
-    
-      .row.green {
-        background: #27ae60;
-      }
-    
-      .row.blue {
-        background: #2980b9;
-      }
-    
-    @media screen and (max-width: 580px) {
-      .row {
-        padding: 14px 0 7px;
-        display: block;
-      }
-    
-        .row.header {
-          padding: 0;
-          height: 6px;
-        }
-    
-          .row.header .cell {
-            display: none;
-          }
-    
-        .row .cell {
-          margin-bottom: 10px;
-        }
-    
-          .row .cell:before {
-            margin-bottom: 3px;
-            content: attr(data-title);
-            min-width: 98px;
-            font-size: 10px;
-            line-height: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #969696;
-            display: block;
-          }
-    }
-    
-    .cell {
-    /*  padding: 6px 12px; */
-      display: table-cell;
-    }
-    
-    @media screen and (max-width: 580px) {
-      .cell {
-        padding: 2px 16px;
-        display: block;
-      }
-    }
-    
+  }
+}
+
+/* Fix accordion spacing & alignment */
+.view-name-container {
+  display: flex;
+  align-items: center;
+  background: #184569;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Ensures the header text is properly aligned */
+.view-title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+  width: 100%;
+}
+
+/* Properly align icon with text */
+.view-icon {
+  width: 25px;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* General table styling */
+.table {
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Table row structure */
+.row {
+  display: table-row;
+  background: #f6f6f6;
+}
+
+  /* Alternate row colors */
+  .row:nth-of-type(odd) {
+    background: #e9e9e9;
+  }
+
+  /* Header row styling */
+  .row.header {
+    font-weight: bold;
+    color: #ffffff;
+    background: #184569;
+  }
+
+/* Table cell styling */
+.cell {
+  display: table-cell;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Mobile Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .view-title {
+    font-size: 16px;
+  }
+
+  .table {
+    display: block;
+  }
+
+  .row {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .cell {
+    display: block;
+    text-align: left;
+    padding: 5px;
+  }
+}
