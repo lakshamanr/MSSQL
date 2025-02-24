@@ -28,7 +28,6 @@ namespace API.Repository.Database
     public DatabaseReposititory(ILogger<DatabaseReposititory> logger, IDistributedCache cache, IConfiguration configuration) : base(cache, configuration)
     {
       _configuration= configuration;
-      _connectionString = configuration.GetConnectionString("SqlServerConnection");
       _configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
     }

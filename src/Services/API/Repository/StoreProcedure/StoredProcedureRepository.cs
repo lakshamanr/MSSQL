@@ -23,7 +23,7 @@ namespace API.Repository.StoreProcedure
     public StoredProcedureRepository(IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
     {
       _objectDependenciesRepository = objectDependenciesRepository;
-      _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ namespace API.Repository.Functions
     /// <param name="configuration"></param>
         public BaseSqlFunctionRepository(IDistributedCache cache, IConfiguration configuration) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
         }
 
         /// <summary>

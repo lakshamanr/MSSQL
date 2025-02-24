@@ -22,7 +22,7 @@ namespace API.Repository.Functions
         public ScalarFunctionRepository(IBaseSqlFunctionRepository iBaseSqlFunctionRepository, IConfiguration configuration, IDistributedCache cache)
             : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
             iBaseSqlFunctionRepository.FunctionType = "FN";
             _baseSqlFunctionRepository = iBaseSqlFunctionRepository;
         }

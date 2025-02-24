@@ -30,7 +30,7 @@ namespace API.Repository.Table
             _logger = logger;
             _cache = cache;
             _objectDependenciesRepository = objectDependenciesRepository;
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+  
         }
 
         /// <summary>

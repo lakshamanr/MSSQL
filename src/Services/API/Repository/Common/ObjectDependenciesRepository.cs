@@ -1,4 +1,4 @@
-﻿using API.Common.Queries;
+using API.Common.Queries;
 using API.Domain.Common;
 using API.Domain.Table;
 using Dapper;
@@ -21,7 +21,7 @@ namespace API.Repository.Common
         /// <param name="cache">The distributed cache instance.</param>
         public ObjectDependenciesRepository(IConfiguration configuration,ILogger<ObjectDependenciesRepository> logger, IDistributedCache cache): base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
         }
 
         /// <summary>

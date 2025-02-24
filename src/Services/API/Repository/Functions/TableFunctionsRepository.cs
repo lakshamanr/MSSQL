@@ -22,7 +22,7 @@ namespace API.Repository.Functions
         {
             _IBaseSqlFunctionRepository = IBaseSqlFunctionRepository;
             _IBaseSqlFunctionRepository.FunctionType = "TF";
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+      
         }
 
         /// <summary>

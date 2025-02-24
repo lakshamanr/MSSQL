@@ -1,4 +1,4 @@
-﻿using API.Common.Queries;
+using API.Common.Queries;
 using API.Domain.XMLSchemaCollections;
 using API.Repository.Common;
 using Dapper;
@@ -19,7 +19,7 @@ namespace API.Repository.XMLSchemaCollections
         /// <param name="connectionString">The connection string to the database</param>
         public XmlSchemaRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+ 
         }
 
         /// <summary>

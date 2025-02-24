@@ -20,7 +20,7 @@ namespace API.Repository.Functions
         /// <param name="cache">The distributed cache.</param>
         public AggregateFunctionRepository(IBaseSqlFunctionRepository iBaseSqlFunctionRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
             iBaseSqlFunctionRepository.FunctionType = "AF";
             __IBaseSqlFunctionRepository = iBaseSqlFunctionRepository;
         }

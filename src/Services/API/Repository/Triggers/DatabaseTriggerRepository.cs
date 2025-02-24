@@ -19,7 +19,7 @@ namespace API.Repository.Triggers
     /// <param name="cache"></param>
         public DatabaseTriggerRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
         }
 
         /// <summary>

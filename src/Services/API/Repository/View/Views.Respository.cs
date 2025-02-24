@@ -1,4 +1,4 @@
-﻿using API.Common.Queries;
+using API.Common.Queries;
 using API.Domain.View;
 using API.Repository.Common;
 using Dapper;
@@ -28,7 +28,7 @@ namespace API.Repository.View
         {
             _logger = logger;
             _cache = cache;
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
         }
 
         /// <summary>

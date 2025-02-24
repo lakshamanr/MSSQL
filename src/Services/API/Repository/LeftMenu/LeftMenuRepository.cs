@@ -25,7 +25,7 @@ namespace API.Repository.LeftMenu
         {
             _logger = logger;
             TreeViewJsonGenerator = new TreeViewJsonGenerator(this);
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+    
         }
 
         /// <summary>

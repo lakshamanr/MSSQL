@@ -1,4 +1,4 @@
-﻿using API.Common.Queries;
+using API.Common.Queries;
 using API.Repository.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
@@ -19,7 +19,7 @@ namespace API.Repository.FullTextCatalog
         /// <param name="connectionString">The connection string to the database.</param>
         public FullTextCatalogRepository(ILogger<FullTextCatalogRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+
         }
 
         /// <summary>

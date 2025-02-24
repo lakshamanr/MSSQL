@@ -19,7 +19,6 @@ namespace API.Repository.UserDefinedDataType
         /// <param name="cache">The distributed cache.</param>
         public UserDefinedDataTypeRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
         }
 
         private IDbConnection Connection => new SqlConnection(_connectionString);
