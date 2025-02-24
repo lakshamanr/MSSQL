@@ -13,15 +13,15 @@ namespace API.Controllers
   public class DatabaseController : ControllerBase
   {
     private readonly IDatabaseReposititory _repository;
-    private IConfiguration _configuration;
+ 
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseController"/> class.
     /// </summary>
     /// <param name="repository">The database repository.</param>
-    public DatabaseController(IDatabaseReposititory repository, IConfiguration configuration)
+    public DatabaseController(IDatabaseReposititory repository)
     {
       _repository = repository;
-      _configuration= configuration;
+      
     }
 
     /// <summary>
@@ -43,23 +43,30 @@ namespace API.Controllers
     [HttpPost("ChangeDatabase")]
     public IActionResult ChangeDatabase([FromBody] DatabaseChangeRequest request)
     {
-      _repository.SetDatabase(request.DatabaseName);
-      ReloadConfiguration();
+      _repository.SetDatabase(request.DatabaseName); 
       return Ok(new { message = $"Database changed to {request.DatabaseName}" });
     }
-    private void ReloadConfiguration()
+    /// <summary>
+    /// Gets a list of available databases.
+    /// </summary>
+    /// <returns>A list of database names.</returns>
+    [HttpGet("list")]
+    public async Task<IActionResult> GetDatabases()
     {
-      var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-      string configFileName = environment == "Development" ? "appsettings.Development.json" : "appsettings.json";
-
-      var config = new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile(configFileName, optional: false, reloadOnChange: true)
-          .Build();
-
-      _configuration = config; // Reload the configuration
-
-      Console.WriteLine($"🔄 Configuration reloaded from {configFileName}");
+      var databases = await _repository.GetAvailableDatabases();
+      return Ok(databases);
     }
+
+    /// <summary>
+    /// Gets the currently active database.
+    /// </summary>
+    /// <returns>The name of the active database.</returns>
+    [HttpGet("current")]
+    public IActionResult GetCurrentDatabase()
+    {
+      string currentDatabase = _repository.GetCurrentDatabase();
+      return Ok(new { database = currentDatabase });
+    }
+
   }
 }

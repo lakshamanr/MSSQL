@@ -96,7 +96,7 @@ namespace API.Common.Queries
         public const string LoadAllDatabases =
             @"
                     SELECT name FROM master.dbo.sysdatabases 
-                    WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb')";
+                    WHERE name NOT IN ('master', 'tempdb', 'model', 'msdb') and  state_desc = 'ONLINE'";
 
     /// <summary>
     /// SQL query to load database files for a specific database.

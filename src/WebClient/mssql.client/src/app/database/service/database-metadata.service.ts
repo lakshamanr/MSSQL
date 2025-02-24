@@ -33,4 +33,15 @@ export class DatabaseMetadataService {
   changeDatabase(databaseName: string) {
     return this.http.post(`${this.primaryUrl}/Database/ChangeDatabase`, { databaseName });
   }
+  // Get list of available databases
+  getDatabases(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.primaryUrl}/Database/list`);
+  }
+
+  // Get the currently active database
+  getCurrentDatabase(): Observable<{ database: string }> {
+    return this.http.get<{ database: string }>(`${this.primaryUrl}/Database/current`);
+  }
+
+   
 }

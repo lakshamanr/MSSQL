@@ -216,5 +216,60 @@ namespace API.Repository.Database
         Console.WriteLine($"❌ Error clearing cache: {ex.Message}");
       }
     }
+
+    /// <summary>
+    /// Fetches a list of all available databases in SQL Server.
+    /// </summary>
+    /// <returns>An array of database names.</returns>
+    public async Task<string[]> GetAvailableDatabases()
+    {
+      var databases = new List<string>();
+
+      try
+      {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+          await connection.OpenAsync();
+          using (var command = new SqlCommand(SqlQueryConstant.LoadAllDatabases, connection))
+          using (var reader = await command.ExecuteReaderAsync())
+          {
+            while (await reader.ReadAsync())
+            {
+              databases.Add(reader.GetString(0));
+            }
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"❌ Error fetching databases: {ex.Message}");
+      }
+
+      return databases.ToArray();
+    }
+
+    /// <summary>
+    /// Fetches the currently active database name.
+    /// </summary>
+    /// <returns>The name of the active database.</returns>
+    public string GetCurrentDatabase()
+    {
+      try
+      {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+          connection.Open();
+          using (var command = new SqlCommand("SELECT DB_NAME()", connection))
+          {
+            return command.ExecuteScalar()?.ToString() ?? "Unknown";
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"❌ Error fetching current database: {ex.Message}");
+        return "Error";
+      }
+    }
   }
 }
