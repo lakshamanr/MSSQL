@@ -20,6 +20,17 @@
     <WarningsAsErrors>1591</WarningsAsErrors>
     --><!-- Treat warning 1591 as error --><!--
   </PropertyGroup>-->
+  <PropertyGroup>
+    <OutputPath Condition="'$(Configuration)' == 'Debug'">$(ProjectDir)bin\Debug\net8.0\</OutputPath>
+    <OutputPath Condition="'$(Configuration)' == 'Release'">$(ProjectDir)bin\Release\net8.0\</OutputPath>
+  </PropertyGroup>
+
+  <Target Name="CopyToElectronDist" AfterTargets="Build">
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="C:\lakshaman\Source\lakshamanr\mssql\src\WebClient\mssql.client\Electron\dist\mssql\API\" />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />

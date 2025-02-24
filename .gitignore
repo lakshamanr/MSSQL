@@ -361,3 +361,17 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Dapper.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Microsoft.Extensions.Caching.StackExchangeRedis.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Microsoft.Extensions.Logging.Abstractions.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Microsoft.Extensions.Options.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Microsoft.OpenApi.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Newtonsoft.Json.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Pipelines.Sockets.Unofficial.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/sni.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/StackExchange.Redis.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Swashbuckle.AspNetCore.Swagger.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Swashbuckle.AspNetCore.SwaggerGen.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/Swashbuckle.AspNetCore.SwaggerUI.dll
+/src/WebClient/mssql.client/Electron/dist/mssql/API/System.Data.SqlClient.dll
