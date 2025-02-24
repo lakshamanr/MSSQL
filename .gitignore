@@ -437,14 +437,11 @@ FodyWeavers.xsd
 /src/WebClient/mssql.client/Electron/dist/mssql/vendor-es2019.66fc81398eb919128379.js.map
 /src/WebClient/mssql.client/Electron/dist/mssql/vendor-es5.66fc81398eb919128379.js
 /src/WebClient/mssql.client/Electron/dist/mssql/vendor-es5.66fc81398eb919128379.js.map
-/src/WebClient/mssql.client/Electron/API/API.deps.json
 /src/WebClient/mssql.client/Electron/API/API.dll
 /src/WebClient/mssql.client/Electron/API/API.exe
 /src/WebClient/mssql.client/Electron/API/API.runtimeconfig.json
 /src/WebClient/mssql.client/Electron/API/API.staticwebassets.endpoints.json
-/src/WebClient/mssql.client/Electron/API/API.xml
-/src/WebClient/mssql.client/Electron/API/appsettings.Development.json
-/src/WebClient/mssql.client/Electron/API/appsettings.json
+/src/WebClient/mssql.client/Electron/API/API.xml 
 /src/WebClient/mssql.client/Electron/API/Dapper.dll
 /src/WebClient/mssql.client/Electron/API/Microsoft.Extensions.Caching.StackExchangeRedis.dll
 /src/WebClient/mssql.client/Electron/API/Microsoft.Extensions.DependencyInjection.Abstractions.dll
