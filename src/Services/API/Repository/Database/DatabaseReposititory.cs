@@ -5,33 +5,31 @@ using API.Repository.Common;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using StackExchange.Redis;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
 
 namespace API.Repository.Database
-{
-  /// <summary>
-  /// 
-  /// </summary>
+{    /// <summary>
+     /// Repository class for database operations.
+     /// </summary>
   public class DatabaseReposititory : BaseRepository, IDatabaseReposititory
   {
-    private readonly string _configFilePath;
     private IConfiguration _configuration;
-
+    private readonly ConnectionMultiplexer _redisMultiplexer;
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="DatabaseReposititory"/> class.
     /// </summary>
-    /// <param name="logger"></param>
-    /// <param name="cache"></param>
-    /// <param name="configuration"></param>
-    public DatabaseReposititory(ILogger<DatabaseReposititory> logger, IDistributedCache cache, IConfiguration configuration) : base(cache, configuration)
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="cache">The distributed cache instance.</param>
+    /// <param name="configuration">The configuration instance.</param>
+    public DatabaseReposititory(ILogger<DatabaseReposititory> logger, IDistributedCache cache, IConfiguration configuration, ConnectionMultiplexer redisMultiplexer) : base(cache, configuration)
     {
-      _configuration= configuration;
-      _configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
-
+      _configuration = configuration;
+      _redisMultiplexer = redisMultiplexer;
     }
-    //      Task<DatabaseMetaData> GetDatabaseMetaData();
+
     /// <summary>
     /// Gets the metadata of the database.
     /// </summary>
@@ -73,8 +71,6 @@ namespace API.Repository.Database
       return serverMetaData;
     }
 
-
-
     /// <summary>
     /// Loads database files from cache or queries the database.
     /// </summary>
@@ -88,6 +84,11 @@ namespace API.Repository.Database
               .Replace("@DatabaseName", $"'{CurrentDatabases}'"),
           connection);
     }
+
+    /// <summary>
+    /// Sets the database to the specified name.
+    /// </summary>
+    /// <param name="databaseName">The name of the database.</param>
     public void SetDatabase(string databaseName)
     {
       // Extract and update only the database name in the connection string
@@ -99,10 +100,15 @@ namespace API.Repository.Database
       // Update the in-memory connection string
       _connectionString = updatedConnectionString;
 
-      // Reload configuration to ensure new connection string is used
-      ReloadConfiguration();
+      FlushCache();
     }
 
+    /// <summary>
+    /// Updates the database name in the connection string.
+    /// </summary>
+    /// <param name="connectionString">The original connection string.</param>
+    /// <param name="newDatabase">The new database name.</param>
+    /// <returns>The updated connection string.</returns>
     private string UpdateDatabaseName(string connectionString, string newDatabase)
     {
       var parts = connectionString.Split(';');
@@ -117,12 +123,21 @@ namespace API.Repository.Database
       return string.Join(";", parts);
     }
 
+    /// <summary>
+    /// Updates the appsettings files with the new connection string.
+    /// </summary>
+    /// <param name="newConnectionString">The new connection string.</param>
     private void UpdateAppSettings(string newConnectionString)
     {
       UpdateConfigFile("appsettings.json", newConnectionString);
       UpdateConfigFile("appsettings.Development.json", newConnectionString); // Also update development config
     }
 
+    /// <summary>
+    /// Updates the specified configuration file with the new connection string.
+    /// </summary>
+    /// <param name="fileName">The name of the configuration file.</param>
+    /// <param name="newConnectionString">The new connection string.</param>
     private void UpdateConfigFile(string fileName, string newConnectionString)
     {
       string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
@@ -143,20 +158,63 @@ namespace API.Repository.Database
       Console.WriteLine($"✅ Updated {fileName} successfully!");
     }
 
-    private void ReloadConfiguration()
+
+
+    private async void FlushCache()
     {
-      var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-      string configFileName = environment == "Development" ? "appsettings.Development.json" : "appsettings.json";
+      try
+      {
+        Console.WriteLine("🧹 Flushing cache...");
 
-      var config = new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile(configFileName, optional: false, reloadOnChange: true)
-          .Build();
+        // Assuming you're using Redis, you can clear all keys like this
+        if (_cache is Microsoft.Extensions.Caching.StackExchangeRedis.RedisCache redisCache)
+        {
+          Console.WriteLine("🧹 Flushing Redis cache manually...");
 
-      _configuration = config; // Reload the configuration
+          var db = _redisMultiplexer.GetDatabase();
+          var endpoints = _redisMultiplexer.GetEndPoints(true);
 
-      Console.WriteLine($"🔄 Configuration reloaded from {configFileName}");
+          foreach (var endpoint in endpoints)
+          {
+            var server = _redisMultiplexer.GetServer(endpoint);
+
+            if (server.IsConnected)
+            {
+              Console.WriteLine($"🔍 Retrieving keys from {endpoint}...");
+
+              var keys = server.Keys(pattern: "*"); // Fetch all keys
+
+              int deletedCount = 0;
+              foreach (var key in keys)
+              {
+                await db.KeyDeleteAsync(key);
+                deletedCount++;
+              }
+
+              Console.WriteLine($"✅ Deleted {deletedCount} keys from Redis.");
+            }
+          }
+        }
+
+        // If using SQL Server cache, you need to manually delete records
+        if (_cache is Microsoft.Extensions.Caching.SqlServer.SqlServerCache sqlCache)
+        {
+          using (var connection = new SqlConnection(_configuration.GetConnectionString("SqlServerConnection")))
+          {
+            await connection.OpenAsync();
+            using (var command = new SqlCommand("DELETE FROM dbo.CacheTable", connection))
+            {
+              await command.ExecuteNonQueryAsync();
+            }
+          }
+        }
+
+        Console.WriteLine("✅ Cache cleared successfully!");
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"❌ Error clearing cache: {ex.Message}");
+      }
     }
-
   }
 }

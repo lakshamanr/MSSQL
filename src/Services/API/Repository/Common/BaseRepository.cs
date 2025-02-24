@@ -47,16 +47,31 @@ namespace API.Repository.Common
         public BaseRepository(IDistributedCache cache, IConfiguration configuration)
         {
             _cache = cache;
-            _connectionString = configuration.GetConnectionString("SqlServerConnection");
+            _connectionString = GetCurrentConnectionString();
             _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_connectionString);
         }
+        public string GetCurrentConnectionString()
+        {
+          string filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
-        /// <summary>
-        /// Gets a database connection for the specified database name.
-        /// </summary>
-        /// <param name="currentDbName">The name of the database.</param>
-        /// <returns>An <see cref="IDbConnection"/> instance.</returns>
-        private IDbConnection GetDbConnection(string currentDbName)
+          if (!File.Exists(filePath))
+          {
+            Console.WriteLine("❌ Config file not found.");
+            return null;
+          }
+
+          string json = File.ReadAllText(filePath);
+          dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+          return jsonObj["ConnectionStrings"]["SqlServerConnection"];
+        }
+
+    /// <summary>
+    /// Gets a database connection for the specified database name.
+    /// </summary>
+    /// <param name="currentDbName">The name of the database.</param>
+    /// <returns>An <see cref="IDbConnection"/> instance.</returns>
+    private IDbConnection GetDbConnection(string currentDbName)
         {
             if (string.IsNullOrEmpty(currentDbName))
             {

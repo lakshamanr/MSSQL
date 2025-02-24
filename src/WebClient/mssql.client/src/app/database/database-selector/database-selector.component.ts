@@ -16,10 +16,20 @@ export class DatabaseSelectorComponent implements OnInit {
   }
 
   onChangeDatabase() {
-    this.databaseService.changeDatabase(this.selectedDatabase).subscribe((response: { message: string }) => {
-      console.log(response);
-      alert(response.message);
-    });
+    this.databaseService.changeDatabase(this.selectedDatabase).subscribe(
+      (response: { message: string }) => {
+        console.log(response);
+        alert(response.message);
+
+        // 🔄 Force full reload (clears cache & reinitializes app)
+        window.location.reload();
+      },
+      (error) => {
+        console.error('❌ Error changing database:', error);
+        alert('Failed to change database. Please try again.');
+      }
+    );
   }
+
 
 }

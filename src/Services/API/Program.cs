@@ -11,6 +11,7 @@ using API.Repository.UserDefinedDataType;
 using API.Repository.View;
 using API.Repository.XMLSchemaCollections;
 using Microsoft.Extensions.Caching.Distributed;
+using StackExchange.Redis;
 
 internal class Program
 {
@@ -29,12 +30,19 @@ internal class Program
 
         var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
 
-        if (string.IsNullOrEmpty(redisConnectionString))
-        {
-            throw new ArgumentNullException("Redis connection string cannot be null or empty.");
-        }
+    if (string.IsNullOrEmpty(redisConnectionString))
+    {
+      throw new ArgumentNullException("Redis connection string cannot be null or empty.");
+    }
 
-        builder.Services.AddStackExchangeRedisCache(options =>
+    // Register StackExchange.Redis ConnectionMultiplexer
+    builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
+    {
+      return ConnectionMultiplexer.Connect(redisConnectionString);
+    });
+
+    
+    builder.Services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = redisConnectionString;
             options.InstanceName = "mssqlInstance:";
