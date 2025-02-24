@@ -66,15 +66,13 @@ internal class Program
 
         app.UseCors("AllowOrigin");
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+    app.Urls.Add("http://localhost:5000");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
-        app.UseAuthorization();
-        app.MapControllers();
-         app.Run();
+    app.UseAuthorization();
+    app.MapControllers();
+    app.Run();
     }
 
     private static void RegisterRepositories(IServiceCollection services, string connectionString)

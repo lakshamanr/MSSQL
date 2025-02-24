@@ -23,11 +23,14 @@ namespace API.Controllers
             _repository = repository;
         }
 
-        /// <summary>
-        /// Gets the metadata of the database.
-        /// </summary>
-        /// <returns>The metadata of the database.</returns>
-        [HttpGet("database-meta-data")]
+    [HttpGet("test")]
+    public IActionResult Test() => Ok("API is working!");
+
+    /// <summary>
+    /// Gets the metadata of the database.
+    /// </summary>
+    /// <returns>The metadata of the database.</returns>
+    [HttpGet("database-meta-data")]
         public async Task<IActionResult> GetDatabaseMetaData()
         {
             var result = await _repository.GetDatabaseMetaData();
