@@ -43,7 +43,8 @@ const PROXY_CONFIG = [
       "/Database",
       "/LeftMenu",
       "/common",
-      "/StoredProcedure"
+      "/StoredProcedure",
+      "/View"
     ],
     target: CommonAPI,
     secure: false,  // Set to true if using HTTPS

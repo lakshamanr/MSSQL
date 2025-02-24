@@ -1,1 +1,14 @@
-<p>views works!</p>
+
+<amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Store Procerdure Extended Properties" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">View</div>
+        <div class="cell">Extended Properties Value</div> 
+      </div> 
+      <div *ngFor="let description of viewDetails" class="row">
+        <div class="cell">{{description.viewName}}</div>
+        <div class="cell">{{description.viewExtendedProperties}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+

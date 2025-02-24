@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewDetails } from '../../model/view.model';
+import { ViewService } from '../../service/services/view.service';
 
 @Component({
   selector: 'app-views',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewsComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  viewDetails: ViewDetails[] = [];
+    constructor(private viewService: ViewService) {}
+  
+    ngOnInit(): void {
+      this.loadAllViews();
+    }
+  
+    loadAllViews(): void {
+      this.viewService.getAllViewData().subscribe((data) => {
+        this.viewDetails = data;
+      });
+    }
 }

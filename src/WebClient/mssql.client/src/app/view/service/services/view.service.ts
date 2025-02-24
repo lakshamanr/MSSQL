@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ViewDetails, ViewMetaData } from '../../model/view.model';
@@ -7,15 +7,19 @@ import { ViewDetails, ViewMetaData } from '../../model/view.model';
   providedIn: 'root'
 })
 export class ViewService {
-  private baseUrl = 'http://localhost:5000/View'; // Adjust the URL as per your backend
-
-  constructor(private http: HttpClient) {}
+    [x: string]: any;
+ 
+  constructor(
+    @Inject('API_URL') private primaryUrl: string,
+    @Inject('ANOTHER_URL') private secondaryUrl: string,
+    private http: HttpClient) {
+  }
 
   getAllViewData(): Observable<ViewDetails[]> {
-    return this.http.get<ViewDetails[]>(`${this.baseUrl}/GetAllViewData`);
+    return this.http.get<ViewDetails[]>(`${this.primaryUrl}/View/GetAllViewData`);
   }
 
   getViewMetaData(viewname: string): Observable<ViewMetaData> {
-    return this.http.get<ViewMetaData>(`${this.baseUrl}/GetViewMetaData${viewname}`);
+    return this.http.get<ViewMetaData>(`${this.primaryUrl}/View/GetViewMetaData${viewname}`);
   }
 }

@@ -1,42 +1,42 @@
-export interface ViewColumns {
-  viewName: string;
-  columnName: string;
-  columnOrder: number;
-  dataType: string;
-  maxLength: number;
-  precision: number;
-  scale: number;
+export class ViewColumns {
+  public viewName: string;
+  public columnName: string;
+  public columnOrder: number;
+  public dataType: string;
+  public maxLength: number;
+  public precision: number;
+  public scale: number;
 }
 
-export interface ViewCreateScript {
-  createViewScript?: string;
+export class ViewCreateScript {
+  public createViewScript?: string;
 }
 
-export interface ViewDependency {
-  name: string;
-  type: string;
-  updated: string;
-  selected: string;
-  column_name: string;
-  fullReferenceName: string;
+export class ViewDependency {
+  public name: string;
+  public type: string;
+  public updated: string;
+  public selected: string;
+  public column_name: string;
+  public fullReferenceName: string;
 }
 
-export interface ViewDetails {
-  viewName: string;
-  viewExtendedProperties: string;
+export class ViewDetails {
+  public viewName: string;
+  public viewExtendedProperties: string;
 }
 
-export interface ViewProperties {
-  usesAnsiNulls: string;
-  usesQuotedIdentifier: string;
-  createDate: string;
-  modifyDate: string;
+export class ViewProperties {
+  public usesAnsiNulls: string;
+  public usesQuotedIdentifier: string;
+  public createDate: string;
+  public modifyDate: string;
 }
 
-export interface ViewMetaData {
-  viewProperties: ViewProperties[];
-  viewDetails: ViewDetails[];
-  viewDependencies: ViewDependency[];
-  viewCreateScript: ViewCreateScript;
-  viewColumns: ViewColumns[];
+export class ViewMetaData {
+  public viewProperties: ViewProperties[];
+  public viewDetails: ViewDetails[];
+  public viewDependencies: ViewDependency[];
+  public viewCreateScript: ViewCreateScript;
+  public viewColumns: ViewColumns[];
 }
