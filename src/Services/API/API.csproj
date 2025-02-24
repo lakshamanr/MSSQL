@@ -29,7 +29,7 @@
     <ItemGroup>
       <FilesToCopy Include="$(OutputPath)**\*" />
     </ItemGroup>
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="C:\lakshaman\Source\lakshamanr\mssql\src\WebClient\mssql.client\Electron\dist\mssql\API\" />
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="C:\lakshaman\Source\lakshamanr\mssql\src\WebClient\mssql.client\electron\API\" />
   </Target>
 
   <ItemGroup>
