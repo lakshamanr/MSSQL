@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -24,12 +24,15 @@
     <OutputPath Condition="'$(Configuration)' == 'Debug'">$(ProjectDir)bin\Debug\net8.0\</OutputPath>
     <OutputPath Condition="'$(Configuration)' == 'Release'">$(ProjectDir)bin\Release\net8.0\</OutputPath>
   </PropertyGroup>
+  <Target Name="AutoBuildAndPublish" BeforeTargets="Publish">
+    <Exec Command="dotnet build --configuration Release" />
+  </Target>
 
-  <Target Name="CopyToElectronDist" AfterTargets="Build">
+  <Target Name="CopyPublishedFiles" AfterTargets="Publish">
     <ItemGroup>
-      <FilesToCopy Include="$(OutputPath)**\*" />
+      <PublishedFiles Include="$(PublishDir)**\*" />
     </ItemGroup>
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="C:\lakshaman\Source\lakshamanr\mssql\src\WebClient\mssql.client\electron\API\" />
+    <Copy SourceFiles="@(PublishedFiles)" DestinationFolder="C:\lakshaman\Source\lakshamanr\mssql\src\WebClient\mssql.client\electron\API\" />
   </Target>
 
   <ItemGroup>
