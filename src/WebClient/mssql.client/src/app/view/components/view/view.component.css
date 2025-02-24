@@ -1,0 +1,31 @@
+.container {
+    padding: 20px;
+  }
+  
+  .view-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .view-list li {
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+  }
+  
+  .view-list li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  

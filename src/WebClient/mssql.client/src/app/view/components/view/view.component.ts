@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewDetails, ViewMetaData } from '../../model/view.model';
+import { ViewService } from '../../service/services/view.service';
 
 @Component({
   selector: 'app-view',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewComponent implements OnInit {
 
-  constructor() { }
+  viewDetails: ViewDetails[] = [];
+  selectedViewMetaData: ViewMetaData | null = null;
+  selectedViewName: string = ' HumanResources.vEmployee';
 
-  ngOnInit() {
+  constructor(private viewService: ViewService) {}
+
+  ngOnInit(): void {
+    this.loadAllViews();
+  }
+
+  loadAllViews(): void {
+    this.viewService.getAllViewData().subscribe((data) => {
+      this.viewDetails = data;
+    });
+  }
+
+  loadViewMetaData(viewName: string): void {
+    this.selectedViewName = viewName;
+    this.viewService.getViewMetaData(viewName).subscribe((data) => {
+      this.selectedViewMetaData = data;
+    });
   }
 
 }

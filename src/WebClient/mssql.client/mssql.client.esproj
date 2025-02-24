@@ -17,4 +17,7 @@
     <None Include=".vscode\launch.json" />
     <None Include=".vscode\tasks.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\view\service\" />
+  </ItemGroup>
 </Project>

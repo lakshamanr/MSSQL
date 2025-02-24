@@ -1,1 +1,34 @@
-<p>view works!</p>
+<div class="container">
+    <h2>Database Views</h2>
+    <ul class="view-list">
+      <li *ngFor="let view of viewDetails" (click)="loadViewMetaData(view.viewName)">
+        {{ view.viewName }}
+      </li>
+    </ul>
+  
+    <div *ngIf="selectedViewMetaData">
+      <h3>View Metadata for: {{ selectedViewName }}</h3>
+      
+      <h4>Properties</h4>
+      <ul>
+        <li *ngFor="let prop of selectedViewMetaData.viewProperties">
+          Created: {{ prop.createDate }} | Modified: {{ prop.modifyDate }}
+        </li>
+      </ul>
+  
+      <h4>Columns</h4>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Data Type</th>
+          <th>Order</th>
+        </tr>
+        <tr *ngFor="let col of selectedViewMetaData.viewColumns">
+          <td>{{ col.columnName }}</td>
+          <td>{{ col.dataType }}</td>
+          <td>{{ col.columnOrder }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
