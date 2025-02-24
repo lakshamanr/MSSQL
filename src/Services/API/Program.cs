@@ -40,14 +40,9 @@ internal class Program
             options.InstanceName = "mssqlInstance:";
         });
 
-        var connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+        
 
-        if (string.IsNullOrEmpty(connectionString))
-        {
-            throw new ArgumentNullException("SQL Server connection string cannot be null or empty.");
-        }
-
-        RegisterRepositories(builder.Services, connectionString);
+        RegisterRepositories(builder.Services);
 
         builder.Services.AddCors(options =>
         {
@@ -75,7 +70,7 @@ internal class Program
     app.Run();
     }
 
-    private static void RegisterRepositories(IServiceCollection services, string connectionString)
+    private static void RegisterRepositories(IServiceCollection services)
     {
 
         services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
