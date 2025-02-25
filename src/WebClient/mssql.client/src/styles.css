@@ -7,7 +7,7 @@ body{
 }
 .as-split-gutter {
   height: auto !important;
-  background-color: none !important;
+  background-color: gray !important;
 }
 .card-container {
   box-shadow: none !important;
