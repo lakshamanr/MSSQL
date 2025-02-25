@@ -1,17 +1,9 @@
-/* Base styles */
-:host {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 25px); /* Adjust height to fit between header and footer */
-  width: 100%;
-  overflow: hidden;
+ #asSplitArea2{
+  height: 85vh !important;
 }
-
-.split-example {
-  height: 100%;
-  margin-left: 5px !important;
+#asSplitArea1 {
+  height: 85vh !important;
 }
-
 /* Split bar visibility */
 .HideSplitBar {
   flex: 0 0 0 !important;
@@ -29,51 +21,4 @@
 .ShowFullPageMode {
   order: 2;
   flex: 0 0 calc(100% - 15px) !important;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-.setWindowHeight {
-  height: calc(100vh - 1px); /* Adjust height dynamically */
-  overflow-y: auto;
-}
-
-.scrollbar {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-/* Responsive adjustments for small screens */
-@media (max-width: 767px) {
-  .body-content {
-    padding-top: 50px; /* Space for the nav menu */
-  }
-}
-
-/* Responsive layout adjustments */
-@media only screen and (max-width: 600px) {
-  #leftMenu, #asSplitArea2 {
-    flex: 0 0 50%;
-  }
-}
-
-@media only screen and (min-width: 601px) and (max-width: 1200px) {
-  #leftMenu {
-    flex: 0 0 30%;
-  }
-  #asSplitArea2 {
-    flex: 0 0 70%;
-  }
-}
-
-@media only screen and (min-width: 1201px) {
-  #leftMenu {
-    flex: 0 0 25%;
-  }
-  #asSplitArea2 {
-    flex: 0 0 75%;
-  }
 }

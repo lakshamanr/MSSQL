@@ -1,251 +1,83 @@
 @import '~font-awesome/css/font-awesome.min.css';
 
+body{
+  line-height: 1.4 !important;  
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important; */
+  font-family: Roboto, Verdana, sans-serif, Helvetica, Arial, Trebuchet MS !important
+}
 .as-split-gutter {
   height: auto !important;
   background-color: none !important;
 }
-
-
-hr {
-  height: 4px !important;
-  border: 0 !important;
-  margin-top: 0px !important;
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-}
-
-.hr-primary {
-  background-image: -webkit-linear-gradient(left, rgba(66, 133, 244, .8), rgba(66, 133, 244, .6), rgba(0, 0, 0, 0));
-}
-
-body {
-  overflow-y: hidden !important;
-  font-size: 95% !important;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background: -webkit-linear-gradient(0, blue 50%, white 100%);
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #2196f3 !important;
-}
-
-::-webkit-scrollbar-track {
-  background: white !important;
-}
-
-body::-webkit-scrollbar {
-  width: 1em;
-}
-
-body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-/*body::-webkit-scrollbar {
-  width: 1em;
-}
-
-body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-}*/
-
-.treenode {
-  padding-left: 0px !important;
-  border-left: dotted !important;
-  border-width: 1.3px !important;
-  border-left-color: #2196f3 !important;
-}
-
-.fa-angle-down {
-  padding-left: 3px !important;
-}
-
-.fa-angle-right {
-  padding-left: 3px !important;
-}
-
-.pre[class*="language-"]>code {
-  border-left: 0px solid #358ccb !important;
-}
-
-
-.tree-node-label {
-  overflow: visible !important;
-  display: contents !important;
-  display: inline-block !important;
-}
-
-.leftmenuExtendedProperties {
-  background-color: var(--componentBGColor);
-  color: var(--componentFontColor);
-}
-
 .card-container {
   box-shadow: none !important;
 }
+.treenode-children {
+  /* margin: 0; */
+  padding: 0 0 0 5px !important;
+  /* transition: expand 0.5s; */
+}
 
-.as-split-gutter-icon {
+.accordion {  
   background-color: #184569 !important;
-  max-height: 95vh !important;
-  height: 95vh !important;
-}
-
-.tree-node-label-selected:after {
-  color: red !important;
-}
-
-.tree-node-label:hover {
-  color: red !important;
-}
-
-hr {
-  height: 2px !important;
-  background-color: #cc9897 !important;
-}
-
-.treenode-content::selection {
-  color: red;
-}
-
-.white-space:nowrap :hover {
-  color: red !important;
-}
-
-.ChangeColor {
-  background-color: red;
-}
-
-.horizontaltreeview-node {
-  margin-left: 301px !important;
-}
-
-.row.header[_ngcontent-ng-cli-universal-c7] {
-  font-weight: 500 !important;
-}
-
-body .ui-table .ui-table-thead>tr>th {
-  color: #ffffff !important;
-  background-color: #184569 !important;
-}
-
-.panel {
-  padding: 3px !important;
-  overflow: auto;
-}
-
-.spinner {
-  margin-top: 95vh !important;
-}
-
-.spinner:before {
-  margin-left: -38% !important;
-}
-
-.accordion {
-  background-color: #184569 !important;
-  padding: 5px !important;
-  width: 100% !important;
   font-size: 15px !important;
 }
 
+.as-split-gutter-icon {  
+  height: 85vh!important;
+}
+
 .setWindowHeight {
-  max-height: 95vh !important;
+  max-height: 85vh !important;
+}
+#main-content{
+  height: calc(100vh - 10px);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+ .Maincontent{
+  height: calc(100vh - 10px);
+  max-height: 90vh;
+  overflow-y: auto;
+ 
+}
+header {
+  background-color: #1b3a57 !important;
+  padding: 5px!important;
+  overflow: hidden;
+  height: 50px; /* Adjust based on preference */
+  min-height: 40px; /* Prevent it from becoming too small */
+  max-height: 60px; /* Keep a reasonable upper limit */
+  padding: 5px 15px; /* Reduce padding inside the header */
 }
 
-.TreeViewColor td div .ui-treenode-content {
-  background-color: #184569;
-}
-
-.qp-statement-header-row>div {
-  position: inherit !important;
-}
-
-mark {
-  outline: 1px solid #ffc107;
-  font-weight: bold;
-}
-
-.progress-inner {
-  min-width: 1% !important;
-}
-
-.progress-inner {
-  min-width: 1% !important;
-}
-
-#Objects li:last-child {
-  display: none !important;
-}
-
-.dbTrigger {
-  background-image: url('./assets/icons/DdlTrigger.png');
-  background-color: red;
-}
-
-.dbTable {
-  background-image: url('./assets/icons/Table.png');
-  background-color: red;
-}
-
-.modal-content {
-  height: 600px !important;
-}
-
-.modal-body {
-  margin-top: -20px !important;
-}
-/* Header styles */
-.header {
-  background-color: #184569 !important;
-  justify-content: right;
-  color: white; 
-  display: flex; 
-  align-items: center;
-  padding: 5px;
-  flex-shrink: 0; /* Prevent shrinking */
-}
-/* Main content area styles */
-.main-content {
-  flex: 1; /* Take up remaining space */
-  overflow: auto; /* Enable scrolling */ 
-  background-color: #fff;
-}
-
-.dbTable {
-  background-image: url('./assets/icons/Table.png');
-  background-color: red;
-}
-
-.modal-content {
-  height: 600px !important;
-}
-
-.modal-body {
-  margin-top: -20px !important;
-}
-/* Responsive Design */
+ 
+/* Adjust for smaller screens */
 @media (max-width: 768px) {
-  .header, .footer {
-    padding: 5px;
+  header {
+      height: 45px;
+      padding: 5px 10px;
   }
+}
 
-  .main-content {
-    padding: 5px;
+@media (max-width: 480px) {
+  header {
+      height: 40px;
+      padding: 3px 8px;
   }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+.setWindowHeight {
+  height: calc(100vh - 1px); /* Adjust height dynamically */
+  overflow-y: auto;
+}
+
+.scrollbar {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
