@@ -1,1 +1,23 @@
-<p>aggregate-functions works!</p>
+
+ 
+<amexio-accordion [multi-open]="true">
+    <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="All Aggregate Functions " [gradient]="true"
+                          [active]="true">
+      <hr />
+      <input type="text" class="form-control" placeholder="Search" id="listSearch">
+      <hr />
+      <div class="table">
+        <div class="row header">
+          <div class="cell">Aggregate Functions </div>
+          <div class="cell">MS Descriptions</div>
+        </div>
+        <div *ngFor="let key of functionDescriptions | keyvalue"class="row">
+          <a class="cell" data-title="Name"> {{ key.key }}</a>
+          <div class="cell">{{ key.value }}</div>
+  
+        </div>
+      </div>
+    </amexio-accordion-tab>
+  
+  </amexio-accordion>
+  

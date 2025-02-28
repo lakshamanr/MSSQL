@@ -7,10 +7,17 @@ import { AggregateFunctionService } from '../../services/aggregate-function.serv
   styleUrls: ['./aggregate-functions.component.css']
 })
 export class AggregateFunctionsComponent implements OnInit {
-
-  constructor(private aggregateFunctionService : AggregateFunctionService) { }
+ 
+  functionDescriptions: { [key: string]: string } = {};
+  constructor(private aggregateFunctionService: AggregateFunctionService) { }
 
   ngOnInit() {
+    this.loadFunctionDescriptions();
+  }
+  loadFunctionDescriptions(): void {
+    this.aggregateFunctionService.getAggregateFunctionDescriptions().subscribe((data) => {
+      this.functionDescriptions = data;
+    });
   }
 
 }

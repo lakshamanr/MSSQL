@@ -44,6 +44,9 @@ const PROXY_CONFIG = [
       "/LeftMenu",
       "/common",
       "/StoredProcedure",
+      "/AggregateFunction",
+      "/ScalarFunction",
+      "/TableFunction",
       "/View"
     ],
     target: CommonAPI,

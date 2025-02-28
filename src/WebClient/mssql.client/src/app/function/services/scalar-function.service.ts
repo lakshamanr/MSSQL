@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { SqlFunctionMetadata } from '../model/SqlFunctionMetadata';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,16 +8,29 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ScalarFunctionService {
 
-    private baseUrl = '/TableFunction'; // Adjust based on your API base path
-    constructor(private http: HttpClient) {}
-  
+  private baseUrl = '/ScalarFunction'; // Adjust based on your API base path
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') private primaryUrl: string,) {
+    this.primaryUrl = this.primaryUrl + this.baseUrl
+  }
+
+
+    /**
+        * Fetches descriptions of all table-valued functions.
+        * @returns An Observable containing a dictionary of function names and their descriptions.
+      */
+    getScalarFunctionDescriptions(): Observable<{ [key: string]: string }> {
+      return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/ScalarFunctionDescriptions`);
+    }
+
     /**
      * Retrieves metadata for a specified table-valued function.
      * @param functionName Name of the function.
      * @returns Observable of SqlFunctionMetadata.
      */
     getFunctionMetadata(functionName: string): Observable<SqlFunctionMetadata> {
-      return this.http.get<SqlFunctionMetadata>(`${this.baseUrl}/${functionName}`);
+      return this.http.get<SqlFunctionMetadata>(`${this.primaryUrl}/${functionName}`);
     }
   
     /**
@@ -29,7 +42,7 @@ export class ScalarFunctionService {
      */
     upsertFunctionDescription(schemaName: string, functionName: string, description: string): Observable<void> {
       return this.http.post<void>(
-        `${this.baseUrl}/description/upsert`,
+        `${this.primaryUrl}/description/upsert`,
         null, // No request body, only query parameters
         { params: { schemaName, functionName, description } }
       );
@@ -40,6 +53,6 @@ export class ScalarFunctionService {
      * @returns Observable containing a dictionary of function names and their descriptions.
      */
     getFunctionDescriptions(): Observable<{ [key: string]: string }> {
-      return this.http.get<{ [key: string]: string }>(`${this.baseUrl}/descriptions`);
+      return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/descriptions`);
     }
 }

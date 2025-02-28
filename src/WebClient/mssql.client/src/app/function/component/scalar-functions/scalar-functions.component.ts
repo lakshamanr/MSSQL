@@ -7,10 +7,16 @@ import { ScalarFunctionService } from '../../services/scalar-function.service';
   styleUrls: ['./scalar-functions.component.css']
 })
 export class ScalarFunctionsComponent implements OnInit {
-
-  constructor(private scalarFunctionService : ScalarFunctionService) { }
+  
+  functionDescriptions: { [key: string]: string } = {};
+  constructor(private scalarFunctionService: ScalarFunctionService) { }
 
   ngOnInit() {
+    this.loadFunctionDescriptions();
   }
-
+  loadFunctionDescriptions(): void {
+    this.scalarFunctionService.getScalarFunctionDescriptions().subscribe((data) => {
+      this.functionDescriptions = data;
+    });
+  }
 }

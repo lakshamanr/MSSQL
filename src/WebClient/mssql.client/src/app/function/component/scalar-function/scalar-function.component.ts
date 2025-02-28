@@ -7,10 +7,26 @@ import { ScalarFunctionService } from '../../services/scalar-function.service';
   styleUrls: ['./scalar-function.component.css']
 })
 export class ScalarFunctionComponent implements OnInit {
-
-  constructor( private scalarFunctionService : ScalarFunctionService) { }
-
+  
+  functionMetadata: any;
+  selectedFunction: string = 'dbo.ufnGetContactInformation';
+  constructor(private scalarFunctionService: ScalarFunctionService) { } 
   ngOnInit() {
+    this.fetchFunctionMetadata();
+  }
+  fetchFunctionMetadata(): void {
+    if (this.selectedFunction) {
+      this.scalarFunctionService.getFunctionMetadata(this.selectedFunction).subscribe((data) => {
+        this.functionMetadata = data;
+      });
+    }
   }
 
+  upsertFunctionDescription(): void {
+    const schemaName = 'dbo';
+    const description = 'Updated function description';
+    this.scalarFunctionService.upsertFunctionDescription(schemaName, this.selectedFunction, description).subscribe(() => {
+      alert('Description updated successfully!');
+    });
+  }
 }

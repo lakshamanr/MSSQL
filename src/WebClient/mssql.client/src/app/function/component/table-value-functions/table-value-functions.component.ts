@@ -7,10 +7,16 @@ import { TableValueFunctionService } from '../../services/table-value-function.s
   styleUrls: ['./table-value-functions.component.css']
 })
 export class TableValueFunctionsComponent implements OnInit {
-
+  public functionDescriptions: { [key: string]: string } = {};
   constructor(private tableValueFunctionService : TableValueFunctionService) { }
 
   ngOnInit() {
+    this.loadFunctionDescriptions();
+  }
+  loadFunctionDescriptions(): void {
+    this.tableValueFunctionService.getTableFunctionDescriptions().subscribe((data) => {
+      this.functionDescriptions = data;
+    });
   }
 
 }

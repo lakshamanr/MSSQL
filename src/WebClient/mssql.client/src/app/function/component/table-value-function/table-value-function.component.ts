@@ -8,9 +8,27 @@ import { TableValueFunctionService } from '../../services/table-value-function.s
 })
 export class TableValueFunctionComponent implements OnInit {
 
+  functionMetadata: any;
+  selectedFunction: string = 'dbo.ufnGetContactInformation';
+ 
   constructor(private tableValueFunctionService : TableValueFunctionService) { }
 
-  ngOnInit() {
+  ngOnInit() { 
+    this.fetchFunctionMetadata();
+  } 
+  fetchFunctionMetadata(): void {
+    if (this.selectedFunction) {
+      this.tableValueFunctionService.getFunctionMetadata(this.selectedFunction).subscribe((data) => {
+        this.functionMetadata = data;
+      });
+    }
   }
 
+  upsertFunctionDescription(): void {
+    const schemaName = 'dbo';
+    const description = 'Updated function description';
+    this.tableValueFunctionService.upsertFunctionDescription(schemaName, this.selectedFunction, description).subscribe(() => {
+      alert('Description updated successfully!');
+    });
+  }
 }

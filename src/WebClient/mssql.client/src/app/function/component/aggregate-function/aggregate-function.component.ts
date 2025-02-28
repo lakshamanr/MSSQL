@@ -8,9 +8,30 @@ import { AggregateFunctionService } from '../../services/aggregate-function.serv
 })
 export class AggregateFunctionComponent implements OnInit {
 
-  constructor(private aggregateFunctionService : AggregateFunctionService) { }
 
+  functionMetadata: any;
+  selectedFunction: string = 'dbo.ufnGetContactInformation';
+  constructor(private aggregateFunctionService: AggregateFunctionService) { }
+
+
+ 
   ngOnInit() {
+    this.fetchFunctionMetadata();
+  }
+  fetchFunctionMetadata(): void {
+    if (this.selectedFunction) {
+      this.aggregateFunctionService.getFunctionMetadata(this.selectedFunction).subscribe((data) => {
+        this.functionMetadata = data;
+      });
+    }
+  }
+
+  upsertFunctionDescription(): void {
+    const schemaName = 'dbo';
+    const description = 'Updated function description';
+    this.aggregateFunctionService.upsertFunctionDescription(schemaName, this.selectedFunction, description).subscribe(() => {
+      alert('Description updated successfully!');
+    });
   }
 
 }
