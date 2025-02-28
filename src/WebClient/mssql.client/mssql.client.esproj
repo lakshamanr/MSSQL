@@ -9,7 +9,13 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\mssql.client\browser\</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="src\app\function\component\aggregate\**" />
+    <None Remove="src\app\function\component\scalar\**" />
+    <None Remove="src\app\function\component\table-value\**" />
     <None Remove="src\app\left-menu\components\NewFolder\**" />
+    <TypeScriptConfiguration Remove="src\app\function\component\aggregate\**" />
+    <TypeScriptConfiguration Remove="src\app\function\component\scalar\**" />
+    <TypeScriptConfiguration Remove="src\app\function\component\table-value\**" />
     <TypeScriptConfiguration Remove="src\app\left-menu\components\NewFolder\**" />
   </ItemGroup>
   <ItemGroup>
@@ -18,6 +24,8 @@
     <None Include=".vscode\tasks.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\app\function\model\" />
+    <Folder Include="src\app\function\services\" />
     <Folder Include="src\app\view\service\" />
   </ItemGroup>
 </Project>

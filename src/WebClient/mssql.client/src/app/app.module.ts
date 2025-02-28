@@ -46,10 +46,11 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { TablesModule } from './table/tables.module';
 import { DatabaseModule } from './database/database.module'; 
 import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
-import { ProcedureModule } from './procedure/procedure.module';
-import { ViewsComponent } from './view/components/views/views.component';
-import { ViewComponent } from './view/components/view/view.component';
-import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component';
+import { ProcedureModule } from './procedure/procedure.module'; 
+import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component'; 
+ 
+import { FunctionModule } from './function/function.module';
+import { ViewModule } from './view/views.module';
  
 
 
@@ -93,7 +94,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     MainPageComponent, 
     HeaderComponent,
     FooterComponent, 
-    LeftmenuComponent, ViewsComponent, ViewComponent, DatabaseSelectorComponent
+    LeftmenuComponent,
+    DatabaseSelectorComponent
   ], 
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -128,7 +130,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AngularMultiSelectModule,
     TablesModule,
     DatabaseModule,
-    ProcedureModule
+    ProcedureModule,
+    ViewModule,
+    FunctionModule
   ],
   providers:
     [
