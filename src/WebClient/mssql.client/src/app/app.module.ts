@@ -48,7 +48,6 @@ import { DatabaseModule } from './database/database.module';
 import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
 import { ProcedureModule } from './procedure/procedure.module'; 
 import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component'; 
- 
 import { FunctionModule } from './function/function.module';
 import { ViewModule } from './view/views.module';
  
@@ -128,10 +127,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxUiLoaderHttpModule,
     ModalModule.forRoot(),
     AngularMultiSelectModule,
+    ViewModule,
     TablesModule,
     DatabaseModule,
-    ProcedureModule,
-    ViewModule,
+    ProcedureModule, 
     FunctionModule
   ],
   providers:
