@@ -7,21 +7,18 @@ namespace API.Repository.Functions
     /// <summary>
     /// Repository for handling table-valued functions.
     /// </summary>
-    public class TableValuedFunctionRepository : BaseRepository, ITableValuedFunctionRepository
+    public class TableValuedFunctionRepository : BaseSqlFunctionRepository, ITableValuedFunctionRepository
     {
-        private readonly IBaseSqlFunctionRepository _IBaseSqlFunctionRepository;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TableValuedFunctionRepository"/> class.
         /// </summary>
         /// <param name="IBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public TableValuedFunctionRepository(IBaseSqlFunctionRepository IBaseSqlFunctionRepository, IConfiguration configuration, IDistributedCache cache)
+        public TableValuedFunctionRepository( IConfiguration configuration, IDistributedCache cache)
             : base(cache, configuration)
         {
-            _IBaseSqlFunctionRepository = IBaseSqlFunctionRepository;
-            _IBaseSqlFunctionRepository.FunctionType = "TF";
+            FunctionType = "TF";
       
         }
 
@@ -31,7 +28,7 @@ namespace API.Repository.Functions
         /// <returns>A dictionary containing function names and their descriptions.</returns>
         public async Task<Dictionary<string, string>> FetchTableFunctionDescriptionsAsync()
         {
-            return await _IBaseSqlFunctionRepository.FetchTableFunctionDescriptionsAsync();
+            return await this.FetchTableFunctionDescriptionsAsync();
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace API.Repository.Functions
         /// <returns>The metadata of the function.</returns>
         public Task<SqlFunctionMetadata> GetFunctionMetadataAsync(string functionName)
         {
-            return _IBaseSqlFunctionRepository.GetFunctionMetadataAsync(functionName);
+            return this.GetFunctionMetadataAsync(functionName);
         }
 
         /// <summary>
@@ -53,7 +50,7 @@ namespace API.Repository.Functions
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task UpsertFunctionDescriptionAsync(string schemaName, string functionName, string description)
         {
-            await _IBaseSqlFunctionRepository.UpsertFunctionDescriptionAsync(schemaName, functionName, description);
+            await this.UpsertFunctionDescriptionAsync(schemaName, functionName, description);
         }
     }
 }

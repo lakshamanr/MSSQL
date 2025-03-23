@@ -7,12 +7,7 @@ namespace API.Repository.Functions
     /// </summary>
     public interface IBaseSqlFunctionRepository
     {
-        /// <summary>
-        /// Gets or sets the type of the function.
-        /// </summary>
-        string FunctionType { get; set; }
-
-        /// <summary>
+         /// <summary>
         /// Fetches descriptions of aggregate functions asynchronously.
         /// </summary>
         /// <returns>A dictionary containing function names and their descriptions.</returns>

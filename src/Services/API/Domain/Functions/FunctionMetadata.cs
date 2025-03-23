@@ -13,12 +13,12 @@ namespace API.Domain.Functions
         /// <summary>
         /// Gets or sets the details of the function.
         /// </summary>
-        public SqlFunctionDetail FunctionDetail { get; set; }
+        public SqlFunctionPropertyInfo FunctionDetail { get; set; }
 
         /// <summary>
         /// Gets or sets the parameters of the function.
         /// </summary>
-        public IEnumerable<SqlFunctionParameter> Parameters { get; set; }
+        public IEnumerable<FunctionParameter> Parameters { get; set; }
 
         /// <summary>
         /// Gets or sets the definition of the function.
@@ -28,7 +28,12 @@ namespace API.Domain.Functions
         /// <summary>
         /// Gets or sets the dependencies of the function.
         /// </summary>
-        public IEnumerable<SqlFunctionDependency> Dependencies { get; set; }
+        public IEnumerable<FunctionDependency> Dependencies { get; set; }
+
+        /// <summary>
+        /// Gets or sets the property information of the SQL function.
+        /// </summary>
+        public FunctionExtendedPropertyInfo ExtendedPropertyInfo { get; set; }
     }
 
 }

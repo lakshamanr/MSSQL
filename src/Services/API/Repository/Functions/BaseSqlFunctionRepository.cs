@@ -38,27 +38,40 @@ namespace API.Repository.Functions
             var parameters = await FetchFunctionParametersWithDescriptionsAsync(functionName);
             var definition = await RetrieveFunctionDefinitionAsync(functionName) ?? string.Empty; // Ensure non-null assignment
             var dependencies = await FetchFunctionDependenciesAsync(functionName);
-
+            var functionExtendedProperties = await FetchFunctionExtendedProperties(functionName);
             return new SqlFunctionMetadata
             {
-                FunctionDetail = functionDetail ?? new SqlFunctionDetail(), // Ensure non-null assignment
+                FunctionDetail = functionDetail ?? new SqlFunctionPropertyInfo(), // Ensure non-null assignment
                 Parameters = parameters,
                 Definition = definition,
                 Dependencies = dependencies,
-                FunctionName = functionName
+                FunctionName = functionName,
+                ExtendedPropertyInfo = functionExtendedProperties
             };
         }
 
-        /// <summary>
-        /// Retrieves details of a given SQL function asynchronously.
-        /// </summary>
-        /// <param name="functionName">The name of the function.</param>
-        /// <returns>A task representing the asynchronous operation, containing function details.</returns>
-        private async Task<SqlFunctionDetail?> RetrieveFunctionDetailsAsync(string functionName)
+        private async Task<FunctionExtendedPropertyInfo?> FetchFunctionExtendedProperties(string functionName)
+        {
+            using (var connection = new  SqlConnection(_connectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<FunctionExtendedPropertyInfo>
+                (
+                    SqlQueryConstant.FetchSingleFunctionDescriptions,
+                    new { function_Type = FunctionType, function_name = functionName }
+                );
+            }
+        }
+
+    /// <summary>
+    /// Retrieves details of a given SQL function asynchronously.
+    /// </summary>
+    /// <param name="functionName">The name of the function.</param>
+    /// <returns>A task representing the asynchronous operation, containing function details.</returns>
+    private async Task<SqlFunctionPropertyInfo?> RetrieveFunctionDetailsAsync(string functionName)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstOrDefaultAsync<SqlFunctionDetail>(
+                return await connection.QueryFirstOrDefaultAsync<SqlFunctionPropertyInfo>(
                     SqlQueryConstant.RetrieveFunctionDetails,
                     new { function_Type = FunctionType, function_name = functionName }
                 );
@@ -70,11 +83,11 @@ namespace API.Repository.Functions
         /// </summary>
         /// <param name="functionName">The name of the function.</param>
         /// <returns>A task representing the asynchronous operation, containing function parameters.</returns>
-        private async Task<IEnumerable<SqlFunctionParameter>> FetchFunctionParametersWithDescriptionsAsync(string functionName)
+        private async Task<IEnumerable<FunctionParameter>> FetchFunctionParametersWithDescriptionsAsync(string functionName)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<SqlFunctionParameter>(
+                return (await connection.QueryAsync<FunctionParameter>(
                     SqlQueryConstant.FetchFunctionParametersWithDescriptions,
                     new { function_Type = FunctionType, function_name = functionName }
                 )).ToList();
@@ -102,11 +115,11 @@ namespace API.Repository.Functions
         /// </summary>
         /// <param name="functionName">The name of the function.</param>
         /// <returns>A task representing the asynchronous operation, containing function dependencies.</returns>
-        private async Task<IEnumerable<SqlFunctionDependency>> FetchFunctionDependenciesAsync(string functionName)
+        private async Task<IEnumerable<FunctionDependency>> FetchFunctionDependenciesAsync(string functionName)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<SqlFunctionDependency>(
+                return (await connection.QueryAsync<FunctionDependency>(
                     SqlQueryConstant.FetchFunctionDependencies,
                     new { function_name = functionName }
                 )).ToList();
@@ -183,7 +196,7 @@ namespace API.Repository.Functions
             using (var connection = new SqlConnection(_connectionString))
             {
                 var result = await connection.QueryAsync<(string FunctionName, string Description)>(
-                    SqlQueryConstant.FetchScalarFunctionDescriptions
+                    SqlQueryConstant.FetchFunctionDescriptions, new { FunctionType }
                 ).ConfigureAwait(false);
 
                 return result
@@ -205,7 +218,7 @@ namespace API.Repository.Functions
             using (var connection = new SqlConnection(_connectionString))
             {
                 var result = await connection.QueryAsync<(string FunctionName, string Description)>(
-                    SqlQueryConstant.FetchTableFunctionDescriptions
+                     SqlQueryConstant.FetchFunctionDescriptions, new { FunctionType }
                 ).ConfigureAwait(false);
 
                 return result
@@ -223,14 +236,17 @@ namespace API.Repository.Functions
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var result = await connection.QueryAsync<(string FunctionName, string Description)>(
-                    SqlQueryConstant.FetchAggregateFunctionDescriptions
-                ).ConfigureAwait(false);
+                      var result = await connection
+                                       .QueryAsync<(string FunctionName, string Description)>
+                                       (SqlQueryConstant.FetchFunctionDescriptions, new { FunctionType });
 
-                return result
-                    .DistinctBy(x => x.FunctionName) // Removes duplicates (keeps first)
-                    .ToDictionary(x => x.FunctionName, x => x.Description ?? "No Description Available");
+                      return result
+                              .DistinctBy(x => x.FunctionName) // Removes duplicates (keeps first)
+                              .ToDictionary(x => x.FunctionName, x => x.Description ?? "No Description Available");
             }
+
+
         }
+   
     }
 }

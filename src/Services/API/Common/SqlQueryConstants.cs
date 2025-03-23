@@ -1091,46 +1091,33 @@ namespace API.Common.Queries
         /// <summary>
         /// Query to fetch descriptions of all scalar functions.
         /// </summary>
-        public const string FetchScalarFunctionDescriptions =
+        public const string FetchFunctionDescriptions =
             @"
             SELECT 
-                QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
+                (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) AS FunctionName,
                 sep.[value] AS Description
             FROM sys.objects AS O
             LEFT JOIN sys.extended_properties AS sep
                 ON O.[object_id] = sep.[major_id]
                 AND sep.[name] = 'MS_Description'
-            WHERE O.[type] = 'FN';";
+            WHERE O.[type] = @FunctionType;";
 
-        /// <summary>
-        /// Query to fetch descriptions of all table-valued functions.
-        /// </summary>
-        public const string FetchTableFunctionDescriptions =
-            @"
-            SELECT 
-                QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
-                sep.[value] AS Description
-            FROM sys.objects AS O
-            LEFT JOIN sys.extended_properties AS sep
-                ON O.[object_id] = sep.[major_id]
-                AND sep.[name] = 'MS_Description'
-            WHERE O.[type] = 'TF';";
+            /// <summary>
+            /// Query to fetch descriptions of single scalar functions.
+            /// </summary>
+            public const string FetchSingleFunctionDescriptions =
+                @"
+                    SELECT 
+                        (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) AS FunctionName,
+                        sep.[value] AS Description
+                    FROM sys.objects AS O
+                    LEFT JOIN sys.extended_properties AS sep
+                        ON O.[object_id] = sep.[major_id]
+                        AND sep.[name] = 'MS_Description'
+                    WHERE O.[type] =@function_Type and (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) =@function_name;";
+     
 
-        /// <summary>
-        /// Query to fetch descriptions of all aggregate functions.
-        /// </summary>
-        public const string FetchAggregateFunctionDescriptions =
-            @"
-            SELECT 
-                QUOTENAME(SCHEMA_NAME(O.[schema_id])) + '.' + QUOTENAME(O.[name]) AS FunctionName,
-                sep.[value] AS Description
-            FROM sys.objects AS O
-            LEFT JOIN sys.extended_properties AS sep
-                ON O.[object_id] = sep.[major_id]
-                AND sep.[name] = 'MS_Description'
-            WHERE O.[type] = 'AF';";
-
-        public static string RetrieveFunctionDetails =
+    public static string RetrieveFunctionDetails =
             @"SELECT
                 CONVERT(varchar(100), [uses_ansi_nulls]) AS [uses_ansi_nulls],
                 CONVERT(varchar(100), [uses_quoted_identifier]) AS [uses_quoted_identifier],

@@ -10,7 +10,6 @@ namespace API.Repository.Functions
     /// </summary>
     public class AggregateFunctionRepository : BaseSqlFunctionRepository, IAggregateFunctionRepository
     {
-        private readonly IBaseSqlFunctionRepository __IBaseSqlFunctionRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateFunctionRepository"/> class.
@@ -18,11 +17,10 @@ namespace API.Repository.Functions
         /// <param name="iBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public AggregateFunctionRepository(IBaseSqlFunctionRepository iBaseSqlFunctionRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        public AggregateFunctionRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
         {
 
-            iBaseSqlFunctionRepository.FunctionType = "AF";
-            __IBaseSqlFunctionRepository = iBaseSqlFunctionRepository;
+              FunctionType = "AF";
         }
 
         /// <summary>

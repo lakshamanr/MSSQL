@@ -3,7 +3,7 @@ namespace API.Domain.Functions
     /// <summary>
     /// Represents a dependency of a SQL function.
     /// </summary>
-    public class SqlFunctionDependency
+    public class FunctionDependency
     {
         /// <summary>
         /// Gets or sets the name of the dependency.

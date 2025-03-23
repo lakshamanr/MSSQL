@@ -3,7 +3,7 @@ namespace API.Domain.Functions
     /// <summary>
     /// Represents the details of a SQL function.
     /// </summary>
-    public class SqlFunctionDetail
+    public class SqlFunctionPropertyInfo
     {
         /// <summary>
         /// Gets or sets a value indicating whether ANSI_NULLS is used.

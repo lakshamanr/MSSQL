@@ -24,7 +24,6 @@
     <None Include=".vscode\tasks.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\app\function\model\" />
     <Folder Include="src\app\function\services\" />
     <Folder Include="src\app\view\service\" />
   </ItemGroup>

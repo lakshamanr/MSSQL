@@ -10,21 +10,18 @@ namespace API.Repository.Functions
     /// Repository for handling scalar functions.
     /// </summary>
     public class ScalarFunctionRepository : BaseSqlFunctionRepository, IScalarFunctionRepository
-    {
-        private readonly IBaseSqlFunctionRepository _baseSqlFunctionRepository;
-
+    { 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScalarFunctionRepository"/> class.
         /// </summary>
         /// <param name="iBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public ScalarFunctionRepository(IBaseSqlFunctionRepository iBaseSqlFunctionRepository, IConfiguration configuration, IDistributedCache cache)
+        public ScalarFunctionRepository( IConfiguration configuration, IDistributedCache cache)
             : base(cache, configuration)
         {
 
-            iBaseSqlFunctionRepository.FunctionType = "FN";
-            _baseSqlFunctionRepository = iBaseSqlFunctionRepository;
+             FunctionType = "FN";
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TableValueFunctionService } from '../../services/table-value-function.service';
+import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 
 @Component({
   selector: 'app-table-value-function',
@@ -8,7 +9,7 @@ import { TableValueFunctionService } from '../../services/table-value-function.s
 })
 export class TableValueFunctionComponent implements OnInit {
 
-  functionMetadata: any;
+  functionMetadata: SqlFunctionMetadata;
   selectedFunction: string = 'dbo.ufnGetContactInformation';
  
   constructor(private tableValueFunctionService : TableValueFunctionService) { }

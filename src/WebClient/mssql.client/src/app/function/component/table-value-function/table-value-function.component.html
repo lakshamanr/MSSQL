@@ -1,1 +1,41 @@
-<p>table-value-function works!</p>
+<!--<ngx-ui-loader></ngx-ui-loader>-->
+ <amexio-accordion [multi-open]="true">
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Scalar Functions " [gradient]="true"
+                        [active]="true"> 
+    <div class="table">
+      <div class="cell">
+        <h5>
+          <img src="./assets/icons/Function_Scalar.png" style="width: 30px !important;">
+          {{functionMetadata}}
+        </h5>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="MS Description " [gradient]="true"
+                        [active]="true">
+    <div class="table" *ngIf="!iblnShowEditBox">
+      <div class="cell">
+        <p>
+          {{functionMetadata.ExtendedPropertyInfo.FunctionExtendedDetails}}
+        </p>
+      </div>
+      <a (click)="ShowModelPOP($event)" class="btn btn-default btn-lg a-btn-slide-text">
+        <span class="fa fa-edit"></span>
+      </a>
+    </div>
+
+    <div class="form-group" *ngIf="iblnShowEditBox">
+      <textarea class="form-control" rows="5" id="comment" [(ngModel)]="ms_description"> </textarea>
+      <div class="form-group" style="margin-left: 94%;">
+
+        <a (click)="CancelTableMsDesciption($event)"><i class="fa fa-2x fa-times"></i></a>&nbsp;
+        <a (click)="SaveTableMsDesciption($event)"><i class="fa fa-2x fa-save"></i></a>
+      </div>
+    </div>
+
+  </amexio-accordion-tab>
+    
+
+
+</amexio-accordion>

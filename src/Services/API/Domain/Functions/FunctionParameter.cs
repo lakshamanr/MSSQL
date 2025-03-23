@@ -3,7 +3,7 @@ namespace API.Domain.Functions
   /// <summary>
   /// Represents a parameter for a SQL function.
   /// </summary>
-  public class SqlFunctionParameter
+  public class FunctionParameter
   {
     /// <summary>
     /// Gets or sets the name of the parameter.

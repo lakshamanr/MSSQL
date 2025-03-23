@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AggregateFunctionService } from '../../services/aggregate-function.service';
+import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 
 @Component({
   selector: 'app-aggregate-function',
@@ -9,7 +10,7 @@ import { AggregateFunctionService } from '../../services/aggregate-function.serv
 export class AggregateFunctionComponent implements OnInit {
 
 
-  functionMetadata: any;
+  functionMetadata: SqlFunctionMetadata;
   selectedFunction: string = 'dbo.ufnGetContactInformation';
   constructor(private aggregateFunctionService: AggregateFunctionService) { }
 

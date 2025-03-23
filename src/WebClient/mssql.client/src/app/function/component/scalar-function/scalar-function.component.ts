@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ScalarFunctionService } from '../../services/scalar-function.service';
+import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 
 @Component({
   selector: 'app-scalar-function',
@@ -8,8 +9,8 @@ import { ScalarFunctionService } from '../../services/scalar-function.service';
 })
 export class ScalarFunctionComponent implements OnInit {
   
-  functionMetadata: any;
-  selectedFunction: string = 'dbo.ufnGetContactInformation';
+  functionMetadata: SqlFunctionMetadata;
+  selectedFunction: string = 'dbo.ufnGetAccountingEndDate';
   constructor(private scalarFunctionService: ScalarFunctionService) { } 
   ngOnInit() {
     this.fetchFunctionMetadata();
