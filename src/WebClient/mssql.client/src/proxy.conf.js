@@ -47,7 +47,9 @@ const PROXY_CONFIG = [
       "/AggregateFunction",
       "/ScalarFunction",
       "/TableFunction",
-      "/View"
+      "/UserDefinedDataType",
+      "/View",
+       "/DatabaseTrigger"
     ],
     target: CommonAPI,
     secure: false,  // Set to true if using HTTPS

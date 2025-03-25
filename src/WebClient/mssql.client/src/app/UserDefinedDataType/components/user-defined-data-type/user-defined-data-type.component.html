@@ -1,0 +1,66 @@
+<amexio-accordion [multi-open]="true">
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="User Defined Data Type  Name " [active]="true">
+    <h5>
+      <img src="./assets/icons/UserDefinedDataType.png" style="width: 30px !important;">
+      {{selectedDataType?.name}}
+    </h5>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="MS Descriptions " [active]="true">
+    <div class="table" *ngIf="!iblnShowEditBox">
+      <div class="cell">
+        <p>{{ selectedDataType?.description || 'No description available' }}</p>
+      </div>
+      <a (click)="toggleEditBox()" class="btn btn-default btn-lg a-btn-slide-text">
+        <span class="fa fa-edit"></span>
+      </a>
+    </div>
+
+    <div class="form-group" *ngIf="iblnShowEditBox">
+      <textarea class="form-control" rows="5" id="comment" [(ngModel)]="newDescription"></textarea>
+      <div class="form-group" style="margin-left: 94%;">
+        <a (click)="toggleEditBox()"><i class="fa fa-2x fa-times"></i></a>&nbsp;
+        <a (click)="saveDescription()"><i class="fa fa-2x fa-save"></i></a>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Properties" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Property</div>
+        <div class="cell">Values</div>
+      </div>
+      <div class="row">
+        <div class="cell">Allow Nulls</div>
+        <div class="cell">{{selectedDataType?.allowNulls}} </div>
+      </div>
+      <div class="row">
+        <div class="cell">Base Type Name</div>
+        <div class="cell">{{selectedDataType?.baseTypeName}}</div>
+      </div>
+      <div class="row">
+        <div class="cell">Length</div>
+        <div class="cell">{{selectedDataType?.length}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="SQL Script" [gradient]="true" [active]="true">
+    {{selectedDataType?.createScript}}
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used By" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Object Name</div>
+        <div class="cell">Object Type</div>
+      </div>
+      <div *ngFor="let Property of selectedDataType?.userDefinedDataTypeReference " class="row">
+        <div class="cell"><a>{{Property.objectName}}</a> </div>
+        <div class="cell">{{Property.objectType}}</div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+</amexio-accordion>
+

@@ -1,0 +1,19 @@
+ 
+<amexio-accordion [multi-open]="true">
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="User Defined Data Type" [active]="true">
+    <hr />
+    <input type="text" class="form-control" placeholder="Search">
+    <hr />
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Name</div>
+      </div>
+      <div *ngFor="let Property of userDefinedDataTypes   " class="row">
+        <a [innerHTML]="Property.name" class="cell" data-title="Property" [routerLink]="['/UserDefinedDataTypeDetails',Property.name]"> {{Property.name}}
+        </a>  
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+</amexio-accordion>

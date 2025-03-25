@@ -18,9 +18,8 @@ import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
-/* ===== Other Third-Party Modules ===== */
 import { ProgressBarModule } from 'angular-progress-bar';
+/* ===== Other Third-Party Modules ===== */ 
 import { AggregateFunctionComponent } from './component/aggregate-function/aggregate-function.component';
 import { ScalarFunctionComponent } from './component/scalar-function/scalar-function.component';
 import { TableValueFunctionComponent } from './component/table-value-function/table-value-function.component';

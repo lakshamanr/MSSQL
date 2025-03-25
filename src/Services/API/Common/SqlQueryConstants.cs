@@ -1063,26 +1063,46 @@ namespace API.Common.Queries
 
         public static readonly string MergeTriggerExtendedProperty =
             @"
-                IF EXISTS (
-                    SELECT 1 FROM sys.extended_properties 
-                    WHERE name = N'MS_Description' 
-                    AND major_id = OBJECT_ID(@Trigger_Name)
-                )
-                BEGIN
-                    EXEC sys.sp_updateextendedproperty 
-                        @name = N'MS_Description', 
-                        @value = @Trigger_value,
-                        @level0type = N'TRIGGER',
-                        @level0name = @Trigger_Name;
-                END
-                ELSE
-                BEGIN
-                    EXEC sys.sp_addextendedproperty 
-                        @name = N'MS_Description', 
-                        @value = @Trigger_value,
-                        @level0type = N'TRIGGER',
-                        @level0name = @Trigger_Name;
-                END
+                    -- Split the Schema and Trigger Name manually
+                    DECLARE @SchemaName NVARCHAR(128);
+                    DECLARE @TriggerOnlyName NVARCHAR(128);
+                    DECLARE @DotPosition INT;
+
+                    -- Find position of the dot (.) separating schema and trigger name
+                    SET @DotPosition = CHARINDEX('.', @Trigger_Name);
+
+                    -- Extract schema name (before the dot)
+                    SET @SchemaName = SUBSTRING(@Trigger_Name, 1, @DotPosition - 1);
+
+                    -- Extract trigger name (after the dot)
+                    SET @TriggerOnlyName = SUBSTRING(@Trigger_Name, @DotPosition + 1, LEN(@Trigger_Name) - @DotPosition);
+
+                    -- Check if the extended property already exists
+                    IF EXISTS (
+                        SELECT 1 
+                        FROM sys.extended_properties 
+                        WHERE name = N'MS_Description' 
+                        AND major_id = OBJECT_ID(@Trigger_Name)
+                    )
+                    BEGIN
+                        EXEC sys.sp_updateextendedproperty 
+                            @name = N'MS_Description', 
+                            @value = @Trigger_value,
+                            @level0type = N'SCHEMA',
+                            @level0name = @SchemaName,
+                            @level1type = N'TRIGGER',
+                            @level1name = @TriggerOnlyName;
+                    END
+                    ELSE
+                    BEGIN
+                        EXEC sys.sp_addextendedproperty 
+                            @name = N'MS_Description', 
+                            @value = @Trigger_value,
+                            @level0type = N'SCHEMA',
+                            @level0name = @SchemaName,
+                            @level1type = N'TRIGGER',
+                            @level1name = @TriggerOnlyName;
+                    END
                 ";
     }
 
