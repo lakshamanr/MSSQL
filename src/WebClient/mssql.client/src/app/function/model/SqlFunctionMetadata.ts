@@ -6,10 +6,10 @@ export interface FunctionDependency {
   type: string;
 
   /** Updated status */
-  Updated: string;
+  updated: string;
 
   /** Selected status */
-  Selected: string;
+  selected: string;
 
   /** Column name of the dependency */
   column_name: string;
@@ -38,30 +38,68 @@ export interface FunctionExtendedPropertyInfo {
 
   /** Extended details of the function */
   description: string;
-}
-
+} 
 export interface FunctionParameter {
-  /** Define properties based on your actual C# class */
-  name: string;
-  type: string;
-  defaultValue?: string; // Optional, adjust as needed
-}
+  /**
+   * The name of the parameter.
+   */
+  parameterName: string;
 
+  /**
+   * The type of the parameter.
+   */
+  type: string;
+
+  /**
+   * The length of the parameter.
+   */
+  length: number;
+
+  /**
+   * The precision of the parameter.
+   */
+  precision: number;
+
+  /**
+   * The scale of the parameter.
+   */
+  scale: number;
+
+  /**
+   * The order of the parameter.
+   */
+  paramOrder: number;
+
+  /**
+   * The collation of the parameter.
+   */
+  collation: string;
+
+  /**
+   * The extended property of the parameter.
+   */
+  extendedProperty: string;
+
+  /**
+   * The function name (dbo.FunctionName).
+   */
+  functionName: string;
+}
 export interface SqlFunctionMetadata {
   /** Name of the SQL function */
-  FunctionName: string;
+  functionName: string;
 
   /** Detailed information about the function */
-  FunctionDetail: SqlFunctionPropertyInfo;
+  properties: SqlFunctionPropertyInfo;
 
   /** Parameters of the function */
-  Parameters: FunctionParameter[];
+  parameters: FunctionParameter[];
 
   /** Function definition */
-  Definition: string;
+  definition: string;
 
   /** Dependencies of the function */
-  Dependencies: FunctionDependency[];
+  dependencies: FunctionDependency[];
 
   /** Extended property information */
   extendedPropertyInfo: FunctionExtendedPropertyInfo;

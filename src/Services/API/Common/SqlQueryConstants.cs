@@ -1088,10 +1088,10 @@ namespace API.Common.Queries
 
     public static partial class SqlQueryConstant
     {
-        /// <summary>
-        /// Query to fetch descriptions of all scalar functions.
-        /// </summary>
-        public const string FetchFunctionDescriptions =
+    /// <summary>
+    /// Query to fetch descriptions of all scalar functions.
+    /// </summary>
+    public const string FetchFunctionDescriptions =
             @"
             SELECT 
                 (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) AS FunctionName,
@@ -1114,10 +1114,10 @@ namespace API.Common.Queries
                     LEFT JOIN sys.extended_properties AS sep
                         ON O.[object_id] = sep.[major_id]
                         AND sep.[name] = 'MS_Description'
-                    WHERE O.[type] =@function_Type and (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) =@function_name;";
+                    WHERE O.[type] =@function_Type and (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) =@FunctionName;";
      
 
-    public static string RetrieveFunctionDetails =
+    public static string RetrieveFunctionProperties =
             @"SELECT
                 CONVERT(varchar(100), [uses_ansi_nulls]) AS [uses_ansi_nulls],
                 CONVERT(varchar(100), [uses_quoted_identifier]) AS [uses_quoted_identifier],
@@ -1129,35 +1129,37 @@ namespace API.Common.Queries
                 ON M.[object_id] = O.[object_id]
             WHERE
                 O.[type] = @function_Type
-                AND O.[name] = @function_name;";
+                AND  (SCHEMA_NAME(O.[schema_id])) + '.' + (O.[name]) = @FunctionName;";
 
         public static string FetchFunctionParametersWithDescriptions =
-            @"SELECT
-                        p.[name] AS [Parameter_name],
-                        TYPE_NAME(p.[user_type_id]) AS [Type],
-                        p.[max_length] AS [Length],
+            @" SELECT
+                        p.[name] AS [parameterName],
+                        TYPE_NAME(p.[user_type_id]) AS [type],
+                        p.[max_length] AS [length],
                         CASE 
                             WHEN TYPE_NAME(p.[system_type_id]) = 'uniqueidentifier' 
                             THEN p.[precision] 
                             ELSE OdbcPrec(p.[system_type_id], p.[max_length], p.[precision]) 
-                        END AS [Prec],
-                        OdbcScale(p.[system_type_id], p.[scale]) AS [Scale],
-                        p.[parameter_id] AS [Param_order],
+                        END AS [Precision],
+                        OdbcScale(p.[system_type_id], p.[scale]) AS [scale],
+                        p.[parameter_id] AS [paramOrder],
                         CONVERT(sysname, 
                             CASE WHEN p.[system_type_id] IN (35, 99, 167, 175, 231, 239)
-                            THEN SERVERPROPERTY('collation') END) AS [Collation],
-                        COALESCE(sep.[value], '') AS [ExtendedProperty]
-                    FROM sys.objects AS Obj
+                            THEN SERVERPROPERTY('collation') END) AS [collation],
+                        COALESCE(sep.[value], '') AS [extendedProperty] 
+   
+                    FROM sys.objects AS O
                     INNER JOIN sys.parameters AS p
-                        ON Obj.[object_id] = p.[object_id]
+                        ON O.[object_id] = p.[object_id]
                     LEFT JOIN sys.extended_properties AS sep
                         ON p.[object_id] = sep.[major_id]
                         AND p.[parameter_id] = sep.[minor_id]
-                        AND sep.[name] = 'MS_Description'  -- Only join if the extended property exists
+                        AND sep.[name] = 'MS_Description' -- Only join if the extended property exists
                     WHERE
-                        p.[name] IS NOT NULL AND  p.[name] <> '' AND
-                        Obj.[type] = @function_Type
-                        AND Obj.[object_id] = OBJECT_ID(@function_name);
+                        p.[name] IS NOT NULL
+                        AND p.[name] <> ''
+                        AND O.[type] =   @function_Type
+	                    AND  (SCHEMA_NAME(O.[schema_id]) + '.' + O.[name]) =@FunctionName 
                     ";
 
         public static string RetrieveFunctionDefinition =
@@ -1168,7 +1170,7 @@ namespace API.Common.Queries
                 ON M.[object_id] = Obj.[object_id]
             WHERE
                 Obj.[type] = @function_Type
-                AND Obj.[object_id] = OBJECT_ID(@function_name);";
+                AND Obj.[object_id] = OBJECT_ID(@FunctionName);";
 
         public static string FetchFunctionDependencies =
             @"DECLARE @Dependencies TABLE (
@@ -1180,7 +1182,7 @@ namespace API.Common.Queries
             );
             
             INSERT INTO @Dependencies
-            EXEC sys.sp_depends @objname = @function_name;
+            EXEC sys.sp_depends @objname = @FunctionName;
             
             SELECT * FROM @Dependencies;";
 

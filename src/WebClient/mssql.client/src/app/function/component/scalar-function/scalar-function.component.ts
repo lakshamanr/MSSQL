@@ -10,7 +10,7 @@ import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 export class ScalarFunctionComponent implements OnInit {
   
   functionMetadata: SqlFunctionMetadata;
-  selectedFunction: string = 'dbo.ufnGetAccountingEndDate';
+  selectedFunction: string = 'dbo.ufnGetProductDealerPrice';
   constructor(private scalarFunctionService: ScalarFunctionService) { } 
   ngOnInit() {
     this.fetchFunctionMetadata();

@@ -28,7 +28,7 @@ namespace API.Repository.Functions
         /// <returns>A dictionary containing function names and their descriptions.</returns>
         public async Task<Dictionary<string, string>> FetchTableFunctionDescriptionsAsync()
         {
-            return await this.FetchTableFunctionDescriptionsAsync();
+            return await base.FetchTableFunctionDescriptionsAsync();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace API.Repository.Functions
         /// <returns>The metadata of the function.</returns>
         public Task<SqlFunctionMetadata> GetFunctionMetadataAsync(string functionName)
         {
-            return this.GetFunctionMetadataAsync(functionName);
+            return base.GetFunctionMetadataAsync(functionName);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace API.Repository.Functions
         /// <returns>A task representing the asynchronous operation.</returns>
         public async Task UpsertFunctionDescriptionAsync(string schemaName, string functionName, string description)
         {
-            await this.UpsertFunctionDescriptionAsync(schemaName, functionName, description);
+            await base.UpsertFunctionDescriptionAsync(schemaName, functionName, description);
         }
     }
 }

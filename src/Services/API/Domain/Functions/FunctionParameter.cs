@@ -1,14 +1,11 @@
 namespace API.Domain.Functions
 {
-  /// <summary>
-  /// Represents a parameter for a SQL function.
-  /// </summary>
   public class FunctionParameter
   {
     /// <summary>
     /// Gets or sets the name of the parameter.
     /// </summary>
-    public string Parameter_name { get; set; }
+    public string ParameterName { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the parameter.
@@ -23,7 +20,7 @@ namespace API.Domain.Functions
     /// <summary>
     /// Gets or sets the precision of the parameter.
     /// </summary>
-    public int Prec { get; set; }
+    public int Precision { get; set; }
 
     /// <summary>
     /// Gets or sets the scale of the parameter.
@@ -33,7 +30,7 @@ namespace API.Domain.Functions
     /// <summary>
     /// Gets or sets the order of the parameter.
     /// </summary>
-    public int Param_order { get; set; }
+    public int ParamOrder { get; set; }
 
     /// <summary>
     /// Gets or sets the collation of the parameter.
@@ -44,5 +41,11 @@ namespace API.Domain.Functions
     /// Gets or sets the extended property of the parameter.
     /// </summary>
     public string ExtendedProperty { get; set; }
-  }
+
+    /// <summary>
+    /// Gets or sets the function name (dbo.FunctionName).
+    /// </summary>
+    public string FunctionName { get; set; } 
+    
+  } 
 }

@@ -13,7 +13,7 @@ namespace API.Domain.Functions
         /// <summary>
         /// Gets or sets the details of the function.
         /// </summary>
-        public SqlFunctionPropertyInfo FunctionDetail { get; set; }
+        public SqlFunctionPropertyInfo Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the parameters of the function.
@@ -34,6 +34,6 @@ namespace API.Domain.Functions
         /// Gets or sets the property information of the SQL function.
         /// </summary>
         public FunctionExtendedPropertyInfo ExtendedPropertyInfo { get; set; }
-    }
+  }
 
 }

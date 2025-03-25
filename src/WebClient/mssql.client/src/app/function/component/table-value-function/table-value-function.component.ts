@@ -18,10 +18,14 @@ export class TableValueFunctionComponent implements OnInit {
     this.fetchFunctionMetadata();
   } 
   fetchFunctionMetadata(): void {
-    if (this.selectedFunction) {
-      this.tableValueFunctionService.getFunctionMetadata(this.selectedFunction).subscribe((data) => {
-        this.functionMetadata = data;
-      });
+    try {
+      if (this.selectedFunction) {
+        this.tableValueFunctionService.getFunctionMetadata(this.selectedFunction).subscribe((data) => {
+          this.functionMetadata = data;
+        });
+      }
+    } catch (e) {
+      alert(e);
     }
   }
 
