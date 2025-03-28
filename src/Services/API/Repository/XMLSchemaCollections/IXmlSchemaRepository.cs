@@ -20,11 +20,5 @@ namespace API.Repository.XMLSchemaCollections
         /// <returns>The details of the XML schema collection.</returns>
         XmlSchemaDetails? GetXmlSchemaDetails(string schemaCollectionName);
 
-        /// <summary>
-        /// Gets the references of a specific XML schema collection.
-        /// </summary>
-        /// <param name="schemaCollectionName">The name of the schema collection.</param>
-        /// <returns>An enumerable of XML schema references.</returns>
-        IEnumerable<XmlSchemaReference> GetXmlSchemaReferences(string schemaCollectionName);
     }
 }

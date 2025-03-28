@@ -52,6 +52,8 @@ import { FunctionModule } from './function/function.module';
 import { ViewModule } from './view/views.module';
 import { UserDefinedDataTypesModule } from './UserDefinedDataType/user-defined-data-types.module';
 import { DatabaseTriggerModule } from './Triggers/database-trigger.module';
+import { XmlSchemaModule } from './XmlSchema/xml-schema.module';
+
 
 // NGX-UI-Loader Configuration
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -94,7 +96,7 @@ const appRoutes: Routes = [];
     FooterComponent,
     MainPageComponent,
     LeftmenuComponent,
-    DatabaseSelectorComponent
+    DatabaseSelectorComponent, 
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -142,7 +144,7 @@ const appRoutes: Routes = [];
     FunctionModule,
     UserDefinedDataTypesModule,
     DatabaseTriggerModule,
-
+    XmlSchemaModule,
     // Routing
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],

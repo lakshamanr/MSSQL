@@ -49,7 +49,8 @@ const PROXY_CONFIG = [
       "/TableFunction",
       "/UserDefinedDataType",
       "/View",
-       "/DatabaseTrigger"
+      "/DatabaseTrigger",
+       "/XmlSchema"
     ],
     target: CommonAPI,
     secure: false,  // Set to true if using HTTPS

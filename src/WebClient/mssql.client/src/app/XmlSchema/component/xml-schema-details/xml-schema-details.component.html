@@ -1,0 +1,69 @@
+
+<amexio-accordion [multi-open]="true">
+
+  <!-- Trigger Name -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Trigger Name" [active]="true">
+    <h5>
+      <img src="./assets/icons/DdlTrigger.png" style="width: 30px !important;">
+      {{ schemaName }}
+    </h5>
+  </amexio-accordion-tab>
+  <!-- MS Description -->
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="MS Description" [active]="true">
+    <div class="table" *ngIf="!iblnShowEditBox">
+      <div class="cell">
+        <p>{{schemaDetails?.mS_Description }}</p>
+      </div>
+      <a (click)="ShowModelPOP($event)" class="btn btn-default btn-lg a-btn-slide-text">
+        <span class="fa fa-edit"></span>
+      </a>
+    </div>
+
+    <div class="form-group" *ngIf="iblnShowEditBox">
+      <textarea class="form-control" rows="5" id="comment" [(ngModel)]="msDescription"></textarea>
+      <div class="form-group text-right">
+        <a (click)="CancelTableMsDesciption($event)"><i class="fa fa-2x fa-times"></i></a>&nbsp;
+        <a (click)="SaveTableMsDesciption($event)"><i class="fa fa-2x fa-save"></i></a>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Dependent Columns" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Type</div>
+      </div>
+      <div *ngFor="let Property of schemaDetails?.dependentColumns " class="row">
+        <div class="cell">{{Property}} </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Create Script" [active]="true">
+    <div>
+      <p>{{schemaDetails?.sqlScript }}</p>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Referance Schema" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Schema</div>
+      </div>
+      <div *ngFor="let Property of schemaDetails?.xmlschema " class="row">
+        <div class="cell">{{Property.tableSchema}} </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Referance Table" [active]="true"> 
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Schema</div>
+        <div class="cell">Table</div>
+        <div class="cell">Column</div>
+      </div>
+      <div *ngFor="let Property of schemaDetails?.xmlschemreference " class="row">
+        <div class="cell">{{Property.tableSchema}} </div>
+        <div class="cell">{{Property.tableName}} </div>
+        <div class="cell">{{Property.columnName}} </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+</amexio-accordion>

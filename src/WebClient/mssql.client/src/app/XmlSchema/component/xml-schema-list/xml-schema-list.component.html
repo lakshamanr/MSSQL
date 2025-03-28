@@ -1,0 +1,20 @@
+<amexio-accordion [multi-open]="true">
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="All XML Schema" [active]="true">
+    <hr />
+    <input type="text" class="form-control" placeholder="Search" >
+    <hr />
+    <div class="table">
+      <div class="row header">
+        <div class="cell">XML Schema</div>
+        <div class="cell">MS Descriptions</div>
+      </div>
+      <div *ngFor="let Property of collections  " class="row">
+        <a [innerHTML]="Property.xmlSchemaCollections" class="cell" data-title="Property" [routerLink]="['/DatabaseTriggerDetails',Property.xmlSchemaCollections]"> {{Property.xmlSchemaCollections}}</a>
+        <div [innerHTML]="Property.mS_Description" class="cell" data-title="Value">{{Property.mS_Description}}</div>
+
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+</amexio-accordion>

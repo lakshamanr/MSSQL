@@ -41,23 +41,6 @@ namespace API.Controllers
             return Ok(schemaDetails);
         }
 
-        /// <summary>
-        /// Endpoint to get XML Schema References.
-        /// </summary>
-        /// <param name="schemaCollectionName">The name of the schema collection.</param>
-        /// <returns>References of the XML Schema.</returns>
-        [HttpGet("references/{schemaCollectionName}")]
-        public ActionResult<IEnumerable<XmlSchemaReference>> GetXmlSchemaReferences(string schemaCollectionName)
-        {
-            var references = _repository.GetXmlSchemaReferences(schemaCollectionName);
-
-            if (references == null || !System.Linq.Enumerable.Any(references))
-            {
-                return NotFound($"No references found for XML Schema Collection '{schemaCollectionName}'.");
-            }
-
-            return Ok(references);
-        }
 
         /// <summary>
         /// New endpoint to get all XML Schema Collections.
