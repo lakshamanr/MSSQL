@@ -1,0 +1,49 @@
+<amexio-accordion [multi-open]="true">
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Schema Procedure " [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="cell">
+        <div>
+          <h5>
+            <img src="./assets/icons/StoredProcedure.png" style="width: 30px !important;">
+            {{schemaName}}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="MS Description" [active]="true">
+    <div class="table" *ngIf="!iblnShowEditBox">
+      <div class="cell">
+        <p>{{ schema?.description?.description }}</p>
+      </div>
+      <a (click)="ShowModelPOP($event)" class="btn btn-default btn-lg a-btn-slide-text">
+        <span class="fa fa-edit"></span>
+      </a>
+    </div>
+
+    <div class="form-group" *ngIf="iblnShowEditBox">
+      <textarea class="form-control" rows="5" id="comment"></textarea>
+      <div class="form-group text-right">
+        <a (click)="CancelTableMsDesciption($event)"><i class="fa fa-2x fa-times"></i></a>&nbsp;
+        <a (click)="SaveTableMsDesciption($event)"><i class="fa fa-2x fa-save"></i></a>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Script" [gradient]="true" [active]="true">
+    <div>{{schema?.script}}</div>
+  </amexio-accordion-tab>
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used by" [gradient]="true" [active]="true">
+    <div class="table">
+      <div class="row header">
+        <div class="cell">Referrence</div>
+        <div class="cell">Type</div>
+      </div>
+      <div *ngFor="let Property of schema?.objectsUsedBySchemaAsync " class="row">
+        <div class="cell">{{Property.objectName}} </div>
+        <div class="cell">{{Property.objectType}} </div>
+      </div>
+    </div>
+  </amexio-accordion-tab>
+
+</amexio-accordion>

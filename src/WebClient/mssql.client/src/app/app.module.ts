@@ -53,6 +53,7 @@ import { ViewModule } from './view/views.module';
 import { UserDefinedDataTypesModule } from './UserDefinedDataType/user-defined-data-types.module';
 import { DatabaseTriggerModule } from './Triggers/database-trigger.module';
 import { XmlSchemaModule } from './XmlSchema/xml-schema.module';
+import { SchemasModule } from './schema/schemas.module';
 
 
 // NGX-UI-Loader Configuration
@@ -145,6 +146,7 @@ const appRoutes: Routes = [];
     UserDefinedDataTypesModule,
     DatabaseTriggerModule,
     XmlSchemaModule,
+    SchemasModule,
     // Routing
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],

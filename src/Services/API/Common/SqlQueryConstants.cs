@@ -1526,7 +1526,8 @@ WHERE ftc.name = @FullTextCatalog;
                 ON s.schema_id = p.major_id 
                 AND p.name = 'MS_Description'
                 JOIN sys.database_principals u 
-                ON s.principal_id = u.principal_id";
+               ON s.principal_id = u.principal_id AND p.major_id IS NOT NULL
+";
 
         public const string GetSchemaDescription =
             @"
@@ -1558,7 +1559,7 @@ WHERE ftc.name = @FullTextCatalog;
         FROM sys.objects o
         JOIN sys.schemas s 
             ON o.schema_id = s.schema_id
-        WHERE s.name = @SchemaName
+        WHERE s.name = @SchemaName  and o.type in ('U','TR','V','IT')
         ORDER BY o.name;";
 
         public const string GenerateSchemaScript =
