@@ -10,13 +10,13 @@ import { XmlSchemaService } from '../../service/xml-schema.service';
 })
 export class XmlSchemaDetailsComponent implements OnInit {
   schemaDetails: XmlSchemaDetails | null = null;
-  schemaName: string = 'Person.AdditionalContactInfoSchemaCollection';
+  schemaName: string ;
   msDescription = "";
   iblnShowEditBox = false;
   constructor(private route: ActivatedRoute, private xmlSchemaService: XmlSchemaService) { }
 
   ngOnInit(): void {
-   /* this.schemaName = this.route.snapshot.paramMap.get('name') || '';*/
+    this.schemaName = this.route.snapshot.params.objectname;
     this.xmlSchemaService.getXmlSchemaDetails(this.schemaName).subscribe(
       (data) => { this.schemaDetails = data, this.msDescription = this.schemaDetails.mS_Description },
       (error) => console.error('Error fetching schema details', error)

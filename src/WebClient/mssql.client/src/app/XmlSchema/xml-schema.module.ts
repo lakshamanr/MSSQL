@@ -21,8 +21,21 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'angular-progress-bar';
+import { Routes, RouterModule } from '@angular/router';
 
- 
+const appRoutes: Routes =
+  [
+    {
+      path: 'XmlSchemas',
+      component: XmlSchemaListComponent,
+    },
+    {
+      path: 'XmlSchema/:objectname',
+      component: XmlSchemaDetailsComponent,
+    }
+  ]
+
+
 
 @NgModule({
   declarations:
@@ -31,6 +44,7 @@ import { ProgressBarModule } from 'angular-progress-bar';
       XmlSchemaDetailsComponent
     ],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     /* Core Modules */
     CommonModule,
     FormsModule,

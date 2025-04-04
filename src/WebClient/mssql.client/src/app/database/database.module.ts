@@ -15,13 +15,21 @@ import { TreeDragDropService, MessageService } from 'primeng/api';
 import { DatabaseMetadataService } from './service/database-metadata.service';
 import { ObjectTypeItemComponent } from './components/object-type-item/object-type-item.component';
 import { DatabaseDetailsComponent } from './components/database-details/database-details.component';
+import { Routes, RouterModule } from '@angular/router';
  
-
+const appRoutes: Routes =
+  [ 
+    {
+      path: 'DatabaseDetails',
+      component: DatabaseDetailsComponent,
+    },
+  ]
 
 
 @NgModule({
   declarations: [DatabaseDetailsComponent,ObjectTypeItemComponent],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     CommonModule,
     AmexioDataModule,
     AmexioWidgetModule,

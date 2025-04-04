@@ -24,10 +24,25 @@ import { EditColumnDescriptionDialogComponent } from './components/table/edit-co
 import { SqlScriptViewerComponent } from './components/table/sql-script-viewer/sql-script-viewer.component';
 import { TableService } from './service/table.service';
 import { TablesService } from './service/tables.service';
+import { Router, Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes =
+  [
+    {
+      path: 'Tables',
+      component: TablesComponent,
+    },
+    {
+      path: 'Table/:objectname',
+      component: TableComponent,
+    },
+  ]
+
 
 @NgModule({
   declarations: [TableComponent, TablesComponent, EditDescriptionDialogComponent, EditColumnDescriptionDialogComponent, SqlScriptViewerComponent],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     CommonModule,
     BrowserModule,
     FormsModule,

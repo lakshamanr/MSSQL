@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ScalarFunctionService } from '../../services/scalar-function.service';
 import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-scalar-function',
@@ -10,9 +11,10 @@ import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 export class ScalarFunctionComponent implements OnInit {
   
   functionMetadata: SqlFunctionMetadata;
-  selectedFunction: string = 'dbo.ufnGetProductDealerPrice';
-  constructor(private scalarFunctionService: ScalarFunctionService) { } 
+  selectedFunction: string;
+  constructor(private route: ActivatedRoute, private scalarFunctionService: ScalarFunctionService) { } 
   ngOnInit() {
+    this.selectedFunction = this.route.snapshot.params.objectname;
     this.fetchFunctionMetadata();
   }
   fetchFunctionMetadata(): void {

@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, ChangeDetectorRef } from '@angular/core';
 import { UserDefinedDataType } from '../../models/UserDefinedDataType';
 import { UserDefinedDataTypeService } from '../../services/user-defined-data-type.service';
 import { UpsertExtendedPropertyRequest } from '../../models/UpsertExtendedPropertyRequest';
+import { ActivatedRoute } from '@angular/router';
  
 
 @Component({
@@ -12,16 +13,18 @@ import { UpsertExtendedPropertyRequest } from '../../models/UpsertExtendedProper
 export class UserDefinedDataTypeComponent implements OnInit {
   selectedDataType: UserDefinedDataType;
   newDescription: string = '';
-  usedDefindFunction: string = 'dbo.AccountNumber';
+  usedDefindFunction: string;
   iblnShowEditBox: boolean = false;
 
   constructor(
+    private route: ActivatedRoute,
     private dataTypeService: UserDefinedDataTypeService,
     private ngZone: NgZone,
     private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.usedDefindFunction = this.route.snapshot.params.objectname;
     const [schema, type] = this.usedDefindFunction.split('.');
     this.loadDetails(schema, type);
   }

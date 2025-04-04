@@ -25,6 +25,20 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 
 /* ===== Other Third-Party Modules ===== */
 import { ProgressBarModule } from 'angular-progress-bar';
+import { Routes, RouterModule } from '@angular/router';
+
+const appRoutes: Routes =
+  [
+    {
+      path: 'Storeprocedures',
+      component: ProceduresComponent,
+    },
+    {
+      path: 'Storeprocedure/:objectname',
+      component: ProcedureComponent,
+    } 
+  ]
+
 
 @NgModule({
   declarations: [
@@ -32,6 +46,7 @@ import { ProgressBarModule } from 'angular-progress-bar';
     ProcedureComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     /* Core Modules */
     CommonModule,
     BrowserModule,

@@ -24,11 +24,26 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'angular-progress-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
+
+
+const appRoutes: Routes =
+  [
+    {
+      path: 'UserDefinedDataTypes',
+      component: UserDefinedDataTypesComponent,
+    },
+    {
+      path: 'UserDefinedDataType/:objectname',
+      component: UserDefinedDataTypeComponent,
+    }
+  ]
 
 
 @NgModule({
   declarations: [UserDefinedDataTypeComponent,UserDefinedDataTypesComponent ], 
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     /* Core Modules */
     CommonModule,
     FormsModule,

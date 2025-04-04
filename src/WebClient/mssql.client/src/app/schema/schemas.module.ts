@@ -15,11 +15,25 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { Routes, RouterModule } from '@angular/router';
  
+const appRoutes: Routes =
+  [
+    {
+      path: 'Schemas',
+      component: SchemasComponent,
+    },
+    {
+      path: 'Schema/:objectname',
+      component: SchemaComponent,
+    }
+  ]
+
 
 @NgModule({
   declarations: [SchemaComponent, SchemasComponent],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     CommonModule,
     AmexioDataModule,
     AmexioWidgetModule,

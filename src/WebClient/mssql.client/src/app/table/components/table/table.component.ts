@@ -11,6 +11,7 @@ import { TableForeignKey } from "../../models/TableForeignKey";
 import { TableProperty } from "../../models/TableProperty";
 import { TableFragmentation } from "../../models/TableFragmentation";
 import { TableService } from '../../service/table.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "app-table",
@@ -18,7 +19,7 @@ import { TableService } from '../../service/table.service';
   styleUrls: ["./table.component.css"],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  tableName: string = "HumanResources.Employee";
+  tableName: string;
   columns: TableColumn[] = [];
   tableFragmentations: TableFragmentation[] = [];
   createScript: TableCreateScript = { script: "" };
@@ -47,9 +48,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     extendedPropertyValue: ""
   };
   language = 'plsql';
-  constructor(private tableService: TableService, private http: HttpClient, private cd: ChangeDetectorRef) { }
+  constructor(private route: ActivatedRoute, private tableService: TableService) {
+  
+  }
 
   ngOnInit() {
+    this.tableName = this.route.snapshot.params.objectname;
     this.loadTableMetadata();
     this.loadData();
   }

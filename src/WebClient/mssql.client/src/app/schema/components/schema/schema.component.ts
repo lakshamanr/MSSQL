@@ -11,13 +11,13 @@ import { SchemaService } from '../../services/schema.service';
 export class SchemaComponent implements OnInit {
 
   schema: SchemaMetadata | null = null;
-  schemaName = 'Person';
+  schemaName :string;
   msDescription = '';
   iblnShowEditBox = false;
   constructor(private route: ActivatedRoute, private schemaService: SchemaService) { }
 
-  ngOnInit(): void {
-    //this.schemaName = this.route.snapshot.paramMap.get('schemaName');
+  ngOnInit(): void { 
+    this.schemaName = this.route.snapshot.params.objectname;
     if (this.schemaName) {
       this.schemaService.getSchemaMetadata(this.schemaName).subscribe(data => {
         this.schema = data;

@@ -29,9 +29,43 @@ import { AggregateFunctionsComponent } from './component/aggregate-functions/agg
 import { AggregateFunctionService } from './services/aggregate-function.service';
 import { ScalarFunctionService } from './services/scalar-function.service';
 import { TableValueFunctionService } from './services/table-value-function.service';
+import { Routes, RouterModule } from '@angular/router';
+import { DatabaseDetailsComponent } from '../database/components/database-details/database-details.component';
 
 /* ===== Components & Services ===== */
- 
+
+
+const appRoutes: Routes =
+  [
+    {
+      path: 'AggregateFunctions',
+      component: AggregateFunctionsComponent,
+    },
+    {
+      path: 'AggregateFunction/:objectname',
+      component: AggregateFunctionComponent,
+    },
+    {
+      path: 'ScalarFunctions',
+      component: ScalarFunctionsComponent,
+    },
+    {
+      path: 'ScalarFunction/:objectname',
+      component: ScalarFunctionComponent,
+    },
+    {
+      path: 'TableValueFunctions',
+      component: TableValueFunctionsComponent,
+    },
+    {
+      path: 'TableValueFunction:/objectname',
+      component: TableValueFunctionComponent,
+    },
+  ]
+
+
+
+
 @NgModule({
   declarations: [
     AggregateFunctionComponent,
@@ -42,6 +76,8 @@ import { TableValueFunctionService } from './services/table-value-function.servi
     AggregateFunctionsComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
+    CommonModule,
     /* Core Modules */
     CommonModule,
     FormsModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewDetails, ViewMetaData, ViewProperties } from '../../model/view.model';
 import { ViewService } from '../../service/services/view.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view',
@@ -10,13 +11,14 @@ import { ViewService } from '../../service/services/view.service';
 export class ViewComponent implements OnInit {
  
   public selectedViewMetaData: ViewMetaData | null = null; 
-  selectedViewName: string = 'HumanResources.vEmployee';
+  selectedViewName: string;
   iblnShowEditBox: boolean;
   public editedDescription: string = '';  // Local copy for editing
  
-  constructor(private viewService: ViewService) {}
+  constructor(private route: ActivatedRoute, private viewService: ViewService) {}
 
   ngOnInit(): void {
+    this.selectedViewName = this.route.snapshot.params.objectname;
     this.loadViewMetaData(this.selectedViewName)
    } 
      loadViewMetaData(viewName: string): void {

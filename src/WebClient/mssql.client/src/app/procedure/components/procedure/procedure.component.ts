@@ -4,6 +4,7 @@ import { StoredProcedureDescriptionRequest } from '../../model/StoredProcedureDe
 import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionRequest';
 import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
 import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
+import { ActivatedRoute } from '@angular/router';
 declare var QP;
 
 @Component({
@@ -13,19 +14,19 @@ declare var QP;
 })
 export class ProcedureComponent implements OnInit {
 
-  public iblnLoading: boolean;
-
-  private storedProcedureName = "HumanResources.uspUpdateEmployeeHireInfo";
+  public iblnLoading: boolean; 
+  private storedProcedureName;;
   iblnShowEditBox = false;  
   filesTree: any; 
   language = 'plsql';
   public storedProcedureMetadata!: StoredProcedureMeta;
 
-  constructor(private storedProcedureService: ProcedureService) {
+  constructor(private route: ActivatedRoute, private storedProcedureService: ProcedureService) {
     this.iblnLoading = false;
   }
 
   ngOnInit(): void {
+    this.storedProcedureName = this.route.snapshot.params.objectname;
     this.loadMetadata();
   } 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AggregateFunctionService } from '../../services/aggregate-function.service';
 import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-aggregate-function',
@@ -11,12 +12,13 @@ export class AggregateFunctionComponent implements OnInit {
 
 
   functionMetadata: SqlFunctionMetadata;
-  selectedFunction: string = 'dbo.ufnGetContactInformation';
-  constructor(private aggregateFunctionService: AggregateFunctionService) { }
+  selectedFunction: string;
+  constructor(private route: ActivatedRoute, private aggregateFunctionService: AggregateFunctionService) { }
 
 
  
   ngOnInit() {
+    this.selectedFunction = this.route.snapshot.params.objectname;
     this.fetchFunctionMetadata();
   }
   fetchFunctionMetadata(): void {

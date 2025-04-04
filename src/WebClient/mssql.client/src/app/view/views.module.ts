@@ -26,6 +26,21 @@ import { ProgressBarModule } from 'angular-progress-bar';
 import { ViewComponent } from './components/view/view.component';
 import { ViewsComponent } from './components/views/views.component';
 import { ViewService } from './service/services/view.service';
+import { Routes, RouterModule } from '@angular/router';
+
+
+const appRoutes: Routes =
+  [
+    {
+      path: 'Views',
+      component: ViewsComponent,
+    },
+    {
+      path: 'View/:objectname',
+      component: ViewComponent,
+    }
+  ]
+
 
 @NgModule({
   declarations: [
@@ -33,6 +48,7 @@ import { ViewService } from './service/services/view.service';
     ViewsComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     /* Core Modules */
     CommonModule,
     FormsModule,

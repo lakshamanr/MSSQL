@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TableValueFunctionService } from '../../services/table-value-function.service';
 import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-table-value-function',
@@ -10,11 +11,12 @@ import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 export class TableValueFunctionComponent implements OnInit {
 
   functionMetadata: SqlFunctionMetadata;
-  selectedFunction: string = 'dbo.ufnGetContactInformation';
+  selectedFunction: string ;
  
-  constructor(private tableValueFunctionService : TableValueFunctionService) { }
+  constructor(private route: ActivatedRoute, private tableValueFunctionService : TableValueFunctionService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
+    this.selectedFunction = this.route.snapshot.params.objectname;
     this.fetchFunctionMetadata();
   } 
   fetchFunctionMetadata(): void {

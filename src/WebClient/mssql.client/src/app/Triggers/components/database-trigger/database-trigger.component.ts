@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseTriggerService } from '../../services/database-trigger.service';
 import { DatabaseTrigger } from '../../models/database-trigger.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-database-trigger',
@@ -13,12 +14,13 @@ export class DatabaseTriggerComponent implements OnInit {
   language = 'sql'; // For ngx-prism
 
   selectedTrigger?: DatabaseTrigger;
-  tiggersName = "HumanResources.dEmployee";
+  tiggersName: string;
   tiggersDesc = "";
 
-  constructor(private triggerService: DatabaseTriggerService) { }
+  constructor(private route: ActivatedRoute, private triggerService: DatabaseTriggerService) { }
 
   ngOnInit(): void {
+    this.tiggersName = this.route.snapshot.params.objectname;
     this.getTriggerByName(this.tiggersName);
   }
  
