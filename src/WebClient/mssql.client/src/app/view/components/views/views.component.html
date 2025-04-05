@@ -1,14 +1,21 @@
-
-<amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Store Procerdure Extended Properties" [gradient]="true" [active]="true">
-    <div class="table">
-      <div class="row header">
-        <div class="cell">View</div>
-        <div class="cell">Extended Properties Value</div> 
-      </div> 
-      <div *ngFor="let description of viewDetails" class="row">
-        <div class="cell">{{description.viewName}}</div>
-        <div class="cell">{{description.viewExtendedProperties}}</div>
-      </div>
-    </div>
+ 
+ 
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''"  header="Views" [active]="true">
+    <p-table [columns]="cols" [value]="viewDetails" dataKey="viewName" [paginator]="true" [rows]="20">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+         
+          <th>View Name</th>
+          <th>Description</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+        <tr>
+          <td class="cell"> <a class="cell" data-title="Name" [routerLink]="['/View',rowData.viewName]"> {{rowData.viewName}}</a></td>
+          <td class="cell">{{rowData.viewExtendedProperties}}</td>
+        </tr>
+      </ng-template>
+     
+    </p-table>
   </amexio-accordion-tab>
-
+ 

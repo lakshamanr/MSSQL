@@ -58,7 +58,7 @@ const appRoutes: Routes =
       component: TableValueFunctionsComponent,
     },
     {
-      path: 'TableValueFunction:/objectname',
+      path: 'TableValueFunction/:objectname',
       component: TableValueFunctionComponent,
     },
   ]
@@ -76,8 +76,9 @@ const appRoutes: Routes =
     AggregateFunctionsComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
+ 
     CommonModule,
+    RouterModule.forRoot(appRoutes, { useHash: true }),
     /* Core Modules */
     CommonModule,
     FormsModule,

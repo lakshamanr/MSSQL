@@ -8,11 +8,14 @@ import { ViewService } from '../../service/services/view.service';
   styleUrls: ['./views.component.css']
 })
 export class ViewsComponent implements OnInit {
-
+  public cols: any[];
   viewDetails: ViewDetails[] = [];
     constructor(private viewService: ViewService) {}
   
-    ngOnInit(): void {
+  ngOnInit(): void {
+    this.cols = [
+      { field: 'viewName', header: 'viewExtendedProperties' } 
+    ];
       this.loadAllViews();
     }
   

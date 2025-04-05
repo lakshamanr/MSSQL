@@ -10,7 +10,7 @@
         <div class="cell">MS Descriptions</div>
       </div>
       <div *ngFor="let Property of triggers   " class="row">
-        <a [innerHTML]="Property.name  " class="cell" data-title="Property" [routerLink]="['/DatabaseTriggerDetails',Property.name]"> {{Property.name}}</a>
+        <a [innerHTML]="Property.name  " class="cell" data-title="Property" [routerLink]="['/Trigger',Property.name]"> {{Property.name}}</a>
         <div [innerHTML]="Property.description  " class="cell" data-title="Value">{{Property.istrValue}}</div>
 
       </div>

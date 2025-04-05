@@ -47,9 +47,9 @@
         <div class="cell">Store Procedures</div>
         <div class="cell">Extended Properties Value</div> 
       </div> 
-      <div *ngFor="let description of storedProcedures" class="row">
-        <div class="cell">{{description.storedProcedure}}</div>
-        <div class="cell">{{description.extendedProperty}}</div>
+      <div *ngFor="let sp of storedProcedures" class="row">
+        <div class="cell"><a  [routerLink]="['/Storeprocedure',sp.storedProcedure]">{{sp.storedProcedure}}</a></div>
+        <div class="cell">{{sp.extendedProperty}}</div>
       </div>
     </div>
   </amexio-accordion-tab>

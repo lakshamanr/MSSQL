@@ -23,8 +23,6 @@ import { TablesMetadata } from '../../models/TablesMetaData';
 })
 export class TablesComponent implements OnInit {
   public cols: any[];
-  public items: MenuItem[];
-  public home: MenuItem;
   public tables: TablesMetadata[];
   constructor(private http: HttpClient,
     @Inject('API_URL') private primaryUrl: string,
@@ -50,7 +48,7 @@ export class TablesComponent implements OnInit {
       (error) => {
         console.error('Primary URL failed, trying secondary URL:', error);
 
-        // If the primary URL fails, try the secondary URL
+ 
         this.http.get<TablesMetadata[]>(secondaryUrl).subscribe(
           (secondaryResult) => this.handleLoadSuccess(secondaryResult),
           (secondaryError) => this.handleLoadError(secondaryError)

@@ -10,7 +10,7 @@
         <div class="cell">MS Descriptions</div>
       </div>
       <div *ngFor="let Property of collections  " class="row">
-        <a [innerHTML]="Property.xmlSchemaCollections" class="cell" data-title="Property" [routerLink]="['/DatabaseTriggerDetails',Property.xmlSchemaCollections]"> {{Property.xmlSchemaCollections}}</a>
+        <a [innerHTML]="Property.xmlSchemaCollections" class="cell" data-title="Property" [routerLink]="['/XmlSchema',Property.xmlSchemaCollections]"> {{Property.xmlSchemaCollections}}</a>
         <div [innerHTML]="Property.mS_Description" class="cell" data-title="Value">{{Property.mS_Description}}</div>
 
       </div>
