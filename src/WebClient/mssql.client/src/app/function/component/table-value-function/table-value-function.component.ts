@@ -14,7 +14,7 @@ export class TableValueFunctionComponent implements OnInit {
   selectedFunction: string ;
  
   constructor(private route: ActivatedRoute, private tableValueFunctionService : TableValueFunctionService) { }
-
+  an
   ngOnInit() {
     this.selectedFunction = this.route.snapshot.params.objectname;
     this.fetchFunctionMetadata();

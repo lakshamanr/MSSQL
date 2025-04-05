@@ -15,13 +15,15 @@
     <div class="table">
       <div class="cell">
         <ul>
-          <div *ngFor="let item of objectTypeItems">
-            <app-object-type-item [icon]="item.icon"
-                                  [label]="item.label"
-                                  [count]="item.count"
-                                  [visible]="item.visible">
-            </app-object-type-item>
-          </div>
+          <li *ngFor="let item of objectTypeItems">
+            <a [routerLink]="item.routing" style="text-decoration: none;">
+              <app-object-type-item [icon]="item.icon"
+                                    [label]="item.label"
+                                    [count]="item.count"
+                                    [visible]="item.visible">
+              </app-object-type-item>
+            </a>
+          </li>
         </ul>
       </div>
     </div>
