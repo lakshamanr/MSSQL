@@ -1,25 +1,53 @@
 # MSSQL Client Web Application
 
-This project is a web client application built with **Angular** for managing and navigating various SQL Server database objects. It features a clean UI with a left-hand menu for easy access to different database schemas and objects.
+A web client built with **Angular** and **.NET 8** to explore, document, and manage SQL Server database objects like tables, views, stored procedures, and functions — all in one place.
+
+---
+
+## 🧠 Why This Exists
+
+We talk about code documentation, functional docs, and design flows — but **SQL documentation is always left behind**.
+
+We write stored procedures, and functions, and define columns in tables. Sure, we can add comments in SQL scripts, but:
+- There's no native way to track where columns are used.
+- There’s no centralized view for understanding or maintaining SQL structures.
+- Existing tools are *either too expensive* or *too limited* for most teams.
+
+So after a lot of struggle and spare time tinkering, I decided to **build something simple, free, and helpful** for everyone.
+
+This app:
+- Gives you a clear view of your SQL Server schema
+- Helps you document tables, columns, and logic in one place
+- Makes life easier for devs, DBAs, and tech writers
+
+Of course, it's not perfect — but that’s the beauty of open source. **Fork it, build it your way, and make it better**.  
+Thanks for checking it out — just trying to give a little something back to the dev community 💙
+
+**Skills used:**  
+`C#` · `.NET Core` · `ASP.NET Web API` · `Redis` · `Microsoft SQL Server`
 
 ---
 
 ## 🚀 Features
 
-- Load and display database objects in a hierarchical tree view
-- Navigate to detailed views of:
+- Tree view of all SQL Server objects
+- Clickable navigation to detailed views of:
   - Tables
   - Views
   - Stored Procedures
   - Functions
-- Robust error handling during data loading
+- Add and update documentation for SQL entities
+- Error handling during data fetches
+- Lightweight, fast, and customizable
 
 ---
 
 ## 🧰 Technologies Used
 
-- **Frontend**: Angular, TypeScript, RxJS
-- **Backend**: .NET 8 Web API
+- **Frontend**: Angular, TypeScript, RxJS  
+- **Backend**: .NET 8 Web API  
+- **Database**: Microsoft SQL Server  
+- **Cache (Optional)**: Redis
 
 ---
 
