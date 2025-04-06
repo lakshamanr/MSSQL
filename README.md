@@ -93,7 +93,7 @@ Click any object (table, view, etc.) to view its details.
 
 Errors while fetching data are gracefully handled and shown to the user.
 
-##☕ Support
+## Support 
 If you find this project helpful and want to support my work,
-you can buy me a coffee.(https://paypal.me/lakshamanrokade?country.x=IN&locale.x=en_GB)
+you can buy me a coffee ☕ .(https://paypal.me/lakshamanrokade?country.x=IN&locale.x=en_GB)
 Your support means the world 🙏
