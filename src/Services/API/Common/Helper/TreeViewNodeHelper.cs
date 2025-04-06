@@ -19,7 +19,7 @@ namespace API.Common.Helper
         /// <param name="badge">The badge number of the node.</param>
         /// <param name="children">The child nodes of the node.</param>
         /// <returns>A new instance of <see cref="TreeViewJson"/>.</returns>
-        public static TreeViewJson CreateTreeViewNode(string text, string icon, string link, SchemaEnums schemaEnum, bool selected = false, bool expand = false, int badge = 0, List<TreeViewJson> children = null)
+        public static TreeViewJson CreateTreeViewNode(string text, string icon, string link, string schemaEnum, bool selected = false, bool expand = false, int badge = 0, List<TreeViewJson> children = null)
         {
             return new TreeViewJson
             {
@@ -30,7 +30,7 @@ namespace API.Common.Helper
                 selected = selected,
                 expand = true,
                 badge = badge,
-                SchemaEnums = schemaEnum,
+                SchemaEnum = schemaEnum,
                 children = children ?? new List<TreeViewJson>()
             };
         }

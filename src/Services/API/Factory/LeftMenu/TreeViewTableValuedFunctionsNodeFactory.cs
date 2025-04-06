@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                           text: "Table-valued Functions",
                           icon: "fa fa-folder",
                           link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/TableValuedFunctions",
-                          schemaEnum: SchemaEnums.AllStoreprocedure,
+                          schemaEnum: SchemaEnums.AggregateFunctions,
                           children: null
                       );
 
@@ -43,7 +43,7 @@ namespace API.Factory.LeftMenu
                        function.FunctionName,
                        "fa fa-cogs",
                        $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/TableValuedFunctions/{function.FunctionName}",
-                       SchemaEnums.Storeprocedure
+                       SchemaEnums.StoredProcedure
                    ))
                    .ToList();
             }

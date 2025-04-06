@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -35,7 +35,7 @@ namespace API.Factory.LeftMenu
                 text: "Programmability",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability",
-                schemaEnum: SchemaEnums.AllDatabase,
+                schemaEnum: SchemaEnums.Programmability,
                 children: (await Task.WhenAll(storedProceduresNode, functionNode, databaseTriggerNode, databaseTypeNode)).ToList()
             );
         }

@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "XML Schema Collections",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/DatabaseType/XmlSchemaCollection",
-                schemaEnum: SchemaEnums.AllXMLSchemaCollection,
+                schemaEnum: SchemaEnums.AllXmlSchemaCollections,
                 children: null
             );
 
@@ -43,7 +43,7 @@ namespace API.Factory.LeftMenu
                         xmlSchema.SchemaName,
                         "fa fa-cogs",
                         link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/DatabaseType/XmlSchemaCollection/{xmlSchema.SchemaName}",
-                        SchemaEnums.XMLSchemaCollection
+                        SchemaEnums.XmlSchemaCollection
                     ))
                     .ToList();
             }

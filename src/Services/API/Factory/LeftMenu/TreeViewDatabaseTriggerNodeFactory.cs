@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "Database Trigger",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/Database Trigger",
-                schemaEnum: SchemaEnums.AllTriggers,
+                schemaEnum: SchemaEnums.Triggers,
                 children: null
             );
 
@@ -42,7 +42,7 @@ namespace API.Factory.LeftMenu
                        function.TriggerName,
                        "fa fa-cogs",
                        link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/Database Trigger{function.TriggerName}",
-                       SchemaEnums.Triggers
+                       SchemaEnums.Trigger
                    ))
                    .ToList();
             }

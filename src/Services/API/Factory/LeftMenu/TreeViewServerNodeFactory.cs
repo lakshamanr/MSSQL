@@ -32,7 +32,7 @@ namespace API.Factory.LeftMenu
                text: _treeViewConfiguration.ServerName,
                icon: "fa fa-desktop fa-fw",
                link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}",
-               schemaEnum: SchemaEnums.DatabaseServer,
+               schemaEnum: SchemaEnums.Databases,
                children: new List<TreeViewJson> { databaseNodes }
            );
         }

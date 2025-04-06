@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "StoredProcedures",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/StoredProcedures",
-                schemaEnum: SchemaEnums.AllStoreprocedure,
+                schemaEnum: SchemaEnums.StoredProcedures,
                 children: null
             );
 
@@ -42,7 +42,7 @@ namespace API.Factory.LeftMenu
                         procedure.ProcedureName,
                         "fa fa-cogs",
                         $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Views/{procedure.ProcedureName}",
-                        SchemaEnums.Storeprocedure
+                        SchemaEnums.StoredProcedure
                     ))
                     .ToList();
             }

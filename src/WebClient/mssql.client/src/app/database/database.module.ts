@@ -20,7 +20,7 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes: Routes =
   [ 
     {
-      path: 'DatabaseDetails',
+      path: 'Database',
       component: DatabaseDetailsComponent,
     },
   ]

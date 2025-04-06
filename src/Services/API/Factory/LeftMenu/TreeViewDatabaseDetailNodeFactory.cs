@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -34,7 +34,7 @@ namespace API.Factory.LeftMenu
                 text: currentDbName,
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}",
-                schemaEnum: SchemaEnums.AllDatabase,
+                schemaEnum: SchemaEnums.Databases,
                 children: (await Task.WhenAll(tablesTask, viewsTask, programmabilityTask)).ToList()
             );
         }

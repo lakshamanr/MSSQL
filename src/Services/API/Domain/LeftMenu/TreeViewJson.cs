@@ -46,9 +46,9 @@ namespace API.Domain.LeftMenu
         public bool leaf { get; set; }
 
         /// <summary>
-        /// Gets or sets the schema enums of the tree view item.
+        /// Gets or sets the schema enum of the tree view item.
         /// </summary>
-        public SchemaEnums SchemaEnums { get; set; }
+        public string SchemaEnum { get; set; }
 
         /// <summary>
         /// Gets or sets the children of the tree view item.

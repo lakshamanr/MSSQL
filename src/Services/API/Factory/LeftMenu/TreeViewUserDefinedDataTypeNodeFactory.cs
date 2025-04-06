@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "User-Defined Data Types",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/DataBaseType/UserDefinedDataType",
-                schemaEnum: SchemaEnums.AllUserDefinedDataType,
+                schemaEnum: SchemaEnums.UserDefinedDataTypes,
                 children: null
             );
 

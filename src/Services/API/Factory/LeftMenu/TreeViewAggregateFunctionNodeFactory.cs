@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "Aggregate Functions",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/AggregateFunctions",
-                schemaEnum: SchemaEnums.AllAggregateFunciton,
+                schemaEnum: SchemaEnums.AggregateFunctions,
                 children: null
             );
 
@@ -43,7 +43,7 @@ namespace API.Factory.LeftMenu
                         aggregate.FunctionName,
                         "fa fa-cogs",
                         link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/AggregateFunctions{aggregate.FunctionName}",
-                        SchemaEnums.AggregateFunciton
+                        SchemaEnums.AggregateFunction
                     ))
                     .ToList();
             }

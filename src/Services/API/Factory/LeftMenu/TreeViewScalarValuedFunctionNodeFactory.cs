@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                 text: "ScalarFunctions",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/ScalarValuedFunctions",
-                schemaEnum: SchemaEnums.AllScalarValueFunctions,
+                schemaEnum: SchemaEnums.ScalarValuedFunctions,
                 children: null
             );
 
@@ -42,7 +42,7 @@ namespace API.Factory.LeftMenu
                         scalarFunction.FunctionName,
                         "fa fa-cogs",
                         link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions/ScalarValuedFunctions/{scalarFunction.FunctionName}",
-                        SchemaEnums.ScalarValueFunctions
+                        SchemaEnums.ScalarValuedFunction
                     ))
                     .ToList();
             }

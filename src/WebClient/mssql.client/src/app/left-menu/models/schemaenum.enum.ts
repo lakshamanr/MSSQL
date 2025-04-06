@@ -1,52 +1,85 @@
- 
-export enum Schemaenum {
-  // High-level nodes
-  AllDatabase,
-  Database,
-  AllDatabaseServer,
-  DatabaseServer,
+/**
+ * Represents schema elements in the order similar to SQL Server Object Explorer.
+ */
+export const SchemaEnums = {
+  /** Represents all databases. */
+  Databases: "Databases",
 
-  // Inside a database
-  AllSchema,
-  Schema,
+  /** Represents all schemas. */
+  Schemas: "Schemas",
 
-  // Tables and related
-  AllTable,
-  Table,
-  TableCoumns,
+  /** Represents a schema. */
+  Schema: "Schema",
 
-  // Views
-  AllViews,
-  Views,
+  /** Represents all tables. */
+  Tables: "Tables",
 
-  // Programmability section
-  Programmability,
-  AllProgrammability,
+  /** Represents a table. */
+  Table: "Table",
 
-  // Functions (inside Programmability)
-  AllFunctions,
-  TableValueFunction,
-  AllTableValueFunction,
-  ScalarValueFunctions,
-  AllScalarValueFunctions,
-  AggregateFunciton,
-  AllAggregateFunciton,
+  /** Represents table columns. */
+  TableColumns: "TableColumns",
 
-  // Stored Procedures
-  Storeprocedure,
-  AllStoreprocedure,
+  /** Represents all views. */
+  Views: "Views",
 
-  // Triggers
-  Triggers,
-  AllTriggers,
+  /** Represents a view. */
+  View: "View",
 
-  // Types
-  UserDefinedDataType,
-  AllUserDefinedDataType,
-  XMLSchemaCollection,
-  AllXMLSchemaCollection,
-  AllDatabaseDataTypes,
+  /** Represents programmability. */
+  Programmability: "Programmability",
 
-  // Misc
-  ProjectInfo
-}
+  /** Represents a table-valued function. */
+  TableValuedFunction: "TableValuedFunction",
+
+  /** Represents all table-valued functions. */
+  TableValuedFunctions: "TableValuedFunctions",
+
+  /** Represents a scalar-valued function. */
+  ScalarValuedFunction: "ScalarValuedFunction",
+
+  /** Represents all scalar-valued functions. */
+  ScalarValuedFunctions: "ScalarValuedFunctions",
+
+  /** Represents an aggregate function. */
+  AggregateFunction: "AggregateFunction",
+
+  /** Represents all aggregate functions. */
+  AggregateFunctions: "AggregateFunctions",
+
+  /** Represents a stored procedure. */
+  StoredProcedure: "StoredProcedure",
+
+  /** Represents all stored procedures. */
+  StoredProcedures: "StoredProcedures",
+
+  /** Represents a trigger. */
+  Trigger: "Trigger",
+
+  /** Represents all triggers. */
+  Triggers: "Triggers",
+
+  /** Represents a user-defined data type. */
+  UserDefinedDataType: "UserDefinedDataType",
+
+  /** Represents all user-defined data types. */
+  UserDefinedDataTypes: "UserDefinedDataTypes",
+
+  /** Represents an XML schema collection. */
+  XmlSchemaCollection: "XmlSchemaCollection",
+
+  /** Represents all XML schema collections. */
+  AllXmlSchemaCollections: "XmlSchemaCollections",
+
+  /** Represents all database data types. */
+  DatabaseDataTypes: "DatabaseDataTypes",
+
+  /** Represents project information. */
+  ProjectInfo: "ProjectInfo",
+
+  /** Represents a database server. */
+  DatabaseServer: "DatabaseServer"
+} as const;
+
+// Optional: export the type
+export type SchemaEnumType = (typeof SchemaEnums)[keyof typeof SchemaEnums];

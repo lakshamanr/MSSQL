@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
  
 using API.Repository.Common;
@@ -35,7 +35,7 @@ namespace API.Factory.LeftMenu
                 text: "Functions",
                 icon: "fa fa-folder",
                 link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/Functions",
-                schemaEnum: SchemaEnums.AllFunctions,
+                schemaEnum: SchemaEnums.Functions,
                 children: (await Task.WhenAll(tableValueFunctionNode, scalarValueFunctionNode, aggregateFunctionNode)).ToList()
             );
         }

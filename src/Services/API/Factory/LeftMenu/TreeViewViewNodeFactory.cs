@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -30,7 +30,7 @@ namespace API.Factory.LeftMenu
                               text: "Views",
                               icon: "fa fa-folder",
                               link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Views",
-                              schemaEnum: SchemaEnums.AllViews,
+                              schemaEnum: SchemaEnums.Views,
                               children: null
                           );
 
@@ -42,7 +42,7 @@ namespace API.Factory.LeftMenu
                         view.ViewName,
                         "fa fa-eye",
                         $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Views/{view.ViewName}",
-                        SchemaEnums.Views
+                        SchemaEnums.View
                     ))
                     .ToList();
             }

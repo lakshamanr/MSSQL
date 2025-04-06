@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -33,7 +33,7 @@ namespace API.Factory.LeftMenu
               text: "Type",
               icon: "fa fa-folder",
               link: $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Programmability/DatabaseType",
-              schemaEnum: SchemaEnums.AllDatabaseDataTypes,
+              schemaEnum: SchemaEnums.DatabaseDataTypes,
               children: (await Task.WhenAll(userDefinedDataType, xmlSchemaCollection)).ToList()
           );
         }

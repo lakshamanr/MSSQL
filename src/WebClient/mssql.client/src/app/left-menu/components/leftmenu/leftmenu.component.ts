@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeftMenuService } from '../../services/left-menu.service';
 import { LeftMenuTreeViewJson } from '../../models/left-menu-tree-view-json';
-import { Schemaenum } from '../../models/schemaenum.enum';
+import {  SchemaEnums } from '../../models/schemaenum.enum';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,62 +33,96 @@ export class LeftmenuComponent implements OnInit {
     console.error(error);
   } 
   getNodeData(data: LeftMenuTreeViewJson) {
-    const pluralRoutes = {
-      [Schemaenum.AllDatabase]: "/DatabaseDetails",
-      [Schemaenum.AllTable]: "/Tables",
-      [Schemaenum.AllViews]: "/Views",
-      [Schemaenum.AllStoreprocedure]: "/Storeprocedures",
-      [Schemaenum.AllScalarValueFunctions]: "/ScalarFunctions",
-      [Schemaenum.AllAggregateFunciton]: "/AggregateFunctions",
-      [Schemaenum.AllTableValueFunction]: "/TableValueFunctions",
-      [Schemaenum.AllSchema]: "/Schemas",
-      [Schemaenum.AllTriggers]: "/Triggers",
-      [Schemaenum.AllUserDefinedDataType]: "/UserDefinedDataTypes",
-      [Schemaenum.AllXMLSchemaCollection]: "/XmlSchemas",
-      [Schemaenum.AllFunctions]: "/Functions",
-      [Schemaenum.AllProgrammability]: "/AllProgrammability",
-      [Schemaenum.AllDatabaseServer]: "/DatabaseServers",
-      [Schemaenum.AllDatabaseDataTypes]: "/DatabaseDataTypes"
-    };
-
-    const dynamicRoutes = { 
-      [Schemaenum.DatabaseServer]: "/DatabaseServerDetails",
-      [Schemaenum.Schema]: "/Schema",
-      [Schemaenum.Table]: "/Table", 
-      [Schemaenum.Views]: "/View",
-      [Schemaenum.Storeprocedure]: "/Storeprocedure",
-      [Schemaenum.ScalarValueFunctions]: "/ScalarFunction",
-      [Schemaenum.AggregateFunciton]: "/AggregateFunction",
-      [Schemaenum.TableValueFunction]: "/TableValueFunction",
-      [Schemaenum.Triggers]: "/Trigger",
-      [Schemaenum.UserDefinedDataType]: "/UserDefinedDataType",
-      [Schemaenum.XMLSchemaCollection]: "/XmlSchema",
-      [Schemaenum.ProjectInfo]: "/ProjectInfo",
-      [Schemaenum.Programmability]: "/Programmability"
-    };
-
-    const schemaEnum = data.SchemaEnums;
+    const schemaEnum = data.SchemaEnum;   
     const objectName = data.text;
-
-    if (pluralRoutes[schemaEnum]) {
-      this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.route.navigate([pluralRoutes[schemaEnum]]);
-      });
-    } else if (dynamicRoutes[schemaEnum]) {
-      if (!objectName) {
-        console.warn("Missing object name for:", schemaEnum);
+    let routePath = '';  
+    switch (schemaEnum) { 
+      case SchemaEnums.Databases:
+        routePath = "/Database";
+        break;
+      case SchemaEnums.Tables:
+        routePath = "/Tables";
+        break;
+      case SchemaEnums.Views:
+        routePath = "/Views";
+        break;
+      case SchemaEnums.StoredProcedures:
+        routePath = "/Storeprocedures";
+        break;
+      case SchemaEnums.ScalarValuedFunctions:
+        routePath = "/ScalarFunctions";
+        break;
+      case SchemaEnums.AggregateFunctions:
+        routePath = "/AggregateFunctions";
+        break;
+      case SchemaEnums.TableValuedFunctions:
+        routePath = "/TableValueFunctions";
+        break;
+      case SchemaEnums.Schemas:
+        routePath = "/Schemas";
+        break;
+      case SchemaEnums.Triggers:
+        routePath = "/Triggers";
+        break;
+      case SchemaEnums.UserDefinedDataTypes:
+        routePath = "/UserDefinedDataTypes";
+        break;
+      case SchemaEnums.AllXmlSchemaCollections:
+        routePath = "/XmlSchemas";
+        break;
+      case SchemaEnums.Programmability:
         return;
-      }
+        break;
+      case SchemaEnums.DatabaseDataTypes:
+        return;
+        break;
 
-      const encodedName = encodeURIComponent(objectName);
-      const fullPath = `${dynamicRoutes[schemaEnum]}/${encodedName}`;
-
-      this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.route.navigate([fullPath]);
-      });
-    } else {
-      console.warn("Unhandled SchemaEnum:", schemaEnum);
+      case SchemaEnums.DatabaseServer:
+        routePath = `/DatabaseServerDetails/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.Schema:
+        routePath = `/Schema/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.Table:
+        routePath = `/Table/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.View:
+        routePath = `/View/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.StoredProcedure:
+        routePath = `/Storeprocedure/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.ScalarValuedFunction:
+        routePath = `/ScalarFunction/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.AggregateFunction:
+        routePath = `/AggregateFunction/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.TableValuedFunction:
+        routePath = `/TableValueFunction/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.Trigger:
+        routePath = `/Trigger/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.UserDefinedDataType:
+        routePath = `/UserDefinedDataType/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.XmlSchemaCollection:
+        routePath = `/XmlSchema/${encodeURIComponent(objectName)}`;
+        break;
+      case SchemaEnums.ProjectInfo:
+        routePath = `/ProjectInfo/${encodeURIComponent(objectName)}`;
+        break;
+      default:
+        console.warn("Unhandled SchemaEnum:", schemaEnum);
+        return;
     }
+
+    // 🚀 Navigate to the route
+    this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.route.navigate([routePath]);
+    });
+
   }
 
 }

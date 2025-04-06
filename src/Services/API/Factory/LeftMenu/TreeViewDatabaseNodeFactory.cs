@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -31,7 +31,7 @@ namespace API.Factory.LeftMenu
                 "User Database",
                 "fa fa-folder",
                 $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database",
-                SchemaEnums.AllDatabase
+                SchemaEnums.Databases
             );
 
             var lstDatabaseInfo = await _baseRepository.LoadDatabases();

@@ -1,4 +1,4 @@
-﻿using API.Common.Helper;
+using API.Common.Helper;
 using API.Domain.LeftMenu;
 using API.Repository.Common;
 
@@ -29,7 +29,7 @@ namespace API.Factory.LeftMenu
                 "Tables",
                 "fa fa-folder",
                 $"/{_treeViewConfiguration.ProjectName}/{_treeViewConfiguration.ServerName}/User Database/{currentDbName}/Tables",
-                SchemaEnums.AllTable
+                SchemaEnums.Tables
             );
             var tables = await _baseRepository.LoadTablesAsync(currentDbName);
             if (tables.Any())
