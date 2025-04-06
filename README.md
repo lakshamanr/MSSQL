@@ -1,43 +1,48 @@
 # MSSQL Client Web Application
 
-This project is a web client application built with Angular for managing and navigating through various SQL Server database objects. The application provides a left menu for easy access to different database schemas and objects.
+This project is a web client application built with **Angular** for managing and navigating various SQL Server database objects. It features a clean UI with a left-hand menu for easy access to different database schemas and objects.
 
-## Features
+---
 
-- Load and display database objects in a tree view.
-- Navigate to detailed views of database objects such as tables, views, stored procedures, functions, etc.
-- Error handling for data loading.
+## 🚀 Features
 
-## Technologies Used
+- Load and display database objects in a hierarchical tree view
+- Navigate to detailed views of:
+  - Tables
+  - Views
+  - Stored Procedures
+  - Functions
+- Robust error handling during data loading
 
-- Angular
-- TypeScript
-- .NET 8 (for backend services)
-- RxJS (for handling asynchronous data streams)
+---
 
-## Getting Started
+## 🧰 Technologies Used
 
-### Prerequisites
+- **Frontend**: Angular, TypeScript, RxJS
+- **Backend**: .NET 8 Web API
+
+---
+
+## ⚙️ Getting Started
+
+### ✅ Prerequisites
 
 - Node.js (v14 or higher)
 - Angular CLI
 - .NET 8 SDK
 
-### Installation
+### 🔧 Installation & Setup
 
 1. Clone the repository:
-       git clone https://github.com/yourusername/mssql-client-webapp.git
-      cd mssql-client-webapp
-2. Install the dependencies:
-    npm install
+   ```bash
+   git clone https://github.com/yourusername/mssql-client-webapp.git
+   cd mssql-client-webapp
+2 . Install frontend dependencies:  npm install
+
 3. Build the project: ng build
+4. Run the application: ng serve
+5. Open your browser:http://localhost:4200
 
-4. Run the application:
-        ng serve
-5. 
-5. Open your browser and navigate to `http://localhost:4200`.
-
-## Project Structure
 
 ## Usage
 
@@ -54,7 +59,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For any questions or suggestions, please open an issue or contact the repository owner. 
-     
+For any questions or suggestions, please open an issue or contact the repository 
 
-   
+Click any object (table, view, etc.) to view its details.
+
+Errors while fetching data are gracefully handled and shown to the user.
