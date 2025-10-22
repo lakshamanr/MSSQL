@@ -1,5 +1,4 @@
 <app-header></app-header>
-
 <div id="main-content">
   <ngx-ui-loader></ngx-ui-loader>
 
@@ -8,34 +7,40 @@
               direction="horizontal"
               #split="asSplit"
               [gutterSize]="10"
-              [gutterDblClickDuration]="dblClickTime"
               [useTransition]="useTransition"
               (dragStart)="log('dragStart', $event)"
               (dragEnd)="log('dragEnd', $event)"
-              (gutterClick)="log('gutterClick', $event)"
-              (gutterDblClick)="log('gutterDblClick', $event)"
-              (transitionEnd)="log('transitionEnd', $event)">
+              (gutterClick)="toggleSidebar()"
+              (gutterDblClick)="toggleSidebar()">
 
-      <!-- Left Panel - Sidebar -->
-      <as-split-area [ngClass]="status ? 'HideSplitBar' : 'showSplitBar'"
-                     [size]="25"
+      <as-split-area [size]="25"
                      [minSize]="0"
                      [maxSize]="50"
-                     [visible]="!status"
                      #area1="asSplitArea">
-        <div class="scollbar scrollbar-primary pre-scrollable leftmenuExtendedProperties setWindowHeight"
-             id="leftMenu"
-             *ngIf="!status">
-          <app-leftmenu></app-leftmenu>
+        <div class="leftmenuExtendedProperties">
+          <!-- Fixed Top Section -->
+          <div class="database-section">
+            <app-database-selector></app-database-selector>
+          </div>
+
+          <!-- Scrollable Bottom Section -->
+          <div class="menu-section">
+            <app-leftmenu></app-leftmenu>
+          </div>
         </div>
       </as-split-area>
+
+
 
       <!-- Right Panel - Main Content -->
       <as-split-area [size]="75"
                      [ngClass]="status ? 'ShowFullPageMode' : 'RemoveFullPageMode'"
                      #area2="asSplitArea"
                      id="asSplitArea2">
-        <div class="scollbar scrollbar-primary setWindowHeight">
+        <div class="main-area">
+          <button class="menu-toggle" (click)="toggleSidebar()">
+            <i class="fa fa-bars"></i>
+          </button>
           <div id="center">
             <app-main-page></app-main-page>
           </div>
@@ -44,4 +49,7 @@
 
     </as-split>
   </div>
+
+  <!-- Overlay for Sidebar -->
+  <div class="overlay" [class.active]="!status" (click)="toggleSidebar()"></div>
 </div>

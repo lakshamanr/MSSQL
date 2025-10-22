@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { SplitComponent, SplitAreaDirective } from 'angular-split';
  
 @Component({
@@ -10,7 +10,7 @@ import { SplitComponent, SplitAreaDirective } from 'angular-split';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   status: boolean = false;
   dblClickTime: number = 300;
   useTransition: boolean = true;
@@ -61,6 +61,9 @@ export class AppComponent {
     }
 
     this.cdr.markForCheck();
+  }
+  ngAfterViewInit() {
+     
   }
 
 }

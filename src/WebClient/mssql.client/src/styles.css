@@ -1,13 +1,23 @@
 @import '~font-awesome/css/font-awesome.min.css';
 
-/* Global Body Styles */
+:root {
+  --accent: #00b4d8;
+  --accent-hover: #48cae4;
+  --bg: #0b0c10;
+  --surface: rgba(255, 255, 255, 0.05);
+  --text: #f8f9fa;
+  --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
 body {
   line-height: 1.4 !important;
   font-family: Roboto, Verdana, sans-serif, Helvetica, Arial, 'Trebuchet MS' !important;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Prevent body scroll */
+  margin: 0; 
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
 }
+
 
 /* Split Pane Styles */
 .as-split-gutter {
@@ -123,8 +133,8 @@ header {
 
 /* Firefox Scrollbar */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
+/*  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;*/
 }
 
 /* Split Area Specific Heights */

@@ -11,5 +11,5 @@ export class HeaderComponent  {
     const selectedServer = (event.target as HTMLSelectElement).value;
     console.log('Selected SQL Server:', selectedServer);
     // Handle the change as needed
-  }
+  } 
 }
