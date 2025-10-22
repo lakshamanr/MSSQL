@@ -1,24 +1,80 @@
- #asSplitArea2{
-  height: 85vh !important;
+/* App Container */
+#main-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #101820 0%, #1c1c28 100%);
+  color: #e5e5e5;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
 }
-#asSplitArea1 {
-  height: 85vh !important;
+
+/* Split Container Styling */
+.split-example {
+  height: calc(100vh - 60px);
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
 }
-/* Split bar visibility */
+
+/* Sidebar */
+.leftmenuExtendedProperties {
+  background: rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+  padding: 1rem;
+}
+
+  .leftmenuExtendedProperties:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+/* Main Content */
+#center {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Gutter (Divider) Styling */
+.as-split > .as-split-gutter {
+  background: linear-gradient(180deg, #00c6ff 0%, #0072ff 100%) !important;
+  transition: all 0.3s ease;
+  cursor: col-resize;
+  width: 10px !important;
+}
+
+  .as-split > .as-split-gutter:hover {
+    background: linear-gradient(180deg, #66e0ff 0%, #3399ff 100%) !important;
+    box-shadow: 0 0 10px #00bfff;
+  }
+
+/* Sidebar Toggle Animation */
 .HideSplitBar {
-  flex: 0 0 0 !important;
+  opacity: 0;
+  transform: translateX(-50px);
+  pointer-events: none;
 }
 
-.HideSplitBar div {
-  display: none !important;
+.showSplitBar {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s ease;
 }
 
-.showSplitBar div {
-  display: block !important;
+/* Scrollbar Magic */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* Full-page and partial modes */
-.ShowFullPageMode {
-  order: 2;
-  flex: 0 0 calc(100% - 15px) !important;
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
 }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #666;
+  }
