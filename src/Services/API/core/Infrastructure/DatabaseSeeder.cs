@@ -3,14 +3,13 @@
 // Templates: www.ebenmonney.com/templates
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
-
-using API.core.Models.Account;
-using API.core.Models.Shop;
+ 
 using API.core.Services.Account;
 using API.core.Services.Account.Exceptions;
 using API.core.Services.Account.Interfaces;
 using API.Core.Domain;
 using API.Core.Domain.Account;
+using API.Core.Domain.Shop;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

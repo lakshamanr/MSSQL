@@ -1,6 +1,6 @@
 using API.Common.Queries;
 using API.Core.Domain.Common;
-using API.Core.Domain.Database.Table;
+using API.Core.Domain.Table;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Data;

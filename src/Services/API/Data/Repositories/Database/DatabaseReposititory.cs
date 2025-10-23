@@ -1,7 +1,7 @@
 using API.Common;
-using API.Common.Queries;
-using API.Core.Domain.Database.Database;
+using API.Common.Queries; 
 using API.Data.Repositories.Common;
+using API.Domain.Database;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
