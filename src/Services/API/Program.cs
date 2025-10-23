@@ -34,44 +34,104 @@ using API.core.Services;
 using API.Services.Email;
 using Microsoft.AspNetCore.Authorization;
 using API.Services;
+using Microsoft.IdentityModel.Logging;
 
 internal class Program
 {
-    private static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+  private static async Task Main(string[] args)
+  {
+    var builder = WebApplication.CreateBuilder(args);
 
-        builder.Configuration.Sources.Clear();
+    // ==================== CONFIGURATION ====================
+    ConfigureAppConfiguration(builder);
 
-        builder.Configuration
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables()
-                .AddCommandLine(args);
+    // ==================== DATABASE & IDENTITY ====================
+    var connectionString = GetConnectionString(builder.Configuration);
+    ConfigureDatabase(builder.Services, connectionString);
+    ConfigureIdentity(builder.Services);
 
-     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-              throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    // ==================== OPENIDDICT & AUTHENTICATION ====================
+    ConfigureQuartz(builder.Services);
+    ConfigureOpenIddict(builder.Services, builder.Environment, builder.Configuration);
+    ConfigureAuthentication(builder.Services);
+    ConfigureAuthorization(builder.Services);
 
+    // ==================== REDIS CACHING ====================
+    ConfigureRedis(builder.Services, builder.Configuration);
+
+    // ==================== CORS ====================
+    ConfigureCors(builder.Services);
+
+    // ==================== CONTROLLERS & SWAGGER ====================
+    ConfigureControllersAndSwagger(builder.Services);
+
+    // ==================== APPLICATION SERVICES ====================
+    ConfigureApplicationServices(builder.Services);
+
+    // ==================== REPOSITORIES ====================
+    RegisterRepositories(builder.Services);
+
+    // ==================== LOGGING & EMAIL ====================
+    ConfigureLoggingAndEmail(builder);
+
+    // ==================== BUILD & CONFIGURE APP ====================
+    var app = builder.Build();
+
+    ConfigureMiddleware(app);
+    ConfigureSwaggerUI(app);
+
+    // ==================== DATABASE SEEDING ====================
+    await SeedDatabase(app);
+
+    app.Run();
+  }
+
+  #region Configuration
+
+  private static void ConfigureAppConfiguration(WebApplicationBuilder builder)
+  {
+    builder.Configuration.Sources.Clear();
+    builder.Configuration
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+        .AddEnvironmentVariables()
+        .AddCommandLine(builder.Configuration.GetValue<string[]>("CommandLineArgs") ?? Array.Empty<string>());
+  }
+
+  private static string GetConnectionString(IConfiguration configuration)
+  {
+    return configuration.GetConnectionString("DefaultConnection") ??
+           throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+  }
+
+  #endregion
+
+  #region Database & Identity
+
+  private static void ConfigureDatabase(IServiceCollection services, string connectionString)
+  {
     var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
 
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    services.AddDbContext<ApplicationDbContext>(options =>
     {
       options.UseSqlServer(connectionString, b => b.MigrationsAssembly(migrationsAssembly));
       options.UseOpenIddict();
     });
+  }
 
-    // Add Identity
-    builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+  private static void ConfigureIdentity(IServiceCollection services)
+  {
+    services.AddIdentity<ApplicationUser, ApplicationRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
-    builder.Services.Configure<IdentityOptions>(options =>
+    services.Configure<IdentityOptions>(options =>
     {
       // User settings
       options.User.RequireUniqueEmail = true;
 
-      // Password settings
+      // Password settings (commented out for now)
       /*
       options.Password.RequireDigit = true;
       options.Password.RequiredLength = 8;
@@ -90,23 +150,30 @@ internal class Program
       options.ClaimsIdentity.RoleClaimType = Claims.Role;
       options.ClaimsIdentity.EmailClaimType = Claims.Email;
     });
+  }
 
-    // Configure OpenIddict periodic pruning of orphaned authorizations/tokens from the database.
-    builder.Services.AddQuartz(options =>
+  #endregion
+
+  #region OpenIddict & Authentication
+
+  private static void ConfigureQuartz(IServiceCollection services)
+  {
+    services.AddQuartz(options =>
     {
       options.UseSimpleTypeLoader();
       options.UseInMemoryStore();
     });
 
-    // Register the Quartz.NET service and configure it to block shutdown until jobs are complete.
-    builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+    services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+  }
 
-    builder.Services.AddOpenIddict()
+  private static void ConfigureOpenIddict(IServiceCollection services, IWebHostEnvironment environment, IConfiguration configuration)
+  {
+    services.AddOpenIddict()
         .AddCore(options =>
         {
           options.UseEntityFrameworkCore()
-             .UseDbContext<ApplicationDbContext>();
-
+                  .UseDbContext<ApplicationDbContext>();
           options.UseQuartz();
         })
         .AddServer(options =>
@@ -114,58 +181,85 @@ internal class Program
           options.SetTokenEndpointUris("connect/token");
 
           options.AllowPasswordFlow()
-             .AllowRefreshTokenFlow();
+                  .AllowRefreshTokenFlow();
 
           options.RegisterScopes(
-          Scopes.Profile,
-          Scopes.Email,
-          Scopes.Address,
-          Scopes.Phone,
-          Scopes.Roles);
+                  Scopes.Profile,
+                  Scopes.Email,
+                  Scopes.Address,
+                  Scopes.Phone,
+                  Scopes.Roles);
 
-          if (builder.Environment.IsDevelopment())
-          {
-            options.AddDevelopmentEncryptionCertificate()
-               .AddDevelopmentSigningCertificate();
-          }
-          else
-          {
-            var oidcCertFileName = builder.Configuration["OIDC:Certificates:Path"];
-            var oidcCertFilePassword = builder.Configuration["OIDC:Certificates:Password"];
-
-            if (string.IsNullOrWhiteSpace(oidcCertFileName))
-            {
-              // You must configure persisted keys for Encryption and Signing.
-              // See https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
-              options.AddEphemeralEncryptionKey()
-                 .AddEphemeralSigningKey();
-            }
-            else
-            {
-              var oidcCertificate = new X509Certificate2(oidcCertFileName, oidcCertFilePassword);
-
-              options.AddEncryptionCertificate(oidcCertificate)
-                 .AddSigningCertificate(oidcCertificate);
-            }
-          }
+          ConfigureOpenIddictCertificates(options, environment, configuration);
 
           options.UseAspNetCore()
-             .EnableTokenEndpointPassthrough();
+                  .EnableTokenEndpointPassthrough();
         })
         .AddValidation(options =>
         {
           options.UseLocalServer();
           options.UseAspNetCore();
         });
+  }
+ 
+     private static void ConfigureOpenIddictCertificates(
+        OpenIddictServerBuilder options,
+        IWebHostEnvironment environment,
+        IConfiguration configuration)
+  {
+    if (environment.IsDevelopment())
+    {
+      options.AddDevelopmentEncryptionCertificate()
+          .AddDevelopmentSigningCertificate();
+    }
+    else
+    {
+      // Example certificate configuration in appsettings.json:
+      // "OIDC": {
+      //   "Certificates": {
+      //     "Path": "certificates/oidc-signing-cert.pfx",
+      //     "Password": "YourSecurePasswordHere"
+      //   }
+      // }
+      // 
+      // Generate a certificate using:
+      // dotnet dev-certs https -ep certificates/oidc-signing-cert.pfx -p YourSecurePasswordHere
+      // Or use OpenSSL:
+      // openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+      // openssl pkcs12 -export -out oidc-signing-cert.pfx -inkey key.pem -in cert.pem
 
-    builder.Services.AddAuthentication(o =>
+      var oidcCertFileName = configuration["OIDC:Certificates:Path"];
+      var oidcCertFilePassword = configuration["OIDC:Certificates:Password"];
+
+      if (string.IsNullOrWhiteSpace(oidcCertFileName))
+      {
+        // You must configure persisted keys for Encryption and Signing.
+        // See https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+        options.AddEphemeralEncryptionKey()
+            .AddEphemeralSigningKey();
+      }
+      else
+      {
+        var oidcCertificate = new X509Certificate2(oidcCertFileName, oidcCertFilePassword);
+        options.AddEncryptionCertificate(oidcCertificate)
+            .AddSigningCertificate(oidcCertificate);
+      }
+    } 
+}
+
+  private static void ConfigureAuthentication(IServiceCollection services)
+  {
+    services.AddAuthentication(o =>
     {
       o.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
       o.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
       o.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
     });
+  }
 
-    builder.Services.AddAuthorizationBuilder()
+  private static void ConfigureAuthorization(IServiceCollection services)
+  {
+    services.AddAuthorizationBuilder()
         .AddPolicy(AuthPolicies.ViewAllUsersPolicy,
             policy => policy.RequireClaim(CustomClaims.Permission, ApplicationPermissions.ViewUsers))
         .AddPolicy(AuthPolicies.ManageAllUsersPolicy,
@@ -178,16 +272,52 @@ internal class Program
             policy => policy.RequireClaim(CustomClaims.Permission, ApplicationPermissions.ManageRoles))
         .AddPolicy(AuthPolicies.AssignAllowedRolesPolicy,
             policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
+  }
 
-    // Add cors
-    builder.Services.AddCors();
+  #endregion
 
-    builder.Services.AddControllers();
+  #region Redis Caching
 
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
+  private static void ConfigureRedis(IServiceCollection services, IConfiguration configuration)
+  {
+    var redisConnectionString = configuration.GetConnectionString("RedisConnection") ??
+        throw new ArgumentNullException("Redis connection string cannot be null or empty.");
 
-    builder.Services.AddSwaggerGen(c =>
+    services.AddSingleton<ConnectionMultiplexer>(sp =>
+        ConnectionMultiplexer.Connect(redisConnectionString));
+
+    services.AddStackExchangeRedisCache(options =>
+    {
+      options.Configuration = redisConnectionString;
+      options.InstanceName = "mssqlInstance:";
+    });
+  }
+
+  #endregion
+
+  #region CORS
+
+  private static void ConfigureCors(IServiceCollection services)
+  {
+    services.AddCors(options =>
+    {
+      options.AddPolicy("AllowOrigin",
+          builder => builder.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+    });
+  }
+
+  #endregion
+
+  #region Controllers & Swagger
+
+  private static void ConfigureControllersAndSwagger(IServiceCollection services)
+  {
+    services.AddControllers();
+    services.AddEndpointsApiExplorer();
+
+    services.AddSwaggerGen(c =>
     {
       c.SwaggerDoc("v1", new OpenApiInfo { Title = OidcServerConfig.ServerName, Version = "v1" });
       c.OperationFilter<SwaggerAuthorizeOperationFilter>();
@@ -204,110 +334,136 @@ internal class Program
       });
     });
 
-    builder.Services.AddAutoMapper(typeof(Program));
+    services.AddAutoMapper(typeof(Program));
+  }
 
+  #endregion
+
+  #region Application Services
+
+  private static void ConfigureApplicationServices(IServiceCollection services)
+  {
     // Configurations
-    builder.Services.Configure<AppSettings>(builder.Configuration);
+    services.AddOptions<AppSettings>()
+        .BindConfiguration(string.Empty);
 
     // Business Services
-    builder.Services.AddScoped<IUserAccountService, UserAccountService>();
-    builder.Services.AddScoped<IUserRoleService, UserRoleService>();
-    builder.Services.AddScoped<ICustomerService, CustomerService>();
-    builder.Services.AddScoped<IProductService, ProductService>();
-    builder.Services.AddScoped<IOrdersService, OrdersService>();
+    services.AddScoped<IUserAccountService, UserAccountService>();
+    services.AddScoped<IUserRoleService, UserRoleService>();
+    services.AddScoped<ICustomerService, CustomerService>();
+    services.AddScoped<IProductService, ProductService>();
+    services.AddScoped<IOrdersService, OrdersService>();
 
     // Other Services
-    builder.Services.AddScoped<IEmailSender, EmailSender>();
-    builder.Services.AddScoped<IUserIdAccessor, UserIdAccessor>();
+    services.AddScoped<IEmailSender, EmailSender>();
+    services.AddScoped<IUserIdAccessor, UserIdAccessor>();
 
     // Auth Handlers
-    builder.Services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
-    builder.Services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
-    builder.Services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
-    builder.Services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
+    services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
+    services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
+    services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
+    services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
 
     // DB Creation and Seeding
-    builder.Services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+    services.AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+  }
 
-    RegisterRepositories(builder.Services);
+  #endregion
 
-    //File Logger
+  #region Repositories
+
+  private static void RegisterRepositories(IServiceCollection services)
+  {
+    services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
+    services.AddScoped<ILeftMenuRepository, LeftMenuRepository>();
+    services.AddScoped<IObjectDependenciesRepository, ObjectDependenciesRepository>();
+    services.AddScoped<ITableRepository, TableRepository>();
+    services.AddScoped<ITablesRepository, TablesRepository>();
+    services.AddScoped<IViewsRepository, ViewsRepository>();
+
+    services.AddScoped<IBaseSqlFunctionRepository, BaseSqlFunctionRepository>();
+    services.AddScoped<IScalarFunctionRepository, ScalarFunctionRepository>();
+    services.AddScoped<IAggregateFunctionRepository, AggregateFunctionRepository>();
+    services.AddScoped<ITableValuedFunctionRepository, TableValuedFunctionRepository>();
+
+    services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
+    services.AddScoped<IDatabaseTriggerRepository, DatabaseTriggerRepository>();
+    services.AddScoped<IUserDefinedDataTypeRepository, UserDefinedDataTypeRepository>();
+    services.AddScoped<IXmlSchemaRepository, XmlSchemaRepository>();
+    services.AddScoped<IFullTextCatalogRepository, FullTextCatalogRepository>();
+    services.AddScoped<ISchemaRepository, SchemaRepository>();
+  }
+
+  #endregion
+
+  #region Logging & Email
+
+  private static void ConfigureLoggingAndEmail(WebApplicationBuilder builder)
+  {
     builder.Logging.AddFile(builder.Configuration.GetSection("Logging"));
-
-    //Email Templates
     EmailTemplates.Initialize(builder.Environment);
+  }
 
+  #endregion
 
-    var redisConnectionString = builder.Configuration.GetConnectionString("RedisConnection");
+  #region Middleware Configuration
 
-    if (string.IsNullOrEmpty(redisConnectionString))
+  private static void ConfigureMiddleware(WebApplication app)
+  {
+    app.UseCors("AllowOrigin");
+    app.UseHttpsRedirection();
+    app.Urls.Add("http://localhost:5000");
+
+    if (!app.Environment.IsDevelopment())
     {
-      throw new ArgumentNullException("Redis connection string cannot be null or empty.");
+      app.UseHsts();
     }
 
-    // Register StackExchange.Redis ConnectionMultiplexer
-    builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
-    {
-      return ConnectionMultiplexer.Connect(redisConnectionString);
-    });
-
-    
-    builder.Services.AddStackExchangeRedisCache(options =>
-        {
-            options.Configuration = redisConnectionString;
-            options.InstanceName = "mssqlInstance:";
-        });
-
-        
-
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowOrigin",
-                        //builder => builder.WithOrigins("http://localhost:4200")
-                        builder => builder.AllowAnyOrigin()
-                                     .AllowAnyMethod()
-                                     .AllowAnyHeader());
-        });
-
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
-        var app = builder.Build();
-
-        app.UseCors("AllowOrigin");
-
-    app.Urls.Add("http://localhost:5000");
     app.UseSwagger();
     app.UseSwaggerUI();
-
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
     app.UseAuthorization();
     app.MapControllers();
-    app.Run();
-    }
+    app.MapFallbackToFile("/index.html");
+  }
 
-    private static void RegisterRepositories(IServiceCollection services)
+  private static void ConfigureSwaggerUI(WebApplication app)
+  {
+    if (app.Environment.IsDevelopment())
     {
+      app.UseSwaggerUI(c =>
+      {
+        c.DocumentTitle = "Swagger UI - MSSQL";
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcServerConfig.ServerName} V1");
+        c.OAuthClientId(OidcServerConfig.SwaggerClientID);
+      });
 
-        services.AddScoped<IDatabaseReposititory, DatabaseReposititory>();
-        services.AddScoped<ILeftMenuRepository, LeftMenuRepository>();
-        services.AddScoped<IObjectDependenciesRepository, ObjectDependenciesRepository>();
-        services.AddScoped<ITableRepository, TableRepository>();
-        services.AddScoped<ITablesRepository, TablesRepository>();
-        services.AddScoped<IViewsRepository, ViewsRepository>();
-
-        services.AddScoped<IBaseSqlFunctionRepository, BaseSqlFunctionRepository>();
-        services.AddScoped<IScalarFunctionRepository, ScalarFunctionRepository>();
-        services.AddScoped<IAggregateFunctionRepository, AggregateFunctionRepository>();
-        services.AddScoped<ITableValuedFunctionRepository, TableValuedFunctionRepository>();
-
-        services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
-        services.AddScoped<IDatabaseTriggerRepository, DatabaseTriggerRepository>();
-        services.AddScoped<IUserDefinedDataTypeRepository, UserDefinedDataTypeRepository>();
-        services.AddScoped<IXmlSchemaRepository, XmlSchemaRepository>();
-        services.AddScoped<IFullTextCatalogRepository, FullTextCatalogRepository>();
-        services.AddScoped<ISchemaRepository, SchemaRepository>();
-
-     
+      IdentityModelEventSource.ShowPII = true;
     }
+  }
+
+  #endregion
+
+  #region Database Seeding
+
+  private static async Task SeedDatabase(WebApplication app)
+  {
+    using var scope = app.Services.CreateScope();
+    try
+    {
+      var dbSeeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
+      await dbSeeder.SeedAsync();
+
+      await OidcServerConfig.RegisterClientApplicationsAsync(scope.ServiceProvider);
+    }
+    catch (Exception ex)
+    {
+      var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+      logger.LogCritical(ex, "An error occurred whilst creating/seeding database");
+      throw;
+    }
+  }
+
+  #endregion
 }
