@@ -1,4 +1,4 @@
-﻿using API.Repository.FullTextCatalog;
+using API.Data.Repositories.FullTextCatalog;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,3 +49,4 @@ namespace API.Controllers
         }
     }
 }
+

@@ -1,5 +1,5 @@
-using API.Domain.Table;
-using API.Repository.Table;
+using API.Core.Domain.Database.Table;
+using API.Data.Repositories.Table;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -78,3 +78,4 @@ namespace API.Controllers
     }
   }
 }
+

@@ -1,5 +1,5 @@
-using API.Domain.Triggers;
-using API.Repository.Triggers;
+using API.Core.Domain.Database.Triggers;
+using API.Data.Repositories.Triggers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,3 +58,4 @@ namespace API.Controllers
         }
     }
 }
+

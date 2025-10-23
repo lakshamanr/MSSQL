@@ -1,4 +1,4 @@
-using API.Domain.LeftMenu;
+using API.Core.Domain.Database.LeftMenu;
 
 namespace API.Common.Helper
 {
@@ -36,3 +36,4 @@ namespace API.Common.Helper
         }
     }
 }
+

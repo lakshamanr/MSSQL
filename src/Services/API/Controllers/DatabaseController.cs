@@ -1,5 +1,5 @@
-using API.Domain.Database;
-using API.Repository.Database;
+using API.Core.Domain.Database.Database;
+using API.Data.Repositories.Database;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,3 +70,4 @@ namespace API.Controllers
 
   }
 }
+

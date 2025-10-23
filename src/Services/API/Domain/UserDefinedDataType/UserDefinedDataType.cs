@@ -1,3 +1,5 @@
+ 
+
 namespace API.Domain.UserDefinedDataType
 {
     /// <summary>
@@ -38,7 +40,7 @@ namespace API.Domain.UserDefinedDataType
         /// <summary>
         /// Gets or sets the references to other user-defined data types.
         /// </summary>
-        public IEnumerable<UserDefinedDataTypeReference> userDefinedDataTypeReference { get; set; }
+        public IEnumerable<API.Core.Domain.Database.UserDefinedDataType.UserDefinedDataTypeReference> userDefinedDataTypeReference { get; set; }
     }
 
 }

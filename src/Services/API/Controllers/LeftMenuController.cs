@@ -1,4 +1,4 @@
-﻿using API.Repository.LeftMenu;
+using API.Data.Repositories.LeftMenu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,3 +33,4 @@ namespace API.Controllers
         }
     }
 }
+

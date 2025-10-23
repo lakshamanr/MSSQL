@@ -1,5 +1,5 @@
-using API.Domain.UserDefinedDataType;
-using API.Repository.UserDefinedDataType;
+using API.Core.Domain.Database.UserDefinedDataType;
+using API.Data.Repositories.UserDefinedDataType;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,3 +68,4 @@ namespace API.Controllers
         }
     }
 } 
+

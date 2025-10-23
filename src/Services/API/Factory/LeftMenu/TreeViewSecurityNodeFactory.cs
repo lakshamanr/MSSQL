@@ -1,5 +1,5 @@
-﻿using API.Domain.LeftMenu;
-using API.Repository.Common;
+using API.Core.Domain.Database.LeftMenu;
+using API.Data.Repositories.Common;
 
 namespace API.Factory.LeftMenu
 {
@@ -29,3 +29,4 @@ namespace API.Factory.LeftMenu
         }
     }
 }
+

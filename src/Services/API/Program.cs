@@ -1,20 +1,17 @@
-using API.core.Infrastructure;
-using API.core.Models.Account;
-using API.Repository.Common;
-using API.Repository.Database;
-using API.Repository.FullTextCatalog;
-using API.Repository.Functions;
-using API.Repository.LeftMenu;
-using API.Repository.SchemaRepository;
-using API.Repository.StoreProcedure;
-using API.Repository.Table;
-using API.Repository.Triggers;
-using API.Repository.UserDefinedDataType;
-using API.Repository.View;
-using API.Repository.XMLSchemaCollections;
+using API.Data.Repositories.Common;
+using API.Data.Repositories.Database;
+using API.Data.Repositories.FullTextCatalog;
+using API.Data.Repositories.Functions;
+using API.Data.Repositories.LeftMenu;
+using API.Data.Repositories.SchemaRepository;
+using API.Data.Repositories.StoreProcedure;
+using API.Data.Repositories.Table;
+using API.Data.Repositories.Triggers;
+using API.Data.Repositories.UserDefinedDataType;
+using API.Data.Repositories.View;
+using API.Data.Repositories.XMLSchemaCollections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Quartz;
 using StackExchange.Redis;
 using System.Reflection;
@@ -23,18 +20,20 @@ using Microsoft.OpenApi.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using OpenIddict.Validation.AspNetCore;
 using API.Authorization;
-using API.core.Services.Account;
 using API.Authorization.Requirements;
 using API.Configuration;
-using API.core.Services.Account.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using API.core.Services.Shop.Interfaces;
-using API.core.Services.Shop;
-using API.core.Services;
-using API.Services.Email;
+using API.Core.Services;
+using API.Core.Services.Email;
 using Microsoft.AspNetCore.Authorization;
 using API.Services;
 using Microsoft.IdentityModel.Logging;
+using API.core.Infrastructure;
+using API.core.Models.Account;
+using API.core.Services.Account;
+using API.core.Services.Account.Interfaces;
+using API.core.Services.Shop.Interfaces;
+using API.core.Services.Shop;
+using API.core.Services;
 
 internal class Program
 {
@@ -178,10 +177,11 @@ internal class Program
         })
         .AddServer(options =>
         {
-          options.SetTokenEndpointUris("connect/token");
+          options.SetTokenEndpointUris("/connect/token");  // With leading slash
 
           options.AllowPasswordFlow()
-                  .AllowRefreshTokenFlow();
+                .AllowRefreshTokenFlow();
+                 
 
           options.RegisterScopes(
                   Scopes.Profile,
@@ -193,7 +193,8 @@ internal class Program
           ConfigureOpenIddictCertificates(options, environment, configuration);
 
           options.UseAspNetCore()
-                  .EnableTokenEndpointPassthrough();
+                      .EnableTokenEndpointPassthrough()  // ADD THIS LINE
+                      .DisableTransportSecurityRequirement();
         })
         .AddValidation(options =>
         {
@@ -356,7 +357,7 @@ internal class Program
 
     // Other Services
     services.AddScoped<IEmailSender, EmailSender>();
-    services.AddScoped<IUserIdAccessor, UserIdAccessor>();
+    services.AddScoped<IUserIdAccessor, API.Core.Services.UserIdAccessor>();
 
     // Auth Handlers
     services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
@@ -467,3 +468,4 @@ internal class Program
 
   #endregion
 }
+

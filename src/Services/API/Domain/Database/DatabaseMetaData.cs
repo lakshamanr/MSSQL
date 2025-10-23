@@ -1,4 +1,4 @@
-using API.Domain.Table;
+using API.Core.Domain.Database.Table;
 
 namespace API.Domain.Database
 {
@@ -78,3 +78,4 @@ namespace API.Domain.Database
         public IEnumerable<TablesMetadata> tablesMetadata { get; set; }
     }
 }
+

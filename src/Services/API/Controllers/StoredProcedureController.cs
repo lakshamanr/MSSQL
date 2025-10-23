@@ -1,6 +1,6 @@
 
-using API.Domain.StoredProcedure;
-using API.Repository.StoreProcedure;
+using API.Core.Domain.Database.StoredProcedure;
+using API.Data.Repositories.StoreProcedure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,3 +72,4 @@ namespace API.Controllers
         }
     }
 }
+

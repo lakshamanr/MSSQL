@@ -1,4 +1,4 @@
-using API.Repository.Functions;
+using API.Data.Repositories.Functions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,3 +72,4 @@ namespace API.Controllers
   }
 
 }
+

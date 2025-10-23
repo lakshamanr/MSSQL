@@ -1,4 +1,4 @@
-using API.Repository.SchemaRepository;
+using API.Data.Repositories.SchemaRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,3 +50,4 @@ namespace API.Controllers
         }
     }
 }
+

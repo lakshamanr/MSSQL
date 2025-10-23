@@ -1,5 +1,5 @@
-using API.Domain.XMLSchemaCollections;
-using API.Repository.XMLSchemaCollections;
+using API.Core.Domain.Database.XMLSchemaCollections;
+using API.Data.Repositories.XMLSchemaCollections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,3 +60,4 @@ namespace API.Controllers
         }
     }
 }
+
