@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core'; 
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 import { MenuItem } from 'primeng/api/menuitem'; 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { TablesMetadata } from '../../models/TablesMetaData';
+import { AuthService } from '../../../auth/services/auth.service';
+ 
 @Component({
   selector: 'app-tables',
   templateUrl: './tables.component.html',
@@ -26,10 +28,16 @@ export class TablesComponent implements OnInit {
   public tables: TablesMetadata[];
   constructor(private http: HttpClient,
     @Inject('API_URL') private primaryUrl: string,
-    @Inject('ANOTHER_URL') private secondaryUrl: string) { 
+    @Inject('ANOTHER_URL') private secondaryUrl: string,
+    private authService: AuthService) { 
     
   }
-
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
   ngOnInit() {
     this.cols = [
       { field: 'tableName', header: 'extendedPropertyValue' },
@@ -38,12 +46,12 @@ export class TablesComponent implements OnInit {
     this.loadTablesMetadata();
   }
   private loadTablesMetadata(): void {
-
+    const headers = this.getAuthHeaders();
     const primaryUrl = `${this.primaryUrl}/Tables/GetTableDetails`;
     const secondaryUrl = 'Tables/GetTableDetails';
 
     // Try the primary URL
-    this.http.get<TablesMetadata[]>(primaryUrl).subscribe(
+    this.http.get<TablesMetadata[]>(primaryUrl, {headers }).subscribe(
       (result) => this.handleLoadSuccess(result),
       (error) => {
         console.error('Primary URL failed, trying secondary URL:', error);

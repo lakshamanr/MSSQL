@@ -1,0 +1,164 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  color: #333;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.login-header p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border-right: none;
+  color: #667eea;
+}
+
+.form-control {
+  border-left: none;
+  padding: 12px 15px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  border-color: #667eea;
+}
+
+.input-group-prepend + .form-control {
+  border-left: 1px solid #ced4da;
+}
+
+.input-group:focus-within .input-group-text {
+  border-color: #667eea;
+}
+
+.input-group:focus-within .form-control {
+  border-color: #667eea;
+}
+
+.form-check {
+  margin-bottom: 20px;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.alert {
+  font-size: 14px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.alert i {
+  margin-right: 5px;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.login-footer p {
+  margin: 0;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}
+
+.invalid-feedback {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 30px 25px;
+  }
+
+  .login-header h2 {
+    font-size: 24px;
+  }
+}

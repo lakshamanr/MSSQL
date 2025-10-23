@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Third-party UI Libraries
@@ -54,7 +54,9 @@ import { UserDefinedDataTypesModule } from './UserDefinedDataType/user-defined-d
 import { DatabaseTriggerModule } from './Triggers/database-trigger.module';
 import { XmlSchemaModule } from './XmlSchema/xml-schema.module';
 import { SchemasModule } from './schema/schemas.module';
-
+import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
+import { LoginComponent } from './auth/components/login/login.component';
 
 // NGX-UI-Loader Configuration
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -88,7 +90,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 // Application Routes
-const appRoutes: Routes = [];
+const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/', pathMatch: 'full' }
+];
 
 @NgModule({
   declarations: [
@@ -147,14 +152,17 @@ const appRoutes: Routes = [];
     DatabaseTriggerModule,
     XmlSchemaModule,
     SchemasModule,
+    AuthModule,
     // Routing
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     TreeDragDropService,
     MessageService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

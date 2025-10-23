@@ -1,0 +1,96 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>MSSQL Management</h2>
+      <p>Sign in to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle"></i> {{ errorMessage }}
+        <button type="button" class="close" (click)="clearError()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <input 
+            type="text" 
+            formControlName="username" 
+            class="form-control" 
+            id="username"
+            placeholder="Enter username or email"
+            [class.is-invalid]="submitted && f.username.errors"
+            (focus)="clearError()"
+          />
+        </div>
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback d-block">
+          <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-lock"></i>
+            </span>
+          </div>
+          <input 
+            type="password" 
+            formControlName="password" 
+            class="form-control" 
+            id="password"
+            placeholder="Enter password"
+            [class.is-invalid]="submitted && f.password.errors"
+            (focus)="clearError()"
+          />
+        </div>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback d-block">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+      </div>
+
+      <!-- Remember Me -->
+      <div class="form-group form-check">
+        <input 
+          type="checkbox" 
+          formControlName="rememberMe" 
+          class="form-check-input" 
+          id="rememberMe"
+        />
+        <label class="form-check-label" for="rememberMe">
+          Remember me
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-block" 
+        [disabled]="loading"
+      >
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-2"></span>
+        <span *ngIf="!loading"><i class="fa fa-sign-in mr-2"></i>Sign In</span>
+        <span *ngIf="loading">Signing In...</span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p class="text-muted">
+        <small>© 2024 MSSQL Management System</small>
+      </p>
+    </div>
+  </div>
+</div>
