@@ -44,6 +44,7 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { MainPageComponent } from './ui/main-page/main-page.component';
 import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
 import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component';
+
 // Feature Modules
 import { TablesModule } from './table/tables.module';
 import { DatabaseModule } from './database/database.module';
@@ -57,6 +58,28 @@ import { SchemasModule } from './schema/schemas.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './auth/interceptors/auth.interceptor';
 import { LoginComponent } from './auth/components/login/login.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { TablesComponent } from './table/components/tables/tables.component';
+import { TableComponent } from './table/components/table/table.component';
+import { ProceduresComponent } from './procedure/components/procedures/procedures.component';
+import { ProcedureComponent } from './procedure/components/procedure/procedure.component';
+import { ViewsComponent } from './view/components/views/views.component';
+import { ViewComponent } from './view/components/view/view.component';
+import { AggregateFunctionsComponent } from './function/component/aggregate-functions/aggregate-functions.component';
+import { AggregateFunctionComponent } from './function/component/aggregate-function/aggregate-function.component';
+import { ScalarFunctionsComponent } from './function/component/scalar-functions/scalar-functions.component';
+import { ScalarFunctionComponent } from './function/component/scalar-function/scalar-function.component';
+import { TableValueFunctionsComponent } from './function/component/table-value-functions/table-value-functions.component';
+import { TableValueFunctionComponent } from './function/component/table-value-function/table-value-function.component';
+import { DatabaseTriggersComponent } from './Triggers/components/database-triggers/database-triggers.component';
+import { DatabaseTriggerComponent } from './Triggers/components/database-trigger/database-trigger.component';
+import { SchemasComponent } from './schema/components/schemas/schemas.component';
+import { SchemaComponent } from './schema/components/schema/schema.component';
+import { XmlSchemaListComponent } from './XmlSchema/component/xml-schema-list/xml-schema-list.component';
+import { XmlSchemaDetailsComponent } from './XmlSchema/component/xml-schema-details/xml-schema-details.component';
+import { UserDefinedDataTypesComponent } from './UserDefinedDataType/components/user-defined-data-types/user-defined-data-types.component';
+import { UserDefinedDataTypeComponent } from './UserDefinedDataType/components/user-defined-data-type/user-defined-data-type.component';
+import { DatabaseDetailsComponent } from './database/components/database-details/database-details.component';
 
 // NGX-UI-Loader Configuration
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -90,10 +113,53 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 // Application Routes
+//const appRoutes: Routes = [
+//  { path: 'login', component: LoginComponent },
+//  { path: '', redirectTo: '/', pathMatch: 'full' }
+//];
+
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/', pathMatch: 'full' }
+  // Login route (public, no guard, no layout)
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+
+  // Main protected area with child routes
+  {
+    path: '',
+    component: MainPageComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'Tables', component: TablesComponent },
+      { path: 'Table/:objectname', component: TableComponent },
+      { path: 'Storeprocedures', component: ProceduresComponent },
+      { path: 'Storeprocedure/:objectname', component: ProcedureComponent },
+      { path: 'Views', component: ViewsComponent },
+      { path: 'View/:objectname', component: ViewComponent },
+      { path: 'AggregateFunctions', component: AggregateFunctionsComponent },
+      { path: 'AggregateFunction/:objectname', component: AggregateFunctionComponent },
+      { path: 'ScalarFunctions', component: ScalarFunctionsComponent },
+      { path: 'ScalarFunction/:objectname', component: ScalarFunctionComponent },
+      { path: 'TableValueFunctions', component: TableValueFunctionsComponent },
+      { path: 'TableValueFunction/:objectname', component: TableValueFunctionComponent },
+      { path: 'Triggers', component: DatabaseTriggersComponent },
+      { path: 'Trigger/:objectname', component: DatabaseTriggerComponent },
+      { path: 'Schemas', component: SchemasComponent },
+      { path: 'Schema/:objectname', component: SchemaComponent },
+      { path: 'XmlSchemas', component: XmlSchemaListComponent },
+      { path: 'XmlSchema/:objectname', component: XmlSchemaDetailsComponent },
+      { path: 'UserDefinedDataTypes', component: UserDefinedDataTypesComponent },
+      { path: 'UserDefinedDataType/:objectname', component: UserDefinedDataTypeComponent },
+      { path: 'Database', component: DatabaseDetailsComponent },
+      { path: '', redirectTo: 'Database', pathMatch: 'full' }
+    ]
+  },
+
+  // Fallback
+  { path: '**', redirectTo: '' }
 ];
+
 
 @NgModule({
   declarations: [
@@ -142,7 +208,7 @@ const appRoutes: Routes = [
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule,
 
-    // Feature Modules
+    // Feature Modules (these have their own routes)
     ViewModule,
     TablesModule,
     DatabaseModule,
@@ -153,7 +219,8 @@ const appRoutes: Routes = [
     XmlSchemaModule,
     SchemasModule,
     AuthModule,
-    // Routing
+
+    // Routing - MUST BE LAST
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [
@@ -165,4 +232,3 @@ const appRoutes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

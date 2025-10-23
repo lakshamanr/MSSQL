@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api/menuitem';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { TablesMetadata } from '../../models/TablesMetaData';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Router } from '@angular/router';
  
 @Component({
   selector: 'app-tables',
@@ -29,15 +30,21 @@ export class TablesComponent implements OnInit {
   constructor(private http: HttpClient,
     @Inject('API_URL') private primaryUrl: string,
     @Inject('ANOTHER_URL') private secondaryUrl: string,
-    private authService: AuthService) { 
+    private authService: AuthService,
+    private router: Router) { 
     
   }
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return new HttpHeaders();
+    }
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
+
   ngOnInit() {
     this.cols = [
       { field: 'tableName', header: 'extendedPropertyValue' },

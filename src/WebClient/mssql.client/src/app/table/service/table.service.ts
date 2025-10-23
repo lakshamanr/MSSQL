@@ -6,6 +6,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { TableDescription } from '../models/TableDescription';
 import { TableColumn } from '../models/TableColumn';
 import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
  
 
 @Injectable({
@@ -16,7 +17,8 @@ export class TableService {
     @Inject('API_URL') private primaryUrl: string,
     @Inject('ANOTHER_URL') private secondaryUrl: string,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
   }
 
@@ -25,6 +27,10 @@ export class TableService {
    */
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return new HttpHeaders();
+    }
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

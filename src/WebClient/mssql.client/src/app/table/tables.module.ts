@@ -41,8 +41,7 @@ const appRoutes: Routes =
 
 @NgModule({
   declarations: [TableComponent, TablesComponent, EditDescriptionDialogComponent, EditColumnDescriptionDialogComponent, SqlScriptViewerComponent],
-  imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
+  imports: [ 
     CommonModule,
     BrowserModule,
     FormsModule,

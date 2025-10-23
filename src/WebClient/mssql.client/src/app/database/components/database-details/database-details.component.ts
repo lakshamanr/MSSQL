@@ -11,21 +11,23 @@ import { ObjectTypeItems } from '../../models/ObjectTypeItems';
 export class DatabaseDetailsComponent implements OnInit{
   databaseMetaData: DatabaseMetaData;
   public objectTypeItems: ObjectTypeItems[] = [];
-
+  isLoading: boolean = true;
   constructor(private databaseMetadataService: DatabaseMetadataService) { }
   ngOnInit() {
     this.loadDatabaseMetadata();
   }
 
   private loadDatabaseMetadata(): void {
+    this.isLoading = true;
     this.databaseMetadataService.getDatabaseMetaData().subscribe({
       next: (databaseMetaData: DatabaseMetaData) => {
         if (databaseMetaData) {
           this.databaseMetaData = databaseMetaData; 
           this.initializeObjectTypeItems();
+          this.isLoading = false;
         }
       },
-      error: (error) => this.handleLoadError(error)
+      error: (error) => { this.handleLoadError(error); this.isLoading = false; }
     });
   }
 
