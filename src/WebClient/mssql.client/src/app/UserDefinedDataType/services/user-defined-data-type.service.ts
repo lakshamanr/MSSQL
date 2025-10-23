@@ -1,27 +1,48 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserDefinedDataType } from '../models/UserDefinedDataType';
 import { UpsertExtendedPropertyRequest } from '../models/UpsertExtendedPropertyRequest';
+import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
  
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserDefinedDataTypeService {
-  private apiUrl = 'http://localhost:5000/UserDefinedDataType'; // Change as needed
+export class UserDefinedDataTypeService { 
+  private baseUrl = '/UserDefinedDataType'; // Adjust based on your API base path
+  constructor(
+    private http: HttpClient,
+    @Inject('API_URL') private primaryUrl: string, private authService: AuthService,
+    private router: Router) {
+    this.primaryUrl = this.primaryUrl + this.baseUrl
+  }
 
-  constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
   getAllUserDefinedDataTypes(): Observable<UserDefinedDataType[]> {
-    return this.http.get<UserDefinedDataType[]>(`${this.apiUrl}/all`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<UserDefinedDataType[]>(`${this.primaryUrl}/all`, { headers });
   }
 
   getUserDefinedDataTypeDetails(schemaName: string, typeName: string): Observable<UserDefinedDataType> {
-    return this.http.get<UserDefinedDataType>(`${this.apiUrl}/details/${schemaName}/${typeName}`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<UserDefinedDataType>(`${this.primaryUrl}/details/${schemaName}/${typeName}`, { headers });
   }
 
   upsertExtendedProperty(request: UpsertExtendedPropertyRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/upsert-extended-property`, request);
+    const headers = this.getAuthHeaders();
+    return this.http.post<string>(`${this.primaryUrl}/upsert-extended-property`, request, { headers });
   }
+
 }

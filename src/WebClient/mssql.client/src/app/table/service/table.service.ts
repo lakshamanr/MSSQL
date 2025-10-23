@@ -69,7 +69,7 @@ export class TableService {
    */
   updateTableExtendedProperties(description: TableDescription): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.primaryUrl}/UpdateTableExtendedProperties`, description, { headers });
+    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableExtendedProperties`, description, { headers });
   }
 
   /**
@@ -79,6 +79,6 @@ export class TableService {
    */
   updateTableColumnExtendedProperty(column: TableColumn): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.primaryUrl}/UpdateTableColumnExtendedProperty`, column, { headers });
+    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableColumnExtendedProperty`, column, { headers });
   }
 }

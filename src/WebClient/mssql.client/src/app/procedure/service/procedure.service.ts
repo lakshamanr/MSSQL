@@ -1,10 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core'; 
 import { StoredProcedureInfo } from '../model/StoredProcedureInfo';
 import { Observable } from 'rxjs';
 import { StoredProcedureMeta } from '../model/StoredProcedureMeta';
 import { StoredProcedureDescriptionRequest } from '../model/StoredProcedureDescriptionRequest';
 import { ParameterDescriptionRequest } from '../model/ParameterDescriptionRequest';
+import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,8 @@ export class ProcedureService {
 
   constructor(
       @Inject('API_URL') primaryUrl: string, 
-      private http: HttpClient) {
+    private http: HttpClient, private authService: AuthService,
+    private router: Router) {
       this.baseUrl = primaryUrl +'/StoredProcedure';
     }
     
@@ -24,7 +27,8 @@ export class ProcedureService {
    * Get all stored procedures.
    */
   getAllStoredProcedures(): Observable<StoredProcedureInfo[]> {
-    return this.http.get<StoredProcedureInfo[]>(`${this.baseUrl}/AllStoredProcedures`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<StoredProcedureInfo[]>(`${this.baseUrl}/AllStoredProcedures`, { headers });
   }
 
   /**
@@ -32,7 +36,8 @@ export class ProcedureService {
    * @param storedProcedureName The name of the stored procedure.
    */
   getStoredProcedureMetadata(storedProcedureName: string): Observable<StoredProcedureMeta> {
-    return this.http.get<StoredProcedureMeta>(`${this.baseUrl}/${storedProcedureName}/metadata`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<StoredProcedureMeta>(`${this.baseUrl}/${storedProcedureName}/metadata`, { headers });
   }
 
   /**
@@ -40,7 +45,8 @@ export class ProcedureService {
    * @param request The request body containing schema name, stored procedure name, and description.
    */
   mergeStoredProcedureDescription(request: StoredProcedureDescriptionRequest): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/description`, request);
+    const headers = this.getAuthHeaders();
+    return this.http.post<void>(`${this.baseUrl}/description`, request, { headers });
   }
 
   /**
@@ -48,6 +54,17 @@ export class ProcedureService {
    * @param request The request body containing schema name, stored procedure name, parameter name, and description.
    */
   mergeParameterDescription(request: ParameterDescriptionRequest): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/parameter/description`, request);
+    const headers = this.getAuthHeaders();
+    return this.http.post<void>(`${this.baseUrl}/parameter/description`, request, { headers });
+  }
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 }
