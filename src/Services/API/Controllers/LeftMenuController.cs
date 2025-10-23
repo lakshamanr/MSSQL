@@ -1,4 +1,5 @@
 using API.Data.Repositories.LeftMenu;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,8 @@ namespace API.Controllers
     /// Controller for handling left menu related requests.
     /// </summary>
     [Route("[controller]")]
-    [ApiController]
-    public class LeftMenuController : ControllerBase
+    [ApiController] 
+  public class LeftMenuController : ControllerBase
     {
         private readonly ILeftMenuRepository _leftMenuRepository;
 
