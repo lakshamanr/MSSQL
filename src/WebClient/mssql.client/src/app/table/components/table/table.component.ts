@@ -48,6 +48,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     extendedPropertyValue: ""
   };
   language = 'plsql';
+  isLoading: boolean = true;
   constructor(private route: ActivatedRoute, private tableService: TableService) {
   
   }
@@ -67,9 +68,17 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   private loadTableMetadata(): void {
+    this.isLoading = true;
     this.tableService.loadTableMetadata(this.tableName).subscribe({
-      next: (metadata) => metadata ? this.handleLoadSuccess(metadata) : null,
-      error: (error) => this.handleLoadError(error)
+      next: (metadata) =>
+      {
+        metadata ? this.handleLoadSuccess(metadata) : null;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.handleLoadError(error)
+      }
     });
   }
 

@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 export class TablesComponent implements OnInit {
   public cols: any[];
   public tables: TablesMetadata[];
+  isLoading: boolean = true;
   constructor(private http: HttpClient,
     @Inject('API_URL') private primaryUrl: string,
     @Inject('ANOTHER_URL') private secondaryUrl: string,
@@ -59,10 +60,14 @@ export class TablesComponent implements OnInit {
 
     // Try the primary URL
     this.http.get<TablesMetadata[]>(primaryUrl, {headers }).subscribe(
-      (result) => this.handleLoadSuccess(result),
+      (result) =>
+      {
+        this.handleLoadSuccess(result)
+        this.isLoading= false;
+      },
       (error) => {
         console.error('Primary URL failed, trying secondary URL:', error);
-
+        this.isLoading = false;
  
         this.http.get<TablesMetadata[]>(secondaryUrl).subscribe(
           (secondaryResult) => this.handleLoadSuccess(secondaryResult),

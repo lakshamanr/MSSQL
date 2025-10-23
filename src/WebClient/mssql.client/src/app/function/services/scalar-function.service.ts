@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { SqlFunctionMetadata } from '../model/SqlFunctionMetadata';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +13,17 @@ export class ScalarFunctionService {
   private baseUrl = '/ScalarFunction'; // Adjust based on your API base path
   constructor(
     private http: HttpClient,
-    @Inject('API_URL') private primaryUrl: string,) {
+    @Inject('API_URL') private primaryUrl: string, private authService: AuthService,
+    private router: Router) {
     this.primaryUrl = this.primaryUrl + this.baseUrl
   }
-
-
     /**
         * Fetches descriptions of all table-valued functions.
         * @returns An Observable containing a dictionary of function names and their descriptions.
       */
-    getScalarFunctionDescriptions(): Observable<{ [key: string]: string }> {
-      return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/ScalarFunctionDescriptions`);
+  getScalarFunctionDescriptions(): Observable<{ [key: string]: string }> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/ScalarFunctionDescriptions`, { headers });
     }
 
     /**
@@ -29,8 +31,9 @@ export class ScalarFunctionService {
      * @param functionName Name of the function.
      * @returns Observable of SqlFunctionMetadata.
      */
-    getFunctionMetadata(functionName: string): Observable<SqlFunctionMetadata> {
-      return this.http.get<SqlFunctionMetadata>(`${this.primaryUrl}/${functionName}`);
+  getFunctionMetadata(functionName: string): Observable<SqlFunctionMetadata> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<SqlFunctionMetadata>(`${this.primaryUrl}/${functionName}`, { headers });
     }
   
     /**
@@ -40,11 +43,12 @@ export class ScalarFunctionService {
      * @param description Description to be upserted.
      * @returns Observable of void.
      */
-    upsertFunctionDescription(schemaName: string, functionName: string, description: string): Observable<void> {
+  upsertFunctionDescription(schemaName: string, functionName: string, description: string): Observable<void> {
+    const headers = this.getAuthHeaders();
       return this.http.post<void>(
         `${this.primaryUrl}/description/upsert`,
         null, // No request body, only query parameters
-        { params: { schemaName, functionName, description } }
+        { params: { schemaName, functionName, description }, headers }
       );
     }
   
@@ -52,7 +56,18 @@ export class ScalarFunctionService {
      * Retrieves descriptions for all table-valued functions.
      * @returns Observable containing a dictionary of function names and their descriptions.
      */
-    getFunctionDescriptions(): Observable<{ [key: string]: string }> {
-      return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/descriptions`);
+  getFunctionDescriptions(): Observable<{ [key: string]: string }> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/descriptions`, {headers});
+  }
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/login']);
+      return new HttpHeaders();
     }
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 }
