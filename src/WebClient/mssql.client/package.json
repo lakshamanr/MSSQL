@@ -80,6 +80,7 @@
     "karma-coverage-istanbul-reporter": "~1.4.2",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "run-script-os": "^1.1.6",
     "typescript": "~3.5.3"
   },
   "optionalDependencies": {
