@@ -1,9 +1,9 @@
 
 using Microsoft.Extensions.Caching.Distributed;
 using API.Service.LeftMenu.Service;
-using API.Core.Domain.Database.LeftMenu;
 using Newtonsoft.Json;
 using API.Data.Repositories.Common;
+using API.Core.Domain.LeftMenu;
 namespace API.Data.Repositories.LeftMenu
 {
 

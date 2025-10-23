@@ -1,5 +1,6 @@
-using API.Core.Domain.Database.Triggers;
+using API.Core.Domain.Triggers;
 using API.Data.Repositories.Triggers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class DatabaseTriggerController : ControllerBase
+    [Authorize]
+  public class DatabaseTriggerController : ControllerBase
     {
         private readonly IDatabaseTriggerRepository _repository;
     /// <summary>

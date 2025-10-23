@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Common;
+using API.Core.Domain.Common;
 
 namespace API.Domain.Table
 {

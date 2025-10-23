@@ -23,17 +23,17 @@ using API.Authorization;
 using API.Authorization.Requirements;
 using API.Configuration;
 using API.Core.Services;
-using API.Core.Services.Email;
 using Microsoft.AspNetCore.Authorization;
 using API.Services;
 using Microsoft.IdentityModel.Logging;
 using API.core.Infrastructure;
-using API.core.Models.Account;
 using API.core.Services.Account;
 using API.core.Services.Account.Interfaces;
 using API.core.Services.Shop.Interfaces;
 using API.core.Services.Shop;
 using API.core.Services;
+using API.Core.Services.Email.repos.MSSQL.src.Services.API.Services.Email;
+using API.Core.Domain.Account;
 
 internal class Program
 {

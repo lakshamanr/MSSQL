@@ -4,7 +4,9 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-namespace API.core.Models.Shop
+using API.Core.Domain;
+
+namespace API.Core.Domain.Shop
 {
     public class OrderDetail : BaseEntity
     {

@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.LeftMenu;
+using API.Core.Domain.LeftMenu;
 using API.Data.Repositories.Common;
 
 namespace API.Factory.LeftMenu

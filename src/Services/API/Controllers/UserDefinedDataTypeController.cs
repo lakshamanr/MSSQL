@@ -1,5 +1,6 @@
-using API.Core.Domain.Database.UserDefinedDataType;
+using API.Core.Domain.UserDefinedDataType;
 using API.Data.Repositories.UserDefinedDataType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class UserDefinedDataTypeController : ControllerBase
+  [Authorize]
+  public class UserDefinedDataTypeController : ControllerBase
     {
         private readonly IUserDefinedDataTypeRepository _repository;
 

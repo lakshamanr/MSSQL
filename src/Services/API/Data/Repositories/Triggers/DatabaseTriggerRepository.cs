@@ -1,5 +1,5 @@
 using API.Common.Queries;
-using API.Core.Domain.Database.Triggers;
+using API.Core.Domain.Triggers;
 using API.Data.Repositories.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;

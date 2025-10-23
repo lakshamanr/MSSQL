@@ -5,8 +5,8 @@
 // ---------------------------------------
 
 using System.Security.Claims;
-using API.core.Models.Account;
 using API.core.Services.Account;
+using API.Core.Domain.Account;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;

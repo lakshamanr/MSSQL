@@ -1,6 +1,6 @@
 using API.Core.Domain.Database.Database;
-using API.Core.Domain.Database.Table;
-using API.Core.Domain.Database.View;
+using API.Core.Domain.Table;
+using API.Core.Domain.View;
 using System.Data;
 
 namespace API.Data.Repositories.Common

@@ -5,7 +5,7 @@
 // ---------------------------------------
 
 using System.Collections.ObjectModel;
-using API.core.Models.Account;
+using API.Core.Domain.Account;
 
 namespace API.core.Services.Account
 {

@@ -4,9 +4,9 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models;
+using API.Core.Domain;
 
-namespace API.core.Models.Shop
+namespace API.Core.Domain.Shop
 {
     public class Product : BaseEntity
     {

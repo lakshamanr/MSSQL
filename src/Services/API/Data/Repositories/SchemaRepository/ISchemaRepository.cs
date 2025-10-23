@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Schemas;
+using API.Core.Domain.Schemas;
 
 namespace API.Data.Repositories.SchemaRepository
 {

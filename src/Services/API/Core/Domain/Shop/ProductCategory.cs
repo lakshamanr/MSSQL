@@ -4,9 +4,16 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models;
 
-namespace API.core.Models.Shop
+// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2024 www.ebenmonney.com/mit-license
+// ---------------------------------------
+
+using API.Core.Domain;
+
+namespace API.Core.Domain.Shop
 {
     public class ProductCategory : BaseEntity
     {

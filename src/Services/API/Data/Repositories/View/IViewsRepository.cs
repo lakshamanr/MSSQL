@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.View;
+using API.Core.Domain.View;
 
 namespace API.Data.Repositories.View
 {

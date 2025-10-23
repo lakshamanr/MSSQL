@@ -4,12 +4,12 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models;
-using API.core.Models.Shop;
+using API.Core.Domain;
+using API.Core.Domain.Shop;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace API.core.Models.Account
+namespace API.Core.Domain.Account
 {
     public class ApplicationUser : IdentityUser, IAuditableEntity
     {

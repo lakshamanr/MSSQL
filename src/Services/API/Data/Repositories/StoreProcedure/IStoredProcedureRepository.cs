@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.StoredProcedure;
+using API.Core.Domain.StoredProcedure;
 
 namespace API.Data.Repositories.StoreProcedure
 {

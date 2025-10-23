@@ -4,13 +4,13 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models.Account;
-using API.core.Models.Shop;
 using API.core.Services.Account;
+using API.Core.Domain.Account;
+using API.Core.Domain.Shop;
 using API.ViewModels.Account;
 using API.ViewModels.Shop;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity; 
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Configuration
 {

@@ -6,10 +6,10 @@
 
 using System.Data;
 using API.Authorization;
-using API.core.Models.Account;
 using API.core.Services.Account;
 using API.core.Services.Account.Exceptions;
 using API.core.Services.Account.Interfaces;
+using API.Core.Domain.Account;
 using API.ViewModels.Account;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;

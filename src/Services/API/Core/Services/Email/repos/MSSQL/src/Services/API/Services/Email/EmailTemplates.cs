@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-namespace API.Core.Services.Email
+namespace API.Core.Services.Email.repos.MSSQL.src.Services.API.Services.Email
 {
     public static class EmailTemplates
     {

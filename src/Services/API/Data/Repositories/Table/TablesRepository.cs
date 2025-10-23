@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Distributed;
 using API.Data.Repositories.Common;
-using API.Core.Domain.Database.Table;
 using System.Data.SqlClient;
+using API.Core.Domain.Table;
 
 
 namespace API.Data.Repositories.Table

@@ -1,8 +1,9 @@
-using API.Core.Domain.Database.View;
+using API.Core.Domain.View;
 using API.Data.Repositories.View;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
- 
+
 namespace API.Controllers
 {
     /// <summary>
@@ -10,7 +11,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class ViewController : ControllerBase
+    [Authorize]
+  public class ViewController : ControllerBase
     {
         private readonly IViewsRepository _viewsRepository;
 

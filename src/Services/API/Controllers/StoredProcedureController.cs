@@ -1,6 +1,6 @@
-
-using API.Core.Domain.Database.StoredProcedure;
+using API.Core.Domain.StoredProcedure;
 using API.Data.Repositories.StoreProcedure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class StoredProcedureController : ControllerBase
+  [Authorize]
+  public class StoredProcedureController : ControllerBase
     {
         private readonly IStoredProcedureRepository _repository;
 

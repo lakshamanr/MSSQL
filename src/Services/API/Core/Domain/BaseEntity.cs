@@ -6,7 +6,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace API.core.Models
+namespace API.Core.Domain
 {
     public class BaseEntity : IAuditableEntity
     {

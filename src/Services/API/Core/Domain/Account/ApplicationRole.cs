@@ -4,10 +4,10 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models;
+using API.Core.Domain;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.core.Models.Account
+namespace API.Core.Domain.Account
 {
     public class ApplicationRole : IdentityRole, IAuditableEntity
     {

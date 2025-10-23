@@ -1,5 +1,6 @@
-using API.Core.Domain.Database.Table;
+using API.Core.Domain.Table;
 using API.Data.Repositories.Table;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace API.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class TablesController : ControllerBase
   {
     private readonly ITableRepository _tableRepository;

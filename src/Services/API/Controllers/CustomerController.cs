@@ -7,7 +7,7 @@
 using API.core.Services;
 using API.core.Services.Shop.Exceptions;
 using API.core.Services.Shop.Interfaces;
-using API.Core.Services.Email;
+using API.Core.Services.Email.repos.MSSQL.src.Services.API.Services.Email;
 using API.ViewModels.Shop;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

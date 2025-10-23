@@ -8,9 +8,9 @@ using API.Configuration;
 using API.core.Services;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
-using MimeKit; 
+using MimeKit;
 
-namespace API.Core.Services.Email
+namespace API.Core.Services.Email.repos.MSSQL.src.Services.API.Services.Email
 {
     public class EmailSender(IOptions<AppSettings> config, ILogger<EmailSender> logger): IEmailSender
   {

@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-namespace API.core.Models
+namespace API.Core.Domain
 {
     public interface IAuditableEntity
     {

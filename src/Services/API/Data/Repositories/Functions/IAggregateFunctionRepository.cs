@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Functions;
+using API.Core.Domain.Functions;
 
 namespace API.Data.Repositories.Functions
 {

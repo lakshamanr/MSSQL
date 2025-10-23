@@ -1,6 +1,6 @@
 using API.Common.Helper;
 using API.Common.Queries;
-using API.Core.Domain.Database.StoredProcedure;
+using API.Core.Domain.StoredProcedure;
 using API.Data.Repositories.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;

@@ -5,8 +5,8 @@
 // ---------------------------------------
 
 using API.core.Infrastructure;
-using API.core.Models.Account;
 using API.core.Services.Account.Interfaces;
+using API.Core.Domain.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

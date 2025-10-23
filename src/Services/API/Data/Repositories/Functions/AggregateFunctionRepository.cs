@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Functions;
+using API.Core.Domain.Functions;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace API.Data.Repositories.Functions

@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.XMLSchemaCollections;
+using API.Core.Domain.XMLSchemaCollections;
 
 namespace API.Data.Repositories.XMLSchemaCollections
 {

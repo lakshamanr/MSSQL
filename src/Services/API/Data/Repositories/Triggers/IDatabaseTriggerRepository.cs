@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Triggers;
+using API.Core.Domain.Triggers;
 
 namespace API.Data.Repositories.Triggers
 {

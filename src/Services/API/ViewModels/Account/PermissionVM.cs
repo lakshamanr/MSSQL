@@ -4,8 +4,8 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models.Account;
-using System.Diagnostics.CodeAnalysis; 
+using API.Core.Domain.Account;
+using System.Diagnostics.CodeAnalysis;
 
 namespace API.ViewModels.Account
 {

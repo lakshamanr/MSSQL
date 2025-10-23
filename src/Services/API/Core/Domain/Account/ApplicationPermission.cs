@@ -6,7 +6,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace API.core.Models.Account
+namespace API.Core.Domain.Account
 {
     public class ApplicationPermission(string name, string value, string groupName, string? description = null)
     {

@@ -1,4 +1,5 @@
 using API.Data.Repositories.SchemaRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class SchemaController : ControllerBase
+   [Authorize]
+  public class SchemaController : ControllerBase
     {
         private readonly ISchemaRepository _repository;
 

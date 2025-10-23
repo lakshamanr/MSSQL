@@ -1,5 +1,6 @@
 using API.Core.Domain.Database.Database;
 using API.Data.Repositories.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace API.Controllers
   /// </summary>
   [ApiController]
   [Route("[controller]")]
+  [Authorize]
   public class DatabaseController : ControllerBase
   {
     private readonly IDatabaseReposititory _repository;

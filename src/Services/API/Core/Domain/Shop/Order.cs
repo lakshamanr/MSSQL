@@ -4,10 +4,10 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models;
-using API.core.Models.Account;
+using API.Core.Domain;
+using API.Core.Domain.Account;
 
-namespace API.core.Models.Shop
+namespace API.Core.Domain.Shop
 {
     public class Order : BaseEntity
     {

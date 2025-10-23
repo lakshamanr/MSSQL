@@ -11,7 +11,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models.Shop;
+using API.Core.Domain.Shop;
 
 namespace API.core.Services.Shop.Interfaces
 {

@@ -1,4 +1,4 @@
-using API.Core.Domain.Database.Table;
+using API.Core.Domain.Table;
 
 namespace API.Data.Repositories.Table
 {

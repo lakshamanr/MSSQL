@@ -1,5 +1,6 @@
-using API.Core.Domain.Database.XMLSchemaCollections;
+using API.Core.Domain.XMLSchemaCollections;
 using API.Data.Repositories.XMLSchemaCollections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class XmlSchemaController : ControllerBase
+    [Authorize]
+  public class XmlSchemaController : ControllerBase
     {
         private readonly IXmlSchemaRepository _repository;
 

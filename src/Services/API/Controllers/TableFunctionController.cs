@@ -1,4 +1,5 @@
 using API.Data.Repositories.Functions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace API.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class TableFunctionController : ControllerBase
   {
     private readonly ITableValuedFunctionRepository _tableValuedFunctionRepository;

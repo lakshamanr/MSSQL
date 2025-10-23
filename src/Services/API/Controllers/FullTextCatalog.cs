@@ -1,4 +1,5 @@
 using API.Data.Repositories.FullTextCatalog;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,8 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class FullTextCatalogController : ControllerBase
+    [Authorize]
+  public class FullTextCatalogController : ControllerBase
     {
         private readonly IFullTextCatalogRepository _repository;
 

@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using API.core.Models.Account;
+using API.Core.Domain.Account;
 
 namespace API.core.Services.Account.Interfaces
 {

@@ -5,8 +5,8 @@
 // ---------------------------------------
 
 using API.core.Infrastructure;
-using API.core.Models.Shop;
 using API.core.Services.Shop.Interfaces;
+using API.Core.Domain.Shop;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.core.Services.Shop

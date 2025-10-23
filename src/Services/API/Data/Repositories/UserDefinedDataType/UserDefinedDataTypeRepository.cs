@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using API.Common.Queries;
-using API.Core.Domain.Database.UserDefinedDataType;
+using API.Core.Domain.UserDefinedDataType;
 using API.Data.Repositories.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
@@ -52,7 +52,7 @@ namespace API.Data.Repositories.UserDefinedDataType
 
         if (userDefinedDataType != null)
         {
-          var userDefinedDataTypeReference = await db.QueryAsync<API.Core.Domain.Database.UserDefinedDataType.UserDefinedDataTypeReference>(
+          var userDefinedDataTypeReference = await db.QueryAsync<UserDefinedDataTypeReference>(
               SqlQueryConstant.GetUsedDefinedDataTypeReference,
               new { SchemaName = schemaName, TypeName = typeName }
           );
