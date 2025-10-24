@@ -141,7 +141,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loading = false;
           console.log('Login successful:', response); 
           // Show elements back before navigating
-          this.showElements(); 
+          this.showElements();
+          // Reload the current page
+          location.reload();
           this.router.navigate(['/Database']);
         },
         error => {

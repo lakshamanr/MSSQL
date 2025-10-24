@@ -737,149 +737,162 @@ namespace API.Common.Queries
         /*0*/
 
         public static string ObjectThatDependsOn =
-                        @"CREATE TABLE #references (
-                    thepath VARCHAR(max),
-                    thefullentityname VARCHAR(200),
-                    thetype VARCHAR(20),
-                    iteration INT
-                );
-    
-                CREATE TABLE #databasedependencies (
-                    entityname VARCHAR(200),
-                    entitytype CHAR(5),
-                    dependencytype CHAR(4),
-                    thereferredentity VARCHAR(200),
-                    thereferredtype CHAR(5)
-                );
-    
-                INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
-                SELECT
-                    Object_schema_name(o.object_id) + '.' + o.NAME,
-                    o.type,
-                    'hard',
-                    ty.NAME,
-                    'UDT'
-                FROM sys.objects o
-                INNER JOIN sys.columns AS c ON c.object_id = o.object_id
-                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
-                WHERE is_user_defined = 1
-                UNION ALL
-                SELECT
-                    Object_schema_name(tt.type_table_object_id) + '.' + tt.NAME,
-                    'UDTT',
-                    'hard',
-                    ty.NAME,
-                    'UDT'
-                FROM sys.table_types tt
-                INNER JOIN sys.columns AS c ON c.object_id = tt.type_table_object_id
-                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
-                WHERE ty.is_user_defined = 1;
-    
-                DECLARE @RowCount INT;
-                DECLARE @ii INT;
-    
-                INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
-                SELECT COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
-                       COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
-                       type,
-                       1
-                FROM sys.objects
-                WHERE NAME LIKE @ObjectName;
-    
-                SELECT @rowcount = @@ROWCOUNT, @ii = 2;
-    
-                IF 0 <> 0
-                BEGIN
-                    WHILE @ii < 40 AND @rowcount > 0
-                    BEGIN
-                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
-                        SELECT DISTINCT thepath + '/' + thereferredentity,
-                                        thereferredentity,
-                                        thereferredtype,
-                                        @ii
-                        FROM #databasedependencies
-                        INNER JOIN #references previousReferences
-                        ON previousReferences.thefullentityname = entityname
-                        AND previousReferences.iteration = @ii - 1
-                        WHERE thereferredentity <> entityname
-                        AND thereferredentity NOT IN (SELECT thefullentityname FROM #references);
-            
-                        SELECT @rowcount = @@rowcount;
-                        SELECT @ii = @ii + 1;
-                    END
-                END;
-    
-                SELECT * FROM #references;
-    
-                DROP TABLE #databasedependencies;
-                DROP TABLE #references;";
+                        @"
+DECLARE @StartObjId INT = OBJECT_ID(@ObjectName);
+
+IF @StartObjId IS NULL
+BEGIN
+    RAISERROR('Object %s not found. Check schema.name format.', 16, 1, @ObjectName);
+    RETURN;
+END;
+
+;WITH AllDependencies AS (
+    -- 1️⃣ Schema-bound dependencies (views, procs, functions, triggers)
+    SELECT
+        d.referencing_id AS FromObjectId,
+        d.referenced_id  AS ToObjectId
+    FROM sys.sql_expression_dependencies AS d
+    WHERE d.referenced_id IS NOT NULL
+
+    UNION ALL
+
+    -- 2️⃣ Foreign key dependencies (table-to-table)
+    SELECT 
+        fk.parent_object_id AS FromObjectId,
+        fk.referenced_object_id AS ToObjectId
+    FROM sys.foreign_keys AS fk
+    WHERE fk.referenced_object_id IS NOT NULL
+),
+RecursiveCTE AS (
+    -- Anchor: objects directly depending on our target
+    SELECT
+        OBJECT_SCHEMA_NAME(a.FromObjectId) + '.' + OBJECT_NAME(a.FromObjectId) AS thefullentityname,
+        OBJECT_SCHEMA_NAME(a.ToObjectId) + '.' + OBJECT_NAME(a.ToObjectId) AS parententity,
+        o.type AS thetype,
+        1 AS iteration,
+        CAST(@ObjectName + '/' + OBJECT_SCHEMA_NAME(a.FromObjectId) + '.' + OBJECT_NAME(a.FromObjectId) AS NVARCHAR(MAX)) AS thepath,
+        a.FromObjectId AS obj_id
+    FROM AllDependencies a
+    INNER JOIN sys.objects o ON a.FromObjectId = o.object_id
+    WHERE a.ToObjectId = @StartObjId
+
+    UNION ALL
+
+    -- Recursive step
+    SELECT
+        OBJECT_SCHEMA_NAME(a.FromObjectId) + '.' + OBJECT_NAME(a.FromObjectId) AS thefullentityname,
+        OBJECT_SCHEMA_NAME(a.ToObjectId) + '.' + OBJECT_NAME(a.ToObjectId) AS parententity,
+        o.type AS thetype,
+        c.iteration + 1 AS iteration,
+        CAST(c.thepath + '/' + OBJECT_SCHEMA_NAME(a.FromObjectId) + '.' + OBJECT_NAME(a.FromObjectId) AS NVARCHAR(MAX)) AS thepath,
+        a.FromObjectId AS obj_id
+    FROM RecursiveCTE c
+    INNER JOIN AllDependencies a ON a.ToObjectId = c.obj_id
+    INNER JOIN sys.objects o ON a.FromObjectId = o.object_id
+    WHERE CHARINDEX('/' + OBJECT_SCHEMA_NAME(a.FromObjectId) + '.' + OBJECT_NAME(a.FromObjectId) + '/', '/' + c.thepath + '/') = 0
+)
+SELECT DISTINCT
+    -- remove root prefix from path for cleaner display
+    REPLACE(thepath, @ObjectName + '/', '') AS thepath,
+    thefullentityname,
+    thetype,
+    iteration
+FROM RecursiveCTE
+WHERE thefullentityname <> @ObjectName   -- exclude the base object itself
+ORDER BY iteration, thefullentityname
+OPTION (MAXRECURSION 0);
+
+
+;";
 
         public static string ObjectOnWhichDepends =
-                        @"CREATE TABLE #references (
-                    thepath VARCHAR(max),
-                    thefullentityname VARCHAR(200),
-                    thetype VARCHAR(20),
-                    iteration INT
-                );
+                        @"
+                                                        CREATE TABLE #DependencyResults (
+                                                            thepath NVARCHAR(MAX),
+                                                            thefullentityname NVARCHAR(256),
+                                                            thetype CHAR(2),
+                                                            iteration INT
+                                                        );
+
+                                                        DECLARE @CurrentIteration2 INT = 1;
+                                                        DECLARE @RowCount2 INT = 1;
+
+                                                        -- Initialize with objects that the target directly depends on (for views, procedures, functions)
+                                                        INSERT INTO #DependencyResults (thepath, thefullentityname, thetype, iteration)
+                                                        SELECT DISTINCT
+                                                            @ObjectName + '/' + OBJECT_SCHEMA_NAME(d.referenced_id) + '.' + OBJECT_NAME(d.referenced_id),
+                                                            OBJECT_SCHEMA_NAME(d.referenced_id) + '.' + OBJECT_NAME(d.referenced_id),
+                                                            o.type,
+                                                            @CurrentIteration2
+                                                        FROM sys.sql_expression_dependencies d
+                                                        INNER JOIN sys.objects o ON d.referenced_id = o.object_id
+                                                        WHERE OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) = @ObjectName;
+
+                                                        -- For tables: Add foreign key dependencies
+                                                        INSERT INTO #DependencyResults (thepath, thefullentityname, thetype, iteration)
+                                                        SELECT DISTINCT
+                                                            @ObjectName + '/' + OBJECT_SCHEMA_NAME(fk.referenced_object_id) + '.' + OBJECT_NAME(fk.referenced_object_id),
+                                                            OBJECT_SCHEMA_NAME(fk.referenced_object_id) + '.' + OBJECT_NAME(fk.referenced_object_id),
+                                                            o.type,
+                                                            @CurrentIteration2
+                                                        FROM sys.foreign_keys fk
+                                                        INNER JOIN sys.objects o ON fk.referenced_object_id = o.object_id
+                                                        WHERE OBJECT_SCHEMA_NAME(fk.parent_object_id) + '.' + OBJECT_NAME(fk.parent_object_id) = @ObjectName
+                                                            AND OBJECT_SCHEMA_NAME(fk.referenced_object_id) + '.' + OBJECT_NAME(fk.referenced_object_id) NOT IN (
+                                                                SELECT thefullentityname FROM #DependencyResults
+                                                            );
+
+                                                        -- For tables/views: Add user-defined type dependencies from columns
+                                                        INSERT INTO #DependencyResults (thepath, thefullentityname, thetype, iteration)
+                                                        SELECT DISTINCT
+                                                            @ObjectName + '/' + SCHEMA_NAME(t.schema_id) + '.' + t.name,
+                                                            SCHEMA_NAME(t.schema_id) + '.' + t.name,
+                                                            'UT',  -- User Type
+                                                            @CurrentIteration2
+                                                        FROM sys.objects obj
+                                                        INNER JOIN sys.columns c ON c.object_id = obj.object_id
+                                                        INNER JOIN sys.types t ON t.user_type_id = c.user_type_id
+                                                        WHERE OBJECT_SCHEMA_NAME(obj.object_id) + '.' + obj.name = @ObjectName
+                                                            AND t.is_user_defined = 1
+                                                            AND SCHEMA_NAME(t.schema_id) + '.' + t.name NOT IN (
+                                                                SELECT thefullentityname FROM #DependencyResults
+                                                            );
+
+                                                        SET @RowCount2 = @@ROWCOUNT;
+
+                                                        -- Iteratively find objects that the previously found objects depend on
+                                                        WHILE @RowCount2 > 0 AND @CurrentIteration2 < 10
+                                                        BEGIN
+                                                            SET @CurrentIteration2 = @CurrentIteration2 + 1;
     
-                CREATE TABLE #databasedependencies (
-                    entityname VARCHAR(200),
-                    entitytype CHAR(5),
-                    dependencytype CHAR(4),
-                    thereferredentity VARCHAR(200),
-                    thereferredtype CHAR(5)
-                );
+                                                            INSERT INTO #DependencyResults (thepath, thefullentityname, thetype, iteration)
+                                                            SELECT DISTINCT
+                                                                r.thepath + '/' + OBJECT_SCHEMA_NAME(d.referenced_id) + '.' + OBJECT_NAME(d.referenced_id),
+                                                                OBJECT_SCHEMA_NAME(d.referenced_id) + '.' + OBJECT_NAME(d.referenced_id),
+                                                                o.type,
+                                                                @CurrentIteration2
+                                                            FROM #DependencyResults r
+                                                            INNER JOIN sys.sql_expression_dependencies d 
+                                                                ON OBJECT_SCHEMA_NAME(d.referencing_id) + '.' + OBJECT_NAME(d.referencing_id) = r.thefullentityname
+                                                            INNER JOIN sys.objects o ON d.referenced_id = o.object_id
+                                                            WHERE r.iteration = @CurrentIteration2 - 1
+                                                                AND OBJECT_SCHEMA_NAME(d.referenced_id) + '.' + OBJECT_NAME(d.referenced_id) NOT IN (
+                                                                    SELECT thefullentityname FROM #DependencyResults
+                                                                );
     
-                INSERT INTO #databasedependencies (entityname, entitytype, dependencytype, thereferredentity, thereferredtype)
-                SELECT
-                    Object_schema_name(o.object_id) + '.' + o.NAME,
-                    o.type,
-                    'hard',
-                    ty.NAME,
-                    'UDT'
-                FROM sys.objects o
-                INNER JOIN sys.columns AS c ON c.object_id = o.object_id
-                INNER JOIN sys.types ty ON ty.user_type_id = c.user_type_id
-                WHERE is_user_defined = 1;
-    
-                DECLARE @RowCount INT;
-                DECLARE @ii INT;
-    
-                INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
-                SELECT COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
-                       COALESCE(Object_schema_name(object_id) + '.', '') + NAME,
-                       type,
-                       1
-                FROM sys.objects
-                WHERE NAME LIKE @ObjectName;
-    
-                SELECT @rowcount = @@ROWCOUNT, @ii = 2;
-    
-                IF 1 <> 0
-                BEGIN
-                    WHILE @ii < 40 AND @rowcount > 0
-                    BEGIN
-                        INSERT INTO #references (thepath, thefullentityname, thetype, iteration)
-                        SELECT DISTINCT thepath + '/' + thereferredentity,
-                                        thereferredentity,
-                                        thereferredtype,
-                                        @ii
-                        FROM #databasedependencies
-                        INNER JOIN #references previousReferences
-                        ON previousReferences.thefullentityname = entityname
-                        AND previousReferences.iteration = @ii - 1
-                        WHERE thereferredentity <> entityname
-                        AND thereferredentity NOT IN (SELECT thefullentityname FROM #references);
-            
-                        SELECT @rowcount = @@rowcount;
-                        SELECT @ii = @ii + 1;
-                    END
-                END;
-    
-                SELECT * FROM #references;
-    
-                DROP TABLE #databasedependencies;
-                DROP TABLE #references;";
+                                                            SET @RowCount2 = @@ROWCOUNT;
+                                                        END;
+
+                                                        -- Display results
+                                                        SELECT 
+                                                            thepath,
+                                                            thefullentityname,
+                                                            thetype,
+                                                            iteration
+                                                        FROM #DependencyResults
+                                                        ORDER BY iteration, thefullentityname;
+
+                                                        DROP TABLE #DependencyResults;";
 
 
         public static string ObjectThatDependsOn_new =

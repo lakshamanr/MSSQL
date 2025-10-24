@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseMetadataService } from '../../service/database-metadata.service';
+import { Router } from '@angular/router';
  
 
 @Component({
@@ -11,7 +12,7 @@ export class DatabaseSelectorComponent implements OnInit {
   public selectedDatabase: string = '';
   public databases: string[] = []; // List of available databases
 
-  constructor(private databaseService: DatabaseMetadataService) { }
+  constructor(private databaseService: DatabaseMetadataService, private router: Router,) { }
 
   ngOnInit(): void {
     this.loadDatabases();
@@ -44,8 +45,10 @@ export class DatabaseSelectorComponent implements OnInit {
   onChangeDatabase() {
     this.databaseService.changeDatabase(this.selectedDatabase).subscribe(
       (response: { message: string }) => {
-        console.log(response); 
-        window.location.reload(); // 🔄 Force full reload
+        console.log(response);
+        this.router.navigate(['/Database']).then(() => {
+          window.location.reload();
+        }); 
       },
       (error) => {
         console.error('❌ Error changing database:', error);

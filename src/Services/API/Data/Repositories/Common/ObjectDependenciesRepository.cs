@@ -33,8 +33,8 @@ namespace API.Data.Repositories.Common
         /// <returns>An enumerable of <see cref="ReferencesModel"/>.</returns>
         private async Task<IEnumerable<ReferencesModel>> GetObjectDependencies(string cacheKeyPrefix, string astrObjectName, string sqlQueryTemplate)
         {
-            var newObjectName = astrObjectName[(astrObjectName.IndexOf(".", StringComparison.Ordinal) + 1)..];
-            var query = sqlQueryTemplate.Replace("@ObjectName", $"'{newObjectName}'");
+          
+            var query = sqlQueryTemplate.Replace("@ObjectName", $"'{astrObjectName}'");
             using var db = new SqlConnection(_connectionString);
             var objectDependencies = await db.QueryAsync<ReferencesModel>(query);
             return objectDependencies ?? Enumerable.Empty<ReferencesModel>();
