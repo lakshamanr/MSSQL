@@ -89,7 +89,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.indices = result.indices;
     this.foreignKeys = result.foreignKeys;
     this.properties = result.properties;
-    this.tableconstraint = result.constraint;
+    this.tableconstraint = result.constraints;
     this.tableFragmentations = result.tableFragmentations;
     this.filesTree = JSON.parse(result.tableDependenciesTree);
   }
@@ -143,4 +143,29 @@ export class TableComponent implements OnInit, AfterViewInit {
   cancelColumnEdit(): void {
     this.displayColumnDialog = false;
   }
+  getSafeProgress(value: any): number {
+    // Handles undefined, null, or weird string values
+    const val = Number(value);
+    if (isNaN(val) || val < 0) return 0;
+    if (val > 100) return 100;
+    return val;
+  }
+
+  getDynamicColor(percent: number): { [key: string]: string } {
+    // Convert to number just in case
+    const value = Number(percent) || 0;
+
+    // Dynamically map progress to color intensity
+    if (value < 10) {
+      return { 0: '#2ecc71', 50: '#2ecc71' }; // bright green
+    } else if (value < 40) {
+      return { 0: '#f1c40f', 50: '#f1c40f' }; // yellow
+    } else if (value < 70) {
+      return { 0: '#e67e22', 50: '#e67e22' }; // orange
+    } else {
+      return { 0: '#e74c3c', 50: '#e74c3c' }; // red
+    }
+  }
+
+
 }

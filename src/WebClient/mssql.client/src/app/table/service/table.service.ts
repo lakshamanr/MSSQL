@@ -81,4 +81,5 @@ export class TableService {
     const headers = this.getAuthHeaders();
     return this.http.post(`${this.primaryUrl}/Tables/UpdateTableColumnExtendedProperty`, column, { headers });
   }
+
 }

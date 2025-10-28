@@ -612,34 +612,42 @@ namespace API.Common.Queries
 
         public static readonly string GetAllTablesColumn =
             @" 
-                SELECT 
-                    TRY_CAST((colm.table_schema + '.' + colm.table_name) AS VARCHAR(100)) AS TableName,
-                    TRY_CAST(colm.column_name AS VARCHAR(100)) AS columnName,
-                    CASE 
-                        WHEN i.is_primary_key = 1 THEN 'Yes' 
-                        ELSE 'No' 
-                    END AS [Key],
-                    CASE 
-                        WHEN idc.is_identity = 1 THEN 'Yes' 
-                        ELSE 'No' 
-                    END AS [Identity],
-                    TRY_CAST(colm.data_type AS VARCHAR(100)) AS [DataType],
-                    ISNULL(TRY_CAST(colm.character_maximum_length AS VARCHAR(100)), '') AS [MaxLength],
-                    ISNULL(TRY_CAST(colm.is_nullable AS VARCHAR(100)), 'Unknown') AS [AllowNulls],
-                    ISNULL(TRY_CAST(colm.column_default AS VARCHAR(100)), 'None') AS [Default],
-                    ISNULL(
-                        (SELECT VALUE 
-                         FROM ::fn_listextendedproperty ('MS_Description', 'schema', colm.table_schema, 'table', colm.table_name, 'column', colm.column_name)
-                        ), 'No Description') AS [Description]
-                FROM sys.tables t
-                LEFT JOIN sys.columns c ON c.OBJECT_ID = t.OBJECT_ID
-                LEFT JOIN sys.identity_columns idc ON idc.OBJECT_ID = t.OBJECT_ID AND idc.column_id = c.column_id
-                LEFT JOIN sys.index_columns ic ON ic.OBJECT_ID = t.OBJECT_ID AND ic.column_id = c.column_id
-                LEFT JOIN sys.indexes i ON i.OBJECT_ID = t.OBJECT_ID AND i.index_id = ic.index_id AND i.is_primary_key = 1
-                INNER JOIN information_schema.columns colm ON colm.table_name = t.NAME AND colm.column_name = c.NAME
-                WHERE t.TYPE = 'U'
-                AND colm.table_schema + '.' + colm.table_name = @tblName
-                ORDER BY colm.table_schema, colm.table_name;
+                 SELECT 
+    TRY_CAST((s.name + '.' + t.name) AS VARCHAR(100)) AS TableName,
+    TRY_CAST(c.name AS VARCHAR(100)) AS ColumnName,
+    CASE 
+        WHEN i.is_primary_key = 1 THEN 'Yes' 
+        ELSE 'No' 
+    END AS [Key],
+    CASE 
+        WHEN idc.is_identity = 1 THEN 'Yes' 
+        ELSE 'No' 
+    END AS [Identity],
+    TRY_CAST(colm.data_type AS VARCHAR(100)) AS [DataType],
+    ISNULL(TRY_CAST(colm.character_maximum_length AS VARCHAR(100)), '') AS [MaxLength],
+    ISNULL(TRY_CAST(colm.is_nullable AS VARCHAR(100)), 'Unknown') AS [AllowNulls],
+    ISNULL(TRY_CAST(colm.column_default AS VARCHAR(100)), 'None') AS [Default],
+    ISNULL(CAST(ep.value AS VARCHAR(500)), 'No Description') AS [Description],
+    ISNULL(ep.name, 'None') AS ExtendedPropertyName,
+    ISNULL(CAST(ep.value AS VARCHAR(500)), 'None') AS ExtendedPropertyValue
+FROM sys.tables t
+INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+LEFT JOIN sys.columns c ON c.OBJECT_ID = t.OBJECT_ID
+LEFT JOIN sys.identity_columns idc ON idc.OBJECT_ID = t.OBJECT_ID AND idc.column_id = c.column_id
+LEFT JOIN sys.index_columns ic ON ic.OBJECT_ID = t.OBJECT_ID AND ic.column_id = c.column_id
+LEFT JOIN sys.indexes i ON i.OBJECT_ID = t.OBJECT_ID AND i.index_id = ic.index_id AND i.is_primary_key = 1
+INNER JOIN information_schema.columns colm 
+    ON colm.table_name = t.name 
+    AND colm.column_name = c.name 
+    AND colm.table_schema = s.name
+LEFT JOIN sys.extended_properties ep 
+    ON ep.major_id = t.object_id 
+    AND ep.minor_id = c.column_id
+    AND ep.class = 1 -- class 1 = object or column level properties
+WHERE t.TYPE = 'U'
+  AND (s.name + '.' + t.name) = @tblName
+ORDER BY s.name, t.name, c.column_id;
+
 ;
         ";
         public static readonly string GetAllTableDescriptionWithAll =

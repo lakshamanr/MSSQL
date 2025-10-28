@@ -316,41 +316,54 @@ namespace API.Data.Repositories.Common
                 GetDbConnection(currentDbName));
         }
 
-        /// <summary>
-        /// Loads tables metadata from cache or queries the database.
-        /// </summary>
-        /// <param name="currentDbName">The name of the current database.</param>
-        /// <returns>A collection of <see cref="TablesMetadata"/> instances.</returns>
-        public async Task<IEnumerable<TablesMetadata>> LoadTablesAsync(string currentDbName = null)
-        {
-            var DatabaseTables = CacheConstants.DatabaseCache.DatabaseTables + currentDbName;
+    /// <summary>
+    /// Loads tables metadata from cache or queries the database.
+    /// </summary>
+    /// <param name="currentDbName">The name of the current database.</param>
+    /// <returns>A collection of <see cref="TablesMetadata"/> instances.</returns>
+    public async Task<IEnumerable<TablesMetadata>> LoadTablesAsync(string currentDbName = null)
+    {
+      if (currentDbName == null)
+      {
+        currentDbName = CurrentDatabases ?? string.Empty;
+      }
+      var DatabaseTables = CacheConstants.DatabaseCache.DatabaseTables + currentDbName;
 
-            var cachedData = await _cache.GetStringAsync(DatabaseTables);
-            if (!string.IsNullOrEmpty(cachedData))
-            {
-                return JsonSerializer.Deserialize<IEnumerable<TablesMetadata>>(cachedData);
-            }
-            try
-            {
-                IDbConnection connection = GetDbConnection(currentDbName);
-                var tableDetails = await connection.QueryAsync<TablesMetadata>(
-                    SqlQueryConstant.GetAllTablesExtendedProperties);
-                var tableResult = ProcessMetadata(tableDetails);
-                var serializedData = JsonSerializer.Serialize(tableResult);
-                return tableResult;
-            }
-            catch (Exception ex)
-            {
-                return Enumerable.Empty<TablesMetadata>(); // Return empty collection to avoid null issues
-            }
+      // Use LoadFromCacheOrQueryAsync for consistency
+      var cachedData = await _cache.GetStringAsync(DatabaseTables);
+      if (!string.IsNullOrEmpty(cachedData))
+      {
+        return JsonSerializer.Deserialize<IEnumerable<TablesMetadata>>(cachedData);
+      }
+
+      try
+      {
+        IDbConnection connection = GetDbConnection(currentDbName);
+        var tableDetails = await connection.QueryAsync<TablesMetadata>(
+            SqlQueryConstant.GetAllTablesExtendedProperties);
+        var tableResult = ProcessMetadata(tableDetails);
+
+        // Cache the processed result
+        if (tableResult.Any())
+        {
+          var serializedData = JsonSerializer.Serialize(tableResult);
+          await _cache.SetStringAsync(DatabaseTables, serializedData, cacheEntryOptions);
         }
 
-        /// <summary>
-        /// Loads table-valued functions from cache or queries the database.
-        /// </summary>
-        /// <param name="databaseName">The name of the database.</param>
-        /// <returns>A collection of <see cref="FunctionInfo"/> instances.</returns>
-        public async Task<IEnumerable<FunctionInfo>> LoadTableValuedFunctionsAsync(string databaseName = null)
+        return tableResult;
+      }
+      catch (Exception ex)
+      {
+        return Enumerable.Empty<TablesMetadata>(); // Return empty collection to avoid null issues
+      }
+    }
+
+    /// <summary>
+    /// Loads table-valued functions from cache or queries the database.
+    /// </summary>
+    /// <param name="databaseName">The name of the database.</param>
+    /// <returns>A collection of <see cref="FunctionInfo"/> instances.</returns>
+    public async Task<IEnumerable<FunctionInfo>> LoadTableValuedFunctionsAsync(string databaseName = null)
         {
             return await LoadFromCacheOrQueryAsync<FunctionInfo>(
                 CacheConstants.DatabaseCache.TableValuedFunctions +

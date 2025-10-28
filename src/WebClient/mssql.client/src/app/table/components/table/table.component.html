@@ -17,7 +17,7 @@
     </amexio-accordion-tab>
 
     <!-- Extended Properties -->
-    <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Extended Properties" [gradient]="true" [active]="true">
+    <amexio-accordion-tab *ngIf="descriptions && descriptions.length > 0" amexioColorPalette [color-palette]="''" header="Table Extended Properties" [gradient]="true" [active]="true">
       <div class="table">
         <div class="row header">
           <div class="cell">Extended Properties Name</div>
@@ -42,18 +42,21 @@
     </amexio-accordion-tab>
 
     <!-- Table Index Fragmentation -->
-    <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Index Fragmentation" [gradient]="true" [active]="true">
+    <amexio-accordion-tab *ngIf="tableFragmentations && tableFragmentations.length > 0" amexioColorPalette [color-palette]="''" header="Table Index Fragmentation" [gradient]="true" [active]="true">
       <div class="table">
         <div class="row header">
           <div class="cell">Index Name</div>
         </div>
-        <div *ngFor="let Property of tableFragmentations" class="row">
+
+        <div *ngFor="let property of tableFragmentations" class="row">
           <div class="cell">
-            {{Property.indexName}}
-            <progress-bar [progress]="Property.percentFragmented" [color-degraded]="{'0': 'green', '50': 'red'}"></progress-bar>
+            {{ property.indexName }}
+            <progress-bar [progress]="getSafeProgress(property.percentFragmented)"
+                          [color-degraded]="getDynamicColor(property.percentFragmented)">
+            </progress-bar>
           </div>
         </div>
-      </div>
+      </div>  
     </amexio-accordion-tab>
 
     <!-- Table Properties -->
@@ -94,6 +97,12 @@
           <div class="cell">{{column.identity}}</div>
           <div class="cell">{{column.default}}</div>
           <div class="cell">{{column.description}}</div>
+          <div class="cell" style="display:none">{{column.extendedPropertyName}}</div>
+          <div class="cell" style="display:none">{{column.extendedPropertyValue}}</div>
+
+          <!--public string ExtendedPropertyName { get; set; }
+  public string ExtendedPropertyValue { get; set; }-->
+
           <div *ngIf="hasEditPermission" class="cell">
             <button *ngIf="hasEditPermission" pButton type="button" icon="pi pi-pencil" (click)="editColumnDescription(column)"></button>
           </div>

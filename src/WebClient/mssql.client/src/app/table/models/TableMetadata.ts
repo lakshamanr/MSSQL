@@ -14,7 +14,7 @@ export interface TableMetadata {
   indices: TableIndex[];
   foreignKeys: TableForeignKey[];
   properties: TableProperty[];
-  constraint: TableConstraint[];
+  constraints: TableConstraint[];
   tableFragmentations: TableFragmentation[];
   tableDependenciesTree: string;
 }

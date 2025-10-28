@@ -71,13 +71,17 @@ namespace API.Controllers
     /// Updates extended properties of a table column.
     /// </summary>
     /// <param name="tableColumns">The table columns containing extended properties.</param>
-    /// <returns>An action result.</returns>
+    /// <returns>An action result.</returns> 
     [HttpPost("UpdateTableColumnExtendedProperty")]
-    public async Task<IActionResult> UpdateTableColumnExtendedProperty(TableColumns tableColumns)
+    public async Task<IActionResult> UpdateTableColumnExtendedProperty([FromBody] TableColumns tableColumns)
     {
+      if (tableColumns == null)
+        return BadRequest("Invalid column data.");
+
       await _tableRepository.UpdateTableColumnExtendedPropertyAsync(tableColumns);
-      return Ok();
+      return Ok(new { message = "Extended property updated successfully" });
     }
+
   }
 }
 

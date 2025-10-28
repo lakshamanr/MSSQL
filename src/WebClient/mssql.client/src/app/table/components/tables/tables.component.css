@@ -23,10 +23,11 @@
     justify-content: space-between;
   }
 
-  .table .header {
-    font-weight: bold;
-    background-color: #f4f4f4;
-  }
+    .table .header {
+      font-weight: bold;
+      background-color: #234468 !important;
+      color:white !important;
+    }
 
   .table .cell {
     padding: 8px;
