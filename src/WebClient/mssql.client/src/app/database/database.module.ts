@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
 
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions'; 
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
@@ -17,24 +17,18 @@ import { ObjectTypeItemComponent } from './components/object-type-item/object-ty
 import { DatabaseDetailsComponent } from './components/database-details/database-details.component';
 import { Routes, RouterModule } from '@angular/router';
  
-const appRoutes: Routes =
-  [ 
-    {
-      path: 'Database',
-      component: DatabaseDetailsComponent,
-    },
+const routes: Routes =
+  [
+    { path: '', component: DatabaseDetailsComponent }
   ]
 
 
 @NgModule({
   declarations: [DatabaseDetailsComponent,ObjectTypeItemComponent],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
     CommonModule,
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
+    RouterModule.forChild(routes),
+    SharedModule,  // Provides Amexio modules
     AccordionModule,
     TableModule,
     TreeModule,
@@ -46,6 +40,6 @@ const appRoutes: Routes =
     BreadcrumbModule
   ],
   providers: [TreeDragDropService, MessageService,DatabaseMetadataService],
-  exports:[DatabaseDetailsComponent]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DatabaseModule { }

@@ -1,1 +1,53 @@
-<router-outlet> </router-outlet>
+<app-header></app-header>
+<div id="main-content">
+  <div class="split-example ex-percent">
+    <as-split unit="percent"
+              direction="horizontal"
+              #split="asSplit"
+              [gutterSize]="10"
+              [useTransition]="useTransition"
+              (dragStart)="log('dragStart', $event)"
+              (dragEnd)="log('dragEnd', $event)"
+              (gutterClick)="toggleSidebar()"
+              (gutterDblClick)="toggleSidebar()">
+
+      <as-split-area [size]="25"
+                     [minSize]="0"
+                     [maxSize]="50"
+                     #area1="asSplitArea" id="asSplitArea1">
+        <div class="leftmenuExtendedProperties">
+          <!-- Fixed Top Section -->
+          <div class="database-section">
+            <app-database-selector></app-database-selector>
+          </div>
+
+          <!-- Scrollable Bottom Section -->
+          <div class="menu-section">
+            <app-leftmenu></app-leftmenu>
+          </div>
+        </div>
+      </as-split-area>
+
+
+
+      <!-- Right Panel - Main Content -->
+      <as-split-area [size]="75"
+                     [ngClass]="status ? 'ShowFullPageMode' : 'RemoveFullPageMode'"
+                     #area2="asSplitArea"
+                     id="asSplitArea2">
+        <div class="main-area">
+          <button class="menu-toggle" (click)="toggleSidebar()">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div id="center">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </as-split-area>
+
+    </as-split>
+  </div>
+
+  <!-- Overlay for Sidebar -->
+  <div class="overlay" [class.active]="!status" (click)="toggleSidebar()"></div>
+</div>

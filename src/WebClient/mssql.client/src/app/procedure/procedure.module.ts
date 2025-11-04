@@ -8,9 +8,6 @@ import { ProceduresComponent } from './components/procedures/procedures.componen
 import { ProcedureComponent } from './components/procedure/procedure.component';
 import { ProcedureService } from './service/procedure.service';
 
-/* ===== Amexio Modules ===== */
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
-
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';
 import { TreeModule } from 'primeng/tree';
@@ -28,16 +25,10 @@ import { ProgressBarModule } from 'angular-progress-bar';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'Storeprocedures',
-      component: ProceduresComponent,
-    },
-    {
-      path: 'Storeprocedure/:objectname',
-      component: ProcedureComponent,
-    } 
+    { path: 's', component: ProceduresComponent },
+    { path: ':objectname', component: ProcedureComponent }
   ]
 
 
@@ -47,19 +38,12 @@ const appRoutes: Routes =
     ProcedureComponent
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
-    /* Core Modules */
     CommonModule,
-    BrowserModule,
     SharedModule,
+    RouterModule.forChild(routes),
+    /* Core Modules */
     FormsModule,
     HttpClientModule,
-
-    /* Amexio Modules */
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
 
     /* PrimeNG Modules */
     AccordionModule,
@@ -76,10 +60,6 @@ const appRoutes: Routes =
     ProgressBarModule
   ],
   providers: [ProcedureService],
-  exports: [
-    ProceduresComponent,
-    ProcedureComponent
-  ],
-   schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
 })
 export class ProcedureModule { }

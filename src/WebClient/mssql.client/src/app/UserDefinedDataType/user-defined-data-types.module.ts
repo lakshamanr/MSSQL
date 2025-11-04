@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
  
 import { FormsModule } from '@angular/forms'; // 
@@ -6,9 +6,6 @@ import { UserDefinedDataTypeComponent } from './components/user-defined-data-typ
 import { UserDefinedDataTypesComponent } from './components/user-defined-data-types/user-defined-data-types.component';
 import { UserDefinedDataTypeService } from './services/user-defined-data-type.service';
 
-
-/* ===== Amexio Modules ===== */
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
 
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';
@@ -28,34 +25,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
 
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'UserDefinedDataTypes',
-      component: UserDefinedDataTypesComponent,
-    },
-    {
-      path: 'UserDefinedDataType/:objectname',
-      component: UserDefinedDataTypeComponent,
-    }
+    { path: 's', component: UserDefinedDataTypesComponent },
+    { path: ':objectname', component: UserDefinedDataTypeComponent }
   ]
 
 
 @NgModule({
   declarations: [UserDefinedDataTypeComponent,UserDefinedDataTypesComponent ], 
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
-    /* Core Modules */
     CommonModule,
     FormsModule,
-     SharedModule,
+    SharedModule,
+    RouterModule.forChild(routes),
+    /* Core Modules */
     HttpClientModule,
-
-    /* Amexio Modules */
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
 
     /* PrimeNG Modules */
     AccordionModule,
@@ -74,6 +59,6 @@ const appRoutes: Routes =
     ProgressBarModule
   ],
   providers: [UserDefinedDataTypeService],
-  exports:[UserDefinedDataTypeComponent,UserDefinedDataTypesComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UserDefinedDataTypesModule { }

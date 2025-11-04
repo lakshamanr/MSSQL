@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DatabaseTriggerComponent } from './components/database-trigger/database-trigger.component';
 import { DatabaseTriggersComponent } from './components/database-triggers/database-triggers.component';
 
-
-/* ===== Amexio Modules ===== */
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
 
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';
@@ -26,16 +23,10 @@ import { DatabaseTriggerService } from './services/database-trigger.service';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
  
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'Triggers',
-      component: DatabaseTriggersComponent,
-    },
-    {
-      path: 'Trigger/:objectname',
-      component: DatabaseTriggerComponent,
-    }
+    { path: 's', component: DatabaseTriggersComponent },
+    { path: ':objectname', component: DatabaseTriggerComponent }
   ]
 
 
@@ -43,18 +34,12 @@ const appRoutes: Routes =
 @NgModule({
   declarations: [DatabaseTriggerComponent, DatabaseTriggersComponent],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
-    /* Core Modules */
     CommonModule,
     FormsModule,
-        SharedModule,
+    SharedModule,
+    RouterModule.forChild(routes),
+    /* Core Modules */
     HttpClientModule,
-
-    /* Amexio Modules */
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
 
     /* PrimeNG Modules */
     AccordionModule,
@@ -72,6 +57,6 @@ const appRoutes: Routes =
      
   ],
   providers: [DatabaseTriggerService],
-  exports: [DatabaseTriggerComponent, DatabaseTriggersComponent]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DatabaseTriggerModule { }

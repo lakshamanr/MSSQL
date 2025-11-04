@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-/* ===== Amexio Modules ===== */
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
-
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
@@ -34,32 +31,10 @@ import { SharedModule } from '../shared/shared.module';
 /* ===== Components & Services ===== */
 
 
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'AggregateFunctions',
-      component: AggregateFunctionsComponent,
-    },
-    {
-      path: 'AggregateFunction/:objectname',
-      component: AggregateFunctionComponent,
-    },
-    {
-      path: 'ScalarFunctions',
-      component: ScalarFunctionsComponent,
-    },
-    {
-      path: 'ScalarFunction/:objectname',
-      component: ScalarFunctionComponent,
-    },
-    {
-      path: 'TableValueFunctions',
-      component: TableValueFunctionsComponent,
-    },
-    {
-      path: 'TableValueFunction/:objectname',
-      component: TableValueFunctionComponent,
-    },
+    { path: 's', component: AggregateFunctionsComponent },
+    { path: ':objectname', component: AggregateFunctionComponent }
   ]
 
 
@@ -75,20 +50,12 @@ const appRoutes: Routes =
     AggregateFunctionsComponent
   ],
   imports: [
- 
-    CommonModule,
-    RouterModule.forRoot(appRoutes, { useHash: true }),
-    /* Core Modules */
     CommonModule,
     SharedModule,
+    RouterModule.forChild(routes),
+    /* Core Modules */
     FormsModule,
     HttpClientModule,
-
-    /* Amexio Modules */
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
 
     /* PrimeNG Modules */
     AccordionModule,
@@ -106,13 +73,6 @@ const appRoutes: Routes =
     /* Other Third-Party Modules */
     ProgressBarModule
   ],
-  exports: [  
-    AggregateFunctionComponent,
-    ScalarFunctionComponent, 
-    TableValueFunctionComponent,
-    TableValueFunctionsComponent,
-    ScalarFunctionsComponent,
-    AggregateFunctionsComponent],
   providers: [AggregateFunctionService,ScalarFunctionService,TableValueFunctionService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // ✅ Keep this for custom elements
 })

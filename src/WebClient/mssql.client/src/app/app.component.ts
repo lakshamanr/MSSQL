@@ -1,69 +1,10 @@
-import { Component, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { SplitComponent, SplitAreaDirective } from 'angular-split';
- 
+import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-root',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    'class': 'Maincontent'
-  },
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
-  status: boolean = false;
-  dblClickTime: number = 300;
-  useTransition: boolean = true;
-  
-  @ViewChild('split', { static: false }) splitComponent: SplitComponent;
-  @ViewChild('area1', { static: false }) area1: SplitAreaDirective;
-  @ViewChild('area2', { static: false }) area2: SplitAreaDirective;
-  
-  private previousSizes: number[] = [25, 75];
-  
-  constructor(private cdr: ChangeDetectorRef) {}
-  
-  log(type: string, e: { gutterNum: number, sizes: Array<number> }) {
-    switch (type) {
-      case "gutterDblClick":
-      case "gutterClick":
-        {
-          this.toggleSidebar();
-        }
-        break;
-      case "dragEnd":
-        // Store the sizes when user manually adjusts
-        if (!this.status) {
-          this.previousSizes = [...e.sizes];
-        }
-        break;
-      case "dragStart":
-        console.log('Drag started', e);
-        break;
-      case "transitionEnd":
-        console.log('Transition ended', e);
-        break;
-    }
-  } 
-  toggleSidebar() {
-    this.status = !this.status;
-
-    const toggleSound = new Audio('assets/switch.mp3'); // add a small click sound in /assets
-    toggleSound.volume = 0.3;
-    toggleSound.play();
-
-    if (this.status) {
-      this.area1.size = 0;
-      this.area2.size = 100;
-    } else {
-      this.area1.size = this.previousSizes[0];
-      this.area2.size = this.previousSizes[1];
-    }
-
-    this.cdr.markForCheck();
-  }
-  ngAfterViewInit() {
-     
-  }
+export class AppComponent {
 
 }

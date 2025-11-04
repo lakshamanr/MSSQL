@@ -14,8 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "progress": true,
-            "extractCss": true,
-          "outputPath": "electron/dist/mssql/",
+            "outputPath": "electron/dist/mssql/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -53,12 +52,12 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": true,
+              "sourceMap": false,
+              "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": true
-            
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "commonChunk": true
             }
           }
         },

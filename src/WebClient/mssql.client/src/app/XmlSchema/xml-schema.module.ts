@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { XmlSchemaListComponent } from './component/xml-schema-list/xml-schema-list.component';
 import { XmlSchemaDetailsComponent } from './component/xml-schema-details/xml-schema-details.component';
 import { XmlSchemaService } from './service/xml-schema.service';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; 
-/* ===== Amexio Modules ===== */
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
+import { HttpClientModule } from '@angular/common/http';
 
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';
@@ -24,16 +22,10 @@ import { ProgressBarModule } from 'angular-progress-bar';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'XmlSchemas',
-      component: XmlSchemaListComponent,
-    },
-    {
-      path: 'XmlSchema/:objectname',
-      component: XmlSchemaDetailsComponent,
-    }
+    { path: 's', component: XmlSchemaListComponent },
+    { path: ':objectname', component: XmlSchemaDetailsComponent }
   ]
 
 
@@ -45,18 +37,12 @@ const appRoutes: Routes =
       XmlSchemaDetailsComponent
     ],
   imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true }),
-    /* Core Modules */
     CommonModule,
     FormsModule,
     SharedModule,
+    RouterModule.forChild(routes),
+    /* Core Modules */
     HttpClientModule,
-
-    /* Amexio Modules */
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
 
     /* PrimeNG Modules */
     AccordionModule,
@@ -73,6 +59,6 @@ const appRoutes: Routes =
     ProgressBarModule
   ],
   providers: [XmlSchemaService],
-  exports: [XmlSchemaListComponent, XmlSchemaDetailsComponent], 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class XmlSchemaModule { }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import { TablesComponent } from './components/tables/tables.component';
 
-import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions'; 
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
@@ -28,16 +27,10 @@ import { TablesService } from './service/tables.service';
 import { Router, Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
-const appRoutes: Routes =
+const routes: Routes =
   [
-    {
-      path: 'Tables',
-      component: TablesComponent,
-    },
-    {
-      path: 'Table/:objectname',
-      component: TableComponent,
-    },
+    { path: 's', component: TablesComponent },
+    { path: ':objectname', component: TableComponent }
   ]
 
 
@@ -45,13 +38,9 @@ const appRoutes: Routes =
   declarations: [TableComponent, TablesComponent, EditDescriptionDialogComponent, EditColumnDescriptionDialogComponent, SqlScriptViewerComponent],
   imports: [
     CommonModule,
-    BrowserModule,
     FormsModule,
-    SharedModule,
-    AmexioDataModule,
-    AmexioWidgetModule,
-    AmexioChartsModule,
-    AmexioEnterpriseModule,
+    RouterModule.forChild(routes),
+    SharedModule,  // Provides Amexio modules
     AccordionModule,
     TableModule,
     TreeModule,
@@ -67,7 +56,6 @@ const appRoutes: Routes =
     PrismModule
   ],
   providers: [TreeDragDropService, MessageService,TableService,TablesService],
-  exports:[TableComponent, TablesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
 })
 export class TablesModule { }
