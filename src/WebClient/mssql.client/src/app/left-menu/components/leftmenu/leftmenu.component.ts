@@ -3,6 +3,8 @@ import { LeftMenuService } from '../../services/left-menu.service';
 import { LeftMenuTreeViewJson } from '../../models/left-menu-tree-view-json';
 import {  SchemaEnums } from '../../models/schemaenum.enum';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-leftmenu',
@@ -12,10 +14,21 @@ export class LeftmenuComponent implements OnInit {
 
   leftmenujsonvalues: any;
 
-  constructor(private route: Router ,private leftMenuService: LeftMenuService) { }
+  constructor(
+    private route: Router,
+    private leftMenuService: LeftMenuService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
-    this.loadLeftMenuData();
+    // Wait for authentication to be fully ready before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true), // Only proceed when authenticated
+      take(1) // Take only the first emission, then unsubscribe
+    ).subscribe(() => {
+      console.log('🔑 Auth ready, loading left menu');
+      this.loadLeftMenuData();
+    });
   }
 
   private loadLeftMenuData(): void {

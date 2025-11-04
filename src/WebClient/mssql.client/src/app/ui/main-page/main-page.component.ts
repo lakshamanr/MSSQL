@@ -1,5 +1,7 @@
-import { Component, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { SplitComponent, SplitAreaDirective } from 'angular-split';
+import { AuthService } from '../../auth/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-page',
@@ -7,7 +9,7 @@ import { SplitComponent, SplitAreaDirective } from 'angular-split';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css'],
 })
-export class MainPageComponent implements AfterViewInit {
+export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   status: boolean = false;
   dblClickTime: number = 300;
   useTransition: boolean = true;
@@ -17,8 +19,20 @@ export class MainPageComponent implements AfterViewInit {
   @ViewChild('area2', { static: false }) area2: SplitAreaDirective;
 
   private previousSizes: number[] = [25, 75];
+  private authSubscription: Subscription;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to auth state changes and trigger change detection
+    // This ensures the view updates when authentication completes
+    this.authSubscription = this.authService.isAuthenticated.subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
 
   log(type: string, e: { gutterNum: number, sizes: Array<number> }) {
     switch (type) {
@@ -61,6 +75,13 @@ export class MainPageComponent implements AfterViewInit {
   }
   ngAfterViewInit() {
 
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription to prevent memory leaks
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
 }

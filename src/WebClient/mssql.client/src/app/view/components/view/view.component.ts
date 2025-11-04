@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ViewDetails, ViewMetaData, ViewProperties } from '../../model/view.model';
 import { ViewService } from '../../service/services/view.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view',
@@ -9,17 +11,28 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
- 
-  public selectedViewMetaData: ViewMetaData | null = null; 
+
+  public selectedViewMetaData: ViewMetaData | null = null;
   selectedViewName: string;
   iblnShowEditBox: boolean;
   public editedDescription: string = '';  // Local copy for editing
- 
-  constructor(private route: ActivatedRoute, private viewService: ViewService) {}
+
+  constructor(
+    private route: ActivatedRoute,
+    private viewService: ViewService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.selectedViewName = this.route.snapshot.params.objectname;
-    this.loadViewMetaData(this.selectedViewName)
+
+    // Wait for authentication before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true),
+      take(1)
+    ).subscribe(() => {
+      this.loadViewMetaData(this.selectedViewName);
+    });
    } 
      loadViewMetaData(viewName: string): void {
       this.viewService.getViewMetaData(viewName).subscribe((data) => {

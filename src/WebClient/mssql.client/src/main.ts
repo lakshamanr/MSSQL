@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
 export function getApiUrl() {
-  return 'http://localhost:5000'; // Your first URL
+  return ''; // Empty string to use proxy configuration from proxy.conf.js
 }
 
 export function getAnotherUrl() {

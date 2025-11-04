@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseMetaData } from '../../models/DatabaseMetaData';
 import { DatabaseMetadataService } from '../../service/database-metadata.service';
 import { ObjectTypeItems } from '../../models/ObjectTypeItems';
- 
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-database-details',
   templateUrl: './database-details.component.html',
@@ -12,9 +14,18 @@ export class DatabaseDetailsComponent implements OnInit{
   databaseMetaData: DatabaseMetaData;
   public objectTypeItems: ObjectTypeItems[] = [];
   isLoading: boolean = true;
-  constructor(private databaseMetadataService: DatabaseMetadataService) { }
+  constructor(
+    private databaseMetadataService: DatabaseMetadataService,
+    private authService: AuthService
+  ) { }
   ngOnInit() {
-    this.loadDatabaseMetadata();
+    // Wait for authentication before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true),
+      take(1)
+    ).subscribe(() => {
+      this.loadDatabaseMetadata();
+    });
   }
 
   private loadDatabaseMetadata(): void {

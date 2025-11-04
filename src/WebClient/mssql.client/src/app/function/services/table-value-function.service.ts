@@ -1,9 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { SqlFunctionMetadata } from '../model/SqlFunctionMetadata';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/services/auth.service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +10,7 @@ export class TableValueFunctionService {
   private baseUrl = '/TableFunction'; // Adjust based on your API base path
   constructor(
     private http: HttpClient,
-    @Inject('API_URL') private primaryUrl: string, private authService: AuthService,
-    private router: Router) {
+    @Inject('API_URL') private primaryUrl: string) {
     this.primaryUrl = this.primaryUrl + this.baseUrl
   }
 
@@ -22,8 +19,7 @@ export class TableValueFunctionService {
       * @returns An Observable containing a dictionary of function names and their descriptions.
     */
   getTableFunctionDescriptions(): Observable<{ [key: string]: string }> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/TableValuedFunctionDescriptions`, {headers});
+    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/TableValuedFunctionDescriptions`);
   }
 
   /**
@@ -32,8 +28,7 @@ export class TableValueFunctionService {
    * @returns Observable of SqlFunctionMetadata.
    */
   getFunctionMetadata(functionName: string): Observable<SqlFunctionMetadata> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<SqlFunctionMetadata>(`${this.primaryUrl}/${functionName}`, { headers });
+    return this.http.get<SqlFunctionMetadata>(`${this.primaryUrl}/${functionName}`);
   }
 
   /**
@@ -44,11 +39,10 @@ export class TableValueFunctionService {
    * @returns Observable of void.
    */
   upsertFunctionDescription(schemaName: string, functionName: string, description: string): Observable<void> {
-    const headers = this.getAuthHeaders();
     return this.http.post<void>(
       `${this.primaryUrl}/description/upsert`,
       null, // No request body, only query parameters
-      { params: { schemaName, functionName, description }, headers }
+      { params: { schemaName, functionName, description } }
     );
   }
 
@@ -58,18 +52,6 @@ export class TableValueFunctionService {
    * @returns Observable containing a dictionary of function names and their descriptions.
    */
   getFunctionDescriptions(): Observable<{ [key: string]: string }> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/descriptions`, { headers });
-  }
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    if (!token) {
-      this.router.navigate(['/login']);
-      return new HttpHeaders();
-    }
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    return this.http.get<{ [key: string]: string }>(`${this.primaryUrl}/descriptions`);
   }
 }

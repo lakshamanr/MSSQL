@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseMetadataService } from '../../service/database-metadata.service';
 import { Router } from '@angular/router';
- 
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-database-selector',
@@ -12,10 +13,21 @@ export class DatabaseSelectorComponent implements OnInit {
   public selectedDatabase: string = '';
   public databases: string[] = []; // List of available databases
 
-  constructor(private databaseService: DatabaseMetadataService, private router: Router,) { }
+  constructor(
+    private databaseService: DatabaseMetadataService,
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.loadDatabases();
+    // Wait for authentication to be fully ready before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true), // Only proceed when authenticated
+      take(1) // Take only the first emission, then unsubscribe
+    ).subscribe(() => {
+      console.log('🔑 Auth ready, loading databases');
+      this.loadDatabases();
+    });
   }
 
   // Load available databases from backend

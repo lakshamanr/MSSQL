@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TableValueFunctionService } from '../../services/table-value-function.service';
 import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-table-value-function',
@@ -12,12 +14,23 @@ export class TableValueFunctionComponent implements OnInit {
 
   functionMetadata: SqlFunctionMetadata;
   selectedFunction: string ;
- 
-  constructor(private route: ActivatedRoute, private tableValueFunctionService : TableValueFunctionService) { }
-  an
+
+  constructor(
+    private route: ActivatedRoute,
+    private tableValueFunctionService : TableValueFunctionService,
+    private authService: AuthService
+  ) { }
+
   ngOnInit() {
     this.selectedFunction = this.route.snapshot.params.objectname;
-    this.fetchFunctionMetadata();
+
+    // Wait for authentication before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true),
+      take(1)
+    ).subscribe(() => {
+      this.fetchFunctionMetadata();
+    });
   } 
   fetchFunctionMetadata(): void {
     try {

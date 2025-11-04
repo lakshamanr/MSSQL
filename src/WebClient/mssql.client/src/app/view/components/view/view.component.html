@@ -45,7 +45,7 @@
 
 
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="View Properties" [gradient]="true" [active]="true">
-    <div class="table">
+    <div class="table" *ngIf="selectedViewMetaData">
       <div class="row header">
         <div class="cell">Uses Ansi Nulls</div>
         <div class="cell">Uses Quoted Identifier</div>
@@ -62,7 +62,7 @@
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Columns" [gradient]="true" [active]="true">
-    <div class="table">
+    <div class="table" *ngIf="selectedViewMetaData">
       <div class="row header">
         <div class="cell">Column Order</div>
         <div class="cell">Column Name</div>
@@ -82,12 +82,12 @@
       </div>
     </div>
   </amexio-accordion-tab>
-  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script " [gradient]="true" [active]="true"> 
-    <app-code-viewer [code]="selectedViewMetaData.viewCreateScript.createViewScript" [language]="'sql'"></app-code-viewer>  
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script " [gradient]="true" [active]="true">
+    <app-code-viewer *ngIf="selectedViewMetaData?.viewCreateScript" [code]="selectedViewMetaData.viewCreateScript.createViewScript" [language]="'sql'"></app-code-viewer>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used By " [gradient]="true" [active]="true">
 
-    <div class="table">
+    <div class="table" *ngIf="selectedViewMetaData">
       <div class="row header">
         <div class="cell">View Dependency Name</div>
         <div class="cell">Type</div>

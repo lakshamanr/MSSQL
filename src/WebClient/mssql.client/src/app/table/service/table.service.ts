@@ -1,13 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { TableMetadata } from '../models/TableMetadata';
 import { catchError, retry } from 'rxjs/operators';
 import { TableDescription } from '../models/TableDescription';
 import { TableColumn } from '../models/TableColumn';
-import { AuthService } from '../../auth/services/auth.service';
-import { Router } from '@angular/router';
- 
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,36 +14,19 @@ export class TableService {
   constructor(
     @Inject('API_URL') private primaryUrl: string,
     @Inject('ANOTHER_URL') private secondaryUrl: string,
-    private http: HttpClient,
-    private authService: AuthService,
-    private router: Router
+    private http: HttpClient
   ) {
   }
 
-  /**
-   * Get HTTP headers with bearer token
-   */
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    if (!token) {
-      this.router.navigate(['/login']);
-      return new HttpHeaders();
-    }
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
   loadTableMetadata(tableName: string): Observable<TableMetadata> {
-    const headers = this.getAuthHeaders();
     const primaryUrl = `${this.primaryUrl}/Tables/GetTableMetaData?tableName=${tableName}`;
     const secondaryUrl = `Tables/GetTableMetaData?tableName=${tableName}`;
 
-    const primaryRequest = this.http.get<TableMetadata>(primaryUrl, { headers }).pipe(
+    const primaryRequest = this.http.get<TableMetadata>(primaryUrl).pipe(
       retry(2) // Retry the primary request up to 2 times before failing over
     );
 
-    const secondaryRequest = this.http.get<TableMetadata>(secondaryUrl, { headers }).pipe(
+    const secondaryRequest = this.http.get<TableMetadata>(secondaryUrl).pipe(
       retry(2) // Optionally retry the secondary request as well
     );
 
@@ -68,8 +49,7 @@ export class TableService {
    * @returns Observable<any>
    */
   updateTableExtendedProperties(description: TableDescription): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableExtendedProperties`, description, { headers });
+    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableExtendedProperties`, description);
   }
 
   /**
@@ -78,8 +58,7 @@ export class TableService {
    * @returns Observable<any>
    */
   updateTableColumnExtendedProperty(column: TableColumn): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableColumnExtendedProperty`, column, { headers });
+    return this.http.post(`${this.primaryUrl}/Tables/UpdateTableColumnExtendedProperty`, column);
   }
 
 }

@@ -14,21 +14,26 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Don't add token to token endpoint
     if (request.url.includes('/connect/token')) {
+      console.log('🔓 Skipping token for /connect/token endpoint');
       return next.handle(request);
     }
 
     // Add authorization header with token
     const token = this.authService.getToken();
-    if (token && !this.authService.isTokenExpired()) {
+    const isExpired = this.authService.isTokenExpired();
+
+    if (token && !isExpired) {
       request = this.addTokenAndSecurityHeaders(request, token);
     } else {
       // Add security headers even without token
       request = this.addSecurityHeaders(request);
+      console.warn('⚠️ Request without token:', request.url, 'Reason:', !token ? 'No token found' : 'Token expired');
     }
 
     return next.handle(request).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
+          console.log('🔒 401 Unauthorized error detected for:', request.url);
           return this.handle401Error(request, next);
         }
         return throwError(error);
@@ -65,26 +70,31 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
+      console.log('🔄 Starting token refresh process...');
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
       return this.authService.refreshToken().pipe(
         switchMap((response: any) => {
+          console.log('✅ Token refreshed, retrying original request');
           this.isRefreshing = false;
           this.refreshTokenSubject.next(response.access_token);
           return next.handle(this.addToken(request, response.access_token));
         }),
         catchError(err => {
+          console.error('❌ Token refresh failed in interceptor, logging out');
           this.isRefreshing = false;
           this.authService.logout();
           return throwError(err);
         })
       );
     } else {
+      console.log('⏳ Token refresh already in progress, waiting...');
       return this.refreshTokenSubject.pipe(
         filter(token => token != null),
         take(1),
         switchMap(token => {
+          console.log('✅ Using refreshed token for queued request');
           return next.handle(this.addToken(request, token));
         })
       );

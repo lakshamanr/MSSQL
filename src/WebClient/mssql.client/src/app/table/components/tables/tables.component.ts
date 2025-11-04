@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core'; 
-import { HttpClient, HttpHeaders } from '@angular/common/http'; 
-import { MenuItem } from 'primeng/api/menuitem'; 
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { MenuItem } from 'primeng/api/menuitem';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { TablesMetadata } from '../../models/TablesMetaData';
 import { AuthService } from '../../../auth/services/auth.service';
-import { Router } from '@angular/router';
- 
+import { filter, take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-tables',
   templateUrl: './tables.component.html',
@@ -28,22 +28,13 @@ export class TablesComponent implements OnInit {
   public cols: any[];
   public tables: TablesMetadata[];
   isLoading: boolean = true;
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     @Inject('API_URL') private primaryUrl: string,
     @Inject('ANOTHER_URL') private secondaryUrl: string,
-    private authService: AuthService,
-    private router: Router) { 
-    
-  }
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    if (!token) {
-      this.router.navigate(['/login']);
-      return new HttpHeaders();
-    }
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    private authService: AuthService
+  ) {
+
   }
 
   ngOnInit() {
@@ -51,15 +42,21 @@ export class TablesComponent implements OnInit {
       { field: 'tableName', header: 'extendedPropertyValue' },
       { field: 'extendedPropertyValue', header: 'tableColumns' }
     ];
-    this.loadTablesMetadata();
+
+    // Wait for authentication before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true),
+      take(1)
+    ).subscribe(() => {
+      this.loadTablesMetadata();
+    });
   }
   private loadTablesMetadata(): void {
-    const headers = this.getAuthHeaders();
     const primaryUrl = `${this.primaryUrl}/Tables/GetTableDetails`;
     const secondaryUrl = 'Tables/GetTableDetails';
 
     // Try the primary URL
-    this.http.get<TablesMetadata[]>(primaryUrl, {headers }).subscribe(
+    this.http.get<TablesMetadata[]>(primaryUrl).subscribe(
       (result) =>
       {
         this.handleLoadSuccess(result)
@@ -68,14 +65,14 @@ export class TablesComponent implements OnInit {
       (error) => {
         console.error('Primary URL failed, trying secondary URL:', error);
         this.isLoading = false;
- 
+
         this.http.get<TablesMetadata[]>(secondaryUrl).subscribe(
           (secondaryResult) => this.handleLoadSuccess(secondaryResult),
           (secondaryError) => this.handleLoadError(secondaryError)
         );
       }
     );
-     
+
   }
 
   private handleLoadSuccess(result: TablesMetadata[]): void {

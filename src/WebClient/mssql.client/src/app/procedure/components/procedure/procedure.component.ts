@@ -5,6 +5,8 @@ import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionReq
 import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
 import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { filter, take } from 'rxjs/operators';
 declare var QP;
 
 @Component({
@@ -14,20 +16,31 @@ declare var QP;
 })
 export class ProcedureComponent implements OnInit {
 
-  public iblnLoading: boolean; 
+  public iblnLoading: boolean;
   private storedProcedureName;;
-  iblnShowEditBox = false;  
-  filesTree: any; 
+  iblnShowEditBox = false;
+  filesTree: any;
   language = 'plsql';
   public storedProcedureMetadata!: StoredProcedureMeta;
 
-  constructor(private route: ActivatedRoute, private storedProcedureService: ProcedureService) {
+  constructor(
+    private route: ActivatedRoute,
+    private storedProcedureService: ProcedureService,
+    private authService: AuthService
+  ) {
     this.iblnLoading = false;
   }
 
   ngOnInit(): void {
     this.storedProcedureName = this.route.snapshot.params.objectname;
-    this.loadMetadata();
+
+    // Wait for authentication to be ready before loading data
+    this.authService.isAuthenticated.pipe(
+      filter(isAuth => isAuth === true),
+      take(1)
+    ).subscribe(() => {
+      this.loadMetadata();
+    });
   } 
 
   /**

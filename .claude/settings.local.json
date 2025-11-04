@@ -6,7 +6,9 @@
       "Bash(nul)",
       "Bash(dir /s /b srcapp*.module.ts 2)",
       "Bash(dir /s /b srcapp*.component.ts 2)",
-      "Bash(dir /b app)"
+      "Bash(dir /b app)",
+      "Bash(dir /s /b *.html 2)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
