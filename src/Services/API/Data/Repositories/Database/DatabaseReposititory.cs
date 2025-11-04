@@ -1,5 +1,5 @@
 using API.Common;
-using API.Common.Queries; 
+using API.Common.Queries;
 using API.Data.Repositories.Common;
 using API.Domain.Database;
 using Microsoft.Extensions.Caching.Distributed;
@@ -9,6 +9,7 @@ using StackExchange.Redis;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
+using API.core.Services.Account.Interfaces;
 
 namespace API.Data.Repositories.Database
 {    /// <summary>
@@ -24,7 +25,8 @@ namespace API.Data.Repositories.Database
     /// <param name="logger">The logger instance.</param>
     /// <param name="cache">The distributed cache instance.</param>
     /// <param name="configuration">The configuration instance.</param>
-    public DatabaseReposititory(ILogger<DatabaseReposititory> logger, IDistributedCache cache, IConfiguration configuration, ConnectionMultiplexer redisMultiplexer) : base(cache, configuration)
+    /// <param name="userIdAccessor">The user ID accessor instance.</param>
+    public DatabaseReposititory(ILogger<DatabaseReposititory> logger, IDistributedCache cache, IConfiguration configuration, ConnectionMultiplexer redisMultiplexer, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
     {
       _configuration = configuration;
       _redisMultiplexer = redisMultiplexer;
@@ -87,20 +89,38 @@ namespace API.Data.Repositories.Database
 
     /// <summary>
     /// Sets the database to the specified name.
+    /// Updates the connection string in Redis cache instead of modifying appsettings.json.
     /// </summary>
     /// <param name="databaseName">The name of the database.</param>
-    public void SetDatabase(string databaseName)
+    public async void SetDatabase(string databaseName)
     {
-      // Extract and update only the database name in the connection string
-      var updatedConnectionString = UpdateDatabaseName(_connectionString, databaseName);
+      try
+      {
+        Console.WriteLine($"🔄 Switching database to: {databaseName}");
 
-      // Persist the updated connection string to both appsettings files
-      UpdateAppSettings(updatedConnectionString);
+        // Extract and update only the database name in the connection string
+        var updatedConnectionString = UpdateDatabaseName(_connectionString, databaseName);
 
-      // Update the in-memory connection string
-      _connectionString = updatedConnectionString;
+        // Update Redis cache with new connection string
+        await UpdateConnectionStringInCache(updatedConnectionString);
 
-      FlushCache();
+        // Update the in-memory connection string
+        _connectionString = updatedConnectionString;
+
+        // Update the SqlConnectionStringBuilder
+        _sqlConnectionStringBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder(_connectionString);
+
+        // Flush metadata cache to force reload with new database
+        FlushCache();
+
+        Console.WriteLine($"✅ Database switched to: {databaseName}");
+        Console.WriteLine($"✅ Connection string cached in Redis (appsettings.json not modified)");
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"❌ Error switching database: {ex.Message}");
+        throw;
+      }
     }
 
     /// <summary>
@@ -124,38 +144,31 @@ namespace API.Data.Repositories.Database
     }
 
     /// <summary>
-    /// Updates the appsettings files with the new connection string.
+    /// Updates the connection string in Redis cache using user-specific cache key.
     /// </summary>
     /// <param name="newConnectionString">The new connection string.</param>
-    private void UpdateAppSettings(string newConnectionString)
+    private async Task UpdateConnectionStringInCache(string newConnectionString)
     {
-      UpdateConfigFile("appsettings.json", newConnectionString);
-      UpdateConfigFile("appsettings.Development.json", newConnectionString); // Also update development config
-    }
-
-    /// <summary>
-    /// Updates the specified configuration file with the new connection string.
-    /// </summary>
-    /// <param name="fileName">The name of the configuration file.</param>
-    /// <param name="newConnectionString">The new connection string.</param>
-    private void UpdateConfigFile(string fileName, string newConnectionString)
-    {
-      string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-
-      if (!File.Exists(filePath))
+      try
       {
-        Console.WriteLine($"❌ Config file {fileName} not found.");
-        return;
+        // Use user-specific cache key
+        var cacheKey = GetUserSpecificCacheKey("ConnectionStrings:SqlServerConnection");
+
+        await _cache.SetStringAsync(
+            cacheKey,
+            newConnectionString,
+            new DistributedCacheEntryOptions
+            {
+              AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(365) // Cache for 1 year
+            });
+
+        Console.WriteLine($"✅ Connection string updated in Redis cache for user: {_currentUserId}");
       }
-
-      string json = File.ReadAllText(filePath);
-      dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-
-      jsonObj["ConnectionStrings"]["SqlServerConnection"] = newConnectionString;
-
-      File.WriteAllText(filePath, Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented));
-
-      Console.WriteLine($"✅ Updated {fileName} successfully!");
+      catch (Exception ex)
+      {
+        Console.WriteLine($"❌ Error updating connection string in cache: {ex.Message}");
+        throw;
+      }
     }
 
 
@@ -199,7 +212,7 @@ namespace API.Data.Repositories.Database
         // If using SQL Server cache, you need to manually delete records
         if (_cache is Microsoft.Extensions.Caching.SqlServer.SqlServerCache sqlCache)
         {
-          using (var connection = new SqlConnection(_configuration.GetConnectionString("SqlServerConnection")))
+          using (var connection = new SqlConnection(_connectionString))
           {
             await connection.OpenAsync();
             using (var command = new SqlCommand("DELETE FROM dbo.CacheTable", connection))

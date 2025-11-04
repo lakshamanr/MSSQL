@@ -1,5 +1,6 @@
 
 using Microsoft.Extensions.Caching.Distributed;
+using API.core.Services.Account.Interfaces;
 using API.Service.LeftMenu.Service;
 using Newtonsoft.Json;
 using API.Data.Repositories.Common;
@@ -21,11 +22,12 @@ namespace API.Data.Repositories.LeftMenu
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public LeftMenuRepository(ILogger<LeftMenuRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public LeftMenuRepository(ILogger<LeftMenuRepository> logger, IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
             _logger = logger;
             TreeViewJsonGenerator = new TreeViewJsonGenerator(this);
-    
+
         }
 
         /// <summary>

@@ -153,10 +153,28 @@ export class AuthService {
     }
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      // Validate JWT structure (should have 3 parts separated by dots)
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.warn('Invalid JWT token structure');
+        return true;
+      }
+
+      // Decode and parse the payload
+      const payload = JSON.parse(atob(parts[1]));
+
+      // Validate expiry claim exists
+      if (!payload.exp) {
+        console.warn('JWT token missing expiry claim');
+        return true;
+      }
+
+      // Check if token is expired (with 60 second buffer for clock skew)
       const expiry = payload.exp;
-      return (Math.floor((new Date()).getTime() / 1000)) >= expiry;
+      const currentTime = Math.floor((new Date()).getTime() / 1000);
+      return currentTime >= (expiry - 60);
     } catch (e) {
+      console.error('Error parsing JWT token:', e);
       return true;
     }
   }
@@ -193,6 +211,6 @@ export class AuthService {
     return null;
   }
   get isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  } 
+    return !!localStorage.getItem(this.TOKEN_KEY) && !this.isTokenExpired();
+  }
 }

@@ -15,6 +15,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string;
   errorMessage: string = '';
   private originalStyles: Map<string, string> = new Map();
+  private loginAttempts: number = 0;
+  private lastAttemptTime: number = 0;
+  private readonly MAX_ATTEMPTS = 5;
+  private readonly LOCKOUT_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -125,6 +129,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.loginForm.controls;
   }
 
+  /**
+   * Sanitize input to prevent XSS attacks
+   */
+  private sanitizeInput(input: string): string {
+    if (!input) return '';
+
+    // Remove any HTML tags and dangerous characters
+    return input
+      .trim()
+      .replace(/[<>\"'\/]/g, '')
+      .replace(/javascript:/gi, '')
+      .replace(/on\w+=/gi, '');
+  }
+
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
@@ -134,21 +152,51 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Check for rate limiting
+    const currentTime = Date.now();
+    if (this.loginAttempts >= this.MAX_ATTEMPTS) {
+      const timeSinceLastAttempt = currentTime - this.lastAttemptTime;
+      if (timeSinceLastAttempt < this.LOCKOUT_DURATION) {
+        const remainingMinutes = Math.ceil((this.LOCKOUT_DURATION - timeSinceLastAttempt) / 60000);
+        this.errorMessage = `Too many failed login attempts. Please try again in ${remainingMinutes} minute(s).`;
+        return;
+      } else {
+        // Reset after lockout duration
+        this.loginAttempts = 0;
+      }
+    }
+
+    // Sanitize inputs to prevent XSS attacks
+    const username = this.sanitizeInput(this.f.username.value);
+    const password = this.f.password.value; // Don't log or sanitize password, but validate length
+
+    // Additional validation
+    if (username.length > 100 || password.length > 100) {
+      this.errorMessage = 'Username or password is too long.';
+      return;
+    }
+
     this.loading = true;
-    this.authService.login(this.f.username.value, this.f.password.value)
+    this.authService.login(username, password)
       .subscribe(
         response => {
           this.loading = false;
-          console.log('Login successful:', response); 
+          console.log('Login successful:', response);
+          // Reset login attempts on success
+          this.loginAttempts = 0;
+          this.lastAttemptTime = 0;
           // Show elements back before navigating
           this.showElements();
-          // Reload the current page
-          location.reload();
-          this.router.navigate(['/Database']);
+          // Navigate to the return URL or default to Database
+          this.router.navigate([this.returnUrl]);
         },
         error => {
           this.loading = false;
           console.error('Login error:', error);
+
+          // Increment failed login attempts
+          this.loginAttempts++;
+          this.lastAttemptTime = Date.now();
 
           // Handle different error scenarios
           if (error.error && error.error.error_description) {
@@ -156,7 +204,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (error.status === 0) {
             this.errorMessage = 'Unable to connect to the server. Please check your connection.';
           } else if (error.status === 400) {
-            this.errorMessage = 'Invalid username or password.';
+            const remainingAttempts = this.MAX_ATTEMPTS - this.loginAttempts;
+            if (remainingAttempts > 0) {
+              this.errorMessage = `Invalid username or password. ${remainingAttempts} attempt(s) remaining.`;
+            } else {
+              this.errorMessage = 'Invalid username or password. Account temporarily locked.';
+            }
           } else {
             this.errorMessage = 'An error occurred during login. Please try again.';
           }

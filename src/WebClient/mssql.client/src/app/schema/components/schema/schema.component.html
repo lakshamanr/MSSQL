@@ -31,7 +31,8 @@
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Script" [gradient]="true" [active]="true">
-    <div>{{schema?.script}}</div>
+ 
+     <app-code-viewer [code]="schema?.script" [language]="'sql'"></app-code-viewer>  
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used by" [gradient]="true" [active]="true">
     <div class="table">

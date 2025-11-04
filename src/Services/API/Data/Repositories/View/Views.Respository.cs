@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.View;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -24,7 +25,8 @@ namespace API.Data.Repositories.View
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public ViewsRepository(ILogger<ViewsRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public ViewsRepository(ILogger<ViewsRepository> logger, IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
             _logger = logger;
             _cache = cache;

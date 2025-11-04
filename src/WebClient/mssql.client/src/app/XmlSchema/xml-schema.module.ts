@@ -22,6 +22,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'angular-progress-bar';
 import { Routes, RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 const appRoutes: Routes =
   [
@@ -48,6 +49,7 @@ const appRoutes: Routes =
     /* Core Modules */
     CommonModule,
     FormsModule,
+    SharedModule,
     HttpClientModule,
 
     /* Amexio Modules */

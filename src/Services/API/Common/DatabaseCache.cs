@@ -11,6 +11,16 @@ namespace API.Common
         public static class DatabaseCache
         {
             /// <summary>
+            /// Cache key for SQL Server connection string.
+            /// </summary>
+            public static string SqlServerConnectionString = "ConnectionStrings:SqlServerConnection";
+
+            /// <summary>
+            /// Cache key for Default connection string.
+            /// </summary>
+            public static string DefaultConnectionString = "ConnectionStrings:DefaultConnection";
+
+            /// <summary>
             /// Cache key for server metadata.
             /// </summary>
             public static string ServerMetaDataCacheKey = "ServerMetaDataCacheKey";

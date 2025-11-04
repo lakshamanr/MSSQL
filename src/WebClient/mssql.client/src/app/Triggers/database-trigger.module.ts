@@ -24,6 +24,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'angular-progress-bar';
 import { DatabaseTriggerService } from './services/database-trigger.service';
 import { Routes, RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
  
 const appRoutes: Routes =
   [
@@ -46,6 +47,7 @@ const appRoutes: Routes =
     /* Core Modules */
     CommonModule,
     FormsModule,
+        SharedModule,
     HttpClientModule,
 
     /* Amexio Modules */

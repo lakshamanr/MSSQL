@@ -107,9 +107,7 @@
 
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
     <div class="code-container">
-      <ngx-prism *ngIf="storedProcedureMetadata?.createScript?.procedureDefinition" [language]="'sql'">
-        {{ storedProcedureMetadata?.createScript?.procedureDefinition }}
-      </ngx-prism>
+        <app-code-viewer [code]="storedProcedureMetadata?.createScript?.procedureDefinition" [language]="'sql'"></app-code-viewer>  
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used by " [gradient]="true" [active]="true">

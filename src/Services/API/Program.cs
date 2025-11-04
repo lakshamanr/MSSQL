@@ -82,6 +82,9 @@ internal class Program
     // ==================== DATABASE SEEDING ====================
     await SeedDatabase(app);
 
+    // ==================== INITIALIZE CONNECTION STRING CACHE ====================
+    await InitializeConnectionStringCache(app);
+
     app.Run();
   }
 
@@ -359,6 +362,9 @@ internal class Program
     services.AddScoped<IEmailSender, EmailSender>();
     services.AddScoped<IUserIdAccessor, API.Core.Services.UserIdAccessor>();
 
+    // Connection String Cache Service
+    services.AddSingleton<IConnectionStringCacheService, ConnectionStringCacheService>();
+
     // Auth Handlers
     services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
     services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
@@ -462,6 +468,29 @@ internal class Program
     {
       var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
       logger.LogCritical(ex, "An error occurred whilst creating/seeding database");
+      throw;
+    }
+  }
+
+  #endregion
+
+  #region Connection String Cache Initialization
+
+  private static async Task InitializeConnectionStringCache(WebApplication app)
+  {
+    using var scope = app.Services.CreateScope();
+    try
+    {
+      var connectionStringCacheService = scope.ServiceProvider.GetRequiredService<IConnectionStringCacheService>();
+      await connectionStringCacheService.InitializeCacheAsync();
+
+      var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+      logger.LogInformation("Connection string cache initialized successfully");
+    }
+    catch (Exception ex)
+    {
+      var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+      logger.LogError(ex, "An error occurred whilst initializing connection string cache");
       throw;
     }
   }

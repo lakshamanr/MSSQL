@@ -80,6 +80,7 @@ import { XmlSchemaDetailsComponent } from './XmlSchema/component/xml-schema-deta
 import { UserDefinedDataTypesComponent } from './UserDefinedDataType/components/user-defined-data-types/user-defined-data-types.component';
 import { UserDefinedDataTypeComponent } from './UserDefinedDataType/components/user-defined-data-type/user-defined-data-type.component';
 import { DatabaseDetailsComponent } from './database/components/database-details/database-details.component';
+import { SharedModule } from './shared/shared.module';
 
 // NGX-UI-Loader Configuration
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -168,7 +169,7 @@ const appRoutes: Routes = [
     FooterComponent,
     MainPageComponent,
     LeftmenuComponent,
-    DatabaseSelectorComponent, 
+    DatabaseSelectorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -207,6 +208,9 @@ const appRoutes: Routes = [
     // NGX-UI-Loader
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     NgxUiLoaderHttpModule,
+
+    // Shared Module
+    SharedModule,
 
     // Feature Modules (these have their own routes)
     ViewModule,

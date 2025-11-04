@@ -1,4 +1,3 @@
-
 <div *ngIf="isLoading">
   <p>Loading Table information... ⏳</p>
 </div> 
@@ -147,15 +146,8 @@
     </amexio-accordion-tab>
 
     <!-- Table Script -->
-    <!-- <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Table Script" [gradient]="true" [active]="true">
-      <app-sql-script-viewer [script]="createScript.script"></app-sql-script-viewer>
-    </amexio-accordion-tab> -->
     <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script" [gradient]="true" [active]="true">
-      <div class="code-container">
-        <ngx-prism *ngIf="createScript.script">
-          {{ createScript.script }}
-        </ngx-prism>
-      </div>
+      <app-code-viewer [code]="createScript.script" [language]="'sql'"></app-code-viewer>
     </amexio-accordion-tab>
 
   </amexio-accordion>
@@ -174,3 +166,4 @@
     </app-edit-column-description-dialog>
 
   </div>
+

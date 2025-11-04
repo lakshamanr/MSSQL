@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Data.Repositories.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
@@ -17,7 +18,8 @@ namespace API.Data.Repositories.FullTextCatalog
         /// Initializes a new instance of the <see cref="FullTextCatalogRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string to the database.</param>
-        public FullTextCatalogRepository(ILogger<FullTextCatalogRepository> logger, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public FullTextCatalogRepository(ILogger<FullTextCatalogRepository> logger, IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
 
         }

@@ -1,0 +1,8 @@
+<div class="code-container">
+  <ngx-prism *ngIf="code && code.length > 0" [language]="language">
+    {{ code }}
+  </ngx-prism>
+  <div *ngIf="!code || code.length === 0" class="no-code-message">
+    <p>No code available to display</p>
+  </div>
+</div>

@@ -81,9 +81,8 @@
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Function Create Script " [gradient]="true"
                         [active]="true">
     <div>
-      <ngx-prism [language]="sql">
-        {{functionMetadata?.definition}}
-      </ngx-prism>
+        <app-code-viewer [code]="functionMetadata?.definition" [language]="'sql'"></app-code-viewer> 
+
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Used By " [active]="true"> 

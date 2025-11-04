@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.Common;
 using API.Core.Domain.Table;
 using Dapper;
@@ -19,7 +20,8 @@ namespace API.Data.Repositories.Common
         /// <param name="connectionString">The connection string.</param>
         /// <param name="logger">The logger instance.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public ObjectDependenciesRepository(IConfiguration configuration,ILogger<ObjectDependenciesRepository> logger, IDistributedCache cache): base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public ObjectDependenciesRepository(IConfiguration configuration,ILogger<ObjectDependenciesRepository> logger, IDistributedCache cache, IUserIdAccessor userIdAccessor): base(cache, configuration, userIdAccessor)
         {
 
         }

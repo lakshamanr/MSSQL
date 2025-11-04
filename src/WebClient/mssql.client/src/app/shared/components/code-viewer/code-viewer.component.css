@@ -1,0 +1,78 @@
+.code-container {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #333;
+  max-height: 600px;
+}
+
+.code-container pre {
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', 'Menlo', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.code-container code {
+  color: #d4d4d4;
+  display: block;
+}
+
+.no-code-message {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  background-color: #f5f5f5;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  margin: 8px 0;
+}
+
+.no-code-message p {
+  margin: 0;
+  font-style: italic;
+}
+
+/* Scrollbar styling for webkit browsers (Chrome, Safari, Edge) */
+.code-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.code-container::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+.code-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.code-container::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+/* Firefox scrollbar styling */
+.code-container {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #2d2d2d;
+}
+
+/* Responsive font size */
+@media (max-width: 768px) {
+  .code-container {
+    padding: 12px;
+  }
+
+  .code-container pre {
+    font-size: 12px;
+  }
+}

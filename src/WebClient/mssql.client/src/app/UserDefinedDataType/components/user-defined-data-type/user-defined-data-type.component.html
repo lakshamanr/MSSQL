@@ -48,7 +48,8 @@
 
 
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="SQL Script" [gradient]="true" [active]="true">
-    {{selectedDataType?.createScript}}
+    
+         <app-code-viewer [code]="selectedDataType?.createScript" [language]="'sql'"></app-code-viewer>  
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used By" [gradient]="true" [active]="true">
     <div class="table">

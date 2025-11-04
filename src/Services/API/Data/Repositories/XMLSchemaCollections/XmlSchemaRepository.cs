@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.XMLSchemaCollections;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -17,7 +18,8 @@ namespace API.Data.Repositories.XMLSchemaCollections
     /// Constructor to initialize the connection string
     /// </summary>
     /// <param name="connectionString">The connection string to the database</param>
-    public XmlSchemaRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+    /// <param name="userIdAccessor">The user ID accessor</param>
+    public XmlSchemaRepository(IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
     {
 
     }

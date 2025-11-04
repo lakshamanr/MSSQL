@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.Table;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -24,7 +25,8 @@ namespace API.Data.Repositories.Table
     /// <param name="connectionString">Database connection string.</param>
     /// <param name="logger">Logger instance for logging information or errors.</param>
     /// <param name="cache">Distributed cache instance for caching data.</param>
-    public TableRepository(ILogger<TableRepository> logger, IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+    /// <param name="userIdAccessor">The user ID accessor.</param>
+    public TableRepository(ILogger<TableRepository> logger, IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
     {
 
       _logger = logger;

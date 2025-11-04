@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.Triggers;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -13,11 +14,12 @@ namespace API.Data.Repositories.Triggers
     public class DatabaseTriggerRepository : BaseRepository, IDatabaseTriggerRepository
     {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="configuration"></param>
     /// <param name="cache"></param>
-        public DatabaseTriggerRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+    /// <param name="userIdAccessor"></param>
+        public DatabaseTriggerRepository(IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
 
         }

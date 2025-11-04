@@ -1,4 +1,5 @@
 using API.Core.Domain.Functions;
+using API.core.Services.Account.Interfaces;
 using API.Data.Repositories.Common;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -17,8 +18,9 @@ namespace API.Data.Repositories.Functions
         /// <param name="iBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public ScalarFunctionRepository( IConfiguration configuration, IDistributedCache cache)
-            : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public ScalarFunctionRepository( IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor)
+            : base(cache, configuration, userIdAccessor)
         {
 
              FunctionType = "FN";

@@ -1,4 +1,5 @@
 using API.Core.Domain.Functions;
+using API.core.Services.Account.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 
 namespace API.Data.Repositories.Functions
@@ -17,7 +18,8 @@ namespace API.Data.Repositories.Functions
         /// <param name="iBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public AggregateFunctionRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public AggregateFunctionRepository(IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
 
               FunctionType = "AF";

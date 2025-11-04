@@ -82,8 +82,8 @@
       </div>
     </div>
   </amexio-accordion-tab>
-  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script " [gradient]="true" [active]="true">
-    {{selectedViewMetaData.viewCreateScript.createViewScript}}
+  <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Create Script " [gradient]="true" [active]="true"> 
+    <app-code-viewer [code]="selectedViewMetaData.viewCreateScript.createViewScript" [language]="'sql'"></app-code-viewer>  
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" header="Used By " [gradient]="true" [active]="true">
 

@@ -49,7 +49,9 @@
 
   <!-- Script -->
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Script" [active]="true">
-    {{ selectedTrigger.definition }}
+ 
+        <app-code-viewer [code]="selectedTrigger.definition" [language]="'sql'"></app-code-viewer>
+ 
   </amexio-accordion-tab>
 
 </amexio-accordion>

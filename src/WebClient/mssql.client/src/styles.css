@@ -56,7 +56,7 @@ body {
 
 /* Main Content Area */
 #main-content {
-  height: calc(100vh - 50px); /* Account for header height */
+  height: calc(100vh - 50px); /* Account for header minimum height */
   max-height: calc(100vh - 50px);
   overflow: hidden; /* Parent should not scroll */
   display: flex;
@@ -74,13 +74,14 @@ body {
 /* Header Styles */
 header {
   background-color: #1b3a57 !important;
-  padding: 5px 15px !important;
-  overflow: hidden;
-  height: 50px;
+  padding: 0 !important;
+  overflow: visible; /* Allow dropdown to overflow */
+  height: auto;
   min-height: 50px;
-  max-height: 50px;
   flex-shrink: 0; /* Don't let header shrink */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1030; /* Above other content */
 }
 
 /* Scrollable Content Areas */

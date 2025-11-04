@@ -20,7 +20,10 @@ export class AuthInterceptor implements HttpInterceptor {
     // Add authorization header with token
     const token = this.authService.getToken();
     if (token && !this.authService.isTokenExpired()) {
-      request = this.addToken(request, token);
+      request = this.addTokenAndSecurityHeaders(request, token);
+    } else {
+      // Add security headers even without token
+      request = this.addSecurityHeaders(request);
     }
 
     return next.handle(request).pipe(
@@ -37,6 +40,25 @@ export class AuthInterceptor implements HttpInterceptor {
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
+  private addTokenAndSecurityHeaders(request: HttpRequest<any>, token: string): HttpRequest<any> {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-Content-Type-Options': 'nosniff'
+      }
+    });
+  }
+
+  private addSecurityHeaders(request: HttpRequest<any>): HttpRequest<any> {
+    return request.clone({
+      setHeaders: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-Content-Type-Options': 'nosniff'
       }
     });
   }

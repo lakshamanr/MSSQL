@@ -2,6 +2,7 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Common.Queries;
 using API.Core.Domain.UserDefinedDataType;
+using API.core.Services.Account.Interfaces;
 using API.Data.Repositories.Common;
 using Dapper;
 using Microsoft.Extensions.Caching.Distributed;
@@ -17,7 +18,8 @@ namespace API.Data.Repositories.UserDefinedDataType
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public UserDefinedDataTypeRepository(IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public UserDefinedDataTypeRepository(IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
         }
 

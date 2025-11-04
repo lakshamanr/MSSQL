@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SchemaService } from './services/schema.service';
 import { SchemaComponent } from './components/schema/schema.component';
 import { SchemasComponent } from './components/schemas/schemas.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 import { AmexioDataModule, AmexioWidgetModule, AmexioChartsModule, AmexioEnterpriseModule } from 'amexio-ng-extensions';
 import { AccordionModule } from 'primeng/accordion';
@@ -15,7 +15,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router'; 
  
 const appRoutes: Routes =
   [
@@ -47,7 +47,8 @@ const appRoutes: Routes =
     ContextMenuModule,
     TabViewModule,
     CodeHighlighterModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    SharedModule
   ],
   exports: [SchemaComponent, SchemasComponent] 
   , providers: [SchemaService]

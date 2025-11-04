@@ -1,4 +1,5 @@
 using API.Core.Domain.Functions;
+using API.core.Services.Account.Interfaces;
 using API.Data.Repositories.Common;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -15,11 +16,12 @@ namespace API.Data.Repositories.Functions
         /// <param name="IBaseSqlFunctionRepository">The base SQL function repository.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="cache">The distributed cache.</param>
-        public TableValuedFunctionRepository( IConfiguration configuration, IDistributedCache cache)
-            : base(cache, configuration)
+        /// <param name="userIdAccessor">The user ID accessor.</param>
+        public TableValuedFunctionRepository( IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor)
+            : base(cache, configuration, userIdAccessor)
         {
             FunctionType = "TF";
-      
+
         }
 
         /// <summary>

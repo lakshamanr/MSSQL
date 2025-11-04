@@ -1,5 +1,6 @@
 using API.Common.Helper;
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.StoredProcedure;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -20,7 +21,8 @@ namespace API.Data.Repositories.StoreProcedure
     /// Initializes a new instance of the <see cref="StoredProcedureRepository"/> class.
     /// </summary>
     /// <param name="connectionString">The connection string to the database.</param>
-    public StoredProcedureRepository(IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache) : base(cache, configuration)
+    /// <param name="userIdAccessor">The user ID accessor.</param>
+    public StoredProcedureRepository(IObjectDependenciesRepository objectDependenciesRepository, IConfiguration configuration, IDistributedCache cache, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
     {
       _objectDependenciesRepository = objectDependenciesRepository;
 

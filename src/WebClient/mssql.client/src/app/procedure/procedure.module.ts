@@ -26,6 +26,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 /* ===== Other Third-Party Modules ===== */
 import { ProgressBarModule } from 'angular-progress-bar';
 import { Routes, RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 const appRoutes: Routes =
   [
@@ -50,6 +51,7 @@ const appRoutes: Routes =
     /* Core Modules */
     CommonModule,
     BrowserModule,
+    SharedModule,
     FormsModule,
     HttpClientModule,
 

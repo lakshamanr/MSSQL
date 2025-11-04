@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(timeout 240 npm run build:*)",
+      "Bash(nul)",
+      "Bash(dir /s /b srcapp*.module.ts 2)",
+      "Bash(dir /s /b srcapp*.component.ts 2)",
+      "Bash(dir /b app)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -18,6 +18,7 @@ import { ProgressBarModule } from 'angular-progress-bar';
 import { DialogModule } from 'primeng/dialog';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import { BrowserModule } from '@angular/platform-browser';
+import { PrismModule } from '@ngx-prism/core';
 import { FormsModule } from '@angular/forms';
 import { EditDescriptionDialogComponent } from './components/table/edit-description-dialog/edit-description-dialog.component';
 import { EditColumnDescriptionDialogComponent } from './components/table/edit-column-description-dialog/edit-column-description-dialog.component';
@@ -25,6 +26,7 @@ import { SqlScriptViewerComponent } from './components/table/sql-script-viewer/s
 import { TableService } from './service/table.service';
 import { TablesService } from './service/tables.service';
 import { Router, Routes, RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 const appRoutes: Routes =
   [
@@ -41,10 +43,11 @@ const appRoutes: Routes =
 
 @NgModule({
   declarations: [TableComponent, TablesComponent, EditDescriptionDialogComponent, EditColumnDescriptionDialogComponent, SqlScriptViewerComponent],
-  imports: [ 
+  imports: [
     CommonModule,
     BrowserModule,
     FormsModule,
+    SharedModule,
     AmexioDataModule,
     AmexioWidgetModule,
     AmexioChartsModule,
@@ -60,10 +63,13 @@ const appRoutes: Routes =
     ProgressBarModule,
     ButtonModule,
     DialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    PrismModule
   ],
   providers: [TreeDragDropService, MessageService,TableService,TablesService],
   exports:[TableComponent, TablesComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],  // ✅ Add CUSTOM_ELEMENTS_SCHEMA
 })
 export class TablesModule { }
+
+

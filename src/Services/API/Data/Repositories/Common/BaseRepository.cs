@@ -1,5 +1,5 @@
 using API.Common;
-using API.Common.Queries; 
+using API.Common.Queries;
 using API.Core.Domain.Table;
 using API.Core.Domain.View;
 using API.Domain.Database;
@@ -8,62 +8,124 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
+using API.core.Services.Account.Interfaces;
 
 namespace API.Data.Repositories.Common
 {
-  
+
 /// <summary>
     /// Base repository class providing common database operations.
     /// </summary>
     public class BaseRepository : IBaseRepository
     {
         internal string _connectionString;
+        protected readonly IUserIdAccessor _userIdAccessor;
+        protected string _currentUserId;
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
         public string? CurrentDatabases { get { return _sqlConnectionStringBuilder?.InitialCatalog; } }
     /// <summary>
-    /// 
+    ///
     /// </summary>
         public string? DataSource { get { return _sqlConnectionStringBuilder?.DataSource; } }
 
-        private SqlConnectionStringBuilder _sqlConnectionStringBuilder;
+        public SqlConnectionStringBuilder _sqlConnectionStringBuilder;
     /// <summary>
-    /// 
+    ///
     /// </summary>
         public DistributedCacheEntryOptions cacheEntryOptions = new DistributedCacheEntryOptions()
                   .SetSlidingExpiration(TimeSpan.FromMinutes(60)) // Set expiration time for cache
             .SetAbsoluteExpiration(TimeSpan.FromHours(24)); // Optional absolute expiration
     /// <summary>
-    /// 
+    ///
     /// </summary>
-     public readonly IDistributedCache _cache;
+     public readonly IDistributedCache _cache; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseRepository"/> class.
         /// </summary>
         /// <param name="connectionString">The database connection string.</param>
         /// <param name="cache">The distributed cache instance.</param>
-        public BaseRepository(IDistributedCache cache, IConfiguration configuration)
+        public BaseRepository(IDistributedCache cache, IConfiguration configuration, IUserIdAccessor userIdAccessor)
         {
             _cache = cache;
+            _userIdAccessor = userIdAccessor;
+            _currentUserId = _userIdAccessor.GetCurrentUserId() ?? "SYSTEM";
             _connectionString = GetCurrentConnectionString();
             _sqlConnectionStringBuilder = new SqlConnectionStringBuilder(_connectionString);
         }
+
+        /// <summary>
+        /// Gets the current connection string from Redis cache using user-specific cache key.
+        /// If not found in cache, falls back to appsettings.json.
+        /// </summary>
+        /// <returns>The SQL Server connection string.</returns>
         public string GetCurrentConnectionString()
         {
-          string filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
-
-          if (!File.Exists(filePath))
+          try
           {
-            Console.WriteLine("❌ Config file not found.");
+            // Build user-specific cache key
+            var cacheKey = GetUserSpecificCacheKey("ConnectionStrings:SqlServerConnection");
+
+            // Try to get from cache first
+            var cachedConnectionString = _cache.GetString(cacheKey);
+
+            if (!string.IsNullOrEmpty(cachedConnectionString))
+            {
+              Console.WriteLine($"✅ Retrieved connection string from Redis cache for user: {_currentUserId}");
+              return cachedConnectionString;
+            }
+
+            // Fallback to global cache key (for backward compatibility)
+            cachedConnectionString = _cache.GetString("ConnectionStrings:SqlServerConnection");
+            if (!string.IsNullOrEmpty(cachedConnectionString))
+            {
+              Console.WriteLine($"✅ Retrieved connection string from global Redis cache.");
+              return cachedConnectionString;
+            }
+
+            // Fallback to appsettings.json if cache is empty
+            Console.WriteLine($"⚠️ Connection string not in cache for user {_currentUserId}, reading from appsettings.json");
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+
+            if (!File.Exists(filePath))
+            {
+              Console.WriteLine("❌ Config file not found.");
+              return null;
+            }
+
+            string json = File.ReadAllText(filePath);
+            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+            return jsonObj["ConnectionStrings"]["SqlServerConnection"];
+          }
+          catch (Exception ex)
+          {
+            Console.WriteLine($"❌ Error getting connection string: {ex.Message}");
+
+            // Final fallback to appsettings.json
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            if (File.Exists(filePath))
+            {
+              string json = File.ReadAllText(filePath);
+              dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+              return jsonObj["ConnectionStrings"]["SqlServerConnection"];
+            }
+
             return null;
           }
+        }
 
-          string json = File.ReadAllText(filePath);
-          dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-
-          return jsonObj["ConnectionStrings"]["SqlServerConnection"];
+        /// <summary>
+        /// Gets a user-specific cache key by combining user ID with the base cache key.
+        /// </summary>
+        /// <param name="baseCacheKey">The base cache key.</param>
+        /// <returns>User-specific cache key in format: "userId:baseCacheKey"</returns>
+        protected string GetUserSpecificCacheKey(string baseCacheKey)
+        {
+          return $"{_currentUserId}:{baseCacheKey}";
         }
 
     /// <summary>

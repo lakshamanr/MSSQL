@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
@@ -12,6 +12,7 @@ import { User } from '../../auth/models/user.model';
 export class HeaderComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   isAuthenticated = false;
+  isNavbarCollapsed = true;
   private userSubscription?: Subscription;
   private authSubscription?: Subscription;
 
@@ -39,6 +40,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    // Close navbar on larger screens
+    if (window.innerWidth >= 992 && !this.isNavbarCollapsed) {
+      this.isNavbarCollapsed = true;
+    }
+  }
+
   onChangeServer(event: Event): void {
     const selectedServer = (event.target as HTMLSelectElement).value;
     console.log('Selected SQL Server:', selectedServer);
@@ -46,11 +55,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
+    this.isNavbarCollapsed = true;
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
   navigateToLogin(): void {
+    this.isNavbarCollapsed = true;
     this.router.navigate(['/login']);
   }
 }

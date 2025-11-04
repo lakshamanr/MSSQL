@@ -39,7 +39,8 @@
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Create Script" [active]="true">
     <div>
-      <p>{{schemaDetails?.sqlScript }}</p>
+      <app-code-viewer [code]="schemaDetails?.sqlScript" [language]="'sql'"></app-code-viewer>
+ 
     </div>
   </amexio-accordion-tab>
   <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="Referance Schema" [active]="true">

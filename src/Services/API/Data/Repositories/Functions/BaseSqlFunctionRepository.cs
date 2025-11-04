@@ -1,4 +1,5 @@
 using API.Common.Queries;
+using API.core.Services.Account.Interfaces;
 using API.Core.Domain.Functions;
 using API.Data.Repositories.Common;
 using Dapper;
@@ -23,11 +24,12 @@ namespace API.Data.Repositories.Functions
         public string FunctionName { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="configuration"></param>
-        public BaseSqlFunctionRepository(IDistributedCache cache, IConfiguration configuration) : base(cache, configuration)
+        /// <param name="userIdAccessor"></param>
+        public BaseSqlFunctionRepository(IDistributedCache cache, IConfiguration configuration, IUserIdAccessor userIdAccessor) : base(cache, configuration, userIdAccessor)
         {
 
         }
