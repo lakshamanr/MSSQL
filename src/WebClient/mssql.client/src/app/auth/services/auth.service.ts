@@ -39,19 +39,10 @@ export class AuthService {
   }
 
   /**
-   * Login user with username and password
+   * Login user with Windows authentication
    */
-  login(username: string, password: string): Observable<LoginResponse> {
-    let body = new HttpParams()
-      .set('username', username)
-      .set('password', password)
-      .set(  'client_id','swagger_ui')
-      .set('grant_type', 'password')   
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-
-    return this.http.post<LoginResponse>(`${this.API_URL}/connect/token`, body.toString(), { headers })
+  login(): Observable<LoginResponse> {
+    return this.http.get<LoginResponse>(`${this.API_URL}/api/windowsauth/login`)
       .pipe(
         tap(response => {
           this.storeTokens(response);
@@ -59,7 +50,7 @@ export class AuthService {
           this.loadCurrentUser().subscribe();
         }),
         catchError(error => {
-          console.error('Login failed:', error);
+          console.error('Windows login failed:', error);
           return throwError(error);
         })
       );

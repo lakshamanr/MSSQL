@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.OpenApi.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using OpenIddict.Validation.AspNetCore;
 using API.Authorization;
 using API.Authorization.Requirements;
@@ -253,12 +254,12 @@ internal class Program
 
   private static void ConfigureAuthentication(IServiceCollection services)
   {
-    services.AddAuthentication(o =>
-    {
-      o.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
-      o.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
-      o.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
-    });
+      services.AddAuthentication(options =>
+      {
+          options.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+          options.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+      });
   }
 
   private static void ConfigureAuthorization(IServiceCollection services)
