@@ -19,4 +19,9 @@ export class ScalarFunctionsComponent implements OnInit {
       this.functionDescriptions = data;
     });
   }
+
+  // TrackBy function for better performance (for keyvalue pipe)
+  trackByKey(index: number, item: any): string {
+    return item.key;
+  }
 }

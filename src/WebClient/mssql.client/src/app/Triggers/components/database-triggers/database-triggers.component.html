@@ -16,7 +16,7 @@
         <input
           pInputText
           type="text"
-          [(ngModel)]="searchText"
+          (input)="dt.filterGlobal($event.target.value, 'contains')"
           placeholder="Search triggers..."
           class="w-full"
         />
@@ -24,6 +24,7 @@
     </div>
 
     <p-table
+      #dt
       [value]="triggers"
       [globalFilterFields]="['name', 'description']"
       [paginator]="true"
