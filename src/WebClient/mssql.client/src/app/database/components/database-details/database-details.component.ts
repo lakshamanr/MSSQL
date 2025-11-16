@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseMetaData } from '../../models/DatabaseMetaData';
-import { DatabaseMetadataService } from '../../service/database-metadata.service';
-import { ObjectTypeItems } from '../../models/ObjectTypeItems';
+import { DatabaseMetaData } from '../../models/database-metadata.model';
+import { DatabaseMetadataService } from '../../services/database-metadata.service';
+import { ObjectTypeItems } from '../../models/object-type-items.model';
 import { AuthService } from '../../../auth/services/auth.service';
 import { filter, take } from 'rxjs/operators';
 

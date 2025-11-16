@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ViewDetails, ViewMetaData } from '../../model/view.model';
+import { ViewDetails, ViewMetaData } from '../../models/view.model';
 
 @Injectable({
   providedIn: 'root'

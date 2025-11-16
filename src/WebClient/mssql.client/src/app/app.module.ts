@@ -27,7 +27,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { MainPageComponent } from './ui/main-page/main-page.component';
-import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
+import { LeftmenuComponent } from './left-menu/components/left-menu/leftmenu.component';
 import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component';
 
 // Auth Module (keep for login component and guards)

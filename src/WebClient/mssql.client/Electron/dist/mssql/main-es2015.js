@@ -39,10 +39,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/leftmenu/leftmenu.component.html":
-/*!*************************************************************************************************************!*\
-  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/leftmenu/leftmenu.component.html ***!
-  \*************************************************************************************************************/
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/left-menu/leftmenu.component.html":
+/*!**************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/left-menu/leftmenu.component.html ***!
+  \**************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -415,17 +415,29 @@ const routes = [
         component: _ui_main_page_main_page_component__WEBPACK_IMPORTED_MODULE_4__["MainPageComponent"],
         canActivate: [_auth_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]],
         children: [
-            { path: 'Table', loadChildren: () => Promise.all(/*! import() | table-tables-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("table-tables-module")]).then(__webpack_require__.bind(null, /*! ./table/tables.module */ "./src/app/table/tables.module.ts")).then(m => m.TablesModule) },
-            { path: 'Storeprocedure', loadChildren: () => Promise.all(/*! import() | procedure-procedure-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("procedure-procedure-module")]).then(__webpack_require__.bind(null, /*! ./procedure/procedure.module */ "./src/app/procedure/procedure.module.ts")).then(m => m.ProcedureModule) },
-            { path: 'View', loadChildren: () => Promise.all(/*! import() | view-views-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("view-views-module")]).then(__webpack_require__.bind(null, /*! ./view/views.module */ "./src/app/view/views.module.ts")).then(m => m.ViewModule) },
-            { path: 'AggregateFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
-            { path: 'ScalarFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
-            { path: 'TableValueFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
-            { path: 'Trigger', loadChildren: () => Promise.all(/*! import() | Triggers-database-trigger-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("Triggers-database-trigger-module")]).then(__webpack_require__.bind(null, /*! ./Triggers/database-trigger.module */ "./src/app/Triggers/database-trigger.module.ts")).then(m => m.DatabaseTriggerModule) },
-            { path: 'Schema', loadChildren: () => Promise.all(/*! import() | schema-schemas-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("schema-schemas-module")]).then(__webpack_require__.bind(null, /*! ./schema/schemas.module */ "./src/app/schema/schemas.module.ts")).then(m => m.SchemasModule) },
-            { path: 'XmlSchema', loadChildren: () => Promise.all(/*! import() | XmlSchema-xml-schema-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("XmlSchema-xml-schema-module")]).then(__webpack_require__.bind(null, /*! ./XmlSchema/xml-schema.module */ "./src/app/XmlSchema/xml-schema.module.ts")).then(m => m.XmlSchemaModule) },
-            { path: 'UserDefinedDataType', loadChildren: () => Promise.all(/*! import() | UserDefinedDataType-user-defined-data-types-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~fbd57364"), __webpack_require__.e("UserDefinedDataType-user-defined-data-types-module")]).then(__webpack_require__.bind(null, /*! ./UserDefinedDataType/user-defined-data-types.module */ "./src/app/UserDefinedDataType/user-defined-data-types.module.ts")).then(m => m.UserDefinedDataTypesModule) },
-            { path: 'Database', loadChildren: () => Promise.all(/*! import() | database-database-module */[__webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~f2df7f7d"), __webpack_require__.e("default~Triggers-database-trigger-module~UserDefinedDataType-user-defined-data-types-module~XmlSchem~3277e11e"), __webpack_require__.e("database-database-module")]).then(__webpack_require__.bind(null, /*! ./database/database.module */ "./src/app/database/database.module.ts")).then(m => m.DatabaseModule) },
+            // Singular routes (for detail views)
+            { path: 'Table', loadChildren: () => Promise.all(/*! import() | table-table-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("table-table-module")]).then(__webpack_require__.bind(null, /*! ./table/table.module */ "./src/app/table/table.module.ts")).then(m => m.TablesModule) },
+            { path: 'Storeprocedure', loadChildren: () => Promise.all(/*! import() | procedure-procedure-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("procedure-procedure-module")]).then(__webpack_require__.bind(null, /*! ./procedure/procedure.module */ "./src/app/procedure/procedure.module.ts")).then(m => m.ProcedureModule) },
+            { path: 'View', loadChildren: () => Promise.all(/*! import() | view-views-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("view-views-module")]).then(__webpack_require__.bind(null, /*! ./view/views.module */ "./src/app/view/views.module.ts")).then(m => m.ViewModule) },
+            { path: 'AggregateFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
+            { path: 'ScalarFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
+            { path: 'TableValueFunction', loadChildren: () => Promise.all(/*! import() | function-function-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("function-function-module")]).then(__webpack_require__.bind(null, /*! ./function/function.module */ "./src/app/function/function.module.ts")).then(m => m.FunctionModule) },
+            { path: 'Trigger', loadChildren: () => Promise.all(/*! import() | triggers-trigger-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("triggers-trigger-module")]).then(__webpack_require__.bind(null, /*! ./triggers/trigger.module */ "./src/app/triggers/trigger.module.ts")).then(m => m.DatabaseTriggerModule) },
+            { path: 'Schema', loadChildren: () => Promise.all(/*! import() | schema-schema-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("schema-schema-module")]).then(__webpack_require__.bind(null, /*! ./schema/schema.module */ "./src/app/schema/schema.module.ts")).then(m => m.SchemasModule) },
+            { path: 'XmlSchema', loadChildren: () => Promise.all(/*! import() | xml-schema-xml-schema-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("xml-schema-xml-schema-module")]).then(__webpack_require__.bind(null, /*! ./xml-schema/xml-schema.module */ "./src/app/xml-schema/xml-schema.module.ts")).then(m => m.XmlSchemaModule) },
+            { path: 'UserDefinedDataType', loadChildren: () => Promise.all(/*! import() | user-defined-data-type-user-defined-data-type-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("default~function-function-module~procedure-procedure-module~table-table-module~triggers-trigger-modu~a5cf089c"), __webpack_require__.e("user-defined-data-type-user-defined-data-type-module")]).then(__webpack_require__.bind(null, /*! ./user-defined-data-type/user-defined-data-type.module */ "./src/app/user-defined-data-type/user-defined-data-type.module.ts")).then(m => m.UserDefinedDataTypesModule) },
+            { path: 'Database', loadChildren: () => Promise.all(/*! import() | database-database-module */[__webpack_require__.e("default~database-database-module~function-function-module~procedure-procedure-module~schema-schema-m~0dd5a5d6"), __webpack_require__.e("default~database-database-module~function-function-module~schema-schema-module~table-table-module~tr~1a72d205"), __webpack_require__.e("database-database-module")]).then(__webpack_require__.bind(null, /*! ./database/database.module */ "./src/app/database/database.module.ts")).then(m => m.DatabaseModule) },
+            // Plural routes (redirects to list views)
+            { path: 'Tables', redirectTo: 'Table/s', pathMatch: 'full' },
+            { path: 'Views', redirectTo: 'View/s', pathMatch: 'full' },
+            { path: 'Storeprocedures', redirectTo: 'Storeprocedure/s', pathMatch: 'full' },
+            { path: 'ScalarFunctions', redirectTo: 'ScalarFunction/s', pathMatch: 'full' },
+            { path: 'AggregateFunctions', redirectTo: 'AggregateFunction/s', pathMatch: 'full' },
+            { path: 'TableValueFunctions', redirectTo: 'TableValueFunction/s', pathMatch: 'full' },
+            { path: 'Triggers', redirectTo: 'Trigger/s', pathMatch: 'full' },
+            { path: 'Schemas', redirectTo: 'Schema/s', pathMatch: 'full' },
+            { path: 'XmlSchemas', redirectTo: 'XmlSchema/s', pathMatch: 'full' },
+            { path: 'UserDefinedDataTypes', redirectTo: 'UserDefinedDataType/s', pathMatch: 'full' },
             { path: '', redirectTo: 'Database', pathMatch: 'full' }
         ]
     },
@@ -436,7 +448,10 @@ let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes, { useHash: true })],
+        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes, {
+                useHash: true,
+                preloadingStrategy: _angular_router__WEBPACK_IMPORTED_MODULE_2__["PreloadAllModules"]
+            })],
         exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
     })
 ], AppRoutingModule);
@@ -514,7 +529,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_header_header_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./ui/header/header.component */ "./src/app/ui/header/header.component.ts");
 /* harmony import */ var _ui_footer_footer_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./ui/footer/footer.component */ "./src/app/ui/footer/footer.component.ts");
 /* harmony import */ var _ui_main_page_main_page_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./ui/main-page/main-page.component */ "./src/app/ui/main-page/main-page.component.ts");
-/* harmony import */ var _left_menu_components_leftmenu_leftmenu_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./left-menu/components/leftmenu/leftmenu.component */ "./src/app/left-menu/components/leftmenu/leftmenu.component.ts");
+/* harmony import */ var _left_menu_components_left_menu_leftmenu_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./left-menu/components/left-menu/leftmenu.component */ "./src/app/left-menu/components/left-menu/leftmenu.component.ts");
 /* harmony import */ var _database_components_database_selector_database_selector_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./database/components/database-selector/database-selector.component */ "./src/app/database/components/database-selector/database-selector.component.ts");
 /* harmony import */ var _auth_auth_module__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./auth/auth.module */ "./src/app/auth/auth.module.ts");
 /* harmony import */ var _auth_interceptors_auth_interceptor__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./auth/interceptors/auth.interceptor */ "./src/app/auth/interceptors/auth.interceptor.ts");
@@ -590,7 +605,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _ui_header_header_component__WEBPACK_IMPORTED_MODULE_15__["HeaderComponent"],
             _ui_footer_footer_component__WEBPACK_IMPORTED_MODULE_16__["FooterComponent"],
             _ui_main_page_main_page_component__WEBPACK_IMPORTED_MODULE_17__["MainPageComponent"],
-            _left_menu_components_leftmenu_leftmenu_component__WEBPACK_IMPORTED_MODULE_18__["LeftmenuComponent"],
+            _left_menu_components_left_menu_leftmenu_component__WEBPACK_IMPORTED_MODULE_18__["LeftmenuComponent"],
             _database_components_database_selector_database_selector_component__WEBPACK_IMPORTED_MODULE_19__["DatabaseSelectorComponent"],
         ],
         imports: [
@@ -1033,19 +1048,23 @@ let AuthInterceptor = class AuthInterceptor {
     intercept(request, next) {
         // Don't add token to token endpoint
         if (request.url.includes('/connect/token')) {
+            console.log('🔓 Skipping token for /connect/token endpoint');
             return next.handle(request);
         }
         // Add authorization header with token
         const token = this.authService.getToken();
-        if (token && !this.authService.isTokenExpired()) {
+        const isExpired = this.authService.isTokenExpired();
+        if (token && !isExpired) {
             request = this.addTokenAndSecurityHeaders(request, token);
         }
         else {
             // Add security headers even without token
             request = this.addSecurityHeaders(request);
+            console.warn('⚠️ Request without token:', request.url, 'Reason:', !token ? 'No token found' : 'Token expired');
         }
         return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(error => {
             if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpErrorResponse"] && error.status === 401) {
+                console.log('🔒 401 Unauthorized error detected for:', request.url);
                 return this.handle401Error(request, next);
             }
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(error);
@@ -1077,20 +1096,25 @@ let AuthInterceptor = class AuthInterceptor {
     }
     handle401Error(request, next) {
         if (!this.isRefreshing) {
+            console.log('🔄 Starting token refresh process...');
             this.isRefreshing = true;
             this.refreshTokenSubject.next(null);
             return this.authService.refreshToken().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["switchMap"])((response) => {
+                console.log('✅ Token refreshed, retrying original request');
                 this.isRefreshing = false;
                 this.refreshTokenSubject.next(response.access_token);
                 return next.handle(this.addToken(request, response.access_token));
             }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(err => {
+                console.error('❌ Token refresh failed in interceptor, logging out');
                 this.isRefreshing = false;
                 this.authService.logout();
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(err);
             }));
         }
         else {
+            console.log('⏳ Token refresh already in progress, waiting...');
             return this.refreshTokenSubject.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(token => token != null), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["switchMap"])(token => {
+                console.log('✅ Using refreshed token for queued request');
                 return next.handle(this.addToken(request, token));
             }));
         }
@@ -1122,15 +1146,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
 
 
 
 
 
 let AuthService = class AuthService {
-    constructor(http) {
+    constructor(http, router, apiUrl) {
         this.http = http;
-        this.API_URL = ''; // Use relative URLs to work with proxy
+        this.router = router;
+        this.apiUrl = apiUrl;
         this.TOKEN_KEY = 'access_token';
         this.REFRESH_TOKEN_KEY = 'refresh_token';
         this.USER_KEY = 'current_user';
@@ -1155,16 +1182,35 @@ let AuthService = class AuthService {
             .set('password', password)
             .set('client_id', 'swagger_ui')
             .set('grant_type', 'password');
+        // Note: No scope parameter - swagger_ui client doesn't allow scopes
         const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/x-www-form-urlencoded'
         });
-        return this.http.post(`${this.API_URL}/connect/token`, body.toString(), { headers })
+        return this.http.post(`${this.apiUrl}/connect/token`, body.toString(), { headers })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(response => {
+            console.log('✅ Login successful, storing tokens');
             this.storeTokens(response);
             this.isAuthenticatedSubject.next(true);
-            this.loadCurrentUser().subscribe();
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["switchMap"])(response => {
+            console.log('📥 Loading current user before completing login...');
+            // Load current user before completing login
+            // If it fails, still allow login to succeed
+            return this.loadCurrentUser().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(user => {
+                console.log('✅ User loaded successfully:', user);
+                return response; // Return original login response
+            }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(error => {
+                console.warn('⚠️ Failed to load user after login (non-fatal):', error);
+                // Still return the login response to allow navigation
+                return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])(response);
+            }));
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(error => {
             console.error('Login failed:', error);
+            console.error('Error details:', {
+                status: error.status,
+                statusText: error.statusText,
+                url: error.url,
+                errorBody: error.error
+            });
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(error);
         }));
     }
@@ -1173,21 +1219,27 @@ let AuthService = class AuthService {
      */
     refreshToken() {
         const refreshToken = this.getRefreshToken();
+        console.log('🔄 Attempting to refresh token...');
         if (!refreshToken) {
+            console.warn('⚠️ No refresh token available - redirecting to login');
+            this.logout();
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])('No refresh token available');
         }
+        console.log('✅ Refresh token found, sending refresh request to server');
         const body = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('grant_type', 'refresh_token')
             .set('refresh_token', refreshToken)
-            .set('scope', 'openid email phone profile offline_access roles');
+            .set('client_id', 'swagger_ui');
+        // Note: No scope parameter - swagger_ui client doesn't allow scopes
         const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
             'Content-Type': 'application/x-www-form-urlencoded'
         });
-        return this.http.post(`${this.API_URL}/connect/token`, body.toString(), { headers })
+        return this.http.post(`${this.apiUrl}/connect/token`, body.toString(), { headers })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(response => {
+            console.log('✅ Token refresh successful');
             this.storeTokens(response);
         }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(error => {
-            console.error('Token refresh failed:', error);
+            console.error('❌ Token refresh failed:', error);
             this.logout();
             return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(error);
         }));
@@ -1196,11 +1248,7 @@ let AuthService = class AuthService {
      * Load current user details from API
      */
     loadCurrentUser() {
-        const token = this.getToken();
-        const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
-        return this.http.get(`${this.API_URL}/api/account/users/me`, { headers })
+        return this.http.get(`${this.apiUrl}/api/account/users/me`)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["tap"])(user => {
             this.storeUser(user);
             this.currentUserSubject.next(user);
@@ -1218,6 +1266,7 @@ let AuthService = class AuthService {
         localStorage.removeItem(this.USER_KEY);
         this.currentUserSubject.next(null);
         this.isAuthenticatedSubject.next(false);
+        this.router.navigate(['/login']);
     }
     /**
      * Get stored access token
@@ -1233,6 +1282,8 @@ let AuthService = class AuthService {
     }
     /**
      * Check if access token is expired
+     * Note: Encrypted tokens (JWE) cannot be decoded client-side, so we assume they're valid
+     * and let the server handle expiry validation
      */
     isTokenExpired() {
         const token = this.getToken();
@@ -1240,26 +1291,41 @@ let AuthService = class AuthService {
             return true;
         }
         try {
-            // Validate JWT structure (should have 3 parts separated by dots)
+            // Check token structure
             const parts = token.split('.');
+            // JWE (encrypted) tokens have 5 parts - we can't decode these client-side
+            // So we assume they're valid and let the server validate expiry
+            if (parts.length === 5) {
+                // Only log once to reduce noise
+                if (!sessionStorage.getItem('jwe_logged')) {
+                    console.log('📝 Token is encrypted (JWE) - server will validate expiry');
+                    sessionStorage.setItem('jwe_logged', 'true');
+                }
+                return false; // Assume valid, let server decide
+            }
+            // Standard JWT should have 3 parts
             if (parts.length !== 3) {
-                console.warn('Invalid JWT token structure');
+                console.warn('⚠️ Invalid token structure');
                 return true;
             }
-            // Decode and parse the payload
+            // Decode and parse the payload for standard JWT
             const payload = JSON.parse(atob(parts[1]));
             // Validate expiry claim exists
             if (!payload.exp) {
-                console.warn('JWT token missing expiry claim');
+                console.warn('⚠️ JWT token missing expiry claim');
                 return true;
             }
             // Check if token is expired (with 60 second buffer for clock skew)
             const expiry = payload.exp;
             const currentTime = Math.floor((new Date()).getTime() / 1000);
-            return currentTime >= (expiry - 60);
+            const isExpired = currentTime >= (expiry - 60);
+            if (isExpired) {
+                console.log('⏰ Token expired');
+            }
+            return isExpired;
         }
         catch (e) {
-            console.error('Error parsing JWT token:', e);
+            console.error('❌ Error parsing token:', e);
             return true;
         }
     }
@@ -1267,9 +1333,18 @@ let AuthService = class AuthService {
      * Store tokens in localStorage
      */
     storeTokens(response) {
+        console.log('📦 Storing tokens:', {
+            access_token: response.access_token ? '✅ Present' : '❌ Missing',
+            refresh_token: response.refresh_token ? '✅ Present' : '❌ Missing',
+            expires_in: response.expires_in
+        });
         localStorage.setItem(this.TOKEN_KEY, response.access_token);
         if (response.refresh_token) {
             localStorage.setItem(this.REFRESH_TOKEN_KEY, response.refresh_token);
+            console.log('✅ Refresh token stored successfully');
+        }
+        else {
+            console.warn('⚠️ No refresh token received from server - user will need to re-login when token expires');
         }
     }
     /**
@@ -1298,12 +1373,15 @@ let AuthService = class AuthService {
     }
 };
 AuthService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] }
 ];
 AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'
-    })
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])('API_URL'))
 ], AuthService);
 
 
@@ -1335,21 +1413,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DatabaseSelectorComponent", function() { return DatabaseSelectorComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/database-metadata.service */ "./src/app/database/service/database-metadata.service.ts");
+/* harmony import */ var _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/database-metadata.service */ "./src/app/database/services/database-metadata.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 let DatabaseSelectorComponent = class DatabaseSelectorComponent {
-    constructor(databaseService, router) {
+    constructor(databaseService, router, authService) {
         this.databaseService = databaseService;
         this.router = router;
+        this.authService = authService;
         this.selectedDatabase = '';
         this.databases = []; // List of available databases
     }
     ngOnInit() {
-        this.loadDatabases();
+        // Wait for authentication to be fully ready before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(isAuth => isAuth === true), // Only proceed when authenticated
+        Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1) // Take only the first emission, then unsubscribe
+        ).subscribe(() => {
+            console.log('🔑 Auth ready, loading databases');
+            this.loadDatabases();
+        });
     }
     // Load available databases from backend
     loadDatabases() {
@@ -1379,8 +1468,9 @@ let DatabaseSelectorComponent = class DatabaseSelectorComponent {
     }
 };
 DatabaseSelectorComponent.ctorParameters = () => [
-    { type: _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseMetadataService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+    { type: _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseMetadataService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 DatabaseSelectorComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1394,10 +1484,10 @@ DatabaseSelectorComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/app/database/service/database-metadata.service.ts":
-/*!***************************************************************!*\
-  !*** ./src/app/database/service/database-metadata.service.ts ***!
-  \***************************************************************/
+/***/ "./src/app/database/services/database-metadata.service.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/database/services/database-metadata.service.ts ***!
+  \****************************************************************/
 /*! exports provided: DatabaseMetadataService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1409,69 +1499,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 
 
 let DatabaseMetadataService = class DatabaseMetadataService {
-    constructor(http, primaryUrl, secondaryUrl, authService, router) {
+    constructor(http, primaryUrl, secondaryUrl) {
         this.http = http;
         this.primaryUrl = primaryUrl;
         this.secondaryUrl = secondaryUrl;
-        this.authService = authService;
-        this.router = router;
     }
     getDatabaseMetaData() {
         const primaryUrl = `${this.primaryUrl}/Database/database-meta-data`;
         const secondaryUrl = 'Database/database-meta-data';
-        const headers = this.getAuthHeaders();
-        return this.http.get(primaryUrl, { headers }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((primaryError) => {
+        return this.http.get(primaryUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((primaryError) => {
             console.error('Primary URL failed, trying secondary URL:', primaryError);
-            return this.http.get(secondaryUrl, { headers }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((secondaryError) => {
+            return this.http.get(secondaryUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((secondaryError) => {
                 console.error('Secondary URL also failed:', secondaryError);
                 return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])(null);
             }));
         }));
     }
     changeDatabase(databaseName) {
-        const headers = this.getAuthHeaders();
-        return this.http.post(`${this.primaryUrl}/Database/ChangeDatabase`, { databaseName }, { headers });
+        return this.http.post(`${this.primaryUrl}/Database/ChangeDatabase`, { databaseName });
     }
     // Get list of available databases
     getDatabases() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/Database/list`, { headers });
+        return this.http.get(`${this.primaryUrl}/Database/list`);
     }
     // Get the currently active database
     getCurrentDatabase() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/Database/current`, { headers });
-    }
-    /**
-   * Get HTTP headers with bearer token
-   */
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
+        return this.http.get(`${this.primaryUrl}/Database/current`);
     }
 };
 DatabaseMetadataService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
     { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] },
-    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['ANOTHER_URL',] }] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] }
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['ANOTHER_URL',] }] }
 ];
 DatabaseMetadataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1485,10 +1550,10 @@ DatabaseMetadataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/app/left-menu/components/leftmenu/leftmenu.component.ts":
-/*!*********************************************************************!*\
-  !*** ./src/app/left-menu/components/leftmenu/leftmenu.component.ts ***!
-  \*********************************************************************/
+/***/ "./src/app/left-menu/components/left-menu/leftmenu.component.ts":
+/*!**********************************************************************!*\
+  !*** ./src/app/left-menu/components/left-menu/leftmenu.component.ts ***!
+  \**********************************************************************/
 /*! exports provided: LeftmenuComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1500,18 +1565,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_left_menu_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/left-menu.service */ "./src/app/left-menu/services/left-menu.service.ts");
 /* harmony import */ var _models_schemaenum_enum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../models/schemaenum.enum */ "./src/app/left-menu/models/schemaenum.enum.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 
 let LeftmenuComponent = class LeftmenuComponent {
-    constructor(route, leftMenuService) {
+    constructor(route, leftMenuService, authService) {
         this.route = route;
         this.leftMenuService = leftMenuService;
+        this.authService = authService;
     }
     ngOnInit() {
-        this.loadLeftMenuData();
+        // Wait for authentication to be fully ready before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["filter"])(isAuth => isAuth === true), // Only proceed when authenticated
+        Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1) // Take only the first emission, then unsubscribe
+        ).subscribe(() => {
+            console.log('🔑 Auth ready, loading left menu');
+            this.loadLeftMenuData();
+        });
     }
     loadLeftMenuData() {
         this.leftMenuService.loadLeftMenuData().subscribe((result) => this.handleLoadSuccess(result), (error) => this.handleLoadError(error));
@@ -1614,12 +1690,13 @@ let LeftmenuComponent = class LeftmenuComponent {
 };
 LeftmenuComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] },
-    { type: _services_left_menu_service__WEBPACK_IMPORTED_MODULE_2__["LeftMenuService"] }
+    { type: _services_left_menu_service__WEBPACK_IMPORTED_MODULE_2__["LeftMenuService"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"] }
 ];
 LeftmenuComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-leftmenu',
-        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./leftmenu.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/leftmenu/leftmenu.component.html")).default
+        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./leftmenu.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/left-menu/components/left-menu/leftmenu.component.html")).default
     })
 ], LeftmenuComponent);
 
@@ -1715,28 +1792,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 
 
 let LeftMenuService = class LeftMenuService {
-    constructor(http, primaryUrl, secondaryUrl, authService, router) {
+    constructor(http, primaryUrl, secondaryUrl) {
         this.http = http;
         this.primaryUrl = primaryUrl;
         this.secondaryUrl = secondaryUrl;
-        this.authService = authService;
-        this.router = router;
     }
     loadLeftMenuData() {
         const primaryUrl = `${this.primaryUrl}/LeftMenu/left-menu`;
         const secondaryUrl = 'LeftMenu/left-menu'; // Fallback URL
-        const headers = this.getAuthHeaders();
-        return this.http.get(primaryUrl, { headers }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((error) => {
+        return this.http.get(primaryUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((error) => {
             console.error('Primary URL failed, trying secondary URL:', error);
             return this.http.get(secondaryUrl).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])((secondaryError) => {
                 console.error('Both primary and secondary URLs failed:', secondaryError);
@@ -1744,23 +1814,11 @@ let LeftMenuService = class LeftMenuService {
             }));
         }));
     }
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
-    }
 };
 LeftMenuService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
     { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] },
-    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['ANOTHER_URL',] }] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] }
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['ANOTHER_URL',] }] }
 ];
 LeftMenuService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -2072,15 +2130,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainPageComponent", function() { return MainPageComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+
 
 
 let MainPageComponent = class MainPageComponent {
-    constructor(cdr) {
+    constructor(cdr, authService) {
         this.cdr = cdr;
+        this.authService = authService;
         this.status = false;
         this.dblClickTime = 300;
         this.useTransition = true;
         this.previousSizes = [25, 75];
+    }
+    ngOnInit() {
+        // Subscribe to auth state changes and trigger change detection
+        // This ensures the view updates when authentication completes
+        this.authSubscription = this.authService.isAuthenticated.subscribe(() => {
+            this.cdr.markForCheck();
+        });
     }
     log(type, e) {
         switch (type) {
@@ -2121,9 +2189,16 @@ let MainPageComponent = class MainPageComponent {
     }
     ngAfterViewInit() {
     }
+    ngOnDestroy() {
+        // Clean up subscription to prevent memory leaks
+        if (this.authSubscription) {
+            this.authSubscription.unsubscribe();
+        }
+    }
 };
 MainPageComponent.ctorParameters = () => [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"] }
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ChangeDetectorRef"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"] }
 ];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('split', { static: false })
@@ -2167,7 +2242,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function getApiUrl() {
-    return 'http://localhost:5000'; // Your first URL
+    return ''; // Empty string to use proxy configuration from proxy.conf.js
 }
 function getAnotherUrl() {
     return 'https://localhost:5001'; // Your second URL
@@ -2192,7 +2267,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\lakshaman.rokade\source\repos\MSSQL\src\WebClient\mssql.client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! c:\Users\lakshaman.rokade\source\repos\MSSQL\src\WebClient\mssql.client\src\main.ts */"./src/main.ts");
 
 
 /***/ })

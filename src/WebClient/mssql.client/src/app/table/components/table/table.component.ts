@@ -1,16 +1,16 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 
-import { TableDescription } from "../../models/TableDescription";
-import { TableMetadata } from "../../models/TableMetadata";
-import { TableColumn } from "../../models/TableColumn";
-import { TableConstraint } from "../../models/TableConstraint";
-import { TableCreateScript } from "../../models/TableCreateScript";
-import { TableIndex } from "../../models/TableIndex";
-import { TableForeignKey } from "../../models/TableForeignKey";
-import { TableProperty } from "../../models/TableProperty";
-import { TableFragmentation } from "../../models/TableFragmentation";
-import { TableService } from '../../service/table.service';
+import { TableDescription } from "../../models/table-description.model";
+import { TableMetadata } from "../../models/table-metadata.model";
+import { TableColumn } from "../../models/table-column.model";
+import { TableConstraint } from "../../models/table-constraint.model";
+import { TableCreateScript } from "../../models/table-create-script.model";
+import { TableIndex } from "../../models/table-index.model";
+import { TableForeignKey } from "../../models/table-foreign-key.model";
+import { TableProperty } from "../../models/table-property.model";
+import { TableFragmentation } from "../../models/table-fragmentation.model";
+import { TableService } from '../../services/table.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

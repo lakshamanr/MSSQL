@@ -18,16 +18,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       // Singular routes (for detail views)
-      { path: 'Table', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
+      { path: 'Table', loadChildren: () => import('./table/table.module').then(m => m.TablesModule) },
       { path: 'Storeprocedure', loadChildren: () => import('./procedure/procedure.module').then(m => m.ProcedureModule) },
       { path: 'View', loadChildren: () => import('./view/views.module').then(m => m.ViewModule) },
       { path: 'AggregateFunction', loadChildren: () => import('./function/function.module').then(m => m.FunctionModule) },
       { path: 'ScalarFunction', loadChildren: () => import('./function/function.module').then(m => m.FunctionModule) },
       { path: 'TableValueFunction', loadChildren: () => import('./function/function.module').then(m => m.FunctionModule) },
-      { path: 'Trigger', loadChildren: () => import('./Triggers/database-trigger.module').then(m => m.DatabaseTriggerModule) },
-      { path: 'Schema', loadChildren: () => import('./schema/schemas.module').then(m => m.SchemasModule) },
-      { path: 'XmlSchema', loadChildren: () => import('./XmlSchema/xml-schema.module').then(m => m.XmlSchemaModule) },
-      { path: 'UserDefinedDataType', loadChildren: () => import('./UserDefinedDataType/user-defined-data-types.module').then(m => m.UserDefinedDataTypesModule) },
+      { path: 'Trigger', loadChildren: () => import('./triggers/trigger.module').then(m => m.DatabaseTriggerModule) },
+      { path: 'Schema', loadChildren: () => import('./schema/schema.module').then(m => m.SchemasModule) },
+      { path: 'XmlSchema', loadChildren: () => import('./xml-schema/xml-schema.module').then(m => m.XmlSchemaModule) },
+      { path: 'UserDefinedDataType', loadChildren: () => import('./user-defined-data-type/user-defined-data-type.module').then(m => m.UserDefinedDataTypesModule) },
       { path: 'Database', loadChildren: () => import('./database/database.module').then(m => m.DatabaseModule) },
 
       // Plural routes (redirects to list views)

@@ -36159,7 +36159,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           }).map(function (deepParts) {
             var _deepParts = _toArray(deepParts),
               shallowPart = _deepParts[0],
-              otherParts = _deepParts.slice(1);
+              otherParts = _arrayLikeToArray(_deepParts).slice(1);
             var applyScope = function applyScope(shallowPart) {
               if (_this191._selectorNeedsScoping(shallowPart, scopeSelector)) {
                 return strict ? _this191._applyStrictSelectorScope(shallowPart, scopeSelector, hostSelector) : _this191._applySelectorScope(shallowPart, scopeSelector, hostSelector);
@@ -280813,7 +280813,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return _empty__WEBPACK_IMPORTED_MODULE_3__["EMPTY"];
       }
       var first = sources[0],
-        remainder = sources.slice(1);
+        remainder = _arrayLikeToArray(sources).slice(1);
       if (sources.length === 1 && Object(_util_isArray__WEBPACK_IMPORTED_MODULE_2__["isArray"])(first)) {
         return onErrorResumeNext.apply(void 0, _toConsumableArray(first));
       }

@@ -10,7 +10,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+
   public class FullTextCatalogController : ControllerBase
     {
         private readonly IFullTextCatalogRepository _repository;

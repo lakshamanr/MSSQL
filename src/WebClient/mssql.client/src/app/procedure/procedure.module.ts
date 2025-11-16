@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ProceduresComponent } from './components/procedures/procedures.component';
 import { ProcedureComponent } from './components/procedure/procedure.component';
-import { ProcedureService } from './service/procedure.service';
+import { ProcedureService } from './services/procedure.service';
 
 /* ===== PrimeNG Modules ===== */
 import { AccordionModule } from 'primeng/accordion';

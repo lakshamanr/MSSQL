@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MenuItem } from 'primeng/api/menuitem';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { TablesMetadata } from '../../models/TablesMetaData';
+import { TablesMetadata } from '../../models/tables-metadata.model';
 import { AuthService } from '../../../auth/services/auth.service';
 import { filter, take } from 'rxjs/operators';
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SqlFunctionMetadata } from '../model/SqlFunctionMetadata';
+import { SqlFunctionMetadata } from '../models/sql-function-metadata.model';
 import { Observable } from 'rxjs';
 
 @Injectable({

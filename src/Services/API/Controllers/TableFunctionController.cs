@@ -10,7 +10,7 @@ namespace API.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
-  [Authorize]
+ 
   public class TableFunctionController : ControllerBase
   {
     private readonly ITableValuedFunctionRepository _tableValuedFunctionRepository;

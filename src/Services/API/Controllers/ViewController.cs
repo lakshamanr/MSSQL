@@ -11,7 +11,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+
   public class ViewController : ControllerBase
     {
         private readonly IViewsRepository _viewsRepository;

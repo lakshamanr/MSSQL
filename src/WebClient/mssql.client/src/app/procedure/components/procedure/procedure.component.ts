@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProcedureService } from '../../service/procedure.service';
-import { StoredProcedureDescriptionRequest } from '../../model/StoredProcedureDescriptionRequest';
-import { ParameterDescriptionRequest } from '../../model/ParameterDescriptionRequest';
-import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
-import { StoredProcedureParameter } from '../../model/StoredProcedureParameter';
+import { ProcedureService } from '../../services/procedure.service';
+import { StoredProcedureDescriptionRequest } from '../../models/stored-procedure-description-request.model';
+import { ParameterDescriptionRequest } from '../../models/parameter-description-request.model';
+import { StoredProcedureMeta } from '../../models/stored-procedure-meta.model';
+import { StoredProcedureParameter } from '../../models/stored-procedure-parameter.model';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { filter, take } from 'rxjs/operators';

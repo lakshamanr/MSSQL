@@ -131,25 +131,36 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/aggregate-function.service */"./src/app/function/services/aggregate-function.service.ts");
     /* harmony import */
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var AggregateFunctionComponent = /*#__PURE__*/function () {
-      function AggregateFunctionComponent(route, aggregateFunctionService) {
+      function AggregateFunctionComponent(route, aggregateFunctionService, authService) {
         _classCallCheck(this, AggregateFunctionComponent);
         this.route = route;
         this.aggregateFunctionService = aggregateFunctionService;
+        this.authService = authService;
       }
       return _createClass(AggregateFunctionComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this = this;
           this.selectedFunction = this.route.snapshot.params.objectname;
-          this.fetchFunctionMetadata();
+          // Wait for authentication before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function () {
+            _this.fetchFunctionMetadata();
+          });
         }
       }, {
         key: "fetchFunctionMetadata",
         value: function fetchFunctionMetadata() {
-          var _this = this;
+          var _this2 = this;
           if (this.selectedFunction) {
             this.aggregateFunctionService.getFunctionMetadata(this.selectedFunction).subscribe(function (data) {
-              _this.functionMetadata = data;
+              _this2.functionMetadata = data;
             });
           }
         }
@@ -169,6 +180,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]
       }, {
         type: _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__["AggregateFunctionService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
     AggregateFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -228,10 +241,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadFunctionDescriptions",
         value: function loadFunctionDescriptions() {
-          var _this2 = this;
+          var _this3 = this;
           this.aggregateFunctionService.getAggregateFunctionDescriptions().subscribe(function (data) {
-            _this2.functionDescriptions = data;
+            _this3.functionDescriptions = data;
           });
+        }
+        // TrackBy function for better performance (for keyvalue pipe)
+      }, {
+        key: "trackByKey",
+        value: function trackByKey(index, item) {
+          return item.key;
         }
       }]);
     }();
@@ -285,25 +304,36 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/scalar-function.service */"./src/app/function/services/scalar-function.service.ts");
     /* harmony import */
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var ScalarFunctionComponent = /*#__PURE__*/function () {
-      function ScalarFunctionComponent(route, scalarFunctionService) {
+      function ScalarFunctionComponent(route, scalarFunctionService, authService) {
         _classCallCheck(this, ScalarFunctionComponent);
         this.route = route;
         this.scalarFunctionService = scalarFunctionService;
+        this.authService = authService;
       }
       return _createClass(ScalarFunctionComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this4 = this;
           this.selectedFunction = this.route.snapshot.params.objectname;
-          this.fetchFunctionMetadata();
+          // Wait for authentication before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function () {
+            _this4.fetchFunctionMetadata();
+          });
         }
       }, {
         key: "fetchFunctionMetadata",
         value: function fetchFunctionMetadata() {
-          var _this3 = this;
+          var _this5 = this;
           if (this.selectedFunction) {
             this.scalarFunctionService.getFunctionMetadata(this.selectedFunction).subscribe(function (data) {
-              _this3.functionMetadata = data;
+              _this5.functionMetadata = data;
             });
           }
         }
@@ -323,6 +353,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]
       }, {
         type: _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__["ScalarFunctionService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
     ScalarFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -382,10 +414,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadFunctionDescriptions",
         value: function loadFunctionDescriptions() {
-          var _this4 = this;
+          var _this6 = this;
           this.scalarFunctionService.getScalarFunctionDescriptions().subscribe(function (data) {
-            _this4.functionDescriptions = data;
+            _this6.functionDescriptions = data;
           });
+        }
+        // TrackBy function for better performance (for keyvalue pipe)
+      }, {
+        key: "trackByKey",
+        value: function trackByKey(index, item) {
+          return item.key;
         }
       }]);
     }();
@@ -439,26 +477,37 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _services_table_value_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/table-value-function.service */"./src/app/function/services/table-value-function.service.ts");
     /* harmony import */
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var TableValueFunctionComponent = /*#__PURE__*/function () {
-      function TableValueFunctionComponent(route, tableValueFunctionService) {
+      function TableValueFunctionComponent(route, tableValueFunctionService, authService) {
         _classCallCheck(this, TableValueFunctionComponent);
         this.route = route;
         this.tableValueFunctionService = tableValueFunctionService;
+        this.authService = authService;
       }
       return _createClass(TableValueFunctionComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this7 = this;
           this.selectedFunction = this.route.snapshot.params.objectname;
-          this.fetchFunctionMetadata();
+          // Wait for authentication before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function () {
+            _this7.fetchFunctionMetadata();
+          });
         }
       }, {
         key: "fetchFunctionMetadata",
         value: function fetchFunctionMetadata() {
-          var _this5 = this;
+          var _this8 = this;
           try {
             if (this.selectedFunction) {
               this.tableValueFunctionService.getFunctionMetadata(this.selectedFunction).subscribe(function (data) {
-                _this5.functionMetadata = data;
+                _this8.functionMetadata = data;
               });
             }
           } catch (e) {
@@ -481,6 +530,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]
       }, {
         type: _services_table_value_function_service__WEBPACK_IMPORTED_MODULE_2__["TableValueFunctionService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
     TableValueFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -540,10 +591,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadFunctionDescriptions",
         value: function loadFunctionDescriptions() {
-          var _this6 = this;
+          var _this9 = this;
           this.tableValueFunctionService.getTableFunctionDescriptions().subscribe(function (data) {
-            _this6.functionDescriptions = data;
+            _this9.functionDescriptions = data;
           });
+        }
+        // TrackBy function for better performance (for keyvalue pipe)
+      }, {
+        key: "trackByKey",
+        value: function trackByKey(index, item) {
+          return item.key;
         }
       }]);
     }();
@@ -678,17 +735,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */"./node_modules/@angular/common/fesm2015/http.js");
-    /* harmony import */
-    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
-    /* harmony import */
-    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
     var AggregateFunctionService = /*#__PURE__*/function () {
-      function AggregateFunctionService(http, primaryUrl, authService, router) {
+      function AggregateFunctionService(http, primaryUrl) {
         _classCallCheck(this, AggregateFunctionService);
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/AggregateFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
       }
@@ -699,10 +750,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return _createClass(AggregateFunctionService, [{
         key: "getAggregateFunctionDescriptions",
         value: function getAggregateFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/AggregateFunctionDescriptions"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/AggregateFunctionDescriptions"));
         }
         /**
          * Retrieves metadata for a specified table-valued function.
@@ -712,10 +760,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionMetadata",
         value: function getFunctionMetadata(functionName) {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName));
         }
         /**
          * Upserts the description of a specified table-valued function.
@@ -727,7 +772,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "upsertFunctionDescription",
         value: function upsertFunctionDescription(schemaName, functionName, description) {
-          var headers = this.getAuthHeaders();
           return this.http.post("".concat(this.primaryUrl, "/description/upsert"), null,
           // No request body, only query parameters
           {
@@ -735,8 +779,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
               schemaName: schemaName,
               functionName: functionName,
               description: description
-            },
-            headers: headers
+            }
           });
         }
         /**
@@ -746,22 +789,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionDescriptions",
         value: function getFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/descriptions"), {
-            headers: headers
-          });
-        }
-      }, {
-        key: "getAuthHeaders",
-        value: function getAuthHeaders() {
-          var token = this.authService.getToken();
-          if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-          }
-          return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': "Bearer ".concat(token)
-          });
+          return this.http.get("".concat(this.primaryUrl, "/descriptions"));
         }
       }]);
     }();
@@ -774,10 +802,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"],
           args: ['API_URL']
         }]
-      }, {
-        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
-      }, {
-        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
     AggregateFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -806,17 +830,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */"./node_modules/@angular/common/fesm2015/http.js");
-    /* harmony import */
-    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
-    /* harmony import */
-    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
     var ScalarFunctionService = /*#__PURE__*/function () {
-      function ScalarFunctionService(http, primaryUrl, authService, router) {
+      function ScalarFunctionService(http, primaryUrl) {
         _classCallCheck(this, ScalarFunctionService);
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/ScalarFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
       }
@@ -827,10 +845,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return _createClass(ScalarFunctionService, [{
         key: "getScalarFunctionDescriptions",
         value: function getScalarFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/ScalarFunctionDescriptions"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/ScalarFunctionDescriptions"));
         }
         /**
          * Retrieves metadata for a specified table-valued function.
@@ -840,10 +855,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionMetadata",
         value: function getFunctionMetadata(functionName) {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName));
         }
         /**
          * Upserts the description of a specified table-valued function.
@@ -855,7 +867,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "upsertFunctionDescription",
         value: function upsertFunctionDescription(schemaName, functionName, description) {
-          var headers = this.getAuthHeaders();
           return this.http.post("".concat(this.primaryUrl, "/description/upsert"), null,
           // No request body, only query parameters
           {
@@ -863,8 +874,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
               schemaName: schemaName,
               functionName: functionName,
               description: description
-            },
-            headers: headers
+            }
           });
         }
         /**
@@ -874,22 +884,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionDescriptions",
         value: function getFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/descriptions"), {
-            headers: headers
-          });
-        }
-      }, {
-        key: "getAuthHeaders",
-        value: function getAuthHeaders() {
-          var token = this.authService.getToken();
-          if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-          }
-          return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': "Bearer ".concat(token)
-          });
+          return this.http.get("".concat(this.primaryUrl, "/descriptions"));
         }
       }]);
     }();
@@ -902,10 +897,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"],
           args: ['API_URL']
         }]
-      }, {
-        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
-      }, {
-        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
     ScalarFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -934,17 +925,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */"./node_modules/@angular/common/fesm2015/http.js");
     /* harmony import */
     var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
-    /* harmony import */
-    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
-    /* harmony import */
-    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
     var TableValueFunctionService = /*#__PURE__*/function () {
-      function TableValueFunctionService(http, primaryUrl, authService, router) {
+      function TableValueFunctionService(http, primaryUrl) {
         _classCallCheck(this, TableValueFunctionService);
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/TableFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
       }
@@ -955,10 +940,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return _createClass(TableValueFunctionService, [{
         key: "getTableFunctionDescriptions",
         value: function getTableFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/TableValuedFunctionDescriptions"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/TableValuedFunctionDescriptions"));
         }
         /**
          * Retrieves metadata for a specified table-valued function.
@@ -968,10 +950,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionMetadata",
         value: function getFunctionMetadata(functionName) {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/").concat(functionName));
         }
         /**
          * Upserts the description of a specified table-valued function.
@@ -983,7 +962,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "upsertFunctionDescription",
         value: function upsertFunctionDescription(schemaName, functionName, description) {
-          var headers = this.getAuthHeaders();
           return this.http.post("".concat(this.primaryUrl, "/description/upsert"), null,
           // No request body, only query parameters
           {
@@ -991,8 +969,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
               schemaName: schemaName,
               functionName: functionName,
               description: description
-            },
-            headers: headers
+            }
           });
         }
         /**
@@ -1002,22 +979,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getFunctionDescriptions",
         value: function getFunctionDescriptions() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/descriptions"), {
-            headers: headers
-          });
-        }
-      }, {
-        key: "getAuthHeaders",
-        value: function getAuthHeaders() {
-          var token = this.authService.getToken();
-          if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-          }
-          return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
-            'Authorization': "Bearer ".concat(token)
-          });
+          return this.http.get("".concat(this.primaryUrl, "/descriptions"));
         }
       }]);
     }();
@@ -1030,10 +992,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"],
           args: ['API_URL']
         }]
-      }, {
-        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
-      }, {
-        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
     TableValueFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

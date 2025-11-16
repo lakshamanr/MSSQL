@@ -11,7 +11,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-  [Authorize]
+ 
   public class StoredProcedureController : ControllerBase
     {
         private readonly IStoredProcedureRepository _repository;

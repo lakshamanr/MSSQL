@@ -15,7 +15,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
     __webpack_require__.r(__webpack_exports__);
     /* harmony default export */
-    __webpack_exports__["default"] = " \r\n<amexio-accordion [multi-open]=\"true\">\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"View Name\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"\">\r\n      <h5 class=\"\">\r\n        <img src=\"./assets/icons/View.png\" >\r\n        <span>{{ selectedViewName }}</span>\r\n      </h5>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"MS Description\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"ms-description-container\">\r\n      <div class=\"ms-description-content\">\r\n        <!-- Normal Text Display -->\r\n        <div class=\"col-10 description-text\" *ngIf=\"!iblnShowEditBox\">\r\n          <p>{{ selectedViewMetaData?.viewDetails[0]?.viewExtendedProperties }}</p>\r\n        </div>\r\n  \r\n        <!-- Edit Button -->\r\n        <div class=\"col-2 text-right edit-btn-container\" *ngIf=\"!iblnShowEditBox\">\r\n          <a (click)=\"EditView($event)\" class=\"edit-btn\">\r\n            <i class=\"fa fa-edit\"></i>\r\n          </a>\r\n        </div>\r\n      </div>\r\n  \r\n      <!-- Text Area for Editing -->\r\n      <div class=\"form-group edit-box\" *ngIf=\"iblnShowEditBox\">\r\n        <textarea class=\"form-control\" rows=\"3\" [(ngModel)]=\"editedDescription\"></textarea>\r\n  \r\n        <!-- Action Buttons -->\r\n        <div class=\"text-right mt-2\">\r\n          <a (click)=\"CancelViewMsDesciption($event)\" class=\"btn btn-danger\">\r\n            <i class=\"fa fa-times\"></i> Cancel\r\n          </a>\r\n          <a (click)=\"SaveViewMsDesciption($event)\" class=\"btn btn-success\">\r\n            <i class=\"fa fa-save\"></i> Save\r\n          </a>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  \r\n\r\n\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"View Properties\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"table\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">Uses Ansi Nulls</div>\r\n        <div class=\"cell\">Uses Quoted Identifier</div>\r\n        <div class=\"cell\">Create Date</div>\r\n        <div class=\"cell\">Modify Date</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewProperties\" class=\"row\">\r\n\r\n        <div class=\"cell\">{{Property.uses_ansi_nulls}} </div>\r\n        <div class=\"cell\">{{Property.uses_quoted_identifier}}</div>\r\n        <div class=\"cell\">{{Property.create_date}}</div>\r\n        <div class=\"cell\">{{Property.modify_date}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Columns\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"table\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">Column Order</div>\r\n        <div class=\"cell\">Column Name</div>\r\n        <div class=\"cell\">Data Type</div>\r\n        <div class=\"cell\">Max Length</div>\r\n        <div class=\"cell\">Precision</div>\r\n        <div class=\"cell\">Scale</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewColumns \" class=\"row\">\r\n\r\n        <div class=\"cell\">{{Property.columnOrder}} </div>\r\n        <div class=\"cell\">{{Property.columnName}}</div>\r\n        <div class=\"cell\">{{Property.dataType}}</div>\r\n        <div class=\"cell\">{{Property.maxLength}}</div>\r\n        <div class=\"cell\">{{Property.precision}}</div>\r\n        <div class=\"cell\">{{Property.scale}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Create Script \" [gradient]=\"true\" [active]=\"true\"> \r\n    <app-code-viewer [code]=\"selectedViewMetaData.viewCreateScript.createViewScript\" [language]=\"'sql'\"></app-code-viewer>  \r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Used By \" [gradient]=\"true\" [active]=\"true\">\r\n\r\n    <div class=\"table\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">View Dependency Name</div>\r\n        <div class=\"cell\">Type</div>\r\n        <div class=\"cell\">Updated</div>\r\n        <div class=\"cell\">Selected</div>\r\n        <div class=\"cell\">Column Name</div>\r\n        <div class=\"cell\">Full Reference Name</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewDependencies \" class=\"row\">\r\n        <a class=\"cell\">{{Property.name}}</a>\r\n        <div class=\"cell\">{{Property.type}}</div>\r\n        <div class=\"cell\">{{Property.updated}}</div>\r\n        <div class=\"cell\">{{Property.selected}}</div>\r\n        <div class=\"cell\">{{Property.column_name}}</div>\r\n        <div class=\"cell\">{{Property.fullReferenceName}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n\r\n</amexio-accordion>\r\n";
+    __webpack_exports__["default"] = " \r\n<amexio-accordion [multi-open]=\"true\">\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"View Name\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"\">\r\n      <h5 class=\"\">\r\n        <img src=\"./assets/icons/View.png\" >\r\n        <span>{{ selectedViewName }}</span>\r\n      </h5>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"MS Description\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"ms-description-container\">\r\n      <div class=\"ms-description-content\">\r\n        <!-- Normal Text Display -->\r\n        <div class=\"col-10 description-text\" *ngIf=\"!iblnShowEditBox\">\r\n          <p>{{ selectedViewMetaData?.viewDetails[0]?.viewExtendedProperties }}</p>\r\n        </div>\r\n  \r\n        <!-- Edit Button -->\r\n        <div class=\"col-2 text-right edit-btn-container\" *ngIf=\"!iblnShowEditBox\">\r\n          <a (click)=\"EditView($event)\" class=\"edit-btn\">\r\n            <i class=\"fa fa-edit\"></i>\r\n          </a>\r\n        </div>\r\n      </div>\r\n  \r\n      <!-- Text Area for Editing -->\r\n      <div class=\"form-group edit-box\" *ngIf=\"iblnShowEditBox\">\r\n        <textarea class=\"form-control\" rows=\"3\" [(ngModel)]=\"editedDescription\"></textarea>\r\n  \r\n        <!-- Action Buttons -->\r\n        <div class=\"text-right mt-2\">\r\n          <a (click)=\"CancelViewMsDesciption($event)\" class=\"btn btn-danger\">\r\n            <i class=\"fa fa-times\"></i> Cancel\r\n          </a>\r\n          <a (click)=\"SaveViewMsDesciption($event)\" class=\"btn btn-success\">\r\n            <i class=\"fa fa-save\"></i> Save\r\n          </a>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  \r\n\r\n\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"View Properties\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"table\" *ngIf=\"selectedViewMetaData\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">Uses Ansi Nulls</div>\r\n        <div class=\"cell\">Uses Quoted Identifier</div>\r\n        <div class=\"cell\">Create Date</div>\r\n        <div class=\"cell\">Modify Date</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewProperties\" class=\"row\">\r\n\r\n        <div class=\"cell\">{{Property.uses_ansi_nulls}} </div>\r\n        <div class=\"cell\">{{Property.uses_quoted_identifier}}</div>\r\n        <div class=\"cell\">{{Property.create_date}}</div>\r\n        <div class=\"cell\">{{Property.modify_date}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Columns\" [gradient]=\"true\" [active]=\"true\">\r\n    <div class=\"table\" *ngIf=\"selectedViewMetaData\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">Column Order</div>\r\n        <div class=\"cell\">Column Name</div>\r\n        <div class=\"cell\">Data Type</div>\r\n        <div class=\"cell\">Max Length</div>\r\n        <div class=\"cell\">Precision</div>\r\n        <div class=\"cell\">Scale</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewColumns \" class=\"row\">\r\n\r\n        <div class=\"cell\">{{Property.columnOrder}} </div>\r\n        <div class=\"cell\">{{Property.columnName}}</div>\r\n        <div class=\"cell\">{{Property.dataType}}</div>\r\n        <div class=\"cell\">{{Property.maxLength}}</div>\r\n        <div class=\"cell\">{{Property.precision}}</div>\r\n        <div class=\"cell\">{{Property.scale}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Create Script \" [gradient]=\"true\" [active]=\"true\">\r\n    <app-code-viewer *ngIf=\"selectedViewMetaData?.viewCreateScript\" [code]=\"selectedViewMetaData.viewCreateScript.createViewScript\" [language]=\"'sql'\"></app-code-viewer>\r\n  </amexio-accordion-tab>\r\n  <amexio-accordion-tab amexioColorPalette [color-palette]=\"''\" header=\"Used By \" [gradient]=\"true\" [active]=\"true\">\r\n\r\n    <div class=\"table\" *ngIf=\"selectedViewMetaData\">\r\n      <div class=\"row header\">\r\n        <div class=\"cell\">View Dependency Name</div>\r\n        <div class=\"cell\">Type</div>\r\n        <div class=\"cell\">Updated</div>\r\n        <div class=\"cell\">Selected</div>\r\n        <div class=\"cell\">Column Name</div>\r\n        <div class=\"cell\">Full Reference Name</div>\r\n      </div>\r\n      <div *ngFor=\"let Property of selectedViewMetaData.viewDependencies \" class=\"row\">\r\n        <a class=\"cell\">{{Property.name}}</a>\r\n        <div class=\"cell\">{{Property.type}}</div>\r\n        <div class=\"cell\">{{Property.updated}}</div>\r\n        <div class=\"cell\">{{Property.selected}}</div>\r\n        <div class=\"cell\">{{Property.column_name}}</div>\r\n        <div class=\"cell\">{{Property.fullReferenceName}}</div>\r\n      </div>\r\n    </div>\r\n  </amexio-accordion-tab>\r\n\r\n</amexio-accordion>\r\n";
 
     /***/
   }),
@@ -71,26 +71,37 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _service_services_view_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/services/view.service */"./src/app/view/service/services/view.service.ts");
     /* harmony import */
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var ViewComponent = /*#__PURE__*/function () {
-      function ViewComponent(route, viewService) {
+      function ViewComponent(route, viewService, authService) {
         _classCallCheck(this, ViewComponent);
         this.route = route;
         this.viewService = viewService;
+        this.authService = authService;
         this.selectedViewMetaData = null;
         this.editedDescription = ''; // Local copy for editing
       }
       return _createClass(ViewComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this = this;
           this.selectedViewName = this.route.snapshot.params.objectname;
-          this.loadViewMetaData(this.selectedViewName);
+          // Wait for authentication before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function () {
+            _this.loadViewMetaData(_this.selectedViewName);
+          });
         }
       }, {
         key: "loadViewMetaData",
         value: function loadViewMetaData(viewName) {
-          var _this = this;
+          var _this2 = this;
           this.viewService.getViewMetaData(viewName).subscribe(function (data) {
-            _this.selectedViewMetaData = data;
+            _this2.selectedViewMetaData = data;
           });
         }
         /**
@@ -120,7 +131,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "SaveViewMsDesciption",
         value: function SaveViewMsDesciption(event) {
-          var _this2 = this;
+          var _this3 = this;
           event.preventDefault();
           if (this.selectedViewMetaData.viewDetails.length) {
             var updatedDescription = this.editedDescription;
@@ -128,9 +139,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             this.viewService.updateViewDescription(this.selectedViewName, updatedDescription).subscribe(function () {
               console.log('Description updated successfully');
               // Update the original data
-              _this2.selectedViewMetaData.viewDetails[0].viewExtendedProperties = updatedDescription;
+              _this3.selectedViewMetaData.viewDetails[0].viewExtendedProperties = updatedDescription;
               // Hide edit box
-              _this2.iblnShowEditBox = false;
+              _this3.iblnShowEditBox = false;
             }, function (error) {
               console.error('Error updating description:', error);
             });
@@ -143,6 +154,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]
       }, {
         type: _service_services_view_service__WEBPACK_IMPORTED_MODULE_2__["ViewService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
     ViewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -206,10 +219,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadAllViews",
         value: function loadAllViews() {
-          var _this3 = this;
+          var _this4 = this;
           this.viewService.getAllViewData().subscribe(function (data) {
-            _this3.viewDetails = data;
+            _this4.viewDetails = data;
           });
+        }
+        // TrackBy function for better performance
+      }, {
+        key: "trackByViewName",
+        value: function trackByViewName(index, view) {
+          return view.viewName;
         }
       }]);
     }();
@@ -246,46 +265,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */"./node_modules/@angular/common/fesm2015/http.js");
-    /* harmony import */
-    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
-    /* harmony import */
-    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
     var ViewService = /*#__PURE__*/function () {
-      function ViewService(primaryUrl, secondaryUrl, http, authService, router) {
+      function ViewService(primaryUrl, secondaryUrl, http) {
         _classCallCheck(this, ViewService);
         this.primaryUrl = primaryUrl;
         this.secondaryUrl = secondaryUrl;
         this.http = http;
-        this.authService = authService;
-        this.router = router;
       }
       return _createClass(ViewService, [{
         key: "getAllViewData",
         value: function getAllViewData() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/View/GetAllViewData"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.primaryUrl, "/View/GetAllViewData"));
         }
       }, {
         key: "getViewMetaData",
         value: function getViewMetaData(viewname) {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.primaryUrl, "/View/GetViewMetaData").concat(viewname), {
-            headers: headers
-          });
-        }
-      }, {
-        key: "getAuthHeaders",
-        value: function getAuthHeaders() {
-          var token = this.authService.getToken();
-          if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-          }
-          return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': "Bearer ".concat(token)
-          });
+          return this.http.get("".concat(this.primaryUrl, "/View/GetViewMetaData").concat(viewname));
         }
       }]);
     }();
@@ -304,10 +299,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }]
       }, {
         type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
-      }, {
-        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
-      }, {
-        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
     ViewService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

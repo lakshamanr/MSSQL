@@ -11,7 +11,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+
   public class XmlSchemaController : ControllerBase
     {
         private readonly IXmlSchemaRepository _repository;

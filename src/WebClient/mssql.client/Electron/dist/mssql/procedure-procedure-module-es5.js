@@ -68,14 +68,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     /* harmony import */
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
-    var _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/procedure.service */"./src/app/procedure/service/procedure.service.ts");
+    var _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/procedure.service */"./src/app/procedure/services/procedure.service.ts");
     /* harmony import */
     var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var ProcedureComponent = /*#__PURE__*/function () {
-      function ProcedureComponent(route, storedProcedureService) {
+      function ProcedureComponent(route, storedProcedureService, authService) {
         _classCallCheck(this, ProcedureComponent);
         this.route = route;
         this.storedProcedureService = storedProcedureService;
+        this.authService = authService;
         this.iblnShowEditBox = false;
         this.language = 'plsql';
         this.iblnLoading = false;
@@ -83,8 +88,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return _createClass(ProcedureComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this = this;
           this.storedProcedureName = this.route.snapshot.params.objectname;
-          this.loadMetadata();
+          // Wait for authentication to be ready before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function () {
+            _this.loadMetadata();
+          });
         }
         /**
          * Extract schema from stored procedure name.
@@ -105,13 +116,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadMetadata",
         value: function loadMetadata() {
-          var _this = this;
+          var _this2 = this;
           this.storedProcedureService.getStoredProcedureMetadata(this.storedProcedureName).subscribe({
             next: function next(data) {
-              _this.iblnLoading = true;
-              _this.storedProcedureMetadata = data;
-              _this.filesTree = JSON.parse(data.storedProcedureDependenciesTree);
-              QP.showPlan(document.getElementById("container"), "".concat(_this.storedProcedureMetadata.executionPlan.queryPlan), {
+              _this2.iblnLoading = true;
+              _this2.storedProcedureMetadata = data;
+              _this2.filesTree = JSON.parse(data.storedProcedureDependenciesTree);
+              QP.showPlan(document.getElementById("container"), "".concat(_this2.storedProcedureMetadata.executionPlan.queryPlan), {
                 jsTooltips: true
               });
             },
@@ -139,7 +150,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "updateProcedureDescription",
         value: function updateProcedureDescription() {
-          var _this2 = this;
+          var _this3 = this;
           if (!this.storedProcedureMetadata.storedProcedureInfo.extendedProperty) {
             console.error('No description available to update.');
             return;
@@ -152,7 +163,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           this.storedProcedureService.mergeStoredProcedureDescription(request).subscribe({
             next: function next() {
               console.log('Stored procedure description updated successfully');
-              _this2.toggleEditBox();
+              _this3.toggleEditBox();
             },
             error: function error(err) {
               return console.error('Error updating description:', err);
@@ -162,7 +173,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "updateParameterDescription",
         value: function updateParameterDescription(parameter) {
-          var _this3 = this;
+          var _this4 = this;
           var request = {
             schemaName: this.getSchema(),
             storedProcedureName: this.getStoreprocedureName(),
@@ -172,7 +183,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           this.storedProcedureService.mergeParameterDescription(request).subscribe({
             next: function next() {
               console.log('Parameter description updated successfully');
-              _this3.toggleParameterEdit(parameter);
+              _this4.toggleParameterEdit(parameter);
             },
             error: function error(err) {
               return console.error('Error updating parameter description:', err);
@@ -190,7 +201,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return [{
         type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]
       }, {
-        type: _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"]
+        type: _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]
       }];
     };
     ProcedureComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -235,7 +248,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     /* harmony import */
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
-    var _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/procedure.service */"./src/app/procedure/service/procedure.service.ts");
+    var _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/procedure.service */"./src/app/procedure/services/procedure.service.ts");
     var ProceduresComponent = /*#__PURE__*/function () {
       function ProceduresComponent(storedProcedureService) {
         _classCallCheck(this, ProceduresComponent);
@@ -255,21 +268,27 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "loadStoredProcedures",
         value: function loadStoredProcedures() {
-          var _this4 = this;
+          var _this5 = this;
           this.storedProcedureService.getAllStoredProcedures().subscribe({
             next: function next(data) {
-              _this4.storedProcedures = data;
+              _this5.storedProcedures = data;
             },
             error: function error(err) {
               return console.error('Error fetching stored procedures:', err);
             }
           });
         }
+        // TrackBy function for better performance
+      }, {
+        key: "trackByProcedureName",
+        value: function trackByProcedureName(index, procedure) {
+          return procedure.storedProcedure;
+        }
       }]);
     }();
     ProceduresComponent.ctorParameters = function () {
       return [{
-        type: _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"]
+        type: _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"]
       }];
     };
     ProceduresComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -309,7 +328,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     /* harmony import */
     var _components_procedure_procedure_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/procedure/procedure.component */"./src/app/procedure/components/procedure/procedure.component.ts");
     /* harmony import */
-    var _service_procedure_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./service/procedure.service */"./src/app/procedure/service/procedure.service.ts");
+    var _services_procedure_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/procedure.service */"./src/app/procedure/services/procedure.service.ts");
     /* harmony import */
     var primeng_accordion__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeng/accordion */"./node_modules/primeng/fesm2015/primeng-accordion.js");
     /* harmony import */
@@ -357,19 +376,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"], /* PrimeNG Modules */
       primeng_accordion__WEBPACK_IMPORTED_MODULE_8__["AccordionModule"], primeng_tree__WEBPACK_IMPORTED_MODULE_9__["TreeModule"], primeng_toast__WEBPACK_IMPORTED_MODULE_10__["ToastModule"], primeng_contextmenu__WEBPACK_IMPORTED_MODULE_12__["ContextMenuModule"], primeng_tabview__WEBPACK_IMPORTED_MODULE_13__["TabViewModule"], primeng_codehighlighter__WEBPACK_IMPORTED_MODULE_14__["CodeHighlighterModule"], primeng_breadcrumb__WEBPACK_IMPORTED_MODULE_15__["BreadcrumbModule"], primeng_button__WEBPACK_IMPORTED_MODULE_11__["ButtonModule"], primeng_dialog__WEBPACK_IMPORTED_MODULE_16__["DialogModule"], primeng_inputtextarea__WEBPACK_IMPORTED_MODULE_17__["InputTextareaModule"], /* Other Third-Party Modules */
       angular_progress_bar__WEBPACK_IMPORTED_MODULE_18__["ProgressBarModule"]],
-      providers: [_service_procedure_service__WEBPACK_IMPORTED_MODULE_7__["ProcedureService"]],
+      providers: [_services_procedure_service__WEBPACK_IMPORTED_MODULE_7__["ProcedureService"]],
       schemas: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["CUSTOM_ELEMENTS_SCHEMA"]]
     })], ProcedureModule);
 
     /***/
   }),
-  /***/"./src/app/procedure/service/procedure.service.ts": (
-  /*!********************************************************!*\
-    !*** ./src/app/procedure/service/procedure.service.ts ***!
-    \********************************************************/
+  /***/"./src/app/procedure/services/procedure.service.ts": (
+  /*!*********************************************************!*\
+    !*** ./src/app/procedure/services/procedure.service.ts ***!
+    \*********************************************************/
   /*! exports provided: ProcedureService */
   /***/
-  function _src_app_procedure_service_procedureServiceTs(module, __webpack_exports__, __webpack_require__) {
+  function _src_app_procedure_services_procedureServiceTs(module, __webpack_exports__, __webpack_require__) {
     "use strict";
 
     __webpack_require__.r(__webpack_exports__);
@@ -383,16 +402,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */"./node_modules/@angular/common/fesm2015/http.js");
     /* harmony import */
     var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
-    /* harmony import */
-    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
-    /* harmony import */
-    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */"./node_modules/@angular/router/fesm2015/router.js");
     var ProcedureService = /*#__PURE__*/function () {
-      function ProcedureService(primaryUrl, http, authService, router) {
+      function ProcedureService(primaryUrl, http) {
         _classCallCheck(this, ProcedureService);
         this.http = http;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = ''; // Update this with actual API URL
         this.baseUrl = primaryUrl + '/StoredProcedure';
       }
@@ -402,10 +415,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return _createClass(ProcedureService, [{
         key: "getAllStoredProcedures",
         value: function getAllStoredProcedures() {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.baseUrl, "/AllStoredProcedures"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.baseUrl, "/AllStoredProcedures"));
         }
         /**
          * Get metadata of a specific stored procedure.
@@ -414,10 +424,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "getStoredProcedureMetadata",
         value: function getStoredProcedureMetadata(storedProcedureName) {
-          var headers = this.getAuthHeaders();
-          return this.http.get("".concat(this.baseUrl, "/").concat(storedProcedureName, "/metadata"), {
-            headers: headers
-          });
+          return this.http.get("".concat(this.baseUrl, "/").concat(storedProcedureName, "/metadata"));
         }
         /**
          * Merge stored procedure description.
@@ -426,10 +433,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "mergeStoredProcedureDescription",
         value: function mergeStoredProcedureDescription(request) {
-          var headers = this.getAuthHeaders();
-          return this.http.post("".concat(this.baseUrl, "/description"), request, {
-            headers: headers
-          });
+          return this.http.post("".concat(this.baseUrl, "/description"), request);
         }
         /**
          * Merge parameter description of a stored procedure.
@@ -438,22 +442,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         key: "mergeParameterDescription",
         value: function mergeParameterDescription(request) {
-          var headers = this.getAuthHeaders();
-          return this.http.post("".concat(this.baseUrl, "/parameter/description"), request, {
-            headers: headers
-          });
-        }
-      }, {
-        key: "getAuthHeaders",
-        value: function getAuthHeaders() {
-          var token = this.authService.getToken();
-          if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-          }
-          return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
-            'Authorization': "Bearer ".concat(token)
-          });
+          return this.http.post("".concat(this.baseUrl, "/parameter/description"), request);
         }
       }]);
     }();
@@ -466,10 +455,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }]
       }, {
         type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]
-      }, {
-        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
-      }, {
-        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
     ProcedureService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

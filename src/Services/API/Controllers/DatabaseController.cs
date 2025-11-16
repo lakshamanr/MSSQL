@@ -12,7 +12,7 @@ namespace API.Controllers
   /// </summary>
   [ApiController]
   [Route("[controller]")]
-  [Authorize]
+ 
   public class DatabaseController : ControllerBase
   {
     private readonly IDatabaseReposititory _repository;

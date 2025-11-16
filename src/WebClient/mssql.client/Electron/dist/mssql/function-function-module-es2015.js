@@ -105,18 +105,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/aggregate-function.service */ "./src/app/function/services/aggregate-function.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 let AggregateFunctionComponent = class AggregateFunctionComponent {
-    constructor(route, aggregateFunctionService) {
+    constructor(route, aggregateFunctionService, authService) {
         this.route = route;
         this.aggregateFunctionService = aggregateFunctionService;
+        this.authService = authService;
     }
     ngOnInit() {
         this.selectedFunction = this.route.snapshot.params.objectname;
-        this.fetchFunctionMetadata();
+        // Wait for authentication before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(isAuth => isAuth === true), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(() => {
+            this.fetchFunctionMetadata();
+        });
     }
     fetchFunctionMetadata() {
         if (this.selectedFunction) {
@@ -135,7 +143,8 @@ let AggregateFunctionComponent = class AggregateFunctionComponent {
 };
 AggregateFunctionComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
-    { type: _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__["AggregateFunctionService"] }
+    { type: _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__["AggregateFunctionService"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 AggregateFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -191,6 +200,10 @@ let AggregateFunctionsComponent = class AggregateFunctionsComponent {
             this.functionDescriptions = data;
         });
     }
+    // TrackBy function for better performance (for keyvalue pipe)
+    trackByKey(index, item) {
+        return item.key;
+    }
 };
 AggregateFunctionsComponent.ctorParameters = () => [
     { type: _services_aggregate_function_service__WEBPACK_IMPORTED_MODULE_2__["AggregateFunctionService"] }
@@ -234,18 +247,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/scalar-function.service */ "./src/app/function/services/scalar-function.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 let ScalarFunctionComponent = class ScalarFunctionComponent {
-    constructor(route, scalarFunctionService) {
+    constructor(route, scalarFunctionService, authService) {
         this.route = route;
         this.scalarFunctionService = scalarFunctionService;
+        this.authService = authService;
     }
     ngOnInit() {
         this.selectedFunction = this.route.snapshot.params.objectname;
-        this.fetchFunctionMetadata();
+        // Wait for authentication before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(isAuth => isAuth === true), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(() => {
+            this.fetchFunctionMetadata();
+        });
     }
     fetchFunctionMetadata() {
         if (this.selectedFunction) {
@@ -264,7 +285,8 @@ let ScalarFunctionComponent = class ScalarFunctionComponent {
 };
 ScalarFunctionComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
-    { type: _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__["ScalarFunctionService"] }
+    { type: _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__["ScalarFunctionService"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 ScalarFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -320,6 +342,10 @@ let ScalarFunctionsComponent = class ScalarFunctionsComponent {
             this.functionDescriptions = data;
         });
     }
+    // TrackBy function for better performance (for keyvalue pipe)
+    trackByKey(index, item) {
+        return item.key;
+    }
 };
 ScalarFunctionsComponent.ctorParameters = () => [
     { type: _services_scalar_function_service__WEBPACK_IMPORTED_MODULE_2__["ScalarFunctionService"] }
@@ -363,18 +389,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _services_table_value_function_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/table-value-function.service */ "./src/app/function/services/table-value-function.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 let TableValueFunctionComponent = class TableValueFunctionComponent {
-    constructor(route, tableValueFunctionService) {
+    constructor(route, tableValueFunctionService, authService) {
         this.route = route;
         this.tableValueFunctionService = tableValueFunctionService;
+        this.authService = authService;
     }
     ngOnInit() {
         this.selectedFunction = this.route.snapshot.params.objectname;
-        this.fetchFunctionMetadata();
+        // Wait for authentication before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(isAuth => isAuth === true), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(() => {
+            this.fetchFunctionMetadata();
+        });
     }
     fetchFunctionMetadata() {
         try {
@@ -398,7 +432,8 @@ let TableValueFunctionComponent = class TableValueFunctionComponent {
 };
 TableValueFunctionComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
-    { type: _services_table_value_function_service__WEBPACK_IMPORTED_MODULE_2__["TableValueFunctionService"] }
+    { type: _services_table_value_function_service__WEBPACK_IMPORTED_MODULE_2__["TableValueFunctionService"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 TableValueFunctionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -453,6 +488,10 @@ let TableValueFunctionsComponent = class TableValueFunctionsComponent {
         this.tableValueFunctionService.getTableFunctionDescriptions().subscribe((data) => {
             this.functionDescriptions = data;
         });
+    }
+    // TrackBy function for better performance (for keyvalue pipe)
+    trackByKey(index, item) {
+        return item.key;
     }
 };
 TableValueFunctionsComponent.ctorParameters = () => [
@@ -599,19 +638,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 let AggregateFunctionService = class AggregateFunctionService {
-    constructor(http, primaryUrl, authService, router) {
+    constructor(http, primaryUrl) {
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/AggregateFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
     }
@@ -620,8 +653,7 @@ let AggregateFunctionService = class AggregateFunctionService {
       * @returns An Observable containing a dictionary of function names and their descriptions.
     */
     getAggregateFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/AggregateFunctionDescriptions`, { headers });
+        return this.http.get(`${this.primaryUrl}/AggregateFunctionDescriptions`);
     }
     /**
      * Retrieves metadata for a specified table-valued function.
@@ -629,8 +661,7 @@ let AggregateFunctionService = class AggregateFunctionService {
      * @returns Observable of SqlFunctionMetadata.
      */
     getFunctionMetadata(functionName) {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/${functionName}`, { headers });
+        return this.http.get(`${this.primaryUrl}/${functionName}`);
     }
     /**
      * Upserts the description of a specified table-valued function.
@@ -640,34 +671,20 @@ let AggregateFunctionService = class AggregateFunctionService {
      * @returns Observable of void.
      */
     upsertFunctionDescription(schemaName, functionName, description) {
-        const headers = this.getAuthHeaders();
         return this.http.post(`${this.primaryUrl}/description/upsert`, null, // No request body, only query parameters
-        { params: { schemaName, functionName, description }, headers });
+        { params: { schemaName, functionName, description } });
     }
     /**
      * Retrieves descriptions for all table-valued functions.
      * @returns Observable containing a dictionary of function names and their descriptions.
      */
     getFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/descriptions`, { headers });
-    }
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
+        return this.http.get(`${this.primaryUrl}/descriptions`);
     }
 };
 AggregateFunctionService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
-    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] }
 ];
 AggregateFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -693,19 +710,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 let ScalarFunctionService = class ScalarFunctionService {
-    constructor(http, primaryUrl, authService, router) {
+    constructor(http, primaryUrl) {
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/ScalarFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
     }
@@ -714,8 +725,7 @@ let ScalarFunctionService = class ScalarFunctionService {
         * @returns An Observable containing a dictionary of function names and their descriptions.
       */
     getScalarFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/ScalarFunctionDescriptions`, { headers });
+        return this.http.get(`${this.primaryUrl}/ScalarFunctionDescriptions`);
     }
     /**
      * Retrieves metadata for a specified table-valued function.
@@ -723,8 +733,7 @@ let ScalarFunctionService = class ScalarFunctionService {
      * @returns Observable of SqlFunctionMetadata.
      */
     getFunctionMetadata(functionName) {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/${functionName}`, { headers });
+        return this.http.get(`${this.primaryUrl}/${functionName}`);
     }
     /**
      * Upserts the description of a specified table-valued function.
@@ -734,34 +743,20 @@ let ScalarFunctionService = class ScalarFunctionService {
      * @returns Observable of void.
      */
     upsertFunctionDescription(schemaName, functionName, description) {
-        const headers = this.getAuthHeaders();
         return this.http.post(`${this.primaryUrl}/description/upsert`, null, // No request body, only query parameters
-        { params: { schemaName, functionName, description }, headers });
+        { params: { schemaName, functionName, description } });
     }
     /**
      * Retrieves descriptions for all table-valued functions.
      * @returns Observable containing a dictionary of function names and their descriptions.
      */
     getFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/descriptions`, { headers });
-    }
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
+        return this.http.get(`${this.primaryUrl}/descriptions`);
     }
 };
 ScalarFunctionService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
-    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"], args: ['API_URL',] }] }
 ];
 ScalarFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -787,19 +782,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 let TableValueFunctionService = class TableValueFunctionService {
-    constructor(http, primaryUrl, authService, router) {
+    constructor(http, primaryUrl) {
         this.http = http;
         this.primaryUrl = primaryUrl;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = '/TableFunction'; // Adjust based on your API base path
         this.primaryUrl = this.primaryUrl + this.baseUrl;
     }
@@ -808,8 +797,7 @@ let TableValueFunctionService = class TableValueFunctionService {
         * @returns An Observable containing a dictionary of function names and their descriptions.
       */
     getTableFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/TableValuedFunctionDescriptions`, { headers });
+        return this.http.get(`${this.primaryUrl}/TableValuedFunctionDescriptions`);
     }
     /**
      * Retrieves metadata for a specified table-valued function.
@@ -817,8 +805,7 @@ let TableValueFunctionService = class TableValueFunctionService {
      * @returns Observable of SqlFunctionMetadata.
      */
     getFunctionMetadata(functionName) {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/${functionName}`, { headers });
+        return this.http.get(`${this.primaryUrl}/${functionName}`);
     }
     /**
      * Upserts the description of a specified table-valued function.
@@ -828,34 +815,20 @@ let TableValueFunctionService = class TableValueFunctionService {
      * @returns Observable of void.
      */
     upsertFunctionDescription(schemaName, functionName, description) {
-        const headers = this.getAuthHeaders();
         return this.http.post(`${this.primaryUrl}/description/upsert`, null, // No request body, only query parameters
-        { params: { schemaName, functionName, description }, headers });
+        { params: { schemaName, functionName, description } });
     }
     /**
      * Retrieves descriptions for all table-valued functions.
      * @returns Observable containing a dictionary of function names and their descriptions.
      */
     getFunctionDescriptions() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.primaryUrl}/descriptions`, { headers });
-    }
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
+        return this.http.get(`${this.primaryUrl}/descriptions`);
     }
 };
 TableValueFunctionService.ctorParameters = () => [
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] },
-    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: ['API_URL',] }] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: ['API_URL',] }] }
 ];
 TableValueFunctionService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

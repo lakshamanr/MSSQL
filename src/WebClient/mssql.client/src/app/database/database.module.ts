@@ -12,7 +12,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { TreeDragDropService, MessageService } from 'primeng/api'; 
-import { DatabaseMetadataService } from './service/database-metadata.service';
+import { DatabaseMetadataService } from './services/database-metadata.service';
 import { ObjectTypeItemComponent } from './components/object-type-item/object-type-item.component';
 import { DatabaseDetailsComponent } from './components/database-details/database-details.component';
 import { Routes, RouterModule } from '@angular/router';

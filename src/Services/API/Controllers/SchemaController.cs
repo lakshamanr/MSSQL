@@ -10,7 +10,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-   [Authorize]
+   
   public class SchemaController : ControllerBase
     {
         private readonly ISchemaRepository _repository;

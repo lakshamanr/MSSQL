@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseMetadataService } from '../../service/database-metadata.service';
+import { DatabaseMetadataService } from '../../services/database-metadata.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { filter, take } from 'rxjs/operators';

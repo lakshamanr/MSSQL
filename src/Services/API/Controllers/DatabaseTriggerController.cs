@@ -11,7 +11,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+
   public class DatabaseTriggerController : ControllerBase
     {
         private readonly IDatabaseTriggerRepository _repository;

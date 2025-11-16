@@ -68,35 +68,46 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     /* harmony import */
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */"./node_modules/@angular/core/fesm2015/core.js");
     /* harmony import */
-    var _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/database-metadata.service */"./src/app/database/service/database-metadata.service.ts");
+    var _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/database-metadata.service */"./src/app/database/services/database-metadata.service.ts");
+    /* harmony import */
+    var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../auth/services/auth.service */"./src/app/auth/services/auth.service.ts");
+    /* harmony import */
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */"./node_modules/rxjs/_esm2015/operators/index.js");
     var DatabaseDetailsComponent = /*#__PURE__*/function () {
-      function DatabaseDetailsComponent(databaseMetadataService) {
+      function DatabaseDetailsComponent(databaseMetadataService, authService) {
         _classCallCheck(this, DatabaseDetailsComponent);
         this.databaseMetadataService = databaseMetadataService;
+        this.authService = authService;
         this.objectTypeItems = [];
         this.isLoading = true;
       }
       return _createClass(DatabaseDetailsComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          this.loadDatabaseMetadata();
+          var _this = this;
+          // Wait for authentication before loading data
+          this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(function (isAuth) {
+            return isAuth === true;
+          }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["take"])(1)).subscribe(function () {
+            _this.loadDatabaseMetadata();
+          });
         }
       }, {
         key: "loadDatabaseMetadata",
         value: function loadDatabaseMetadata() {
-          var _this = this;
+          var _this2 = this;
           this.isLoading = true;
           this.databaseMetadataService.getDatabaseMetaData().subscribe({
             next: function next(databaseMetaData) {
               if (databaseMetaData) {
-                _this.databaseMetaData = databaseMetaData;
-                _this.initializeObjectTypeItems();
-                _this.isLoading = false;
+                _this2.databaseMetaData = databaseMetaData;
+                _this2.initializeObjectTypeItems();
+                _this2.isLoading = false;
               }
             },
             error: function error(_error) {
-              _this.handleLoadError(_error);
-              _this.isLoading = false;
+              _this2.handleLoadError(_error);
+              _this2.isLoading = false;
             }
           });
         }
@@ -168,7 +179,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     }();
     DatabaseDetailsComponent.ctorParameters = function () {
       return [{
-        type: _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseMetadataService"]
+        type: _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_2__["DatabaseMetadataService"]
+      }, {
+        type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]
       }];
     };
     DatabaseDetailsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -257,7 +270,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     /* harmony import */
     var primeng_api__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! primeng/api */"./node_modules/primeng/fesm2015/primeng-api.js");
     /* harmony import */
-    var _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./service/database-metadata.service */"./src/app/database/service/database-metadata.service.ts");
+    var _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./services/database-metadata.service */"./src/app/database/services/database-metadata.service.ts");
     /* harmony import */
     var _components_object_type_item_object_type_item_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/object-type-item/object-type-item.component */"./src/app/database/components/object-type-item/object-type-item.component.ts");
     /* harmony import */
@@ -274,7 +287,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     DatabaseModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
       declarations: [_components_database_details_database_details_component__WEBPACK_IMPORTED_MODULE_16__["DatabaseDetailsComponent"], _components_object_type_item_object_type_item_component__WEBPACK_IMPORTED_MODULE_15__["ObjectTypeItemComponent"]],
       imports: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"], _angular_router__WEBPACK_IMPORTED_MODULE_17__["RouterModule"].forChild(routes), _shared_shared_module__WEBPACK_IMPORTED_MODULE_3__["SharedModule"], primeng_accordion__WEBPACK_IMPORTED_MODULE_4__["AccordionModule"], primeng_table__WEBPACK_IMPORTED_MODULE_5__["TableModule"], primeng_tree__WEBPACK_IMPORTED_MODULE_6__["TreeModule"], primeng_toast__WEBPACK_IMPORTED_MODULE_7__["ToastModule"], primeng_button__WEBPACK_IMPORTED_MODULE_8__["ButtonModule"], primeng_contextmenu__WEBPACK_IMPORTED_MODULE_9__["ContextMenuModule"], primeng_tabview__WEBPACK_IMPORTED_MODULE_10__["TabViewModule"], primeng_codehighlighter__WEBPACK_IMPORTED_MODULE_11__["CodeHighlighterModule"], primeng_breadcrumb__WEBPACK_IMPORTED_MODULE_12__["BreadcrumbModule"]],
-      providers: [primeng_api__WEBPACK_IMPORTED_MODULE_13__["TreeDragDropService"], primeng_api__WEBPACK_IMPORTED_MODULE_13__["MessageService"], _service_database_metadata_service__WEBPACK_IMPORTED_MODULE_14__["DatabaseMetadataService"]],
+      providers: [primeng_api__WEBPACK_IMPORTED_MODULE_13__["TreeDragDropService"], primeng_api__WEBPACK_IMPORTED_MODULE_13__["MessageService"], _services_database_metadata_service__WEBPACK_IMPORTED_MODULE_14__["DatabaseMetadataService"]],
       schemas: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["CUSTOM_ELEMENTS_SCHEMA"]]
     })], DatabaseModule);
 

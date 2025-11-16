@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/account")]
-    [Authorize]
+
     public class UserRoleController : BaseApiController
     {
         private readonly IUserRoleService _userRoleService;

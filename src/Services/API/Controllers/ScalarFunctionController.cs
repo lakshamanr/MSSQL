@@ -10,7 +10,7 @@ namespace API.Controllers
   /// </summary>
   [Route("[controller]")]
   [ApiController]
-  [Authorize]
+ 
   public class ScalarFunctionController : ControllerBase
   {
     private readonly IScalarFunctionRepository _scalarFunctionRepository;

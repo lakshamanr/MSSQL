@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewDetails, ViewMetaData, ViewProperties } from '../../model/view.model';
+import { ViewDetails, ViewMetaData, ViewProperties } from '../../models/view.model';
 import { ViewService } from '../../service/services/view.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';

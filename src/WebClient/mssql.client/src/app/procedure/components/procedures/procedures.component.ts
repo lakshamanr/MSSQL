@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProcedureService } from '../../service/procedure.service';
-import { StoredProcedureInfo } from "../../model/StoredProcedureInfo"; 
-import { StoredProcedureMeta } from '../../model/StoredProcedureMeta';
+import { ProcedureService } from '../../services/procedure.service';
+import { StoredProcedureInfo } from "../../models/stored-procedure-info.model";
+import { StoredProcedureMeta } from '../../models/stored-procedure-meta.model';
 
 @Component({
   selector: 'app-procedures',

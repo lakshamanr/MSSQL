@@ -51,16 +51,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProcedureComponent", function() { return ProcedureComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/procedure.service */ "./src/app/procedure/service/procedure.service.ts");
+/* harmony import */ var _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/procedure.service */ "./src/app/procedure/services/procedure.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
 
 
 
 
 let ProcedureComponent = class ProcedureComponent {
-    constructor(route, storedProcedureService) {
+    constructor(route, storedProcedureService, authService) {
         this.route = route;
         this.storedProcedureService = storedProcedureService;
+        this.authService = authService;
         this.iblnShowEditBox = false;
         this.language = 'plsql';
         this.iblnLoading = false;
@@ -68,7 +73,10 @@ let ProcedureComponent = class ProcedureComponent {
     ;
     ngOnInit() {
         this.storedProcedureName = this.route.snapshot.params.objectname;
-        this.loadMetadata();
+        // Wait for authentication to be ready before loading data
+        this.authService.isAuthenticated.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["filter"])(isAuth => isAuth === true), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(() => {
+            this.loadMetadata();
+        });
     }
     /**
      * Extract schema from stored procedure name.
@@ -144,7 +152,8 @@ let ProcedureComponent = class ProcedureComponent {
 };
 ProcedureComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
-    { type: _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"] }
+    { type: _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"] },
+    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 ProcedureComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -183,7 +192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProceduresComponent", function() { return ProceduresComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/procedure.service */ "./src/app/procedure/service/procedure.service.ts");
+/* harmony import */ var _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/procedure.service */ "./src/app/procedure/services/procedure.service.ts");
 
 
 
@@ -208,9 +217,13 @@ let ProceduresComponent = class ProceduresComponent {
             error: (err) => console.error('Error fetching stored procedures:', err)
         });
     }
+    // TrackBy function for better performance
+    trackByProcedureName(index, procedure) {
+        return procedure.storedProcedure;
+    }
 };
 ProceduresComponent.ctorParameters = () => [
-    { type: _service_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"] }
+    { type: _services_procedure_service__WEBPACK_IMPORTED_MODULE_2__["ProcedureService"] }
 ];
 ProceduresComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -241,7 +254,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _components_procedures_procedures_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/procedures/procedures.component */ "./src/app/procedure/components/procedures/procedures.component.ts");
 /* harmony import */ var _components_procedure_procedure_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/procedure/procedure.component */ "./src/app/procedure/components/procedure/procedure.component.ts");
-/* harmony import */ var _service_procedure_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./service/procedure.service */ "./src/app/procedure/service/procedure.service.ts");
+/* harmony import */ var _services_procedure_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/procedure.service */ "./src/app/procedure/services/procedure.service.ts");
 /* harmony import */ var primeng_accordion__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primeng/accordion */ "./node_modules/primeng/fesm2015/primeng-accordion.js");
 /* harmony import */ var primeng_tree__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! primeng/tree */ "./node_modules/primeng/fesm2015/primeng-tree.js");
 /* harmony import */ var primeng_toast__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! primeng/toast */ "./node_modules/primeng/fesm2015/primeng-toast.js");
@@ -311,7 +324,7 @@ ProcedureModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             /* Other Third-Party Modules */
             angular_progress_bar__WEBPACK_IMPORTED_MODULE_18__["ProgressBarModule"]
         ],
-        providers: [_service_procedure_service__WEBPACK_IMPORTED_MODULE_7__["ProcedureService"]],
+        providers: [_services_procedure_service__WEBPACK_IMPORTED_MODULE_7__["ProcedureService"]],
         schemas: [_angular_core__WEBPACK_IMPORTED_MODULE_1__["CUSTOM_ELEMENTS_SCHEMA"]],
     })
 ], ProcedureModule);
@@ -320,10 +333,10 @@ ProcedureModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/app/procedure/service/procedure.service.ts":
-/*!********************************************************!*\
-  !*** ./src/app/procedure/service/procedure.service.ts ***!
-  \********************************************************/
+/***/ "./src/app/procedure/services/procedure.service.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/procedure/services/procedure.service.ts ***!
+  \*********************************************************/
 /*! exports provided: ProcedureService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -333,18 +346,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../auth/services/auth.service */ "./src/app/auth/services/auth.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-
-
 
 
 
 let ProcedureService = class ProcedureService {
-    constructor(primaryUrl, http, authService, router) {
+    constructor(primaryUrl, http) {
         this.http = http;
-        this.authService = authService;
-        this.router = router;
         this.baseUrl = ''; // Update this with actual API URL
         this.baseUrl = primaryUrl + '/StoredProcedure';
     }
@@ -352,49 +359,33 @@ let ProcedureService = class ProcedureService {
      * Get all stored procedures.
      */
     getAllStoredProcedures() {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.baseUrl}/AllStoredProcedures`, { headers });
+        return this.http.get(`${this.baseUrl}/AllStoredProcedures`);
     }
     /**
      * Get metadata of a specific stored procedure.
      * @param storedProcedureName The name of the stored procedure.
      */
     getStoredProcedureMetadata(storedProcedureName) {
-        const headers = this.getAuthHeaders();
-        return this.http.get(`${this.baseUrl}/${storedProcedureName}/metadata`, { headers });
+        return this.http.get(`${this.baseUrl}/${storedProcedureName}/metadata`);
     }
     /**
      * Merge stored procedure description.
      * @param request The request body containing schema name, stored procedure name, and description.
      */
     mergeStoredProcedureDescription(request) {
-        const headers = this.getAuthHeaders();
-        return this.http.post(`${this.baseUrl}/description`, request, { headers });
+        return this.http.post(`${this.baseUrl}/description`, request);
     }
     /**
      * Merge parameter description of a stored procedure.
      * @param request The request body containing schema name, stored procedure name, parameter name, and description.
      */
     mergeParameterDescription(request) {
-        const headers = this.getAuthHeaders();
-        return this.http.post(`${this.baseUrl}/parameter/description`, request, { headers });
-    }
-    getAuthHeaders() {
-        const token = this.authService.getToken();
-        if (!token) {
-            this.router.navigate(['/login']);
-            return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]();
-        }
-        return new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
-            'Authorization': `Bearer ${token}`
-        });
+        return this.http.post(`${this.baseUrl}/parameter/description`, request);
     }
 };
 ProcedureService.ctorParameters = () => [
     { type: String, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: ['API_URL',] }] },
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] },
-    { type: _auth_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }
+    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }
 ];
 ProcedureService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({

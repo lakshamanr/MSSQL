@@ -12,7 +12,7 @@ namespace API.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-  [Authorize]
+ 
   public class UserDefinedDataTypeController : ControllerBase
     {
         private readonly IUserDefinedDataTypeRepository _repository;

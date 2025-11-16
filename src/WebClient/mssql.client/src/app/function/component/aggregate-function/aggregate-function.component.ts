@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AggregateFunctionService } from '../../services/aggregate-function.service';
-import { SqlFunctionMetadata } from '../../model/SqlFunctionMetadata';
+import { SqlFunctionMetadata } from '../../models/sql-function-metadata.model';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { filter, take } from 'rxjs/operators';
