@@ -20,4 +20,9 @@ export class UserDefinedDataTypesComponent implements OnInit {
       this.userDefinedDataTypes = data;
     });
   }
+
+  // TrackBy function for better performance
+  trackByTypeName(index: number, dataType: UserDefinedDataType): string {
+    return dataType.name;
+  }
 }

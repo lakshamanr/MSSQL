@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xmllint:*)"
+      "Bash(xmllint:*)",
+      "Bash(node --version:*)",
+      "Bash(nvm list:*)",
+      "Bash(nvm --version:*)",
+      "Bash(nvm install:*)",
+      "Bash(nvm use:*)",
+      "Bash(where:*)",
+      "Bash(cmd /c \"nvm list\")",
+      "Bash(\"C:\\Users\\lakshaman.rokade\\AppData\\Roaming\\nvm\\nvm.exe\" list)",
+      "Bash(\"C:\\Users\\lakshaman.rokade\\AppData\\Roaming\\nvm\\nvm.exe\" install 12.22.12)",
+      "Bash(test:*)",
+      "Bash(npm run start:windows:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(rm:*)",
+      "Bash(npx ng:*)"
     ],
     "deny": [],
     "ask": []

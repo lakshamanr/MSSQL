@@ -83,4 +83,9 @@ export class TablesComponent implements OnInit {
     console.error(error);
   }
 
+  // TrackBy function for better performance
+  trackByTableName(index: number, table: TablesMetadata): string {
+    return table.tableName;
+  }
+
 }

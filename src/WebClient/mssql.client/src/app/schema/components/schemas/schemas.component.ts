@@ -20,4 +20,9 @@ export class SchemasComponent implements OnInit {
     });
   }
 
+  // TrackBy function for better performance
+  trackBySchemaName(index: number, schema: SchemaDescription): string {
+    return schema.schemaName;
+  }
+
 }

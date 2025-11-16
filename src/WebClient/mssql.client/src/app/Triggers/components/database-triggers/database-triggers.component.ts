@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatabaseTriggerService } from '../../services/database-trigger.service';
 import { DatabaseTrigger } from '../../models/database-trigger.model';
 import { MessageService } from 'primeng/api';
@@ -7,12 +7,12 @@ import { MessageService } from 'primeng/api';
   selector: 'app-database-triggers',
   templateUrl: './database-triggers.component.html',
   styleUrls: ['./database-triggers.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class DatabaseTriggersComponent implements OnInit {
   triggers: DatabaseTrigger[] = [];
   loading: boolean = false;
-  searchText: string = '';
 
   constructor(
     private triggerService: DatabaseTriggerService,
@@ -49,5 +49,10 @@ export class DatabaseTriggersComponent implements OnInit {
         });
       }
     });
+  }
+
+  // TrackBy function for better performance
+  trackByName(index: number, trigger: DatabaseTrigger): string {
+    return trigger.name;
   }
 }

@@ -19,4 +19,9 @@ export class XmlSchemaListComponent implements OnInit {
       (error) => console.error('Error fetching collections', error)
     );
   }
+
+  // TrackBy function for better performance
+  trackByCollectionName(index: number, collection: XmlSchemaCollection): string {
+    return collection.xmlSchemaCollections;
+  }
 }

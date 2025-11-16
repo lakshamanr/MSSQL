@@ -20,4 +20,9 @@ export class AggregateFunctionsComponent implements OnInit {
     });
   }
 
+  // TrackBy function for better performance (for keyvalue pipe)
+  trackByKey(index: number, item: any): string {
+    return item.key;
+  }
+
 }

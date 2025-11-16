@@ -27,5 +27,10 @@ loadStoredProcedures() {
     },
     error: (err) => console.error('Error fetching stored procedures:', err)
   });
-} 
+}
+
+  // TrackBy function for better performance
+  trackByProcedureName(index: number, procedure: StoredProcedureInfo): string {
+    return procedure.storedProcedure;
+  }
 }

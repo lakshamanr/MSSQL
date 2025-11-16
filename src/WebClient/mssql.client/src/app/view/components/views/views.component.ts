@@ -24,4 +24,9 @@ export class ViewsComponent implements OnInit {
         this.viewDetails = data;
       });
     }
+
+  // TrackBy function for better performance
+  trackByViewName(index: number, view: ViewDetails): string {
+    return view.viewName;
+  }
 }
