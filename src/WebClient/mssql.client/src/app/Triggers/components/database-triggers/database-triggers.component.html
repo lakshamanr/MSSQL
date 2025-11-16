@@ -1,20 +1,96 @@
-<amexio-accordion [multi-open]="true">
-
-  <amexio-accordion-tab amexioColorPalette [color-palette]="''" [gradient]="true" header="All Triggers" [active]="true">
-    <hr />
-    <input type="text" class="form-control" placeholder="Search">
-    <hr />
-    <div class="table">
-      <div class="row header">
-        <div class="cell">Triggers</div>
-        <div class="cell">MS Descriptions</div>
+<div class="triggers-container">
+  <p-card header="Database Triggers" styleClass="triggers-card">
+    <ng-template pTemplate="header">
+      <div class="card-header-content">
+        <div class="header-title">
+          <i class="pi pi-bolt"></i>
+          <h2>Database Triggers</h2>
+        </div>
+        <span class="custom-badge">{{ triggers && triggers.length ? triggers.length : 0 }}</span>
       </div>
-      <div *ngFor="let Property of triggers   " class="row">
-        <a [innerHTML]="Property.name  " class="cell" data-title="Property" [routerLink]="['/Trigger',Property.name]"> {{Property.name}}</a>
-        <div [innerHTML]="Property.description  " class="cell" data-title="Value">{{Property.istrValue}}</div>
+    </ng-template>
 
-      </div>
+    <div class="search-container">
+      <span class="p-input-icon-left search-input">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="searchText"
+          placeholder="Search triggers..."
+          class="w-full"
+        />
+      </span>
     </div>
-  </amexio-accordion-tab>
 
-</amexio-accordion>
+    <p-table
+      [value]="triggers"
+      [globalFilterFields]="['name', 'description']"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [loading]="loading"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} triggers"
+      styleClass="p-datatable-striped p-datatable-gridlines"
+      [tableStyle]="{'min-width': '50rem'}"
+      responsiveLayout="scroll">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name" style="width: 40%">
+            <div class="flex align-items-center">
+              Trigger Name
+              <p-sortIcon field="name"></p-sortIcon>
+            </div>
+          </th>
+          <th pSortableColumn="description" style="width: 50%">
+            <div class="flex align-items-center">
+              Description
+              <p-sortIcon field="description"></p-sortIcon>
+            </div>
+          </th>
+          <th style="width: 10%">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-trigger>
+        <tr>
+          <td>
+            <div class="trigger-name-cell">
+              <i class="pi pi-bolt trigger-icon"></i>
+              <span class="trigger-name">{{ trigger.name }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="trigger-description">{{ trigger.description || 'No description' }}</span>
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-eye"
+              [routerLink]="['/Trigger', trigger.name]"
+              severity="info"
+              [rounded]="true"
+              [text]="true"
+              pTooltip="View Details"
+              tooltipPosition="left">
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3" class="text-center">
+            <div class="empty-state">
+              <i class="pi pi-info-circle"></i>
+              <p>No triggers found</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
+
+<p-toast></p-toast>

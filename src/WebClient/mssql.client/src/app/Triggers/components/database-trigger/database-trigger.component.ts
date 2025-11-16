@@ -1,69 +1,115 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseTriggerService } from '../../services/database-trigger.service';
 import { DatabaseTrigger } from '../../models/database-trigger.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-database-trigger',
   templateUrl: './database-trigger.component.html',
-  styleUrls: ['./database-trigger.component.css']
+  styleUrls: ['./database-trigger.component.css'],
+  providers: [MessageService]
 })
 export class DatabaseTriggerComponent implements OnInit {
   iblnShowEditBox: boolean = false;
+  loading: boolean = false;
+  saving: boolean = false;
 
-  language = 'sql'; // For ngx-prism
+  language = 'sql';
 
   selectedTrigger?: DatabaseTrigger;
   tiggersName: string;
   tiggersDesc = "";
 
-  constructor(private route: ActivatedRoute, private triggerService: DatabaseTriggerService) { }
+  breadcrumbItems: MenuItem[] = [];
+  homeBreadcrumb: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private triggerService: DatabaseTriggerService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.tiggersName = this.route.snapshot.params.objectname;
+    this.setupBreadcrumb();
     this.getTriggerByName(this.tiggersName);
   }
- 
 
-  getTriggerByName(name: string): void {
-    this.triggerService.getTriggerByName(name).subscribe(
-      (data) => { this.selectedTrigger = data; this.tiggersDesc = this.selectedTrigger.description },
-
-      (error) => console.error('Error fetching trigger:', error)
-    );
+  setupBreadcrumb(): void {
+    this.breadcrumbItems = [
+      { label: 'Triggers', routerLink: '/Trigger/s' },
+      { label: this.tiggersName }
+    ];
   }
 
-  //mergeTriggerProperty(): void {
-  //  this.triggerService.mergeTriggerProperty(this.newTrigger).subscribe(
-  //    (message) => {
-  //      console.log(message); 
-  //    },
-  //    (error) => console.error('Error creating/updating trigger:', error)
-  //  );
-  //}
-  // Show edit box for description
+  getTriggerByName(name: string): void {
+    this.loading = true;
+    this.triggerService.getTriggerByName(name).subscribe({
+      next: (data) => {
+        this.selectedTrigger = data;
+        this.tiggersDesc = this.selectedTrigger ? this.selectedTrigger.description || '' : '';
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching trigger:', error);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load trigger details',
+          life: 5000
+        });
+      }
+    });
+  }
+
   ShowModelPOP(event: Event): void {
     event.preventDefault();
     this.iblnShowEditBox = true;
   }
 
-  // Cancel editing
   CancelTableMsDesciption(event: Event): void {
     event.preventDefault();
+    this.tiggersDesc = this.selectedTrigger ? this.selectedTrigger.description || '' : '';
     this.iblnShowEditBox = false;
   }
 
-  // Save updated description
   SaveTableMsDesciption(event: Event): void {
     event.preventDefault();
-    this.iblnShowEditBox = false;
+
+    if (!this.selectedTrigger) {
+      return;
+    }
+
+    this.saving = true;
     this.selectedTrigger.description = this.tiggersDesc;
-    this.triggerService.mergeTriggerProperty(this.selectedTrigger).subscribe(
-      (message) => {
+
+    this.triggerService.mergeTriggerProperty(this.selectedTrigger).subscribe({
+      next: (message) => {
         console.log(message);
-        this.iblnShowEditBox = false; this.getTriggerByName(this.tiggersName);
+        this.saving = false;
+        this.iblnShowEditBox = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Description updated successfully',
+          life: 3000
+        });
+        this.getTriggerByName(this.tiggersName);
       },
-      (error) => console.error('Error updating trigger description:', error)
-    );
+      error: (error) => {
+        console.error('Error updating trigger description:', error);
+        this.saving = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update description',
+          life: 5000
+        });
+      }
+    });
   }
 }

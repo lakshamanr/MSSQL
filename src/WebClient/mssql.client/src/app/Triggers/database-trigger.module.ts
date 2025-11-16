@@ -19,6 +19,10 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressBarModule } from 'angular-progress-bar';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from 'primeng/api';
 import { DatabaseTriggerService } from './services/database-trigger.service';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
@@ -53,10 +57,13 @@ const routes: Routes =
     ButtonModule,
     DialogModule,
     InputTextareaModule,
-    ProgressBarModule
-     
+    ProgressBarModule,
+    CardModule,
+    InputTextModule,
+    TooltipModule
+
   ],
-  providers: [DatabaseTriggerService],
+  providers: [DatabaseTriggerService, MessageService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DatabaseTriggerModule { }

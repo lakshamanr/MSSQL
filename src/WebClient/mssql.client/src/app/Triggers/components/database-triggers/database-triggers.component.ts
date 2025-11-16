@@ -1,28 +1,53 @@
 import { Component, OnInit } from '@angular/core';
- 
 import { DatabaseTriggerService } from '../../services/database-trigger.service';
 import { DatabaseTrigger } from '../../models/database-trigger.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-database-triggers',
   templateUrl: './database-triggers.component.html',
-  styleUrls: ['./database-triggers.component.css']
+  styleUrls: ['./database-triggers.component.css'],
+  providers: [MessageService]
 })
 export class DatabaseTriggersComponent implements OnInit {
-
   triggers: DatabaseTrigger[] = [];
- 
-   
-  constructor(private triggerService: DatabaseTriggerService) { }
+  loading: boolean = false;
+  searchText: string = '';
+
+  constructor(
+    private triggerService: DatabaseTriggerService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.getAllTriggers();
   }
 
   getAllTriggers(): void {
-    this.triggerService.getAllTriggers().subscribe(
-      (data) => this.triggers = data,
-      (error) => console.error('Error fetching triggers:', error)
-    );
-  } 
+    this.loading = true;
+    this.triggerService.getAllTriggers().subscribe({
+      next: (data) => {
+        this.triggers = data;
+        this.loading = false;
+        if (data.length === 0) {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'No Triggers',
+            detail: 'No database triggers found',
+            life: 3000
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching triggers:', error);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to load database triggers',
+          life: 5000
+        });
+      }
+    });
+  }
 }
