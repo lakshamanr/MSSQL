@@ -1,0 +1,75 @@
+<UserControl x:Class="MSSQL.Client.WPF.Views.LeftMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+        <HierarchicalDataTemplate x:Key="TreeNodeTemplate" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal" Margin="2">
+                <TextBlock Text="{Binding Icon}" Margin="0,0,8,0" FontSize="14"/>
+                <TextBlock Text="{Binding Label}" FontSize="13"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#F8F8F8" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="12,10">
+            <Grid>
+                <TextBlock Text="Database Objects"
+                          FontWeight="SemiBold"
+                          FontSize="14"
+                          VerticalAlignment="Center"/>
+
+                <Button Content="🔄"
+                       Command="{Binding LoadMenuCommand}"
+                       HorizontalAlignment="Right"
+                       Background="Transparent"
+                       BorderThickness="0"
+                       Padding="8,4"
+                       Cursor="Hand"
+                       ToolTip="Refresh"/>
+            </Grid>
+        </Border>
+
+        <!-- Tree View -->
+        <Grid Grid.Row="1">
+            <TreeView ItemsSource="{Binding TreeNodes}"
+                     SelectedItemChanged="TreeView_SelectedItemChanged"
+                     ItemTemplate="{StaticResource TreeNodeTemplate}"
+                     BorderThickness="0"
+                     Background="White"
+                     Padding="8">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="FontSize" Value="13"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+
+            <!-- Loading Overlay -->
+            <Border Background="#F0FFFFFF"
+                   Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisConverter}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="150" Height="4" Margin="0,0,0,12"/>
+                    <TextBlock Text="Loading database objects..."
+                              FontSize="12"
+                              Foreground="#666666"
+                              HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

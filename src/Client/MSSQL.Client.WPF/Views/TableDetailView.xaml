@@ -1,0 +1,144 @@
+<UserControl x:Class="MSSQL.Client.WPF.Views.TableDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="16">
+                <!-- Header -->
+                <Grid Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="{Binding TableMetadata.TableName}"
+                                  FontSize="24"
+                                  FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TableMetadata.SchemaName, StringFormat='Schema: {0}'}"
+                                  FontSize="13"
+                                  Foreground="#666666"
+                                  Margin="0,4,0,0"/>
+                        <TextBlock Text="{Binding TableMetadata.Description}"
+                                  FontSize="13"
+                                  Foreground="#333333"
+                                  TextWrapping="Wrap"
+                                  Margin="0,8,0,0"
+                                  Visibility="{Binding TableMetadata.Description, Converter={StaticResource BoolToVisConverter}}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Tabs -->
+                <TabControl SelectedIndex="{Binding SelectedTabIndex}">
+                    <!-- Columns Tab -->
+                    <TabItem Header="Columns">
+                        <DataGrid ItemsSource="{Binding TableMetadata.Columns}"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 GridLinesVisibility="Horizontal"
+                                 HeadersVisibility="Column"
+                                 Margin="0,8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Column Name" Binding="{Binding ColumnName}" Width="*" MinWidth="150"/>
+                                <DataGridTextColumn Header="Data Type" Binding="{Binding DataType}" Width="120"/>
+                                <DataGridTextColumn Header="Max Length" Binding="{Binding MaxLength}" Width="100"/>
+                                <DataGridCheckBoxColumn Header="Nullable" Binding="{Binding IsNullable}" Width="80"/>
+                                <DataGridCheckBoxColumn Header="Identity" Binding="{Binding IsIdentity}" Width="80"/>
+                                <DataGridCheckBoxColumn Header="PK" Binding="{Binding IsPrimaryKey}" Width="60"/>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" MinWidth="200"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <!-- Indexes Tab -->
+                    <TabItem Header="Indexes">
+                        <DataGrid ItemsSource="{Binding TableMetadata.Indexes}"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 GridLinesVisibility="Horizontal"
+                                 Margin="0,8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Index Name" Binding="{Binding IndexName}" Width="*" MinWidth="150"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding IndexType}" Width="120"/>
+                                <DataGridCheckBoxColumn Header="Unique" Binding="{Binding IsUnique}" Width="80"/>
+                                <DataGridCheckBoxColumn Header="Primary Key" Binding="{Binding IsPrimaryKey}" Width="100"/>
+                                <DataGridTextColumn Header="Columns" Binding="{Binding Columns}" Width="*" MinWidth="200"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <!-- Foreign Keys Tab -->
+                    <TabItem Header="Foreign Keys">
+                        <DataGrid ItemsSource="{Binding TableMetadata.ForeignKeys}"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 GridLinesVisibility="Horizontal"
+                                 Margin="0,8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="FK Name" Binding="{Binding ForeignKeyName}" Width="*" MinWidth="150"/>
+                                <DataGridTextColumn Header="Parent Column" Binding="{Binding ParentColumn}" Width="150"/>
+                                <DataGridTextColumn Header="Referenced Table" Binding="{Binding ReferencedTable}" Width="150"/>
+                                <DataGridTextColumn Header="Referenced Column" Binding="{Binding ReferencedColumn}" Width="150"/>
+                                <DataGridTextColumn Header="Delete Action" Binding="{Binding DeleteAction}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <!-- Constraints Tab -->
+                    <TabItem Header="Constraints">
+                        <DataGrid ItemsSource="{Binding TableMetadata.Constraints}"
+                                 AutoGenerateColumns="False"
+                                 IsReadOnly="True"
+                                 CanUserAddRows="False"
+                                 CanUserDeleteRows="False"
+                                 GridLinesVisibility="Horizontal"
+                                 Margin="0,8">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Constraint Name" Binding="{Binding ConstraintName}" Width="*" MinWidth="150"/>
+                                <DataGridTextColumn Header="Type" Binding="{Binding ConstraintType}" Width="120"/>
+                                <DataGridTextColumn Header="Definition" Binding="{Binding Definition}" Width="*" MinWidth="300"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <!-- SQL Script Tab -->
+                    <TabItem Header="SQL Script">
+                        <Grid Margin="0,8">
+                            <TextBox Text="{Binding TableMetadata.CreateScript.Script, Mode=OneWay}"
+                                    IsReadOnly="True"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto"
+                                    FontFamily="Consolas"
+                                    FontSize="12"
+                                    Padding="12"
+                                    Background="#F8F8F8"
+                                    BorderBrush="#E0E0E0"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Loading Overlay -->
+        <Border Background="#F0FFFFFF"
+               Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4" Margin="0,0,0,12"/>
+                <TextBlock Text="Loading table details..."
+                          FontSize="14"
+                          Foreground="#666666"
+                          HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

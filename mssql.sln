@@ -5,9 +5,9 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AEC78D14-7042-4D78-AA76-8B5CBC14D530}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebClient", "WebClient", "{C98678D4-DB55-46BF-BA44-4355FA0FA330}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C98678D4-DB55-46BF-BA44-4355FA0FA330}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "mssql.client", "src\WebClient\mssql.client\mssql.client.esproj", "{C95782CB-F726-405F-BE3E-E56A2509D770}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSSQL.Client.WPF", "src\Client\MSSQL.Client.WPF\MSSQL.Client.WPF.csproj", "{C95782CB-F726-405F-BE3E-E56A2509D770}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CA23AB6C-3B94-4B59-AB36-1ED9796A1BAE} = {CA23AB6C-3B94-4B59-AB36-1ED9796A1BAE}
 	EndProjectSection

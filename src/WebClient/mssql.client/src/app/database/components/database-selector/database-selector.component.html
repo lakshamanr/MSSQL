@@ -1,8 +1,0 @@
-<div class="database-selector-container">
-  <label for="databaseSelect">Select Database:</label>
-  <select id="databaseSelect" [(ngModel)]="selectedDatabase" (change)="onChangeDatabase($event)" class="database-dropdown">
-    <option *ngFor="let db of databases" [value]="db">{{ db }}</option>
-  </select>
-  
-</div>
- 
