@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MSSQL.Client.WPF.Services;
 using MSSQL.Client.WPF.ViewModels;
 using MSSQL.Client.WPF.Views;
+using System;
 using System.IO;
 using System.Windows;
 

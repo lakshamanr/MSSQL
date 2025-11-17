@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace MSSQL.Client.WPF.Models
 {
     public class StoredProcedureMetadata

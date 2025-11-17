@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace MSSQL.Client.WPF.Services
 {
     public interface IApiService
