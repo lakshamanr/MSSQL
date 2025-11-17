@@ -11,8 +11,8 @@
 
         <HierarchicalDataTemplate x:Key="TreeNodeTemplate" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal" Margin="2">
-                <TextBlock Text="{Binding Icon}" Margin="0,0,8,0" FontSize="14"/>
-                <TextBlock Text="{Binding Label}" FontSize="13"/>
+                <TextBlock Text="{Binding Icon}" Margin="0,0,8,0" FontSize="14" Foreground="#555555"/>
+                <TextBlock Text="{Binding Label}" FontSize="13" Foreground="#333333"/>
             </StackPanel>
         </HierarchicalDataTemplate>
     </UserControl.Resources>
@@ -29,6 +29,7 @@
                 <TextBlock Text="Database Objects"
                           FontWeight="SemiBold"
                           FontSize="14"
+                          Foreground="#333333"
                           VerticalAlignment="Center"/>
 
                 <Button Content="🔄"
