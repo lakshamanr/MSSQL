@@ -47,15 +47,36 @@
                                Margin="16,0,0,0"/>
                 </StackPanel>
 
-                <Button Grid.Column="1"
-                        Content="Refresh"
-                        Command="{Binding RefreshCommand}"
-                        Background="Transparent"
-                        Foreground="White"
-                        BorderBrush="White"
-                        BorderThickness="1"
-                        Padding="12,6"
-                        Cursor="Hand"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <!-- User Info -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                        <TextBlock Text="👤" FontSize="14" Foreground="White" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding CurrentUsername}"
+                                  FontSize="12"
+                                  Foreground="White"
+                                  VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Refresh Button -->
+                    <Button Content="Refresh"
+                            Command="{Binding RefreshCommand}"
+                            Background="Transparent"
+                            Foreground="White"
+                            BorderBrush="White"
+                            BorderThickness="1"
+                            Padding="12,6"
+                            Margin="0,0,8,0"
+                            Cursor="Hand"/>
+
+                    <!-- Logout Button -->
+                    <Button Content="Logout"
+                            Command="{Binding LogoutCommand}"
+                            Background="#D32F2F"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Padding="12,6"
+                            Cursor="Hand"/>
+                </StackPanel>
             </Grid>
         </Border>
 

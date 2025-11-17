@@ -31,9 +31,21 @@ namespace MSSQL.Client.WPF
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
-            // Show main window
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            // Show login window first
+            var loginWindow = ServiceProvider.GetRequiredService<LoginWindow>();
+            var loginResult = loginWindow.ShowDialog();
+
+            if (loginResult == true && loginWindow.LoginSuccessful)
+            {
+                // Login successful, show main window
+                var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+                mainWindow.Show();
+            }
+            else
+            {
+                // Login failed or cancelled, exit application
+                Shutdown();
+            }
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -52,6 +64,7 @@ namespace MSSQL.Client.WPF
             });
 
             // Services
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IApiService, ApiService>();
             services.AddSingleton<IDatabaseService, DatabaseService>();
             services.AddSingleton<ITableService, TableService>();
@@ -63,6 +76,7 @@ namespace MSSQL.Client.WPF
             services.AddSingleton<INavigationService, NavigationService>();
 
             // ViewModels
+            services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<DatabaseSelectorViewModel>();
             services.AddTransient<LeftMenuViewModel>();
@@ -76,6 +90,7 @@ namespace MSSQL.Client.WPF
             services.AddTransient<SchemasViewModel>();
 
             // Views
+            services.AddTransient<LoginWindow>();
             services.AddSingleton<MainWindow>();
         }
 

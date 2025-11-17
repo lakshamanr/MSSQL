@@ -9,17 +9,33 @@ namespace MSSQL.Client.WPF.Services
     public class ApiService : IApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IAuthenticationService _authenticationService;
 
-        public ApiService(IHttpClientFactory httpClientFactory)
+        public ApiService(IHttpClientFactory httpClientFactory, IAuthenticationService authenticationService)
         {
             _httpClientFactory = httpClientFactory;
+            _authenticationService = authenticationService;
+        }
+
+        private HttpClient GetAuthenticatedClient()
+        {
+            var client = _httpClientFactory.CreateClient("MSSQLClient");
+            var token = _authenticationService.GetAuthToken();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            return client;
         }
 
         public async Task<T?> GetAsync<T>(string endpoint)
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("MSSQLClient");
+                var client = GetAuthenticatedClient();
                 var response = await client.GetAsync(endpoint);
                 response.EnsureSuccessStatusCode();
 
@@ -38,7 +54,7 @@ namespace MSSQL.Client.WPF.Services
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("MSSQLClient");
+                var client = GetAuthenticatedClient();
 
                 HttpContent? content = null;
                 if (data != null)
@@ -65,7 +81,7 @@ namespace MSSQL.Client.WPF.Services
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("MSSQLClient");
+                var client = GetAuthenticatedClient();
 
                 HttpContent? content = null;
                 if (data != null)
