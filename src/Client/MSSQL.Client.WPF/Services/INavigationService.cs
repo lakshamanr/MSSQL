@@ -1,3 +1,5 @@
+using System;
+
 namespace MSSQL.Client.WPF.Services
 {
     public interface INavigationService

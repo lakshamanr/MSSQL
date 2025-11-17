@@ -1,7 +1,9 @@
 using MSSQL.Client.WPF.Infrastructure;
 using MSSQL.Client.WPF.Models;
 using MSSQL.Client.WPF.Services;
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MSSQL.Client.WPF.ViewModels

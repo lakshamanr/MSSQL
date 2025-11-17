@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>MSSQL.Client</AssemblyName>
     <RootNamespace>MSSQL.Client.WPF</RootNamespace>
-    <ApplicationIcon>Assets\mssql.ico</ApplicationIcon>
+    <!--<ApplicationIcon>Assets\mssql.ico</ApplicationIcon>-->
   </PropertyGroup>
 
   <ItemGroup>
