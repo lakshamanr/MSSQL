@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Third-party UI Libraries
@@ -44,6 +44,19 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { MainPageComponent } from './ui/main-page/main-page.component';
 import { LeftmenuComponent } from './left-menu/components/leftmenu/leftmenu.component';
 import { DatabaseSelectorComponent } from './database/components/database-selector/database-selector.component';
+
+// Authentication Components
+import { LoginComponent } from './components/login/login.component';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
+import { AuthReviewComponent } from './components/auth-review/auth-review.component';
+
+// Authentication Services
+import { AuthenticationService } from './services/authentication.service';
+import { TokenStorageService } from './services/token-storage.service';
+
+// Authentication Guards & Interceptors
+import { AuthGuard } from './guards/auth.guard';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 // Feature Modules
 import { TablesModule } from './table/tables.module';
 import { DatabaseModule } from './database/database.module';
@@ -88,7 +101,23 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 // Application Routes
-const appRoutes: Routes = [];
+const appRoutes: Routes = [
+  // Login route (public)
+  { path: 'login', component: LoginComponent },
+
+  // Auth review route (protected - for testing auth features)
+  { path: 'auth-review', component: AuthReviewComponent, canActivate: [AuthGuard] },
+
+  // Protected routes
+  {
+    path: '',
+    component: MainPageComponent,
+    canActivate: [AuthGuard]
+  },
+
+  // Redirect all unknown routes to home
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
@@ -97,7 +126,12 @@ const appRoutes: Routes = [];
     FooterComponent,
     MainPageComponent,
     LeftmenuComponent,
-    DatabaseSelectorComponent, 
+    DatabaseSelectorComponent,
+
+    // Authentication Components
+    LoginComponent,
+    UserMenuComponent,
+    AuthReviewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -153,7 +187,19 @@ const appRoutes: Routes = [];
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     TreeDragDropService,
-    MessageService
+    MessageService,
+
+    // Authentication Services
+    AuthenticationService,
+    TokenStorageService,
+    AuthGuard,
+
+    // HTTP Interceptor for JWT tokens
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,81 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>MSSQL Manager</h1>
+      <p>Sign in to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-error">
+        <span class="error-icon">⚠</span>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [class.error]="hasError('username', 'required') || hasError('username', 'minlength')"
+          placeholder="Enter your username"
+          autocomplete="username"
+        />
+        <div class="error-message" *ngIf="hasError('username', 'required')">
+          Username is required
+        </div>
+        <div class="error-message" *ngIf="hasError('username', 'minlength')">
+          Username must be at least 3 characters
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.error]="hasError('password', 'required') || hasError('password', 'minlength')"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        />
+        <div class="error-message" *ngIf="hasError('password', 'required')">
+          Password is required
+        </div>
+        <div class="error-message" *ngIf="hasError('password', 'minlength')">
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <!-- Remember Me -->
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="rememberMe" />
+          <span>Remember me</span>
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="loading || loginForm.invalid"
+      >
+        <span *ngIf="!loading">Sign In</span>
+        <span *ngIf="loading" class="loading-text">
+          <span class="spinner"></span>
+          Signing in...
+        </span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Default credentials: admin / password</p>
+    </div>
+  </div>
+</div>

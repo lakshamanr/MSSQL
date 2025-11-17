@@ -1,11 +1,21 @@
 <header class="header">
-  <!--<div class="sql-settings">
-    <label for="sql-server">Select Database:</label>
-    <select id="sql-server" (change)="onChangeServer($event)">
-      <option value="server1">SQL Server 1</option>
-      <option value="server2">SQL Server 2</option>-->
-      <!-- Add more servers as needed -->
-    <!--</select>
-  </div>-->
-  <app-database-selector></app-database-selector>
-  </header>
+  <div class="header-container">
+    <!-- Branding -->
+    <div class="header-brand">
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+        <path d="M4 4h24v4H4V4zm0 8h24v4H4v-4zm0 8h24v4H4v-4zm0 8h24v4H4v-4z"/>
+      </svg>
+      <h1 class="app-title">MSSQL Manager</h1>
+    </div>
+
+    <!-- Database Selector (only show when authenticated) -->
+    <div class="header-center" *ngIf="isAuthenticated">
+      <app-database-selector></app-database-selector>
+    </div>
+
+    <!-- User Menu (only show when authenticated) -->
+    <div class="header-actions" *ngIf="isAuthenticated">
+      <app-user-menu></app-user-menu>
+    </div>
+  </div>
+</header>

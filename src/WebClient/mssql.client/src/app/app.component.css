@@ -1,9 +1,15 @@
- #asSplitArea2{
-  height: 85vh !important;
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-#asSplitArea1 {
-  height: 85vh !important;
+
+#main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
+
 /* Split bar visibility */
 .HideSplitBar {
   flex: 0 0 0 !important;
@@ -21,4 +27,12 @@
 .ShowFullPageMode {
   order: 2;
   flex: 0 0 calc(100% - 15px) !important;
+}
+
+#asSplitArea2 {
+  height: 85vh !important;
+}
+
+#asSplitArea1 {
+  height: 85vh !important;
 }

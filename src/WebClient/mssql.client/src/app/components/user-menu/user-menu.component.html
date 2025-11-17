@@ -1,0 +1,32 @@
+<div class="user-menu" *ngIf="user">
+  <button class="user-button" (click)="toggleDropdown()" type="button">
+    <div class="user-avatar">{{ getUserInitials() }}</div>
+    <span class="user-name">{{ getDisplayName() }}</span>
+    <svg class="dropdown-icon" [class.open]="isDropdownOpen" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M4 6l4 4 4-4z"/>
+    </svg>
+  </button>
+
+  <div class="dropdown-menu" *ngIf="isDropdownOpen" (click)="closeDropdown()">
+    <div class="dropdown-header">
+      <div class="user-info">
+        <div class="user-name-full">{{ getDisplayName() }}</div>
+        <div class="user-email" *ngIf="user.email">{{ user.email }}</div>
+        <div class="user-role" *ngIf="user.role">{{ user.role }}</div>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <button class="dropdown-item logout" (click)="logout()" type="button">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M6 2a1 1 0 00-1 1v10a1 1 0 001 1h4a1 1 0 001-1V3a1 1 0 00-1-1H6zm0-1h4a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V3a2 2 0 012-2z"/>
+        <path d="M11.5 8a.5.5 0 010-1H14a.5.5 0 010 1h-2.5zm0 0l1.5-1.5m-1.5 1.5L13 9.5"/>
+      </svg>
+      <span>Sign Out</span>
+    </button>
+  </div>
+
+  <!-- Backdrop to close dropdown when clicking outside -->
+  <div class="dropdown-backdrop" *ngIf="isDropdownOpen" (click)="closeDropdown()"></div>
+</div>
