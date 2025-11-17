@@ -27,7 +27,6 @@
         <ComboBox Grid.Column="1"
                   ItemsSource="{Binding Databases}"
                   SelectedItem="{Binding SelectedDatabase}"
-                  DisplayMemberPath="DatabaseName"
                   VerticalAlignment="Center"
                   MinWidth="250">
             <ComboBox.ItemTemplate>
